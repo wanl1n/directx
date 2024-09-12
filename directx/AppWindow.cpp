@@ -8,13 +8,8 @@ struct vertex {
 	vec3 position;
 };
 
-AppWindow::AppWindow()
-{
-}
-
-AppWindow::~AppWindow()
-{
-}
+AppWindow::AppWindow() {}
+AppWindow::~AppWindow() {}
 
 void AppWindow::onCreate()
 {
@@ -26,6 +21,7 @@ void AppWindow::onCreate()
 	this->m_swap_chain->init(this->m_hwnd, rc.right-rc.left, rc.bottom-rc.top);
 
 	vertex list[] = {
+		// Triangle List
 		/*{ -0.5f, -0.5f, 0.0f },
 		{ -0.5f, 0.5f, 0.0f },
 		{ 0.5f, 0.5f, 0.0f },
@@ -34,22 +30,25 @@ void AppWindow::onCreate()
 		{ 0.5f, -0.5f, 0.0f },
 		{ -0.5f, -0.5f, 0.0f }*/
 
+		// Triangle Strip
 		{ -0.5f, -0.5f, 0.0f },
 		{ -0.5f, 0.5f, 0.0f },
 		{ 0.5f, -0.5f, 0.0f },
 		{ 0.5f, 0.5f, 0.0f }
 	};
 
-	m_vb = GraphicsEngine::get()->createVertexBuffer();
+	this->m_vb = GraphicsEngine::get()->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(list);
 
 	GraphicsEngine::get()->createShaders();
 
 	void* shader_byte_code = nullptr;
-	UINT size_shader = 0;
-	GraphicsEngine::get()->getShaderBufferAndSize(&shader_byte_code, &size_shader);
+	size_t size_shader = 0;
+	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	this->m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
+	this->m_vb->load(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
 
-	m_vb->load(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
+	GraphicsEngine::get()->releaseCompiledShader();
 }
 
 void AppWindow::onUpdate()
@@ -65,6 +64,7 @@ void AppWindow::onUpdate()
 
 	// 3. Set default shader in the graphics pipeline to be able to draw.
 	GraphicsEngine::get()->setShaders();
+	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
 
 	// 4. Set the vertices of the triangle we want to draw.
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
