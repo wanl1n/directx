@@ -1,19 +1,21 @@
-float4 vsmain( float4 pos : POSITION ) : SV_POSITION
+struct VS_INPUT
 {
-    if (pos.y > 0 && pos.y < 1)
-    {
-        pos.x += 0.25f;
-    }
+    float4 position : POSITION;
+    float3 color : COLOR;
+};
+
+struct VS_OUTPUT
+{
+    float4 position : SV_POSITION;
+    float3 color : COLOR;
+};
+
+VS_OUTPUT vsmain(VS_INPUT input)
+{
+    VS_OUTPUT output = (VS_OUTPUT) 0;
     
-    if (pos.y > -1 && pos.y < 0 && pos.x > 0 && pos.x < 1)
-    {
-        pos.y += 0.25f;
-    }
+    output.position = input.position;
+    output.color = input.color;
     
-    if (pos.y > 0 && pos.y < 1 && pos.x > -1 && pos.x < 0)
-    {
-        pos.y -= 0.25f;
-    }
-    
-	return pos;
+	return output;
 }

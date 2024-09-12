@@ -6,6 +6,7 @@ struct vec3 {
 
 struct vertex {
 	vec3 position;
+	vec3 color;
 };
 
 AppWindow::AppWindow() {}
@@ -31,22 +32,29 @@ void AppWindow::onCreate()
 		{ -0.5f, -0.5f, 0.0f }*/
 
 		// Triangle Strip
-		{ -0.5f, -0.5f, 0.0f },
-		{ -0.5f, 0.5f, 0.0f },
-		{ 0.5f, -0.5f, 0.0f },
-		{ 0.5f, 0.5f, 0.0f }
+		{ -0.5f, -0.5f, 0.0f,	1, 0, 0 },
+		{ -0.5f, 0.5f, 0.0f,	0, 1, 0 },
+		{ 0.5f, -0.5f, 0.0f,	0, 0, 1 },
+		{ 0.5f, 0.5f, 0.0f,		1, 1, 0 }
 	};
 
 	this->m_vb = GraphicsEngine::get()->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(list);
 
-	GraphicsEngine::get()->createShaders();
-
+	// Shader Attributes
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
+
+	// Creating Vertex Shader
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 	this->m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 	this->m_vb->load(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
+
+	GraphicsEngine::get()->releaseCompiledShader();
+
+	// Creating Pixel Shader
+	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	this->m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
 
 	GraphicsEngine::get()->releaseCompiledShader();
 }
@@ -63,8 +71,8 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
 	// 3. Set default shader in the graphics pipeline to be able to draw.
-	GraphicsEngine::get()->setShaders();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(m_vs);
+	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
 	// 4. Set the vertices of the triangle we want to draw.
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
@@ -80,5 +88,7 @@ void AppWindow::onDestroy()
 	Window::onDestroy();
 	this->m_vb->release();
 	this->m_swap_chain->release();
+	this->m_vs->release();
+	this->m_ps->release();
 	GraphicsEngine::get()->release();
 }
