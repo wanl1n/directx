@@ -26,9 +26,18 @@ void AppWindow::onCreate()
 	this->m_swap_chain->init(this->m_hwnd, rc.right-rc.left, rc.bottom-rc.top);
 
 	vertex list[] = {
-		{-0.5f, -0.5f, 0.0f},
-		{0.0f, 0.5f, 0.0f},
-		{0.5f, -0.5f, 0.0f}
+		/*{ -0.5f, -0.5f, 0.0f },
+		{ -0.5f, 0.5f, 0.0f },
+		{ 0.5f, 0.5f, 0.0f },
+
+		{ 0.5f, 0.5f, 0.0f },
+		{ 0.5f, -0.5f, 0.0f },
+		{ -0.5f, -0.5f, 0.0f }*/
+
+		{ -0.5f, -0.5f, 0.0f },
+		{ -0.5f, 0.5f, 0.0f },
+		{ 0.5f, -0.5f, 0.0f },
+		{ 0.5f, 0.5f, 0.0f }
 	};
 
 	m_vb = GraphicsEngine::get()->createVertexBuffer();
@@ -61,7 +70,7 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
 
 	// 5. Draw the triangle.
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleList(m_vb->getSizeVertexList(), 0);
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
 
 	this->m_swap_chain->present(true);
 }
