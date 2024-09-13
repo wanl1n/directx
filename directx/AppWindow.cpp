@@ -21,7 +21,7 @@ void AppWindow::onCreate()
 	RECT rc = this->getClientWindowRect();
 	this->m_swap_chain->init(this->m_hwnd, rc.right-rc.left, rc.bottom-rc.top);
 
-	vertex list[] = {
+	vertex list1[] = {
 		// Triangle List
 		/*{ -0.5f, -0.5f, 0.0f },
 		{ -0.5f, 0.5f, 0.0f },
@@ -32,14 +32,39 @@ void AppWindow::onCreate()
 		{ -0.5f, -0.5f, 0.0f }*/
 
 		// Triangle Strip
-		{ -0.5f, -0.5f, 0.0f,	1, 0, 0 },
+		/*{ -0.5f, -0.5f, 0.0f,	1, 0, 0 },
 		{ -0.5f, 0.5f, 0.0f,	0, 1, 0 },
 		{ 0.5f, -0.5f, 0.0f,	0, 0, 1 },
-		{ 0.5f, 0.5f, 0.0f,		1, 1, 0 }
+		{ 0.5f, 0.5f, 0.0f,		1, 1, 0 }*/
+
+		// 1. Rainbow Rectangle
+		{ -0.95f, -0.25f, 0.0f,	1, 0, 0 },
+		{ -0.95f, 0.25f, 0.0f,	0, 1, 0 },
+		{ -0.4f, -0.25f, 0.0f,	0, 0, 1 },
+		{ -0.4f, 0.25f, 0.0f,	1, 1, 0 }
 	};
 
-	this->m_vb = GraphicsEngine::get()->createVertexBuffer();
-	UINT size_list = ARRAYSIZE(list);
+	// 2. Rainbow Triangle
+	vertex list2[] = {
+		{ -0.3f, -0.25f, 0.0f,	1, 0, 0 },
+		{ 0.0f, 0.25f, 0.0f,	0, 1, 0 },
+		{ 0.3f, -0.25f, 0.0f,	0, 0, 1 }
+	};
+
+	// 3. Green Rectangle
+	vertex list3[] = {
+		{ 0.4f, -0.25f, 0.0f,	0, 1, 0 },
+		{ 0.4f, 0.25f, 0.0f,	0, 1, 0 },
+		{ 0.95f, -0.25f, 0.0f,	0, 1, 0 },
+		{ 0.95f, 0.25f, 0.0f,	0, 1, 0 }
+	};
+
+	this->m_vb_rr = GraphicsEngine::get()->createVertexBuffer();
+	this->m_vb_rt = GraphicsEngine::get()->createVertexBuffer();
+	this->m_vb_gr = GraphicsEngine::get()->createVertexBuffer();
+
+	UINT size_list_rectangle = ARRAYSIZE(list1);
+	UINT size_list_triangle = ARRAYSIZE(list2);
 
 	// Shader Attributes
 	void* shader_byte_code = nullptr;
@@ -48,7 +73,9 @@ void AppWindow::onCreate()
 	// Creating Vertex Shader
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 	this->m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
-	this->m_vb->load(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
+	this->m_vb_rr->load(list1, sizeof(vertex), size_list_rectangle, shader_byte_code, size_shader);
+	this->m_vb_rt->load(list2, sizeof(vertex), size_list_triangle, shader_byte_code, size_shader);
+	this->m_vb_gr->load(list3, sizeof(vertex), size_list_rectangle, shader_byte_code, size_shader);
 
 	GraphicsEngine::get()->releaseCompiledShader();
 
@@ -75,10 +102,13 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
 	// 4. Set the vertices of the triangle we want to draw.
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
-
 	// 5. Draw the triangle.
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
+	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb_rr);
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb_rr->getSizeVertexList(), 0);
+	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb_rt);
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb_rt->getSizeVertexList(), 0);
+	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb_gr);
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb_gr->getSizeVertexList(), 0);
 
 	this->m_swap_chain->present(true);
 }
@@ -86,7 +116,9 @@ void AppWindow::onUpdate()
 void AppWindow::onDestroy()
 {
 	Window::onDestroy();
-	this->m_vb->release();
+	this->m_vb_rr->release();
+	this->m_vb_rt->release();
+	this->m_vb_gr->release();
 	this->m_swap_chain->release();
 	this->m_vs->release();
 	this->m_ps->release();
