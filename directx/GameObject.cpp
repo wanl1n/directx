@@ -9,34 +9,23 @@ struct Vertex {
 	Vec3 color;
 };
 
-GameObject::GameObject()
-{
-}
-
-GameObject::~GameObject()
-{
-}
+GameObject::GameObject() {}
+GameObject::~GameObject() {}
 
 bool GameObject::init(int index, void* shader_byte_code, size_t size_shader)
 {
-	Vertex vertices[] = {
-		// 1. Rainbow Rectangle
-		{ -0.95f, -0.25f, 0.0f,	1, 0, 0 },
-		{ -0.95f, 0.25f, 0.0f,	0, 1, 0 },
-		{ -0.4f, -0.25f, 0.0f,	0, 0, 1 },
-		{ -0.4f, 0.25f, 0.0f,	1, 1, 0 }
-	};
+	Vertex vertices[4];
 	int size = sizeof(vertices) / sizeof(vertices[0]);
 
 	if (index == 1) {
 		Vertex vertices1[] = {
 			// 1. Rainbow Rectangle
-			{ -0.95f, -0.25f, 0.0f,	1, 0, 0 },
+			{ -0.95f, -0.25f, 0.0f,	1, 1, 0 },
 			{ -0.95f, 0.25f, 0.0f,	0, 1, 0 },
-			{ -0.4f, -0.25f, 0.0f,	0, 0, 1 },
+			{ -0.4f, -0.25f, 0.0f,	1, 0, 1 },
 			{ -0.4f, 0.25f, 0.0f,	1, 1, 0 }
 		};
-		std::copy(vertices, vertices + size, vertices1);
+		std::copy(vertices, vertices + size, vertices);
 		std::cout << "1";
 	}
 	else if (index == 2) {
@@ -47,7 +36,7 @@ bool GameObject::init(int index, void* shader_byte_code, size_t size_shader)
 			{ 0.3f, -0.25f, 0.0f,	0, 0, 1 },
 			{ -0.4f, 0.25f, 0.0f,	1, 1, 0 }
 		};
-		std::copy(vertices, vertices + size, vertices2);
+		std::copy(vertices, vertices + size, vertices);
 		std::cout << "2";
 	}
 	else {
@@ -58,7 +47,7 @@ bool GameObject::init(int index, void* shader_byte_code, size_t size_shader)
 			{ 0.95f, -0.25f, 0.0f,	0, 1, 0 },
 			{ 0.95f, 0.25f, 0.0f,	0, 1, 0 }
 		};
-		std::copy(vertices, vertices + size, vertices3);
+		std::copy(vertices, vertices + size, vertices);
 		std::cout << "3";
 	}
 
@@ -75,8 +64,11 @@ bool GameObject::release()
 	return true;
 }
 
-VertexBuffer* GameObject::getVB()
+void GameObject::draw(VertexShader* vs, PixelShader* ps)
 {
-	return this->m_vb;
-}
+	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(vs);
+	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(ps);
 
+	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(this->m_vb);
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(this->m_vb->getSizeVertexList(), 0);
+}

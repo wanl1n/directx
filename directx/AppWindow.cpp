@@ -29,17 +29,11 @@ void AppWindow::onCreate()
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 	this->m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 
-	GameObject quad1 = GameObject();
-	GameObject quad2 = GameObject();
-	GameObject quad3 = GameObject();
-
-	quad1.init(1, shader_byte_code, size_shader);
-	quad2.init(2, shader_byte_code, size_shader);
-	quad3.init(3, shader_byte_code, size_shader);
-
-	this->GOList.push_back(quad1);
-	this->GOList.push_back(quad2);
-	this->GOList.push_back(quad3);
+	for (int i = 1; i <= 3; i++) {
+		GameObject quad = GameObject();
+		quad.init(i, shader_byte_code, size_shader);
+		this->GOList.push_back(quad);
+	}
 
 	GraphicsEngine::get()->releaseCompiledShader();
 
@@ -54,23 +48,16 @@ void AppWindow::onUpdate()
 {
 	Window::onUpdate();
 
+	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
 	// 1. Clear Render Target.
-	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->m_swap_chain, 0.957f, 0.761f, 0.761, 1);
+	device->clearRenderTargetColor(this->m_swap_chain, 0.957f, 0.761f, 0.761, 1);
 
 	// 2. Set the target Viewport where we'll draw.
 	RECT rc = this->getClientWindowRect();
-	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
-
-	// 3. Set default shader in the graphics pipeline to be able to draw.
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(this->m_vs);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(this->m_ps);
+	device->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
 	for (GameObject quad : this->GOList) {
-		// 4. Set the vertices of the triangle we want to draw.
-		GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(quad.getVB());
-
-		// 5. Draw the triangle.
-		GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(quad.getVB()->getSizeVertexList(), 0);
+		quad.draw(m_vs, m_ps);
 	}
 
 	this->m_swap_chain->present(true);
