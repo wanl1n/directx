@@ -7,6 +7,9 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
+#include "GameObject.h"
+#include <list>
+
 class AppWindow : public Window
 {
 	private:
@@ -14,6 +17,10 @@ class AppWindow : public Window
 		VertexBuffer* m_vb;
 		VertexShader* m_vs;
 		PixelShader* m_ps;
+
+	private:
+		GameObject m_quad;
+		std::list<GameObject> GOList;
 
 	public:
 		AppWindow();
