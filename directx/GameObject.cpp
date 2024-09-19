@@ -17,7 +17,7 @@ GameObject::~GameObject()
 {
 }
 
-bool GameObject::init(int index)
+bool GameObject::init(int index, void* shader_byte_code, size_t size_shader)
 {
 	Vertex vertices[] = {
 		// 1. Rainbow Rectangle
@@ -64,23 +64,7 @@ bool GameObject::init(int index)
 
 	this->m_vb = GraphicsEngine::get()->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(vertices);
-
-	// Shader Attributes
-	void* shader_byte_code = nullptr;
-	size_t size_shader = 0;
-
-	// Creating Vertex Shader
-	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-	this->m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 	this->m_vb->load(vertices, sizeof(Vertex), size_list, shader_byte_code, size_shader);
-
-	GraphicsEngine::get()->releaseCompiledShader();
-
-	// Creating Pixel Shader
-	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
-	this->m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
-
-	GraphicsEngine::get()->releaseCompiledShader();
 
 	return true;
 }
@@ -96,12 +80,3 @@ VertexBuffer* GameObject::getVB()
 	return this->m_vb;
 }
 
-VertexShader* GameObject::getVS()
-{
-	return this->m_vs;
-}
-
-PixelShader* GameObject::getPS()
-{
-	return this->m_ps;
-}

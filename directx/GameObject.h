@@ -10,18 +10,15 @@ class GameObject
 {
 	private:
 		VertexBuffer* m_vb;
-		VertexShader* m_vs;
-		PixelShader* m_ps;
 
 	public:
 		GameObject();
 		~GameObject();
 
-		bool init(int index = 1);
+		bool init(int index, void* shader_byte_code, size_t size_shader);
+
 		bool release();
 
 		VertexBuffer* getVB();
-		VertexShader* getVS();
-		PixelShader* getPS();
 };
 
