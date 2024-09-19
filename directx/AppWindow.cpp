@@ -30,15 +30,15 @@ void AppWindow::onCreate()
 	this->m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 
 	GameObject quad1 = GameObject();
-	quad1.init(1, shader_byte_code, size_shader);
-	this->GOList.push_back(quad1);
-
 	GameObject quad2 = GameObject();
-	quad2.init(2, shader_byte_code, size_shader);
-	this->GOList.push_back(quad2);
-
 	GameObject quad3 = GameObject();
+
+	quad1.init(1, shader_byte_code, size_shader);
+	quad2.init(2, shader_byte_code, size_shader);
 	quad3.init(3, shader_byte_code, size_shader);
+
+	this->GOList.push_back(quad1);
+	this->GOList.push_back(quad2);
 	this->GOList.push_back(quad3);
 
 	GraphicsEngine::get()->releaseCompiledShader();
