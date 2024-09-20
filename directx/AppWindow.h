@@ -7,8 +7,8 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
-#include "GameObject.h"
-#include <list>
+#include "Quad.h"
+#include <vector>
 
 class AppWindow : public Window
 {
@@ -19,8 +19,7 @@ class AppWindow : public Window
 		PixelShader* m_ps;
 
 	private:
-		GameObject m_quad;
-		std::list<GameObject> GOList;
+		std::vector<Quad*> GOList;
 
 	public:
 		AppWindow();
