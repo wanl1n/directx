@@ -14,15 +14,18 @@
 #include "PixelShader.h"
 
 #include "Vertex.h"
+#include "Rect.h"
 
 class Quad : GameObject
 {
 	private:
 		VertexBuffer* m_vb;
+
 		Vertex centerVert;
 		float width;
 		float height;
-		RECT bounds;
+		Rect bounds;
+		Rect target;
 
 	public:
 		// Solid Color Quad
@@ -37,8 +40,9 @@ class Quad : GameObject
 			Vector3D color1, Vector3D color2, Vector3D color3, Vector3D color4);
 		~Quad();
 
-		bool release();
-
+		void calculateBounds(bool moving=true);
+		void calculateTarget();
 		void draw(VertexShader* vs, PixelShader* ps);
+		bool release();
 };
 

@@ -4,6 +4,7 @@
 class SwapChain;
 class DeviceContext;
 class VertexBuffer;
+class ConstantBuffer;
 class VertexShader;
 class PixelShader;
 
@@ -22,15 +23,13 @@ class GraphicsEngine
 		
 		ID3DBlob* m_blob = nullptr;
 
-		// Default Simple Shaders Attributes
-		ID3DBlob* m_vsblob = nullptr;
-		ID3DBlob* m_psblob = nullptr;
 		ID3D11VertexShader* m_vs = nullptr;
 		ID3D11PixelShader* m_ps = nullptr;
 
 	private:
 		friend class SwapChain;
 		friend class VertexBuffer;
+		friend class ConstantBuffer;
 		friend class VertexShader;
 		friend class PixelShader;
 
@@ -45,6 +44,7 @@ class GraphicsEngine
 		SwapChain* createSwapChain();
 		DeviceContext* getImmediateDeviceContext();
 		VertexBuffer* createVertexBuffer();
+		ConstantBuffer* createConstantBuffer();
 
 		// Shaders
 		VertexShader* createVertexShader(const void* shader_byte_code, size_t byte_code_size);
