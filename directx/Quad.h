@@ -33,11 +33,12 @@ class Quad : GameObject
 			Vertex centerVert, float width, float height);
 		// Two-color Gradient (L to R) Quad
 		Quad(std::string name, void* shader_byte_code, size_t size_shader,
-			Vertex centerVert, float width, float height, Vector3D leftColor, Vector3D rightColor);
+			Vertex centerVert, float width, float height, DuoColor color);
 		// 4-point Gradient Quad
 		Quad(std::string name, void* shader_byte_code, size_t size_shader,
-			Vertex centerVert, float width, float height, 
-			Vector3D color1, Vector3D color2, Vector3D color3, Vector3D color4);
+			Vertex centerVert, float width, float height, QuadColor color);
+		Quad(std::string name, void* shader_byte_code, size_t size_shader,
+			Vertex centerVert, float width, float height, QuadColor color, QuadVertex targetPoints);
 		~Quad();
 
 		void calculateBounds(bool moving=true);

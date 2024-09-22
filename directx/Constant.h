@@ -2,5 +2,5 @@
 
 __declspec(align(16))
 struct Constant {
-	unsigned int m_time;
+	float m_angle;
 };

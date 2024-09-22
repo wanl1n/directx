@@ -10,10 +10,10 @@ Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, Vertex 
 	this->calculateBounds(true);
 
 	Vertex vertices[] = {
-		{ bounds.left,		bounds.bottom,	0.0f,	target.left,	target.bottom,	0.0f,	centerVert.color },
-		{ bounds.left,		bounds.top,		0.0f,	target.left,	target.top,		0.0f,	centerVert.color },
-		{ bounds.right,		bounds.bottom,	0.0f,	target.right,	target.bottom,	0.0f,	centerVert.color },
-		{ bounds.right,		bounds.top,		0.0f,	target.right,	target.top,		0.0f,	centerVert.color }
+		{ bounds.left,		bounds.bottom,	0.0f,	target.left,	target.bottom,	0.0f,	centerVert.color,	centerVert.color1 },
+		{ bounds.left,		bounds.top,		0.0f,	target.left,	target.top,		0.0f,	centerVert.color,	centerVert.color1 },
+		{ bounds.right,		bounds.bottom,	0.0f,	target.right,	target.bottom,	0.0f,	centerVert.color,	centerVert.color1 },
+		{ bounds.right,		bounds.top,		0.0f,	target.right,	target.top,		0.0f,	centerVert.color,	centerVert.color1 }
 	};
 
 	this->m_vb = GraphicsEngine::get()->createVertexBuffer();
@@ -22,7 +22,7 @@ Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, Vertex 
 }
 
 Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, Vertex centerVert, 
-			float width, float height, Vector3D leftColor, Vector3D rightColor) : GameObject(name)
+			float width, float height, DuoColor color) : GameObject(name)
 {
 	this->centerVert = centerVert;
 	this->width = width;
@@ -30,10 +30,10 @@ Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, Vertex 
 	this->calculateBounds(true);
 
 	Vertex vertices[] = {
-		{ bounds.left,		bounds.bottom,	0.0f,	target.left,	target.bottom,	0.0f,	leftColor },
-		{ bounds.left,		bounds.top,		0.0f,	target.left,	target.top,		0.0f,	leftColor },
-		{ bounds.right,		bounds.bottom,	0.0f,	target.right,	target.bottom,	0.0f,	rightColor },
-		{ bounds.right,		bounds.top,		0.0f,	target.right,	target.top,		0.0f,	rightColor }
+		{ bounds.left,		bounds.bottom,	0.0f,	target.left,	target.bottom,	0.0f,	color.color1,	color.color2 },
+		{ bounds.left,		bounds.top,		0.0f,	target.left,	target.top,		0.0f,	color.color1,	color.color2 },
+		{ bounds.right,		bounds.bottom,	0.0f,	target.right,	target.bottom,	0.0f,	color.color2,	color.color1 },
+		{ bounds.right,		bounds.top,		0.0f,	target.right,	target.top,		0.0f,	color.color2,	color.color1 }
 	};
 
 	this->m_vb = GraphicsEngine::get()->createVertexBuffer();
@@ -42,7 +42,7 @@ Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, Vertex 
 }
 
 Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, Vertex centerVert, 
-			float width, float height, Vector3D color1, Vector3D color2, Vector3D color3, Vector3D color4) : GameObject(name)
+			float width, float height, QuadColor color) : GameObject(name)
 {
 	this->centerVert = centerVert;
 	this->width = width;
@@ -50,10 +50,30 @@ Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, Vertex 
 	this->calculateBounds(true);
 
 	Vertex vertices[] = {
-		{ bounds.left,		bounds.bottom,	0.0f,	target.left,	target.bottom,	0.0f,	color1 },
-		{ bounds.left,		bounds.top,		0.0f,	target.left,	target.top,		0.0f,	color2 },
-		{ bounds.right,		bounds.bottom,	0.0f,	target.right,	target.bottom,	0.0f,	color3 },
-		{ bounds.right,		bounds.top,		0.0f,	target.right,	target.top,		0.0f,	color4 }
+		{ bounds.left,		bounds.bottom,	0.0f,	target.left,	target.bottom,	0.0f,	color.color1,	color.color4 },
+		{ bounds.left,		bounds.top,		0.0f,	target.left,	target.top,		0.0f,	color.color2,	color.color1 },
+		{ bounds.right,		bounds.bottom,	0.0f,	target.right,	target.bottom,	0.0f,	color.color3,	color.color2 },
+		{ bounds.right,		bounds.top,		0.0f,	target.right,	target.top,		0.0f,	color.color4,	color.color3 }
+	};
+
+	this->m_vb = GraphicsEngine::get()->createVertexBuffer();
+	UINT size_list = ARRAYSIZE(vertices);
+	this->m_vb->load(vertices, sizeof(Vertex), size_list, shader_byte_code, size_shader);
+}
+
+Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, Vertex centerVert, 
+			float width, float height, QuadColor color, QuadVertex targetPoints) : GameObject(name)
+{
+	this->centerVert = centerVert;
+	this->width = width;
+	this->height = height;
+	this->calculateBounds(false);
+
+	Vertex vertices[] = {
+		{ bounds.left,		bounds.bottom,	0.0f,	targetPoints.point1,	color.color1,	color.color4 },
+		{ bounds.left,		bounds.top,		0.0f,	targetPoints.point2,	color.color2,	color.color1 },
+		{ bounds.right,		bounds.bottom,	0.0f,	targetPoints.point3,	color.color3,	color.color2 },
+		{ bounds.right,		bounds.top,		0.0f,	targetPoints.point4,	color.color4,	color.color3 }
 	};
 
 	this->m_vb = GraphicsEngine::get()->createVertexBuffer();

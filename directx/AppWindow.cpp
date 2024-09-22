@@ -23,18 +23,24 @@ void AppWindow::onCreate()
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 	this->m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 
-	//					INITIAL CENTER POS		TARGET CENTER POS	COLOR
-	Vertex leftPos =	{ -0.5f, 0.0f , 0.0f,	-0.6f, 0.5f, 0.0f,	CREAM };
-	Vertex centerPos =	{ -0.1f, -0.1f , 0.0f,	0.1f, 0.1f, 0.0f,	MATCHA };
-	Vertex rightPos =	{ 0.5f, 0.0f , 0.0f,	0.6f, -0.5f, 0.0f,	SPACE };
+	//					INITIAL CENTER POS		TARGET CENTER POS	COLOR	TARGET COLOR
+	Vertex leftPos =	{ -0.5f, 0.0f , 0.0f,	-0.6f, 0.5f, 0.0f,	CREAM,	MATCHA };
+	Vertex centerPos =	{ -0.1f, -0.1f , 0.0f,	0.1f, 0.1f, 0.0f,	MATCHA,	CREAM };
+	Vertex rightPos =	{ 0.5f, 0.0f , 0.0f,	0.6f, -0.5f, 0.0f,	SPACE,	MATCHA };
+	DuoColor linearGrad = { LAVENDER, MATCHA };
+	QuadColor quadGrad = { CREAM, MATCHA, SPACE, LAVENDER };
+	QuadVertex targetPos = { -0.6f, -0.2f, 0.0f,
+							 -0.4f, 0.5f, 0.0f,
+							 0.6f, -0.3f, 0.0f,
+							 0.1f, 0.5f, 0.0f };
 
 	Quad* quad1 = new Quad("Quad 1", shader_byte_code, size_shader, leftPos, 0.3f, 0.25f);
 	this->GOList.push_back(quad1);
 
-	Quad* quad2 = new Quad("Quad 2", shader_byte_code, size_shader, centerPos, 0.3f, 0.25f, CREAM, MATCHA);
+	Quad* quad2 = new Quad("Quad 2", shader_byte_code, size_shader, centerPos, 0.3f, 0.25f, linearGrad);
 	this->GOList.push_back(quad2);
 	
-	Quad* quad3 = new Quad("Quad 3", shader_byte_code, size_shader, rightPos, 0.3f, 0.25f, CREAM, MATCHA, SPACE, CREAM);
+	Quad* quad3 = new Quad("Quad 3", shader_byte_code, size_shader, rightPos, 0.3f, 0.25f, quadGrad, targetPos);
 	this->GOList.push_back(quad3);
 
 	GraphicsEngine::get()->releaseCompiledShader();
@@ -65,8 +71,17 @@ void AppWindow::onUpdate()
 	device->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
 	// 3. Update Time counter.
+	unsigned long new_time = 0;
+	if (m_old_time)
+		new_time = ::GetTickCount64() - m_old_time;
+
+	m_delta_time = new_time / 1000.0f;
+	m_old_time = ::GetTickCount();
+	m_angle += 1.57f * m_delta_time;
+	
 	Constant cc;
-	cc.m_time = ::GetTickCount64();
+	cc.m_angle = m_angle;
+
 	this->m_cb->update(device, &cc);
 
 	// 4. Bind Constant Buffer to Shaders.
