@@ -41,8 +41,8 @@ bool VertexBuffer::load(void* list_vertices, UINT size_vertex, UINT size_list, v
 
 bool VertexBuffer::release()
 {
-	m_layout->Release();
-	m_buffer->Release();
+	if (m_layout) m_layout->Release();
+	if (m_buffer) m_buffer->Release();
 	delete this;
 	return true;
 }

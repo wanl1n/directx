@@ -66,7 +66,7 @@ void AppWindow::onUpdate()
 
 	// 3. Update Time counter.
 	Constant cc;
-	cc.m_time = ::GetTickCount();
+	cc.m_time = ::GetTickCount64();
 	this->m_cb->update(device, &cc);
 
 	// 4. Bind Constant Buffer to Shaders.
@@ -89,13 +89,13 @@ void AppWindow::onDestroy()
 {
 	Window::onDestroy();
 
-	this->m_swap_chain->release();
-	this->m_cb->release();
-	for (int i = 0; i < this->GOList.size(); i++) {
-		this->GOList[i]->release();
+	for (Quad* gameObject : GOList) {
+		if (gameObject) gameObject->release();
 	}
 
+	this->m_swap_chain->release();
 	this->m_vs->release();
 	this->m_ps->release();
+	this->m_cb->release();
 	GraphicsEngine::get()->release();
 }

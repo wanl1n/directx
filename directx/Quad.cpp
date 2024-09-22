@@ -62,9 +62,7 @@ Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, Vertex 
 }
 
 Quad::~Quad()
-{
-	this->release();
-}
+{}
 
 void Quad::calculateBounds(bool moving)
 {
