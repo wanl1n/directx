@@ -1,5 +1,6 @@
 #include "AppWindow.h"
 #include "Windows.h"
+
 #include "Colors.h"
 #include "Constant.h"
 
@@ -23,25 +24,20 @@ void AppWindow::onCreate()
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 	this->m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 
-	//					INITIAL CENTER POS		TARGET CENTER POS	COLOR	TARGET COLOR
-	Vertex leftPos =	{ -0.5f, 0.0f , 0.0f,	-0.6f, 0.5f, 0.0f,	CREAM,	MATCHA };
-	Vertex centerPos =	{ -0.1f, -0.1f , 0.0f,	0.1f, 0.1f, 0.0f,	MATCHA,	CREAM };
-	Vertex rightPos =	{ 0.5f, 0.0f , 0.0f,	0.6f, -0.5f, 0.0f,	SPACE,	MATCHA };
-	DuoColor linearGrad = { LAVENDER, MATCHA };
-	QuadColor quadGrad = { CREAM, MATCHA, SPACE, LAVENDER };
-	QuadVertex targetPos = { -0.6f, -0.2f, 0.0f,
-							 -0.4f, 0.5f, 0.0f,
-							 0.6f, -0.3f, 0.0f,
-							 0.1f, 0.5f, 0.0f };
+	QuadVertex pos1 = { Vector3(-0.5f, -0.5f, 0.0f),
+						Vector3(-0.5f, 0.5f, 0.0f),
+						Vector3(0.5f, -0.5f, 0.0f),
+						Vector3(0.5f, 0.5f, 0.0f) };
+	QuadVertex pos2 = { Vector3(-0.6f, -0.2f, 0.0f),
+						Vector3(-0.4f, 0.5f, 0.0f),
+						Vector3(0.6f, -0.3f, 0.0f),
+						Vector3(0.1f, 0.5f, 0.0f) };
+	QuadColor color1 = { CREAM, MATCHA, SPACE, LAVENDER };
+	QuadColor color2 = { LAVENDER, CREAM, MATCHA, SPACE };
+	QuadProps quadProps = { pos1, pos2, color1, color2 };
 
-	Quad* quad1 = new Quad("Quad 1", shader_byte_code, size_shader, leftPos, 0.3f, 0.25f);
-	this->GOList.push_back(quad1);
-
-	Quad* quad2 = new Quad("Quad 2", shader_byte_code, size_shader, centerPos, 0.3f, 0.25f, linearGrad);
-	this->GOList.push_back(quad2);
-	
-	Quad* quad3 = new Quad("Quad 3", shader_byte_code, size_shader, rightPos, 0.3f, 0.25f, quadGrad, targetPos);
-	this->GOList.push_back(quad3);
+	Quad* quad = new Quad("CJ", shader_byte_code, size_shader, quadProps);
+	this->GOList.push_back(quad);
 
 	GraphicsEngine::get()->releaseCompiledShader();
 
@@ -50,11 +46,6 @@ void AppWindow::onCreate()
 	this->m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
 
 	GraphicsEngine::get()->releaseCompiledShader();
-
-	Constant cc = { 0 };
-
-	this->m_cb = GraphicsEngine::get()->createConstantBuffer();
-	this->m_cb->load(&cc, sizeof(Constant));
 }
 
 void AppWindow::onUpdate()
@@ -70,34 +61,33 @@ void AppWindow::onUpdate()
 	RECT rc = this->getClientWindowRect();
 	device->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	// 3. Update Time counter.
+	//Testing
 	unsigned long new_time = 0;
 	if (m_old_time)
 		new_time = ::GetTickCount64() - m_old_time;
 
 	m_delta_time = new_time / 1000.0f;
 	m_old_time = ::GetTickCount();
-	m_angle += 1.57f * m_delta_time;
-	
-	Constant cc;
-	cc.m_angle = m_angle;
 
-	this->m_cb->update(device, &cc);
+	// 3. Update Game Objects.
+	for (Quad* obj : this->GOList) {
+		obj->update(m_delta_time, this->getClientWindowRect(), this->m_vs, this->m_ps);
+	}
 
-	// 4. Bind Constant Buffer to Shaders.
-	device->setConstantBuffer(this->m_vs, this->m_cb);
-	device->setConstantBuffer(this->m_ps, this->m_cb);
-
-	// 5. Set Shaders.
+	// 4. Set Shaders.
 	device->setVertexShader(this->m_vs);
 	device->setPixelShader(this->m_ps);
 
-	// 6. Draw all Game Objects.
+	// 5. Draw all Game Objects.
 	for (int i = 0; i < this->GOList.size(); i++) {
-		this->GOList[i]->draw(m_vs, m_ps);
+		this->GOList[i]->draw(this->m_vs, this->m_ps);
 	}
 
 	this->m_swap_chain->present(true);
+
+	m_old_delta = m_new_delta;
+	m_new_delta = ::GetTickCount();
+	m_delta_time = (m_old_delta) ? ((m_new_delta - m_old_delta) / 1000.0f) : 0;
 }
 
 void AppWindow::onDestroy()
@@ -111,6 +101,18 @@ void AppWindow::onDestroy()
 	this->m_swap_chain->release();
 	this->m_vs->release();
 	this->m_ps->release();
-	this->m_cb->release();
 	GraphicsEngine::get()->release();
+}
+
+void AppWindow::updateTime()
+{
+	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
+
+	unsigned long new_time = 0;
+	if (m_old_time)
+		new_time = ::GetTickCount64() - m_old_time;
+
+	m_delta_time = new_time / 1000.0f;
+	m_old_time = ::GetTickCount64();
+	m_angle += 1.57f * m_delta_time;
 }

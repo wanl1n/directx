@@ -1,33 +1,40 @@
 #pragma once
-#include "Vector3D.h"
+#include "Vector3.h"
 
 struct VertexC {
-	Vector3D position;
-	Vector3D color;
+	Vector3 position;
+	Vector3 color;
 };
 
 struct Vertex {
-	Vector3D position;
-	Vector3D position1;
-	Vector3D color;
-	Vector3D color1;
+	Vector3 position;
+	Vector3 position1;
+	Vector3 color;
+	Vector3 color1;
 };
 
 struct QuadVertex {
-	Vector3D point1;
-	Vector3D point2;
-	Vector3D point3;
-	Vector3D point4;
+	Vector3 point1;
+	Vector3 point2;
+	Vector3 point3;
+	Vector3 point4;
 };
 
 struct QuadColor {
-	Vector3D color1;
-	Vector3D color2;
-	Vector3D color3;
-	Vector3D color4;
+	Vector3 color1;
+	Vector3 color2;
+	Vector3 color3;
+	Vector3 color4;
+};
+
+struct QuadProps {
+	QuadVertex points1;
+	QuadVertex points2;
+	QuadColor color1;
+	QuadColor color2;
 };
 
 struct DuoColor {
-	Vector3D color1;
-	Vector3D color2;
+	Vector3 color1;
+	Vector3 color2;
 };
