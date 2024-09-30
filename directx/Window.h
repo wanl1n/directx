@@ -3,8 +3,8 @@
 
 class Window {
 	protected:
-		HWND m_hwnd;
-		bool m_is_running;
+		HWND hwnd;
+		bool running;
 
 	public:
 		Window();
@@ -20,5 +20,6 @@ class Window {
 		virtual void onDestroy();
 
 		RECT getClientWindowRect();
+		HWND getWindowHandle();
 		void setHWND(HWND hwnd);
 }; 
