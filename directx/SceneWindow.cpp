@@ -1,30 +1,30 @@
-#include "AppWindow.h"
+#include "SceneWindow.h"
 #include "Windows.h"
 
 #include "Colors.h"
 #include "Constant.h"
 
-AppWindow* AppWindow::sharedInstance = nullptr;
-AppWindow* AppWindow::getInstance()
+SceneWindow* SceneWindow::sharedInstance = nullptr;
+SceneWindow* SceneWindow::getInstance()
 {
 	return sharedInstance;
 }
 
-void AppWindow::initialize()
+void SceneWindow::initialize()
 {
-	sharedInstance = new AppWindow();
+	sharedInstance = new SceneWindow();
 	sharedInstance->init();
 }
 
-AppWindow::AppWindow() {}
-AppWindow::~AppWindow() {}
+SceneWindow::SceneWindow() {}
+SceneWindow::~SceneWindow() {}
 
-void AppWindow::onCreate() 
+void SceneWindow::onCreate()
 {
 	Window::onCreate();
 }
 
-void AppWindow::onUpdate()
+void SceneWindow::onUpdate()
 {
 	Window::onUpdate();
 
@@ -38,11 +38,11 @@ void AppWindow::onUpdate()
 	device->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
 	// 3. Update Game Objects.
-	for (Quad* obj : this->GOList) 
+	for (Quad* obj : this->GOList)
 		obj->update(deltaTime, this->getClientWindowRect(), this->vs, this->ps);
 
 	// 4. Draw all Game Objects.
-	for (int i = 0; i < this->GOList.size(); i++) 
+	for (int i = 0; i < this->GOList.size(); i++)
 		this->GOList[i]->draw(this->vs, this->ps);
 
 	this->swapChain->present(true);
@@ -53,7 +53,7 @@ void AppWindow::onUpdate()
 	deltaTime = (oldDelta) ? ((newDelta - oldDelta) / 1000.0f) : 0;
 }
 
-void AppWindow::onDestroy()
+void SceneWindow::onDestroy()
 {
 	Window::onDestroy();
 
@@ -67,17 +67,21 @@ void AppWindow::onDestroy()
 	GraphicsEngine::get()->release();
 }
 
-void AppWindow::initializeEngine()
+void SceneWindow::initializeEngine()
 {
 	GraphicsEngine::initialize();
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
+	DeviceContext* device = graphicsEngine->getImmediateDeviceContext();
 
 	this->swapChain = graphicsEngine->createSwapChain();
 
 	RECT windowRect = this->getClientWindowRect();
 	int width = windowRect.right - windowRect.left;
+	width *= 0.8f;
 	int height = windowRect.bottom - windowRect.top;
 	this->swapChain->init(this->hwnd, width, height);
+
+	graphicsEngine->createBlendState(true);
 
 	// Shader Attributes
 	void* shaderByteCode = nullptr;
@@ -128,7 +132,7 @@ void AppWindow::initializeEngine()
 	graphicsEngine->releaseCompiledShader();
 }
 
-void AppWindow::updateTime()
+void SceneWindow::updateTime()
 {
 	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
 

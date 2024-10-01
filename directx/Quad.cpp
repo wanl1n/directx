@@ -59,20 +59,6 @@ void Quad::update(float deltaTime, RECT viewport, VertexShader* vs, PixelShader*
 		-4.0f, 4.0f
 	);
 
-	std::cout << "World" << std::endl;
-	cc.m_world.printMatrix();
-	std::cout << "View" << std::endl;
-	cc.m_view.printMatrix();
-	std::cout << "Projection" << std::endl;
-	cc.m_proj.printMatrix();
-	Matrix4x4 sample;
-	sample.setTranslation(Vector3(0));
-	sample *= cc.m_world;
-	sample *= cc.m_view;
-	sample *= cc.m_proj;
-	std::cout << "Sample" << std::endl;
-	sample.printMatrix();
-
 	this->cb->update(device, &cc);
 
 	// Bind to Shaders.
@@ -84,6 +70,11 @@ void Quad::draw(VertexShader* vs, PixelShader* ps)
 {
 	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
 
+	// Set Shaders.
+	device->setVertexShader(vs);
+	device->setPixelShader(ps);
+
+	// Draw Object.
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(this->vb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(this->vb->getSizeVertexList(), 0);
 }

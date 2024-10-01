@@ -51,6 +51,8 @@ class GraphicsEngine
 		VertexBuffer* createVertexBuffer();
 		ConstantBuffer* createConstantBuffer();
 
+		void createBlendState(bool blending);
+
 		// Shaders
 		VertexShader* createVertexShader(const void* shader_byte_code, size_t byte_code_size);
 		PixelShader* createPixelShader(const void* shader_byte_code, size_t byte_code_size);

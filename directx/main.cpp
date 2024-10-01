@@ -1,9 +1,11 @@
 #include "AppWindow.h"
+#include "SceneWindow.h"
+#include "InspectorWindow.h"
 
 int main() {
 
-	AppWindow::initialize();
-	AppWindow* app = (AppWindow*)AppWindow::getInstance();
+	SceneWindow::initialize();
+	SceneWindow* app = (SceneWindow*)SceneWindow::getInstance();
 	app->initializeEngine();
 
 	while (app->isRunning()) {
