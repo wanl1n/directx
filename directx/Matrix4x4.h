@@ -55,7 +55,17 @@ class Matrix4x4
 			this->setIdentity();
 			m_mat[0][0] = 2.0f / width;
 			m_mat[1][1] = 2.0f / height;
-			m_mat[3][3] = 1.0f / (far_plane - near_plane);
+			m_mat[2][2] = 1.0f / (far_plane - near_plane);
 			m_mat[3][2] = -(near_plane / (far_plane - near_plane));
+		}
+
+		void printMatrix() {
+			for (int i = 0; i < 4; i++) {
+				std::cout << i << " [";
+				for (int j = 0; j < 4; j++) {
+					std::cout << m_mat[i][j] << " ";
+				}
+				std::cout << "]" << std::endl;
+			}
 		}
 };

@@ -6,5 +6,5 @@ struct Constant {
 	Matrix4x4 m_world;
 	Matrix4x4 m_view;
 	Matrix4x4 m_proj;
-	float m_angle;
+	unsigned int m_time;
 };

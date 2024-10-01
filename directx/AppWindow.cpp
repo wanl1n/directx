@@ -38,12 +38,12 @@ void AppWindow::onUpdate()
 	device->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
 	//Testing
-	unsigned long new_time = 0;
+	/*unsigned long new_time = 0;
 	if (oldTime)
 		new_time = ::GetTickCount64() - oldTime;
 
 	deltaTime = new_time / 1000.0f;
-	oldTime = ::GetTickCount();
+	oldTime = ::GetTickCount();*/
 
 	// 3. Update Game Objects.
 	for (Quad* obj : this->GOList) {
@@ -100,22 +100,22 @@ void AppWindow::initializeEngine()
 	graphicsEngine->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
 	this->vs = graphicsEngine->createVertexShader(shaderByteCode, sizeShader);
 
-	QuadVertex pos1 = { Vector3(-0.5f, -0.5f, 0.0f),
-						Vector3(-0.5f, 0.5f, 0.0f),
-						Vector3(0.5f, -0.5f, 0.0f),
-						Vector3(0.5f, 0.5f, 0.0f) };
-	QuadVertex pos2 = { Vector3(-0.6f, -0.2f, 0.0f),
-						Vector3(-0.4f, 0.5f, 0.0f),
-						Vector3(0.6f, -0.3f, 0.0f),
-						Vector3(0.1f, 0.5f, 0.0f) };
-	QuadVertex pos3 = { Vector3(-0.9f, -0.6f, 0.0f),
-						Vector3(-0.9f, 0.6f, 0.0f),
-						Vector3(-0.6f, -0.4f, 0.0f),
-						Vector3(-0.6f, 0.4f, 0.0f) };
-	QuadVertex pos4 = { Vector3(0.6f, -0.2f, 0.0f),
-						Vector3(0.6f, 0.5f, 0.0f),
-						Vector3(0.9f, -0.3f, 0.0f),
-						Vector3(0.9f, 0.5f, 0.0f) };
+	QuadVertex pos1 = { Vector3(-0.5f, -0.5f, 1.0f),
+						Vector3(-0.5f, 0.5f, 1.0f),
+						Vector3(0.5f, -0.5f, 1.0f),
+						Vector3(0.5f, 0.5f, 1.0f) };
+	QuadVertex pos2 = { Vector3(-0.6f, -0.2f, 1.0f),
+						Vector3(-0.4f, 0.5f, 1.0f),
+						Vector3(0.6f, -0.3f, 1.0f),
+						Vector3(0.1f, 0.5f, 1.0f) };
+	QuadVertex pos3 = { Vector3(-0.9f, -0.6f, 1.0f),
+						Vector3(-0.9f, 0.6f, 1.0f),
+						Vector3(-0.6f, -0.4f, 1.0f),
+						Vector3(-0.6f, 0.4f, 1.0f) };
+	QuadVertex pos4 = { Vector3(0.6f, -0.2f, 1.0f),
+						Vector3(0.6f, 0.5f, 1.0f),
+						Vector3(0.9f, -0.3f, 1.0f),
+						Vector3(0.9f, 0.5f, 1.0f) };
 	QuadColor color1 = { CREAM, MATCHA, SPACE, LAVENDER };
 	QuadColor color2 = { LAVENDER, CREAM, MATCHA, SPACE };
 	QuadColor color3 = { LAVENDER, LAVENDER, MATCHA, MATCHA };

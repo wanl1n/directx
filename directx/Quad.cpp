@@ -15,7 +15,7 @@ Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, QuadPro
 	this->vb->load(vertices, sizeof(Vertex), size_list, shader_byte_code, size_shader);
 
 	Constant cc;
-	cc.m_angle = 0;
+	cc.m_time = 0;
 
 	this->cb = GraphicsEngine::get()->createConstantBuffer();
 	this->cb->load(&cc, sizeof(Constant));
@@ -36,35 +36,44 @@ void Quad::update(float deltaTime, RECT viewport, VertexShader* vs, PixelShader*
 {
 	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
 
-	m_angle += 1.57f * deltaTime;
-
 	Constant cc;
-	cc.m_angle = m_angle;
+	m_time += 1.57f * deltaTime;
+	cc.m_time = m_time;
+	//cc.m_time = ::GetTickCount64();
+
+	this->deltaPos += deltaTime / 1.0f;
+	if (this->deltaPos > 1.0f) this->deltaPos = 0;
+
+	Matrix4x4 temp;
+
+	this->deltaScale += deltaTime / 0.15f;
+
+	cc.m_world.setScale(Vector3::lerp(Vector3(0.5f, 0.5f, 0), Vector3(1, 1, 0), (sin(this->deltaScale) + 1.0f) / 2.0f));
+	temp.setTranslation(Vector3::lerp(Vector3(-1.5f, -1.5f, 0), Vector3(1.5f, 1.5f, 0), this->deltaPos));
+	cc.m_world *= temp;
+
+	cc.m_view.setIdentity();
+	cc.m_proj.setOrthoLH(
+		(viewport.right - viewport.left) / 400.0f,
+		(viewport.bottom - viewport.top) / 400.0f,
+		-4.0f, 4.0f
+	);
+
+	std::cout << "World" << std::endl;
+	cc.m_world.printMatrix();
+	std::cout << "View" << std::endl;
+	cc.m_view.printMatrix();
+	std::cout << "Projection" << std::endl;
+	cc.m_proj.printMatrix();
+	Matrix4x4 sample;
+	sample.setTranslation(Vector3(0));
+	sample *= cc.m_world;
+	sample *= cc.m_view;
+	sample *= cc.m_proj;
+	std::cout << "Sample" << std::endl;
+	sample.printMatrix();
 
 	this->cb->update(device, &cc);
-	//Constant cc;
-	//cc.m_angle = ::GetTickCount64();
-
-	//this->deltaPos += deltaTime / 10.0f;
-	//if (this->deltaPos > 1.0f) this->deltaPos = 0;
-
-	//Matrix4x4 temp;
-
-	//this->deltaScale += deltaTime / 0.15f;
-
-	////cc.m_world.setTranslation(Vector3::lerp(Vector3(-2, -2, 0), Vector3(2, 2, 0), m_delta_pos));
-	//cc.m_world.setScale(Vector3::lerp(Vector3(0.5f, 0.5f, 0), Vector3(1, 1, 0), (sin(this->deltaScale) + 1.0f) / 2.0f));
-	//temp.setTranslation(Vector3::lerp(Vector3(-1.5f, -1.5f, 0), Vector3(1.5f, 1.5f, 0), this->deltaPos));
-	//cc.m_world *= temp;
-
-	//cc.m_view.setIdentity();
-	//cc.m_proj.setOrthoLH(
-	//	(viewport.right - viewport.left) / 400.0f,
-	//	(viewport.bottom - viewport.top) / 400.0f,
-	//	-4.0f, 4.0f
-	//);
-
-	//this->cb->update(device, &cc);
 
 	// Bind to Shaders.
 	device->setConstantBuffer(vs, this->cb);

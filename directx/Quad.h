@@ -33,7 +33,7 @@ class Quad : GameObject
 
 		float deltaPos = 0;
 		float deltaScale = 0;
-		float m_angle = 0;
+		float m_time = 0;
 
 	public:
 		Quad(std::string name, void* shader_byte_code, size_t size_shader,
