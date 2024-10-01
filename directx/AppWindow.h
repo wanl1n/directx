@@ -15,32 +15,37 @@
 
 class AppWindow : public Window
 {
+	public:
+		static AppWindow* getInstance();
+		static void initialize();
+
 	private:
-		SwapChain* m_swap_chain;
-		VertexShader* m_vs;
-		PixelShader* m_ps;
+		SwapChain* swapChain;
+		VertexShader* vs;
+		PixelShader* ps;
 
-		unsigned long m_old_time = 0;
+		unsigned long oldTime = 0;
 
-		float m_old_delta = 0;
-		float m_new_delta = 0;
-		float m_delta_time = 0;
-
-		float m_delta_pos = 0;
-		float m_delta_scale = 0;
-		float m_angle = 0;
+		float oldDelta = 0;
+		float newDelta = 0;
+		float deltaTime = 0;
 
 	private:
 		std::vector<Quad*> GOList;
 
-	public:
+	private:
 		AppWindow();
-		~AppWindow();
+		~AppWindow(); 
+		AppWindow(AppWindow const&) {};
+		AppWindow& operator = (AppWindow const&) {};
+		static AppWindow* sharedInstance;
 
+	public:
 		virtual void onCreate() override;
 		virtual void onUpdate() override;
 		virtual void onDestroy() override;
 
+		void initializeEngine();
 		void updateTime();
 };
 

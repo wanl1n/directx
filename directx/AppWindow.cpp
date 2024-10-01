@@ -4,48 +4,24 @@
 #include "Colors.h"
 #include "Constant.h"
 
+AppWindow* AppWindow::sharedInstance = nullptr;
+AppWindow* AppWindow::getInstance()
+{
+	return sharedInstance;
+}
+
+void AppWindow::initialize()
+{
+	sharedInstance = new AppWindow();
+	sharedInstance->init();
+}
+
 AppWindow::AppWindow() {}
 AppWindow::~AppWindow() {}
 
-void AppWindow::onCreate()
+void AppWindow::onCreate() 
 {
 	Window::onCreate();
-	GraphicsEngine::get()->init();
-	this->m_swap_chain = GraphicsEngine::get()->createSwapChain();
-
-	RECT rc = this->getClientWindowRect();
-	this->m_swap_chain->init(this->m_hwnd, rc.right-rc.left, rc.bottom-rc.top);
-
-	// Shader Attributes
-	void* shader_byte_code = nullptr;
-	size_t size_shader = 0;
-
-	// Creating Vertex Shader
-	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-	this->m_vs = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
-
-	QuadVertex pos1 = { Vector3(-0.5f, -0.5f, 0.0f),
-						Vector3(-0.5f, 0.5f, 0.0f),
-						Vector3(0.5f, -0.5f, 0.0f),
-						Vector3(0.5f, 0.5f, 0.0f) };
-	QuadVertex pos2 = { Vector3(-0.6f, -0.2f, 0.0f),
-						Vector3(-0.4f, 0.5f, 0.0f),
-						Vector3(0.6f, -0.3f, 0.0f),
-						Vector3(0.1f, 0.5f, 0.0f) };
-	QuadColor color1 = { CREAM, MATCHA, SPACE, LAVENDER };
-	QuadColor color2 = { LAVENDER, CREAM, MATCHA, SPACE };
-	QuadProps quadProps = { pos1, pos2, color1, color2 };
-
-	Quad* quad = new Quad("CJ", shader_byte_code, size_shader, quadProps);
-	this->GOList.push_back(quad);
-
-	GraphicsEngine::get()->releaseCompiledShader();
-
-	// Creating Pixel Shader
-	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
-	this->m_ps = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
-
-	GraphicsEngine::get()->releaseCompiledShader();
 }
 
 void AppWindow::onUpdate()
@@ -55,7 +31,7 @@ void AppWindow::onUpdate()
 	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
 
 	// 1. Clear Render Target.
-	device->clearRenderTargetColor(this->m_swap_chain, 0.957f, 0.761f, 0.761, 1);
+	device->clearRenderTargetColor(this->swapChain, 0.957f, 0.761f, 0.761, 1);
 
 	// 2. Set the target Viewport where we'll draw.
 	RECT rc = this->getClientWindowRect();
@@ -63,31 +39,31 @@ void AppWindow::onUpdate()
 
 	//Testing
 	unsigned long new_time = 0;
-	if (m_old_time)
-		new_time = ::GetTickCount64() - m_old_time;
+	if (oldTime)
+		new_time = ::GetTickCount64() - oldTime;
 
-	m_delta_time = new_time / 1000.0f;
-	m_old_time = ::GetTickCount();
+	deltaTime = new_time / 1000.0f;
+	oldTime = ::GetTickCount();
 
 	// 3. Update Game Objects.
 	for (Quad* obj : this->GOList) {
-		obj->update(m_delta_time, this->getClientWindowRect(), this->m_vs, this->m_ps);
+		obj->update(deltaTime, this->getClientWindowRect(), this->vs, this->ps);
 	}
 
 	// 4. Set Shaders.
-	device->setVertexShader(this->m_vs);
-	device->setPixelShader(this->m_ps);
+	device->setVertexShader(this->vs);
+	device->setPixelShader(this->ps);
 
 	// 5. Draw all Game Objects.
 	for (int i = 0; i < this->GOList.size(); i++) {
-		this->GOList[i]->draw(this->m_vs, this->m_ps);
+		this->GOList[i]->draw(this->vs, this->ps);
 	}
 
-	this->m_swap_chain->present(true);
+	this->swapChain->present(true);
 
-	m_old_delta = m_new_delta;
-	m_new_delta = ::GetTickCount();
-	m_delta_time = (m_old_delta) ? ((m_new_delta - m_old_delta) / 1000.0f) : 0;
+	oldDelta = newDelta;
+	newDelta = ::GetTickCount();
+	deltaTime = (oldDelta) ? ((newDelta - oldDelta) / 1000.0f) : 0;
 }
 
 void AppWindow::onDestroy()
@@ -98,10 +74,71 @@ void AppWindow::onDestroy()
 		if (gameObject) gameObject->release();
 	}
 
-	this->m_swap_chain->release();
-	this->m_vs->release();
-	this->m_ps->release();
+	this->swapChain->release();
+	this->vs->release();
+	this->ps->release();
 	GraphicsEngine::get()->release();
+}
+
+void AppWindow::initializeEngine()
+{
+	GraphicsEngine::initialize();
+	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
+
+	this->swapChain = graphicsEngine->createSwapChain();
+
+	RECT windowRect = this->getClientWindowRect();
+	int width = windowRect.right - windowRect.left;
+	int height = windowRect.bottom - windowRect.top;
+	this->swapChain->init(this->hwnd, width, height);
+
+	// Shader Attributes
+	void* shaderByteCode = nullptr;
+	size_t sizeShader = 0;
+
+	// Creating Vertex Shader
+	graphicsEngine->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
+	this->vs = graphicsEngine->createVertexShader(shaderByteCode, sizeShader);
+
+	QuadVertex pos1 = { Vector3(-0.5f, -0.5f, 0.0f),
+						Vector3(-0.5f, 0.5f, 0.0f),
+						Vector3(0.5f, -0.5f, 0.0f),
+						Vector3(0.5f, 0.5f, 0.0f) };
+	QuadVertex pos2 = { Vector3(-0.6f, -0.2f, 0.0f),
+						Vector3(-0.4f, 0.5f, 0.0f),
+						Vector3(0.6f, -0.3f, 0.0f),
+						Vector3(0.1f, 0.5f, 0.0f) };
+	QuadVertex pos3 = { Vector3(-0.9f, -0.6f, 0.0f),
+						Vector3(-0.9f, 0.6f, 0.0f),
+						Vector3(-0.6f, -0.4f, 0.0f),
+						Vector3(-0.6f, 0.4f, 0.0f) };
+	QuadVertex pos4 = { Vector3(0.6f, -0.2f, 0.0f),
+						Vector3(0.6f, 0.5f, 0.0f),
+						Vector3(0.9f, -0.3f, 0.0f),
+						Vector3(0.9f, 0.5f, 0.0f) };
+	QuadColor color1 = { CREAM, MATCHA, SPACE, LAVENDER };
+	QuadColor color2 = { LAVENDER, CREAM, MATCHA, SPACE };
+	QuadColor color3 = { LAVENDER, LAVENDER, MATCHA, MATCHA };
+	QuadColor color4 = { CREAM, CREAM, SPACE, SPACE };
+	QuadProps quadProps1 = { pos1, pos2, color1, color2 };
+	QuadProps quadProps2 = { pos3, pos2, color2, color3 };
+	QuadProps quadProps3 = { pos4, pos2, color3, color4 };
+
+	Quad* quad1 = new Quad("Quad 1", shaderByteCode, sizeShader, quadProps1);
+	this->GOList.push_back(quad1);
+
+	Quad* quad2 = new Quad("Quad 2", shaderByteCode, sizeShader, quadProps2);
+	this->GOList.push_back(quad2);
+
+	Quad* quad3 = new Quad("Quad 3", shaderByteCode, sizeShader, quadProps3);
+	this->GOList.push_back(quad3);
+
+	graphicsEngine->releaseCompiledShader();
+
+	// Creating Pixel Shader
+	graphicsEngine->compilePixelShader(L"PixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
+	this->ps = graphicsEngine->createPixelShader(shaderByteCode, sizeShader);
+	graphicsEngine->releaseCompiledShader();
 }
 
 void AppWindow::updateTime()
@@ -109,10 +146,9 @@ void AppWindow::updateTime()
 	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
 
 	unsigned long new_time = 0;
-	if (m_old_time)
-		new_time = ::GetTickCount64() - m_old_time;
+	if (oldTime)
+		new_time = ::GetTickCount64() - oldTime;
 
-	m_delta_time = new_time / 1000.0f;
-	m_old_time = ::GetTickCount64();
-	m_angle += 1.57f * m_delta_time;
+	deltaTime = new_time / 1000.0f;
+	oldTime = ::GetTickCount64();
 }

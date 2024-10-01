@@ -52,14 +52,14 @@ bool Window::init()
 	if (!::RegisterClassEx(&wc))
 		return false;
 	
-	m_hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, "MyWindowClass", "Boo", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 768, NULL, NULL, NULL, this);
+	hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, "MyWindowClass", "Boo", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 768, NULL, NULL, NULL, this);
 	
-	if (!m_hwnd) return false;
+	if (!hwnd) return false;
 
-	::ShowWindow(m_hwnd, SW_SHOW);
-	::UpdateWindow(m_hwnd);
+	::ShowWindow(hwnd, SW_SHOW);
+	::UpdateWindow(hwnd);
 
-	this->m_is_running = true;
+	this->running = true;
 
 	return true;
 }
@@ -82,7 +82,7 @@ bool Window::broadcast()
 
 bool Window::release()
 {
-	if (!::DestroyWindow(m_hwnd))
+	if (!::DestroyWindow(this->hwnd))
 		return false;
 
 	return true;
@@ -90,7 +90,7 @@ bool Window::release()
 
 bool Window::isRunning()
 {
-	return this->m_is_running;
+	return this->running;
 }
 
 void Window::onCreate()
@@ -103,17 +103,22 @@ void Window::onUpdate()
 
 void Window::onDestroy()
 {
-	this->m_is_running = false;
+	this->running = false;
 }
 
 RECT Window::getClientWindowRect()
 {
 	RECT rc;
-	::GetClientRect(this->m_hwnd, &rc);
+	::GetClientRect(this->hwnd, &rc);
 	return rc;
+}
+
+HWND Window::getWindowHandle()
+{
+	return this->hwnd;
 }
 
 void Window::setHWND(HWND hwnd)
 {
-	this->m_hwnd = hwnd;
+	this->hwnd = hwnd;
 }

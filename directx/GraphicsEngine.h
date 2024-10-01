@@ -11,6 +11,8 @@ class PixelShader;
 class GraphicsEngine
 {
 	private:
+		static GraphicsEngine* sharedInstance;
+
 		ID3D11Device* m_d3d_device;
 		D3D_FEATURE_LEVEL m_feature_level;
 
@@ -30,9 +32,15 @@ class GraphicsEngine
 		friend class VertexShader;
 		friend class PixelShader;
 
-	public:
+	private:
 		GraphicsEngine();
 		~GraphicsEngine();
+		GraphicsEngine(GraphicsEngine const&) {};
+		GraphicsEngine& operator = (GraphicsEngine const&) {};
+
+	public:
+		static void initialize();
+		static void destroy();
 
 		bool init();
 		bool release();
