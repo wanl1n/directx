@@ -12,6 +12,9 @@
 #include "PixelShader.h"
 
 #include "Quad.h"
+#include "PulsingQuad.h"
+#include "Area51.h"
+#include "Grid.h"
 #include <vector>
 
 class SceneWindow : public Window
@@ -24,13 +27,15 @@ class SceneWindow : public Window
 		SwapChain* swapChain;
 		VertexShader* vs;
 		PixelShader* ps;
-		BlendState* bs;
 
 		unsigned long oldTime = 0;
 
 		float oldDelta = 0;
 		float newDelta = 0;
 		float deltaTime = 0;
+
+		// Scene Tools
+		Grid* grid;
 
 	private:
 		std::vector<Quad*> GOList;

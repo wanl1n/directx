@@ -3,14 +3,14 @@
 
 struct VertexC {
 	Vector3 position;
-	Vector3 color;
+	Vector4 color;
 };
 
 struct Vertex {
 	Vector3 position;
 	Vector3 position1;
-	Vector3 color;
-	Vector3 color1;
+	Vector4 color;
+	Vector4 color1;
 };
 
 struct QuadVertex {
@@ -21,10 +21,10 @@ struct QuadVertex {
 };
 
 struct QuadColor {
-	Vector3 color1;
-	Vector3 color2;
-	Vector3 color3;
-	Vector3 color4;
+	Vector4 color1;
+	Vector4 color2;
+	Vector4 color3;
+	Vector4 color4;
 };
 
 struct QuadProps {
@@ -35,6 +35,12 @@ struct QuadProps {
 };
 
 struct DuoColor {
-	Vector3 color1;
-	Vector3 color2;
+	Vector4 color1;
+	Vector4 color2;
+};
+
+// Lines
+struct Line {
+	Vector3 point1;
+	Vector3 point2;
 };

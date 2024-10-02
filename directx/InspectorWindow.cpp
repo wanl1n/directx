@@ -13,7 +13,7 @@ InspectorWindow* InspectorWindow::getInstance()
 void InspectorWindow::initialize()
 {
 	sharedInstance = new InspectorWindow();
-	sharedInstance->init();
+	sharedInstance->init(1280, 1280);
 }
 
 InspectorWindow::InspectorWindow() {}

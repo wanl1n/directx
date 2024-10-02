@@ -33,7 +33,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	return NULL;
 }
 
-bool Window::init()
+bool Window::init(float width, float height)
 {
 	WNDCLASSEX wc;
 	wc.cbClsExtra = NULL;
@@ -52,7 +52,7 @@ bool Window::init()
 	if (!::RegisterClassEx(&wc))
 		return false;
 	
-	hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, "MyWindowClass", "Kate's Game Engine", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1280, 720, NULL, NULL, NULL, this);
+	hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, "MyWindowClass", "Kate's Game Engine", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, width, height, NULL, NULL, NULL, this);
 	
 	if (!hwnd) return false;
 

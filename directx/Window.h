@@ -14,7 +14,7 @@ class Window {
 		Window();
 		~Window();
 
-		bool init();
+		bool init(float width, float height);
 		bool createChildWindow();
 		bool broadcast();
 		bool release();

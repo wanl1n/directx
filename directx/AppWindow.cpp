@@ -13,7 +13,7 @@ AppWindow* AppWindow::getInstance()
 void AppWindow::initialize()
 {
 	sharedInstance = new AppWindow();
-	sharedInstance->init();
+	sharedInstance->init(1024, 728);
 }
 
 AppWindow::AppWindow() {}

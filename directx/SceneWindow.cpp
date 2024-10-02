@@ -13,7 +13,7 @@ SceneWindow* SceneWindow::getInstance()
 void SceneWindow::initialize()
 {
 	sharedInstance = new SceneWindow();
-	sharedInstance->init();
+	sharedInstance->init(1080, 1080);
 }
 
 SceneWindow::SceneWindow() {}
@@ -41,6 +41,8 @@ void SceneWindow::onUpdate()
 	for (Quad* obj : this->GOList)
 		obj->update(deltaTime, this->getClientWindowRect(), this->vs, this->ps);
 
+	this->grid->draw();
+
 	// 4. Draw all Game Objects.
 	for (int i = 0; i < this->GOList.size(); i++)
 		this->GOList[i]->draw(this->vs, this->ps);
@@ -49,7 +51,7 @@ void SceneWindow::onUpdate()
 
 	// Update Delta time.
 	oldDelta = newDelta;
-	newDelta = ::GetTickCount();
+	newDelta = ::GetTickCount64();
 	deltaTime = (oldDelta) ? ((newDelta - oldDelta) / 1000.0f) : 0;
 }
 
@@ -77,7 +79,6 @@ void SceneWindow::initializeEngine()
 
 	RECT windowRect = this->getClientWindowRect();
 	int width = windowRect.right - windowRect.left;
-	width *= 0.8f;
 	int height = windowRect.bottom - windowRect.top;
 	this->swapChain->init(this->hwnd, width, height);
 
@@ -109,17 +110,18 @@ void SceneWindow::initializeEngine()
 	QuadColor color2 = { LAVENDER, CREAM, MATCHA, SPACE };
 	QuadColor color3 = { LAVENDER, LAVENDER, MATCHA, MATCHA };
 	QuadColor color4 = { CREAM, CREAM, SPACE, SPACE };
-	QuadProps quadProps1 = { pos1, pos2, color1, color2 };
-	QuadProps quadProps2 = { pos3, pos2, color2, color3 };
-	QuadProps quadProps3 = { pos4, pos2, color3, color4 };
+	QuadColor trans = { CLEAR, CLEAR, CLEAR, CLEAR };
+	QuadProps quadProps1 = { pos1, pos2, color1, trans };
+	QuadProps quadProps2 = { pos3, pos2, color2, trans };
+	QuadProps quadProps3 = { pos4, pos2, color3, trans };
 
 	Quad* quad1 = new Quad("Quad 1", shaderByteCode, sizeShader, quadProps1, true);
 	this->GOList.push_back(quad1);
 
-	Quad* quad2 = new Quad("Quad 2", shaderByteCode, sizeShader, quadProps2, false);
+	PulsingQuad* quad2 = new PulsingQuad("My heartbeat", shaderByteCode, sizeShader, quadProps2, true);
 	this->GOList.push_back(quad2);
 
-	Quad* quad3 = new Quad("Quad 3", shaderByteCode, sizeShader, quadProps3, true);
+	Area51* quad3 = new Area51("Area 51", shaderByteCode, sizeShader, quadProps3, true);
 	this->GOList.push_back(quad3);
 
 	graphicsEngine->releaseCompiledShader();
@@ -128,6 +130,8 @@ void SceneWindow::initializeEngine()
 	graphicsEngine->compilePixelShader(L"PixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
 	this->ps = graphicsEngine->createPixelShader(shaderByteCode, sizeShader);
 	graphicsEngine->releaseCompiledShader();
+
+	this->grid = new Grid("Grid", true);
 }
 
 void SceneWindow::updateTime()

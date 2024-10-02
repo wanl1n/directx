@@ -1,8 +1,8 @@
 struct PS_INPUT
 {
     float4 position : SV_POSITION;
-    float3 color : COLOR;
-    float3 color1 : COLOR1;
+    float4 color : COLOR;
+    float4 color1 : COLOR1;
 };
 
 cbuffer constant : register(b0)
@@ -16,6 +16,16 @@ cbuffer constant : register(b0)
 float4 psmain(PS_INPUT input) : SV_TARGET
 {
     //return float4(lerp(input.color, input.color1, (sin(m_angle) + 1.0f) / 2.0f), 1.0f);
-    return float4(lerp(input.color, input.color1, (float) ((sin((float) (m_time / (float) 500.0f)) + 1.0f) / 2.0f)), 
-                    (float) ((sin(m_time/10) + 1.0f) / 2.0f));
+    float3 color1 = input.color.xyz;
+    float3 color2 = input.color1.xyz;
+    //float alpha1 = input.color.a;
+    //float alpha2 = input.color1.a;
+    
+    //float deltaTime = (float) ((sin((float) (m_time / (float) 500.0f)) + 1.0f) / 2.0f);
+    
+    //return float4(lerp(color1, color2, deltaTime),
+    //              lerp(alpha1, alpha2, deltaTime * 100));
+    //return float4(lerp(color1, color2, (float) ((sin((float) (m_time / (float) 500.0f)) + 1.0f) / 2.0f)),
+    //                (float) ((sin(m_time / 10) + 1.0f) / 2.0f));
+    return input.color;
 }

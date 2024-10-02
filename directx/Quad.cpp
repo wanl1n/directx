@@ -15,15 +15,21 @@ Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, QuadPro
 	this->vb->load(vertices, sizeof(Vertex), size_list, shader_byte_code, size_shader);
 
 	// Transform				 RIGHT					  LEFT
-	transform.position = Vector3((props.points1.point3.x + props.points1.point1.x) / 2,
-								 (props.points1.point2.y + props.points1.point1.y) / 2,
+	transform.position = Vector3((props.points1.point1.x + props.points1.point4.x) / 2,
+								 (props.points1.point1.y + props.points1.point4.y) / 2,
 								 props.points1.point1.z);
+	//transform.position = props.points1.point2;
+	std::cout << transform.position.x << ", " << transform.position.y << ", " << transform.position.z << std::endl;
+	//transform.position = Vector3(0, 0, 0);
 	cc.m_world.setTranslation(transform.position);
 
 	this->cb = GraphicsEngine::get()->createConstantBuffer();
 	this->cb->load(&cc, sizeof(Constant));
 
 	this->bs = GraphicsEngine::get()->createBlendState(blending);
+
+	this->height = props.points1.point2.y - props.points1.point1.y;
+	this->width = props.points1.point3.x - props.points1.point1.x;
 }
 
 Quad::~Quad()
@@ -41,19 +47,7 @@ void Quad::update(float deltaTime, RECT viewport, VertexShader* vs, PixelShader*
 {
 	GameObject::update(deltaTime);
 
-	/*this->translate(Vector3(0, 0.1f, 0));
-	this->scale(Vector3(0.5f, 0, 0));
-	this->project(ORTHOGRAPHIC, viewport);*/
-
-	this->scale(Vector3(1, 1, 0));
-	//this->translate(Vector3(0, 1, 0));
-
-	cc.m_view.setIdentity();
-	cc.m_proj.setOrthoLH(
-		(viewport.right - viewport.left) / 400.0f,
-		(viewport.bottom - viewport.top) / 400.0f,
-		-4.0f, 4.0f
-	);
+	this->project(ORTHOGRAPHIC, viewport);
 
 	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);
 }

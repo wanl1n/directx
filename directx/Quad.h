@@ -20,9 +20,9 @@
 #include "Rect.h"
 #include "Vector3.h"
 
-class Quad : GameObject
+class Quad : public GameObject
 {
-	private:
+	protected:
 		VertexBuffer* vb;
 		ConstantBuffer* cb;
 		BlendState* bs;
@@ -30,13 +30,16 @@ class Quad : GameObject
 		QuadVertex initPoints;
 		QuadVertex targetPoints;
 
+		float height;
+		float width;
+
 	public:
 		Quad(std::string name, void* shader_byte_code, size_t size_shader,
 			QuadProps props, bool blending);
 
 		~Quad();
 
-		void update(float deltaTime, RECT viewport, VertexShader* vs, PixelShader* ps);
+		virtual void update(float deltaTime, RECT viewport, VertexShader* vs, PixelShader* ps);
 		void draw(VertexShader* vs, PixelShader* ps);
 		bool release();
 };
