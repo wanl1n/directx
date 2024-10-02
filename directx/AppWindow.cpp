@@ -1,7 +1,7 @@
 #include "AppWindow.h"
 #include "Windows.h"
 
-#include "Colors.h"
+#include "Constants.h"
 #include "Constant.h"
 
 AppWindow* AppWindow::sharedInstance = nullptr;
@@ -111,13 +111,13 @@ void AppWindow::initializeEngine()
 	QuadProps quadProps2 = { pos3, pos2, color2, color3 };
 	QuadProps quadProps3 = { pos4, pos2, color3, color4 };
 
-	Quad* quad1 = new Quad("Quad 1", shaderByteCode, sizeShader, quadProps1);
+	Quad* quad1 = new Quad("Quad 1", shaderByteCode, sizeShader, quadProps1, false);
 	this->GOList.push_back(quad1);
 
-	Quad* quad2 = new Quad("Quad 2", shaderByteCode, sizeShader, quadProps2);
+	Quad* quad2 = new Quad("Quad 2", shaderByteCode, sizeShader, quadProps2, false);
 	this->GOList.push_back(quad2);
 
-	Quad* quad3 = new Quad("Quad 3", shaderByteCode, sizeShader, quadProps3);
+	Quad* quad3 = new Quad("Quad 3", shaderByteCode, sizeShader, quadProps3, false);
 	this->GOList.push_back(quad3);
 
 	graphicsEngine->releaseCompiledShader();

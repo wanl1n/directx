@@ -4,6 +4,7 @@
 class SwapChain;
 class VertexBuffer;
 class ConstantBuffer;
+class BlendState;
 class VertexShader;
 class PixelShader;
 
@@ -24,6 +25,8 @@ class DeviceContext
 		void drawTriangleList(UINT vertex_count, UINT start_vertex_index);
 		void drawTriangleStrip(UINT vertex_count, UINT start_vertex_index);
 		void setViewportSize(UINT width, UINT height);
+
+		void setBlendState(BlendState* blender);
 
 		void setVertexShader(VertexShader* vertex_shader);
 		void setPixelShader(PixelShader* pixel_shader);

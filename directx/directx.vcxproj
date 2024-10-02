@@ -129,7 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AppWindow.cpp" />
-    <ClCompile Include="Blender.cpp" />
+    <ClCompile Include="BlendState.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="DeviceContext.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -147,14 +147,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h" />
-    <ClInclude Include="Blender.h" />
+    <ClInclude Include="BlendState.h" />
     <ClInclude Include="Constant.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="DeviceContext.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GraphicsEngine.h" />
-    <ClInclude Include="Colors.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="InspectorWindow.h" />
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="PixelShader.h" />
@@ -162,6 +162,7 @@
     <ClInclude Include="Rect.h" />
     <ClInclude Include="SceneWindow.h" />
     <ClInclude Include="SwapChain.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexBuffer.h" />

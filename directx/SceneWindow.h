@@ -6,6 +6,7 @@
 
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
+#include "BlendState.h"
 
 #include "VertexShader.h"
 #include "PixelShader.h"
@@ -23,6 +24,7 @@ class SceneWindow : public Window
 		SwapChain* swapChain;
 		VertexShader* vs;
 		PixelShader* ps;
+		BlendState* bs;
 
 		unsigned long oldTime = 0;
 

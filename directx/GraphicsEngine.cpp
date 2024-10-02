@@ -4,6 +4,7 @@
 
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
+#include "BlendState.h"
 
 #include "VertexShader.h"
 #include "PixelShader.h"
@@ -99,33 +100,16 @@ ConstantBuffer* GraphicsEngine::createConstantBuffer()
 	return new ConstantBuffer();
 }
 
-void GraphicsEngine::createBlendState(bool blending)
+BlendState* GraphicsEngine::createBlendState(bool blending)
 {
-	D3D11_BLEND_DESC desc = {};
-
-	if (blending) {
-		desc.AlphaToCoverageEnable = false;
-		desc.IndependentBlendEnable = false;
-		desc.RenderTarget[0].BlendEnable = true;
-		desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-		desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-		desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-		desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ZERO;
-		desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-		desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-		desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-	}
-	else {
-		desc.RenderTarget[0].BlendEnable = true;
-		desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	BlendState* bs = new BlendState();
+	
+	if (!bs->init(blending)) {
+		bs->release();
+		return nullptr;
 	}
 
-	// Color Blend State
-	ID3D11BlendState* blender = NULL;
-	this->m_d3d_device->CreateBlendState(&desc, &blender);
-
-	// Bind Color State
-	this->m_imm_context->OMSetBlendState(blender, nullptr, 0xFFFFFFFFu);
+	return bs;
 }
 
 VertexShader* GraphicsEngine::createVertexShader(const void* shader_byte_code, size_t byte_code_size)

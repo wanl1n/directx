@@ -1,7 +1,7 @@
 #include "Quad.h"
 #include "Constant.h"
 
-Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, QuadProps props) : GameObject(name)
+Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, QuadProps props, bool blending) : GameObject(name)
 {
 	Vertex vertices[] = {
 		{ props.points1.point1,	props.points2.point1,	props.color1.color1,	props.color2.color1 },
@@ -14,11 +14,16 @@ Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, QuadPro
 	UINT size_list = ARRAYSIZE(vertices);
 	this->vb->load(vertices, sizeof(Vertex), size_list, shader_byte_code, size_shader);
 
-	Constant cc;
-	cc.m_time = 0;
+	// Transform				 RIGHT					  LEFT
+	transform.position = Vector3((props.points1.point3.x + props.points1.point1.x) / 2,
+								 (props.points1.point2.y + props.points1.point1.y) / 2,
+								 props.points1.point1.z);
+	cc.m_world.setTranslation(transform.position);
 
 	this->cb = GraphicsEngine::get()->createConstantBuffer();
 	this->cb->load(&cc, sizeof(Constant));
+
+	this->bs = GraphicsEngine::get()->createBlendState(blending);
 }
 
 Quad::~Quad()
@@ -34,23 +39,14 @@ bool Quad::release()
 
 void Quad::update(float deltaTime, RECT viewport, VertexShader* vs, PixelShader* ps)
 {
-	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
+	GameObject::update(deltaTime);
 
-	Constant cc;
-	m_time += 1.57f * deltaTime;
-	cc.m_time = m_time;
-	//cc.m_time = ::GetTickCount64();
+	/*this->translate(Vector3(0, 0.1f, 0));
+	this->scale(Vector3(0.5f, 0, 0));
+	this->project(ORTHOGRAPHIC, viewport);*/
 
-	this->deltaPos += deltaTime / 1.0f;
-	if (this->deltaPos > 1.0f) this->deltaPos = 0;
-
-	Matrix4x4 temp;
-
-	this->deltaScale += deltaTime / 0.15f;
-
-	cc.m_world.setScale(Vector3::lerp(Vector3(0.5f, 0.5f, 0), Vector3(1, 1, 0), (sin(this->deltaScale) + 1.0f) / 2.0f));
-	temp.setTranslation(Vector3::lerp(Vector3(-1.5f, -1.5f, 0), Vector3(1.5f, 1.5f, 0), this->deltaPos));
-	cc.m_world *= temp;
+	this->scale(Vector3(1, 1, 0));
+	//this->translate(Vector3(0, 1, 0));
 
 	cc.m_view.setIdentity();
 	cc.m_proj.setOrthoLH(
@@ -59,16 +55,19 @@ void Quad::update(float deltaTime, RECT viewport, VertexShader* vs, PixelShader*
 		-4.0f, 4.0f
 	);
 
-	this->cb->update(device, &cc);
-
-	// Bind to Shaders.
-	device->setConstantBuffer(vs, this->cb);
-	device->setConstantBuffer(ps, this->cb);
+	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);
 }
 
 void Quad::draw(VertexShader* vs, PixelShader* ps)
 {
 	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
+
+	// Bind to Shaders.
+	device->setConstantBuffer(vs, this->cb);
+	device->setConstantBuffer(ps, this->cb);
+
+	// Set Blend State.
+	if (this->bs) device->setBlendState(bs);
 
 	// Set Shaders.
 	device->setVertexShader(vs);

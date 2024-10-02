@@ -22,4 +22,20 @@ class Vector3
 
 			return v;
 		}
+
+		void operator +=(const Vector3& other) {
+			this->x += other.x;
+			this->y += other.y;
+			this->z += other.z;
+		}
+
+		Vector3 operator +(const Vector3& other) {
+			Vector3 result;
+
+			result.x = x + other.x;
+			result.y = y + other.y;
+			result.z = z + other.z;
+
+			return result;
+		}
 };

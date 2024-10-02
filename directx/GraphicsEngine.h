@@ -5,6 +5,7 @@ class SwapChain;
 class DeviceContext;
 class VertexBuffer;
 class ConstantBuffer;
+class BlendState;
 class VertexShader;
 class PixelShader;
 
@@ -29,6 +30,7 @@ class GraphicsEngine
 		friend class SwapChain;
 		friend class VertexBuffer;
 		friend class ConstantBuffer;
+		friend class BlendState;
 		friend class VertexShader;
 		friend class PixelShader;
 
@@ -51,7 +53,7 @@ class GraphicsEngine
 		VertexBuffer* createVertexBuffer();
 		ConstantBuffer* createConstantBuffer();
 
-		void createBlendState(bool blending);
+		BlendState* createBlendState(bool blending);
 
 		// Shaders
 		VertexShader* createVertexShader(const void* shader_byte_code, size_t byte_code_size);

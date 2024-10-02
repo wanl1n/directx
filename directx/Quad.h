@@ -11,6 +11,7 @@
 
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
+#include "BlendState.h"
 
 #include "VertexShader.h"
 #include "PixelShader.h"
@@ -24,20 +25,14 @@ class Quad : GameObject
 	private:
 		VertexBuffer* vb;
 		ConstantBuffer* cb;
-
+		BlendState* bs;
+		
 		QuadVertex initPoints;
 		QuadVertex targetPoints;
 
-		/*Vector3 deltaPos;
-		Vector3 deltaScale;*/
-
-		float deltaPos = 0;
-		float deltaScale = 0;
-		float m_time = 0;
-
 	public:
 		Quad(std::string name, void* shader_byte_code, size_t size_shader,
-			QuadProps props);
+			QuadProps props, bool blending);
 
 		~Quad();
 

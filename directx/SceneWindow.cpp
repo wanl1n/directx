@@ -1,7 +1,7 @@
 #include "SceneWindow.h"
 #include "Windows.h"
 
-#include "Colors.h"
+#include "Constants.h"
 #include "Constant.h"
 
 SceneWindow* SceneWindow::sharedInstance = nullptr;
@@ -81,8 +81,6 @@ void SceneWindow::initializeEngine()
 	int height = windowRect.bottom - windowRect.top;
 	this->swapChain->init(this->hwnd, width, height);
 
-	graphicsEngine->createBlendState(true);
-
 	// Shader Attributes
 	void* shaderByteCode = nullptr;
 	size_t sizeShader = 0;
@@ -115,13 +113,13 @@ void SceneWindow::initializeEngine()
 	QuadProps quadProps2 = { pos3, pos2, color2, color3 };
 	QuadProps quadProps3 = { pos4, pos2, color3, color4 };
 
-	Quad* quad1 = new Quad("Quad 1", shaderByteCode, sizeShader, quadProps1);
+	Quad* quad1 = new Quad("Quad 1", shaderByteCode, sizeShader, quadProps1, true);
 	this->GOList.push_back(quad1);
 
-	Quad* quad2 = new Quad("Quad 2", shaderByteCode, sizeShader, quadProps2);
+	Quad* quad2 = new Quad("Quad 2", shaderByteCode, sizeShader, quadProps2, false);
 	this->GOList.push_back(quad2);
 
-	Quad* quad3 = new Quad("Quad 3", shaderByteCode, sizeShader, quadProps3);
+	Quad* quad3 = new Quad("Quad 3", shaderByteCode, sizeShader, quadProps3, true);
 	this->GOList.push_back(quad3);
 
 	graphicsEngine->releaseCompiledShader();

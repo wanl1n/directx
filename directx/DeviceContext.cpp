@@ -3,6 +3,7 @@
 
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
+#include "BlendState.h"
 
 #include "VertexShader.h"
 #include "PixelShader.h"
@@ -45,6 +46,11 @@ void DeviceContext::setViewportSize(UINT width, UINT height)
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
 	this->m_device_context->RSSetViewports(1, &vp);
+}
+
+void DeviceContext::setBlendState(BlendState* blender)
+{
+	this->m_device_context->OMSetBlendState(blender->bs, nullptr, 0xFFFFFFFFu);
 }
 
 void DeviceContext::setVertexShader(VertexShader* vertex_shader)
