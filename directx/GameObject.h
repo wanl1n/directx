@@ -31,6 +31,8 @@ class GameObject
 		virtual void rotate(Vector3 offset);
 		virtual void scale(Vector3 offset);
 
+		virtual void resetView();
+
 		virtual void project(int type, RECT viewport);
 };
 

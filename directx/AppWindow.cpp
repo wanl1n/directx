@@ -39,11 +39,15 @@ void AppWindow::onUpdate()
 
 	// 3. Update Game Objects.
 	for (Quad* obj : this->GOList) 
-		obj->update(deltaTime, this->getClientWindowRect(), this->vs, this->ps);
+		obj->update(deltaTime, this->getClientWindowRect());
+	for (Cube* obj : this->CubeList)
+		obj->update(deltaTime, this->getClientWindowRect());
 
 	// 4. Draw all Game Objects.
-	for (int i = 0; i < this->GOList.size(); i++) 
-		this->GOList[i]->draw(this->vs, this->ps);
+	for (Quad* obj : this->GOList)
+		obj->draw();
+	for (Cube* obj : this->CubeList)
+		obj->draw();
 
 	this->swapChain->present(true);
 
@@ -62,8 +66,6 @@ void AppWindow::onDestroy()
 	}
 
 	this->swapChain->release();
-	this->vs->release();
-	this->ps->release();
 	GraphicsEngine::get()->release();
 }
 
@@ -75,18 +77,27 @@ void AppWindow::initializeEngine()
 	this->swapChain = graphicsEngine->createSwapChain();
 
 	RECT windowRect = this->getClientWindowRect();
-	int width = windowRect.right - windowRect.left;
-	int height = windowRect.bottom - windowRect.top;
-	this->swapChain->init(this->hwnd, width, height);
+	this->swapChain->init(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
 
-	// Shader Attributes
-	void* shaderByteCode = nullptr;
-	size_t sizeShader = 0;
+	// Create Game OBjects.
+	this->createQuads();
+	this->createCubes();
+}
 
-	// Creating Vertex Shader
-	graphicsEngine->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
-	this->vs = graphicsEngine->createVertexShader(shaderByteCode, sizeShader);
+void AppWindow::updateTime()
+{
+	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
 
+	unsigned long new_time = 0;
+	if (oldTime)
+		new_time = ::GetTickCount64() - oldTime;
+
+	deltaTime = new_time / 1000.0f;
+	oldTime = ::GetTickCount64();
+}
+
+void AppWindow::createQuads()
+{
 	QuadVertex pos1 = { Vector3(-0.5f, -0.5f, 1.0f),
 						Vector3(-0.5f, 0.5f, 1.0f),
 						Vector3(0.5f, -0.5f, 1.0f),
@@ -111,31 +122,24 @@ void AppWindow::initializeEngine()
 	QuadProps quadProps2 = { pos3, pos2, color2, color3 };
 	QuadProps quadProps3 = { pos4, pos2, color3, color4 };
 
-	Quad* quad1 = new Quad("Quad 1", shaderByteCode, sizeShader, quadProps1, false);
+	Quad* quad1 = new Quad("Quad 1", quadProps1, false);
 	this->GOList.push_back(quad1);
 
-	Quad* quad2 = new Quad("Quad 2", shaderByteCode, sizeShader, quadProps2, false);
+	Quad* quad2 = new Quad("Quad 2", quadProps2, false);
 	this->GOList.push_back(quad2);
 
-	Quad* quad3 = new Quad("Quad 3", shaderByteCode, sizeShader, quadProps3, false);
+	Quad* quad3 = new Quad("Quad 3", quadProps3, false);
 	this->GOList.push_back(quad3);
-
-	graphicsEngine->releaseCompiledShader();
-
-	// Creating Pixel Shader
-	graphicsEngine->compilePixelShader(L"PixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
-	this->ps = graphicsEngine->createPixelShader(shaderByteCode, sizeShader);
-	graphicsEngine->releaseCompiledShader();
 }
 
-void AppWindow::updateTime()
+void AppWindow::createCubes()
 {
-	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
+	CubeVertex props = {
+		Vector3(0),
+		CREAM,
+		LAVENDER
+	};
 
-	unsigned long new_time = 0;
-	if (oldTime)
-		new_time = ::GetTickCount64() - oldTime;
-
-	deltaTime = new_time / 1000.0f;
-	oldTime = ::GetTickCount64();
+	Cube* cube1 = new Cube("My First Cube", props, true);
+	this->CubeList.push_back(cube1);
 }

@@ -31,21 +31,38 @@ void SceneWindow::onUpdate()
 	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
 
 	// 1. Clear Render Target.
-	device->clearRenderTargetColor(this->swapChain, 0.957f, 0.761f, 0.761, 1);
+	device->clearRenderTargetColor(this->swapChain, PINK);
 
 	// 2. Set the target Viewport where we'll draw.
 	RECT rc = this->getClientWindowRect();
 	device->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
 	// 3. Update Game Objects.
-	for (Quad* obj : this->GOList)
-		obj->update(deltaTime, this->getClientWindowRect(), this->vs, this->ps);
+	if (this->QuadList.size() > 0) {
+		std::cout << "Updating Quads." << std::endl;
+		for (Quad* obj : this->QuadList)
+			obj->update(deltaTime, this->getClientWindowRect());
+	}
+	if (this->CubeList.size() > 0) {
+		std::cout << "Updating Cubes." << std::endl;
+		for (Cube* obj : this->CubeList)
+			obj->update(deltaTime, this->getClientWindowRect());
+	}
 
+	std::cout << "Drawing Grid." << std::endl;
 	this->grid->draw();
 
 	// 4. Draw all Game Objects.
-	for (int i = 0; i < this->GOList.size(); i++)
-		this->GOList[i]->draw(this->vs, this->ps);
+	if (this->QuadList.size() > 0) {
+		std::cout << "Drawing Quads." << std::endl;
+		for (Quad* obj : this->QuadList)
+			obj->draw();
+	}
+	/*if (this->CubeList.size() > 0) {
+		std::cout << "Drawing Cubes." << std::endl;
+		for (Cube* obj : this->CubeList)
+			obj->draw();
+	}*/
 
 	this->swapChain->present(true);
 
@@ -59,7 +76,10 @@ void SceneWindow::onDestroy()
 {
 	Window::onDestroy();
 
-	for (Quad* gameObject : GOList) {
+	for (Quad* gameObject : QuadList) {
+		if (gameObject) gameObject->release();
+	}
+	for (Cube* gameObject : CubeList) {
 		if (gameObject) gameObject->release();
 	}
 
@@ -82,14 +102,28 @@ void SceneWindow::initializeEngine()
 	int height = windowRect.bottom - windowRect.top;
 	this->swapChain->init(this->hwnd, width, height);
 
-	// Shader Attributes
-	void* shaderByteCode = nullptr;
-	size_t sizeShader = 0;
+	this->createQuads();
+	this->createCubes();
 
-	// Creating Vertex Shader
-	graphicsEngine->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
-	this->vs = graphicsEngine->createVertexShader(shaderByteCode, sizeShader);
+	graphicsEngine->releaseCompiledShader();
 
+	this->grid = new Grid("Grid", true);
+}
+
+void SceneWindow::updateTime()
+{
+	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
+
+	unsigned long new_time = 0;
+	if (oldTime)
+		new_time = ::GetTickCount64() - oldTime;
+
+	deltaTime = new_time / 1000.0f;
+	oldTime = ::GetTickCount64();
+}
+
+void SceneWindow::createQuads()
+{
 	QuadVertex pos1 = { Vector3(-0.5f, -0.5f, 1.0f),
 						Vector3(-0.5f, 0.5f, 1.0f),
 						Vector3(0.5f, -0.5f, 1.0f),
@@ -106,42 +140,33 @@ void SceneWindow::initializeEngine()
 						Vector3(0.6f, 0.5f, 1.0f),
 						Vector3(0.9f, -0.3f, 1.0f),
 						Vector3(0.9f, 0.5f, 1.0f) };
-	QuadColor color1 = { CREAM, MATCHA, SPACE, LAVENDER };
-	QuadColor color2 = { LAVENDER, CREAM, MATCHA, SPACE };
-	QuadColor color3 = { LAVENDER, LAVENDER, MATCHA, MATCHA };
-	QuadColor color4 = { CREAM, CREAM, SPACE, SPACE };
+	QuadColor color1 = { CREAM, LAVENDER, CREAM, LAVENDER };
+	QuadColor color2 = { SPACE, MATCHA, CREAM, LAVENDER };
+	QuadColor color3 = { LAVENDER, LAVENDER, CREAM, CREAM };
+	QuadColor color4 = { SPACE, SPACE, LAVENDER, LAVENDER };
 	QuadColor trans = { CLEAR, CLEAR, CLEAR, CLEAR };
-	QuadProps quadProps1 = { pos1, pos2, color1, trans };
+	QuadProps quadProps1 = { pos1, pos2, color2, trans };
 	QuadProps quadProps2 = { pos3, pos2, color2, trans };
-	QuadProps quadProps3 = { pos4, pos2, color3, trans };
+	QuadProps quadProps3 = { pos4, pos2, color2, trans };
 
-	Quad* quad1 = new Quad("Quad 1", shaderByteCode, sizeShader, quadProps1, true);
-	this->GOList.push_back(quad1);
+	Quad* quad1 = new Quad("Quad 1", quadProps1, true);
+	this->QuadList.push_back(quad1);
 
-	PulsingQuad* quad2 = new PulsingQuad("My heartbeat", shaderByteCode, sizeShader, quadProps2, true);
-	this->GOList.push_back(quad2);
+	//PulsingQuad* quad2 = new PulsingQuad("My heartbeat", shaderByteCode, sizeShader, quadProps2, true);
+	//this->QuadList.push_back(quad2);
 
-	Area51* quad3 = new Area51("Area 51", shaderByteCode, sizeShader, quadProps3, true);
-	this->GOList.push_back(quad3);
-
-	graphicsEngine->releaseCompiledShader();
-
-	// Creating Pixel Shader
-	graphicsEngine->compilePixelShader(L"PixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
-	this->ps = graphicsEngine->createPixelShader(shaderByteCode, sizeShader);
-	graphicsEngine->releaseCompiledShader();
-
-	this->grid = new Grid("Grid", true);
+	//Area51* quad3 = new Area51("Area 51", shaderByteCode, sizeShader, quadProps3, true);
+	//this->QuadList.push_back(quad3);
 }
 
-void SceneWindow::updateTime()
+void SceneWindow::createCubes()
 {
-	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
+	CubeVertex props = {
+		Vector3(0),
+		CREAM,
+		LAVENDER
+	};
 
-	unsigned long new_time = 0;
-	if (oldTime)
-		new_time = ::GetTickCount64() - oldTime;
-
-	deltaTime = new_time / 1000.0f;
-	oldTime = ::GetTickCount64();
+	Cube* cube1 = new Cube("My First Cube", props, true);
+	this->CubeList.push_back(cube1);
 }

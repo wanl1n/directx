@@ -6,11 +6,17 @@
 
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
+#include "BlendState.h"
 
 #include "VertexShader.h"
 #include "PixelShader.h"
 
 #include "Quad.h"
+#include "PulsingQuad.h"
+#include "Area51.h"
+
+#include "Cube.h"
+
 #include <vector>
 
 class AppWindow : public Window
@@ -21,8 +27,6 @@ class AppWindow : public Window
 
 	private:
 		SwapChain* swapChain;
-		VertexShader* vs;
-		PixelShader* ps;
 
 		unsigned long oldTime = 0;
 
@@ -32,6 +36,8 @@ class AppWindow : public Window
 
 	private:
 		std::vector<Quad*> GOList;
+		std::vector<Quad*> QuadList;
+		std::vector<Cube*> CubeList;
 
 	private:
 		AppWindow();
@@ -47,5 +53,8 @@ class AppWindow : public Window
 
 		void initializeEngine();
 		void updateTime();
+
+		void createQuads();
+		void createCubes();
 };
 

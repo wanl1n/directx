@@ -1,9 +1,11 @@
 #pragma once
 #include <d3d11.h>
+#include "Vector4.h"
 
 class SwapChain;
 class VertexBuffer;
 class ConstantBuffer;
+class IndexBuffer;
 class BlendState;
 class VertexShader;
 class PixelShader;
@@ -21,8 +23,11 @@ class DeviceContext
 		~DeviceContext();
 		
 		void clearRenderTargetColor(SwapChain* swap_chain, float red, float green, float blue, float alpha);
+		void clearRenderTargetColor(SwapChain* swap_chain, Vector4 color);
 		void setVertexBuffer(VertexBuffer* vertex_buffer);
+		void setIndexBuffer(IndexBuffer* indexBuffer);
 		void drawTriangleList(UINT vertex_count, UINT start_vertex_index);
+		void drawIndexedTriangleList(UINT index_count, UINT start_vertex_index, UINT start_index_location);
 		void drawTriangleStrip(UINT vertex_count, UINT start_vertex_index);
 		void drawLineList(UINT vertex_count, UINT start_vertex_index);
 		void setViewportSize(UINT width, UINT height);

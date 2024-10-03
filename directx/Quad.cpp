@@ -1,8 +1,18 @@
 #include "Quad.h"
 #include "Constant.h"
 
-Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, QuadProps props, bool blending) : GameObject(name)
+Quad::Quad(std::string name, QuadProps props, bool blending) : GameObject(name)
 {
+	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
+
+	// Shader Attributes
+	void* shaderByteCode = nullptr;
+	size_t sizeShader = 0;
+
+	// Creating Vertex Shader
+	graphicsEngine->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
+	this->vs = graphicsEngine->createVertexShader(shaderByteCode, sizeShader);
+
 	Vertex vertices[] = {
 		{ props.points1.point1,	props.points2.point1,	props.color1.color1,	props.color2.color1 },
 		{ props.points1.point2,	props.points2.point2,	props.color1.color2,	props.color2.color2 },
@@ -12,20 +22,25 @@ Quad::Quad(std::string name, void* shader_byte_code, size_t size_shader, QuadPro
 
 	this->vb = GraphicsEngine::get()->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(vertices);
-	this->vb->load(vertices, sizeof(Vertex), size_list, shader_byte_code, size_shader);
+	this->vb->load(vertices, sizeof(Vertex), size_list, shaderByteCode, sizeShader);
 
-	// Transform				 RIGHT					  LEFT
-	transform.position = Vector3((props.points1.point1.x + props.points1.point4.x) / 2,
-								 (props.points1.point1.y + props.points1.point4.y) / 2,
-								 props.points1.point1.z);
-	//transform.position = props.points1.point2;
-	std::cout << transform.position.x << ", " << transform.position.y << ", " << transform.position.z << std::endl;
-	//transform.position = Vector3(0, 0, 0);
+	graphicsEngine->releaseCompiledShader();
+
+	// Creating Pixel Shader
+	graphicsEngine->compilePixelShader(L"PixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
+	this->ps = graphicsEngine->createPixelShader(shaderByteCode, sizeShader);
+	graphicsEngine->releaseCompiledShader();
+
+	// Initialize Constant
+	cc.m_time = 0;
+	transform.position = Vector3(0);
 	cc.m_world.setTranslation(transform.position);
 
+	// Create Constant Buffer and load.
 	this->cb = GraphicsEngine::get()->createConstantBuffer();
 	this->cb->load(&cc, sizeof(Constant));
 
+	// Blend state.
 	this->bs = GraphicsEngine::get()->createBlendState(blending);
 
 	this->height = props.points1.point2.y - props.points1.point1.y;
@@ -43,7 +58,7 @@ bool Quad::release()
 	return true;
 }
 
-void Quad::update(float deltaTime, RECT viewport, VertexShader* vs, PixelShader* ps)
+void Quad::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime);
 
@@ -52,7 +67,7 @@ void Quad::update(float deltaTime, RECT viewport, VertexShader* vs, PixelShader*
 	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);
 }
 
-void Quad::draw(VertexShader* vs, PixelShader* ps)
+void Quad::draw()
 {
 	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
 

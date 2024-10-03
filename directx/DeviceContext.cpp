@@ -3,6 +3,7 @@
 
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
+#include "IndexBuffer.h"
 #include "BlendState.h"
 
 #include "VertexShader.h"
@@ -18,6 +19,13 @@ void DeviceContext::clearRenderTargetColor(SwapChain* swap_chain, float red, flo
 	this->m_device_context->OMSetRenderTargets(1, &swap_chain->m_rtv, NULL);
 }
 
+void DeviceContext::clearRenderTargetColor(SwapChain* swap_chain, Vector4 color)
+{
+	FLOAT clear_color[] = { color.x, color.y, color.z, color.a };
+	this->m_device_context->ClearRenderTargetView(swap_chain->m_rtv, clear_color);
+	this->m_device_context->OMSetRenderTargets(1, &swap_chain->m_rtv, NULL);
+}
+
 void DeviceContext::setVertexBuffer(VertexBuffer* vertex_buffer)
 {
 	UINT stride = vertex_buffer->m_size_vertex;
@@ -26,10 +34,21 @@ void DeviceContext::setVertexBuffer(VertexBuffer* vertex_buffer)
 	this->m_device_context->IASetInputLayout(vertex_buffer->m_layout);
 }
 
+void DeviceContext::setIndexBuffer(IndexBuffer* indexBuffer)
+{
+	this->m_device_context->IASetIndexBuffer(indexBuffer->m_buffer, DXGI_FORMAT_R32_UINT, 0);
+}
+
 void DeviceContext::drawTriangleList(UINT vertex_count, UINT start_vertex_index)
 {
 	m_device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_device_context->Draw(vertex_count, start_vertex_index);
+}
+
+void DeviceContext::drawIndexedTriangleList(UINT index_count, UINT start_vertex_index, UINT start_index_location)
+{
+	m_device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	m_device_context->DrawIndexed(index_count, start_index_location, start_vertex_index);
 }
 
 void DeviceContext::drawTriangleStrip(UINT vertex_count, UINT start_vertex_index)

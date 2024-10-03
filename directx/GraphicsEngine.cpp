@@ -4,6 +4,7 @@
 
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
+#include "IndexBuffer.h"
 #include "BlendState.h"
 
 #include "VertexShader.h"
@@ -98,6 +99,11 @@ VertexBuffer* GraphicsEngine::createVertexBuffer()
 ConstantBuffer* GraphicsEngine::createConstantBuffer()
 {
 	return new ConstantBuffer();
+}
+
+IndexBuffer* GraphicsEngine::createIndexBuffer()
+{
+	return new IndexBuffer();
 }
 
 BlendState* GraphicsEngine::createBlendState(bool blending)

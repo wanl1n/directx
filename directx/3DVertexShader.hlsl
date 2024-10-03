@@ -2,12 +2,14 @@ struct VS_INPUT
 {
     float4 position : POSITION;
     float4 color : COLOR;
+    float4 color1 : COLOR1;
 };
 
 struct VS_OUTPUT
 {
     float4 position : SV_POSITION;
     float4 color : COLOR;
+    float4 color1 : COLOR1;
 };
 
 cbuffer constant : register(b0)
@@ -18,7 +20,7 @@ cbuffer constant : register(b0)
     unsigned int m_time;
 };
 
-VS_OUTPUT gvsmain(VS_INPUT input)
+VS_OUTPUT dvsmain(VS_INPUT input)
 {
     VS_OUTPUT output = (VS_OUTPUT) 0;
     
@@ -29,8 +31,8 @@ VS_OUTPUT gvsmain(VS_INPUT input)
     // Screen Space coordinates.
     output.position = mul(output.position, m_proj);
     
-    output.position = input.position;
     output.color = input.color;
+    output.color1 = input.color1;
     
     return output;
 }

@@ -3,9 +3,13 @@
 
 class SwapChain;
 class DeviceContext;
+
 class VertexBuffer;
 class ConstantBuffer;
+class IndexBuffer;
+
 class BlendState;
+
 class VertexShader;
 class PixelShader;
 
@@ -30,6 +34,7 @@ class GraphicsEngine
 		friend class SwapChain;
 		friend class VertexBuffer;
 		friend class ConstantBuffer;
+		friend class IndexBuffer;
 		friend class BlendState;
 		friend class VertexShader;
 		friend class PixelShader;
@@ -50,8 +55,10 @@ class GraphicsEngine
 	public:
 		SwapChain* createSwapChain();
 		DeviceContext* getImmediateDeviceContext();
+
 		VertexBuffer* createVertexBuffer();
 		ConstantBuffer* createConstantBuffer();
+		IndexBuffer* createIndexBuffer();
 
 		BlendState* createBlendState(bool blending);
 

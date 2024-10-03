@@ -14,7 +14,11 @@
 #include "Quad.h"
 #include "PulsingQuad.h"
 #include "Area51.h"
+
+#include "Cube.h"
+
 #include "Grid.h"
+
 #include <vector>
 
 class SceneWindow : public Window
@@ -38,7 +42,8 @@ class SceneWindow : public Window
 		Grid* grid;
 
 	private:
-		std::vector<Quad*> GOList;
+		std::vector<Quad*> QuadList;
+		std::vector<Cube*> CubeList;
 
 	private:
 		SceneWindow();
@@ -54,5 +59,8 @@ class SceneWindow : public Window
 
 		void initializeEngine();
 		void updateTime();
+
+		void createQuads();
+		void createCubes();
 };
 

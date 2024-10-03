@@ -4,37 +4,45 @@
 
 #include "GameObject.h"
 
+// Engine
 #include "Windows.h"
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
 
+// Buffers
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
+#include "IndexBuffer.h"
 #include "BlendState.h"
 
+// Shaders
 #include "VertexShader.h"
 #include "PixelShader.h"
 
+// Structs
 #include "Vertex.h"
+#include "Rect.h"
 #include "Vector3.h"
 
-class Grid : public GameObject
+class Cube : public GameObject
 {
-private:
+protected:
 	VertexBuffer* vb;
 	ConstantBuffer* cb;
+	IndexBuffer* ib;
+
 	VertexShader* vs;
 	PixelShader* ps;
+
 	BlendState* bs;
 
-	bool showGrid;
-
 public:
-	Grid(std::string name, bool showGrid);
-	~Grid();
+	Cube(std::string name, CubeVertex props, bool blending);
 
-	void update(float deltaTime, RECT viewport, VertexShader* vs, PixelShader* ps);
+	~Cube();
+
+	virtual void update(float deltaTime, RECT viewport);
 	void draw();
 	bool release();
 };

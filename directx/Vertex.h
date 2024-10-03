@@ -1,11 +1,7 @@
 #pragma once
 #include "Vector3.h"
 
-struct VertexC {
-	Vector3 position;
-	Vector4 color;
-};
-
+// Quads
 struct Vertex {
 	Vector3 position;
 	Vector3 position1;
@@ -39,8 +35,9 @@ struct DuoColor {
 	Vector4 color2;
 };
 
-// Lines
-struct Line {
-	Vector3 point1;
-	Vector3 point2;
+// Cubes
+struct CubeVertex {
+	Vector3 position;
+	Vector4 color1;
+	Vector4 color2;
 };

@@ -26,6 +26,9 @@ class Quad : public GameObject
 		VertexBuffer* vb;
 		ConstantBuffer* cb;
 		BlendState* bs;
+
+		VertexShader* vs;
+		PixelShader* ps;
 		
 		QuadVertex initPoints;
 		QuadVertex targetPoints;
@@ -34,13 +37,12 @@ class Quad : public GameObject
 		float width;
 
 	public:
-		Quad(std::string name, void* shader_byte_code, size_t size_shader,
-			QuadProps props, bool blending);
+		Quad(std::string name, QuadProps props, bool blending);
 
 		~Quad();
 
-		virtual void update(float deltaTime, RECT viewport, VertexShader* vs, PixelShader* ps);
-		void draw(VertexShader* vs, PixelShader* ps);
+		virtual void update(float deltaTime, RECT viewport);
+		void draw();
 		bool release();
 };
 

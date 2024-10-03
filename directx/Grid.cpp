@@ -1,7 +1,7 @@
 #include "Grid.h"
 #include "Constant.h"
 
-Grid::Grid(std::string name, bool showGrid)
+Grid::Grid(std::string name, bool showGrid) : GameObject("Grid")
 {
 	// Shader Attributes
 	void* shaderByteCode = nullptr;
@@ -36,6 +36,13 @@ Grid::Grid(std::string name, bool showGrid)
 	this->ps = GraphicsEngine::get()->createPixelShader(shaderByteCode, sizeShader);
 	GraphicsEngine::get()->releaseCompiledShader();
 
+	cc.m_time = 0;
+	transform.position = Vector3(0);
+	cc.m_world.setTranslation(transform.position);
+
+	this->cb = GraphicsEngine::get()->createConstantBuffer();
+	this->cb->load(&cc, sizeof(Constant));
+
 	this->bs = GraphicsEngine::get()->createBlendState(true);
 
 	this->showGrid = showGrid;
@@ -47,11 +54,21 @@ Grid::~Grid()
 bool Grid::release()
 {
 	this->vb->release();
+	this->cb->release();
 	this->vs->release();
 	this->ps->release();
 	this->bs->release();
 	delete this;
 	return true;
+}
+
+void Grid::update(float deltaTime, RECT viewport, VertexShader* vs, PixelShader* ps)
+{
+	GameObject::update(deltaTime);
+
+	this->project(ORTHOGRAPHIC, viewport);
+
+	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);
 }
 
 void Grid::draw()
