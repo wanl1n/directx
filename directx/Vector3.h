@@ -29,6 +29,12 @@ class Vector3
 			this->z += other.z;
 		}
 
+		void operator +=(float addend) {
+			this->x += addend;
+			this->y += addend;
+			this->z += addend;
+		}
+
 		Vector3 operator +(const Vector3& other) {
 			Vector3 result;
 

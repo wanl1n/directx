@@ -34,6 +34,33 @@ class Matrix4x4
 			m_mat[2][2] = scale.z;
 		}
 
+		bool setRotationX(float x) {
+			m_mat[1][1] = cos(x);
+			m_mat[1][2] = sin(x);
+			m_mat[2][1] = -sin(x);
+			m_mat[2][2] = cos(x);
+
+			return true;
+		}
+
+		bool setRotationY(float y) {
+			m_mat[0][0] = cos(y);
+			m_mat[0][2] = -sin(y);
+			m_mat[2][0] = sin(y);
+			m_mat[2][2] = cos(y);
+
+			return true;
+		}
+
+		bool setRotationZ(float z) {
+			m_mat[0][0] = cos(z);
+			m_mat[1][0] = -sin(z);
+			m_mat[0][1] = sin(z);
+			m_mat[1][1] = cos(z);
+
+			return true;
+		}
+
 		void operator *=(const Matrix4x4& matrix) {
 			Matrix4x4 out;
 			for (int i = 0; i < 4; i++) {

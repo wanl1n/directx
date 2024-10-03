@@ -18,6 +18,7 @@ class GameObject
 
 		float deltaPos = 0;
 		float deltaScale = 0;
+		Vector3 deltaRot = Vector3(0);
 		float m_time = 0;
 
 	public:
@@ -28,7 +29,9 @@ class GameObject
 		virtual bool release() = 0;
 
 		virtual void translate(Vector3 offset);
-		virtual void rotate(Vector3 offset);
+		virtual void rotateX(float offset);
+		virtual void rotateY(float offset);
+		virtual void rotateZ(float offset);
 		virtual void scale(Vector3 offset);
 
 		virtual void resetView();

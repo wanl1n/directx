@@ -143,6 +143,7 @@
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="PulsingQuad.cpp" />
     <ClCompile Include="Quad.cpp" />
+    <ClCompile Include="RotatingCube.cpp" />
     <ClCompile Include="SceneWindow.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="PulsingQuad.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="Rect.h" />
+    <ClInclude Include="RotatingCube.h" />
     <ClInclude Include="SceneWindow.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Transform.h" />

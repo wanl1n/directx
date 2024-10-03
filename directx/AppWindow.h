@@ -16,6 +16,7 @@
 #include "Area51.h"
 
 #include "Cube.h"
+#include "RotatingCube.h"
 
 #include <vector>
 

@@ -80,7 +80,7 @@ void AppWindow::initializeEngine()
 	this->swapChain->init(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
 
 	// Create Game OBjects.
-	this->createQuads();
+	//this->createQuads();
 	this->createCubes();
 }
 
@@ -142,4 +142,7 @@ void AppWindow::createCubes()
 
 	Cube* cube1 = new Cube("My First Cube", props, true);
 	this->CubeList.push_back(cube1);
+
+	RotatingCube* mefr = new RotatingCube("me when i rotate", props, true);
+	this->CubeList.push_back(mefr);
 }

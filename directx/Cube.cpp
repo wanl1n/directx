@@ -90,8 +90,6 @@ void Cube::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime);
 
-	cc.m_world.setScale(Vector3(1));
-	this->resetView();
 	this->project(ORTHOGRAPHIC, viewport);
 
 	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);

@@ -23,6 +23,7 @@ void GameObject::update(float deltaTime)
 	if (this->deltaPos > 1.0f) this->deltaPos = 0;
 
 	this->deltaScale += deltaTime / 0.15f;
+	this->deltaRot += deltaTime / 0.55f;
 }
 
 void GameObject::translate(Vector3 offset)
@@ -33,9 +34,31 @@ void GameObject::translate(Vector3 offset)
 	this->cc.m_world *= translation;
 }
 
-void GameObject::rotate(Vector3 offset)
+void GameObject::rotateX(float offset)
 {
-	
+	Matrix4x4 rotation;
+	rotation.setIdentity();
+	rotation.setRotationX(this->deltaRot.x);
+
+	this->cc.m_world *= rotation;
+}
+
+void GameObject::rotateY(float offset)
+{
+	Matrix4x4 rotation;
+	rotation.setIdentity();
+	rotation.setRotationY(this->deltaRot.y);
+
+	this->cc.m_world *= rotation;
+}
+
+void GameObject::rotateZ(float offset)
+{
+	Matrix4x4 rotation;
+	rotation.setIdentity();
+	rotation.setRotationZ(this->deltaRot.z);
+
+	this->cc.m_world *= rotation;
 }
 
 void GameObject::scale(Vector3 offset)
