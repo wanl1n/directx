@@ -8,15 +8,15 @@ Cube::Cube(std::string name, CubeVertex props, bool blending) : GameObject(name)
 	// 1. Set up the Vertex buffer.
 	CubeVertex vertices[] = { // Cube Vertices
 		// FRONT FACE
-		{ Vector3(-0.5f, -0.5f, -0.5f), CREAM, CREAM },
-		{ Vector3(-0.5f, 0.5f, -0.5f),	CREAM, CREAM },
-		{ Vector3(0.5f, 0.5f, -0.5f),	CREAM, CREAM },
-		{ Vector3(0.5f, -0.5f, -0.5f),	CREAM, CREAM },
+		{ Vector3(-0.5f, -0.5f, -0.5f), props.color1, props.color1 },
+		{ Vector3(-0.5f, 0.5f, -0.5f),	props.color1, props.color1 },
+		{ Vector3(0.5f, 0.5f, -0.5f),	props.color1, props.color1 },
+		{ Vector3(0.5f, -0.5f, -0.5f),	props.color1, props.color1 },
 		// BACK FACE
-		{ Vector3(0.5f, -0.5f, 0.5f),	LAVENDER, LAVENDER },
-		{ Vector3(0.5f, 0.5f, 0.5f),	LAVENDER, LAVENDER },
-		{ Vector3(-0.5f, 0.5f, 0.5f),	LAVENDER, LAVENDER },
-		{ Vector3(-0.5f, -0.5f, 0.5f),	LAVENDER, LAVENDER }
+		{ Vector3(0.5f, -0.5f, 0.5f),	props.color2, props.color2 },
+		{ Vector3(0.5f, 0.5f, 0.5f),	props.color2, props.color2 },
+		{ Vector3(-0.5f, 0.5f, 0.5f),	props.color2, props.color2 },
+		{ Vector3(-0.5f, -0.5f, 0.5f),	props.color2, props.color2 }
 	};
 	this->vb = GraphicsEngine::get()->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(vertices);

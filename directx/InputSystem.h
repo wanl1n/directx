@@ -1,13 +1,20 @@
 #pragma once
 #include "InputListener.h"
 #include <unordered_set>
+#include "Point.h"
 
 class InputSystem
 {
 	private:
 		std::unordered_set<InputListener*> listenersSet;
+
+		// Keyboard
 		unsigned char keysState[256] = {};
 		unsigned char oldKeysState[256] = {};
+
+		// Mouse
+		Point oldMousePos;
+		bool firstPass = true;
 
 	public:
 		static InputSystem* getInstance();

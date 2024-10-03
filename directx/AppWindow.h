@@ -41,6 +41,7 @@ class AppWindow : public Window, public InputListener
 		float indexSelected = 0;
 		float rotX = 0;
 		float rotY = 0;
+		float scaler = 1;
 
 	private:
 		std::vector<Quad*> GOList;
@@ -58,6 +59,8 @@ class AppWindow : public Window, public InputListener
 		virtual void onCreate() override;
 		virtual void onUpdate() override;
 		virtual void onDestroy() override;
+		virtual void onFocus() override;
+		virtual void onKillFocus() override;
 
 		void initializeEngine();
 		void updateTime();
@@ -66,7 +69,12 @@ class AppWindow : public Window, public InputListener
 		void createCubes();
 
 		// Inherited from InputListener.
-		void onKeyDown(int key);
-		void onKeyUp(int key);
+		void onKeyDown(int key) override;
+		void onKeyUp(int key) override;
+		void onMouseMove(const Point& deltaMousePos) override;
+		void onLeftMouseDown(const Point& mousePos) override;
+		void onRightMouseDown(const Point& mousePos) override;
+		void onLeftMouseUp(const Point& mousePos) override;
+		void onRightMouseUp(const Point& mousePos) override;
 };
 

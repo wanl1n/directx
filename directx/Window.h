@@ -23,6 +23,8 @@ class Window {
 		virtual void onCreate();
 		virtual void onUpdate();
 		virtual void onDestroy();
+		virtual void onFocus();
+		virtual void onKillFocus();
 
 		RECT getClientWindowRect();
 		RECT getChildWindowRect(int index);

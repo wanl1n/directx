@@ -45,7 +45,7 @@ void AppWindow::onUpdate()
 	for (Quad* obj : this->GOList) 
 		obj->update(deltaTime, this->getClientWindowRect());
 	for (Cube* obj : this->CubeList)
-		obj->update(deltaTime, this->getClientWindowRect(), Vector3(0), Vector3(this->rotX, this->rotY, 0.0f));
+		obj->update(deltaTime, this->getClientWindowRect(), Vector3(0), Vector3(this->rotX, this->rotY, 0.0f), Vector3(this->scaler));
 
 	// 4. Draw all Game Objects.
 	for (Quad* obj : this->GOList)
@@ -71,6 +71,18 @@ void AppWindow::onDestroy()
 
 	this->swapChain->release();
 	GraphicsEngine::get()->release();
+}
+
+void AppWindow::onFocus()
+{
+	if (!InputSystem::getInstance()) InputSystem::initialize();
+	InputSystem::getInstance()->addListener(AppWindow::getInstance());
+}
+
+void AppWindow::onKillFocus()
+{
+	if (!InputSystem::getInstance()) InputSystem::initialize();
+	InputSystem::getInstance()->removeListener(AppWindow::getInstance());
 }
 
 void AppWindow::initializeEngine()
@@ -148,8 +160,8 @@ void AppWindow::createCubes()
 		LAVENDER
 	};
 
-	Cube* cube1 = new Cube("My First Cube", props, true);
-	this->CubeList.push_back(cube1);
+	/*Cube* cube1 = new Cube("My First Cube", props, true);
+	this->CubeList.push_back(cube1);*/
 
 	RotatingCube* mefr = new RotatingCube("me when i rotate", props, true);
 	this->CubeList.push_back(mefr);
@@ -177,4 +189,30 @@ void AppWindow::onKeyDown(int key)
 void AppWindow::onKeyUp(int key)
 {
 	std::cout << "Key up." << std::endl;
+}
+
+void AppWindow::onMouseMove(const Point& deltaMousePos)
+{
+	this->rotX -= deltaMousePos.y * deltaTime;
+	this->rotY -= deltaMousePos.x * deltaTime;
+}
+
+void AppWindow::onLeftMouseDown(const Point& mousePos)
+{
+	this->scaler = 0.5f;
+}
+
+void AppWindow::onRightMouseDown(const Point& mousePos)
+{
+	this->scaler = 2.0f;
+}
+
+void AppWindow::onLeftMouseUp(const Point& mousePos)
+{
+	this->scaler = 1.0f;
+}
+
+void AppWindow::onRightMouseUp(const Point& mousePos)
+{
+	this->scaler = 1.0f;
 }
