@@ -38,7 +38,7 @@ void GameObject::rotateX(float offset)
 {
 	Matrix4x4 rotation;
 	rotation.setIdentity();
-	rotation.setRotationX(this->deltaRot.x);
+	rotation.setRotationX(offset);
 
 	this->cc.m_world *= rotation;
 }
@@ -47,7 +47,7 @@ void GameObject::rotateY(float offset)
 {
 	Matrix4x4 rotation;
 	rotation.setIdentity();
-	rotation.setRotationY(this->deltaRot.y);
+	rotation.setRotationY(offset);
 
 	this->cc.m_world *= rotation;
 }
@@ -56,7 +56,7 @@ void GameObject::rotateZ(float offset)
 {
 	Matrix4x4 rotation;
 	rotation.setIdentity();
-	rotation.setRotationZ(this->deltaRot.z);
+	rotation.setRotationZ(offset);
 
 	this->cc.m_world *= rotation;
 }

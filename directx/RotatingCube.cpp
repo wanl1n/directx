@@ -4,13 +4,13 @@ RotatingCube::RotatingCube(std::string name, CubeVertex props, bool blending) : 
 
 RotatingCube::~RotatingCube() {}
 
-void RotatingCube::update(float deltaTime, RECT viewport)
+void RotatingCube::update(float deltaTime, RECT viewport, Vector3 translate, Vector3 rotate, Vector3 scale)
 {
 	cc.m_world.setScale(Vector3(1));
 
-	this->rotateZ(0);
-	this->rotateY(0);
-	this->rotateX(0);
+	this->rotateZ(rotate.z);
+	this->rotateY(rotate.y);
+	this->rotateX(rotate.x);
 
 	Cube::update(deltaTime, viewport);
 }

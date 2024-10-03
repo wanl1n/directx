@@ -1,5 +1,6 @@
 #include "AppWindow.h"
 #include "Windows.h"
+#include "InputSystem.h"
 
 #include "Constants.h"
 #include "Constant.h"
@@ -28,6 +29,9 @@ void AppWindow::onUpdate()
 {
 	Window::onUpdate();
 
+	// Input System Update.
+	InputSystem::getInstance()->update();
+
 	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
 
 	// 1. Clear Render Target.
@@ -41,7 +45,7 @@ void AppWindow::onUpdate()
 	for (Quad* obj : this->GOList) 
 		obj->update(deltaTime, this->getClientWindowRect());
 	for (Cube* obj : this->CubeList)
-		obj->update(deltaTime, this->getClientWindowRect());
+		obj->update(deltaTime, this->getClientWindowRect(), Vector3(0), Vector3(this->rotX, this->rotY, 0.0f));
 
 	// 4. Draw all Game Objects.
 	for (Quad* obj : this->GOList)
@@ -71,6 +75,10 @@ void AppWindow::onDestroy()
 
 void AppWindow::initializeEngine()
 {
+	// Input System
+	InputSystem::initialize();
+	InputSystem::getInstance()->addListener(AppWindow::getInstance());
+
 	GraphicsEngine::initialize();
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
 
@@ -145,4 +153,28 @@ void AppWindow::createCubes()
 
 	RotatingCube* mefr = new RotatingCube("me when i rotate", props, true);
 	this->CubeList.push_back(mefr);
+}
+
+void AppWindow::onKeyDown(int key)
+{
+	std::cout << "Key down." << std::endl;
+	switch (key) {
+		case 'W':
+			this->rotX += 0.707f * deltaTime;
+			break;
+		case 'S':
+			this->rotX -= 0.707f * deltaTime;
+			break;
+		case 'A':
+			this->rotY += 0.707f * deltaTime;
+			break;
+		case 'D':
+			this->rotY -= 0.707f * deltaTime;
+			break;
+	}
+}
+
+void AppWindow::onKeyUp(int key)
+{
+	std::cout << "Key up." << std::endl;
 }

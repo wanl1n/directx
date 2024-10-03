@@ -1,11 +1,11 @@
 #pragma once
 #include "InputListener.h"
-#include <map>
+#include <unordered_set>
 
 class InputSystem
 {
 	private:
-		std::map<InputListener*, InputListener*> listenersMap;
+		std::unordered_set<InputListener*> listenersSet;
 		unsigned char keysState[256] = {};
 		unsigned char oldKeysState[256] = {};
 

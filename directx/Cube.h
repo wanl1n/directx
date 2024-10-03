@@ -42,7 +42,8 @@ public:
 
 	~Cube();
 
-	virtual void update(float deltaTime, RECT viewport);
+	virtual void update(float deltaTime, RECT viewport, 
+						Vector3 translate = Vector3(0), Vector3 rotate = Vector3(0), Vector3 scale = Vector3(0));
 	void draw();
 	bool release();
 };

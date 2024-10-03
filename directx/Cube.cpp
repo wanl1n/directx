@@ -86,7 +86,7 @@ bool Cube::release()
 	return true;
 }
 
-void Cube::update(float deltaTime, RECT viewport)
+void Cube::update(float deltaTime, RECT viewport, Vector3 translate, Vector3 rotate, Vector3 scale)
 {
 	GameObject::update(deltaTime);
 

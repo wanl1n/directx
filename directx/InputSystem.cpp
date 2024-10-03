@@ -20,23 +20,23 @@ InputSystem::~InputSystem() {}
 void InputSystem::update()
 {
 	if (::GetKeyboardState(this->keysState)) {
-		for (int i = 0; i < 256; i++) {
+		for (unsigned int i = 0; i < 256; i++) {
 			// Only the bit of the value is evaluated.
 			// If this is 1, key is down.
 			if (this->keysState[i] & 0x80) {
-				std::map<InputListener*, InputListener*>::iterator it = listenersMap.begin();
+				std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
 
-				while (it != listenersMap.end()) {
-					it->second->onKeyDown(i);
+				while (it != listenersSet.end()) {
+					(*it)->onKeyDown(i);
 					++it;
 				}
 			}
 			else {
 				if (this->keysState[i] != this->oldKeysState[i]) {
-					std::map<InputListener*, InputListener*>::iterator it = listenersMap.begin();
+					std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
 
-					while (it != listenersMap.end()) {
-						it->second->onKeyUp(i);
+					while (it != listenersSet.end()) {
+						(*it)->onKeyUp(i);
 						++it;
 					}
 				}
@@ -49,14 +49,10 @@ void InputSystem::update()
 
 void InputSystem::addListener(InputListener* listener)
 {
-	this->listenersMap.insert(std::make_pair <InputListener*, InputListener*>
-		(std::forward<InputListener*>(listener), std::forward<InputListener*>(listener)));
+	this->listenersSet.insert(listener);
 }
 
 void InputSystem::removeListener(InputListener* listener)
 {
-	std::map<InputListener*, InputListener*>::iterator it = listenersMap.find(listener);
-
-	if (it != listenersMap.end())
-		listenersMap.erase(it);
+	this->listenersSet.erase(listener);
 }

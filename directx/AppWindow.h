@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+
 #include "Window.h"
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
@@ -18,9 +20,9 @@
 #include "Cube.h"
 #include "RotatingCube.h"
 
-#include <vector>
+#include "InputListener.h"
 
-class AppWindow : public Window
+class AppWindow : public Window, public InputListener
 {
 	public:
 		static AppWindow* getInstance();
@@ -34,6 +36,11 @@ class AppWindow : public Window
 		float oldDelta = 0;
 		float newDelta = 0;
 		float deltaTime = 0;
+
+		// Input testers
+		float indexSelected = 0;
+		float rotX = 0;
+		float rotY = 0;
 
 	private:
 		std::vector<Quad*> GOList;
@@ -57,5 +64,9 @@ class AppWindow : public Window
 
 		void createQuads();
 		void createCubes();
+
+		// Inherited from InputListener.
+		void onKeyDown(int key);
+		void onKeyUp(int key);
 };
 
