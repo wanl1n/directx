@@ -1,6 +1,8 @@
 #pragma once
 #include <Windows.h>
 
+class EngineTime;
+
 class Window {
 	protected:
 		HWND hwnd;
@@ -22,4 +24,6 @@ class Window {
 		RECT getClientWindowRect();
 		HWND getWindowHandle();
 		void setHWND(HWND hwnd);
+
+		friend class EngineTime;
 }; 

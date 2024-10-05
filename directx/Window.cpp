@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "EngineTime.h"
 
 Window::Window() {}
 Window::~Window() {}
@@ -66,6 +67,7 @@ bool Window::init()
 
 bool Window::broadcast()
 {
+	EngineTime::LogFrameStart();
 	MSG msg;
 	
 	this->onUpdate();
@@ -76,6 +78,7 @@ bool Window::broadcast()
 	}
 
 	Sleep(1);
+	EngineTime::LogFrameEnd();
 
 	return true;
 }

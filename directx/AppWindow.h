@@ -25,9 +25,6 @@ class AppWindow : public Window
 		PixelShader* ps;
 
 		unsigned long oldTime = 0;
-
-		float oldDelta = 0;
-		float newDelta = 0;
 		float deltaTime = 0;
 
 	private:
@@ -46,6 +43,5 @@ class AppWindow : public Window
 		virtual void onDestroy() override;
 
 		void initializeEngine();
-		void updateTime();
 };
 

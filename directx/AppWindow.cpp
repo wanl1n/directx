@@ -4,6 +4,8 @@
 #include "Colors.h"
 #include "Constant.h"
 
+#include "EngineTime.h"
+
 AppWindow* AppWindow::sharedInstance = nullptr;
 AppWindow* AppWindow::getInstance()
 {
@@ -45,6 +47,8 @@ void AppWindow::onUpdate()
 	deltaTime = new_time / 1000.0f;
 	oldTime = ::GetTickCount();
 
+	deltaTime = EngineTime::getDeltaTime();
+
 
 	// 3. Update Game Objects.
 	for (Quad* obj : this->GOList) {
@@ -61,10 +65,6 @@ void AppWindow::onUpdate()
 	}
 
 	this->swapChain->present(true);
-
-	oldDelta = newDelta;
-	newDelta = ::GetTickCount();
-	deltaTime = (oldDelta) ? ((newDelta - oldDelta) / 1000.0f) : 0;
 }
 
 void AppWindow::onDestroy()
@@ -83,6 +83,8 @@ void AppWindow::onDestroy()
 
 void AppWindow::initializeEngine()
 {
+	EngineTime::initialize();
+
 	GraphicsEngine::initialize();
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
 
@@ -140,16 +142,4 @@ void AppWindow::initializeEngine()
 	graphicsEngine->compilePixelShader(L"PixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
 	this->ps = graphicsEngine->createPixelShader(shaderByteCode, sizeShader);
 	graphicsEngine->releaseCompiledShader();
-}
-
-void AppWindow::updateTime()
-{
-	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
-
-	unsigned long new_time = 0;
-	if (oldTime)
-		new_time = ::GetTickCount64() - oldTime;
-
-	deltaTime = new_time / 1000.0f;
-	oldTime = ::GetTickCount64();
 }
