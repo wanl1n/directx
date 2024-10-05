@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include "vector"
 
+class EngineTime;
+
 class Window {
 	protected:
 		HWND hwnd;
@@ -30,4 +32,6 @@ class Window {
 		RECT getChildWindowRect(int index);
 		HWND getWindowHandle();
 		void setHWND(HWND hwnd);
-}; 
+
+		friend class EngineTime;
+};

@@ -34,6 +34,18 @@
     <Filter Include="GameEngine\GameObject\Quad">
       <UniqueIdentifier>{cb352de3-7f9b-4bae-8133-bbe5dbef0bbd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\Structs">
+      <UniqueIdentifier>{88b0a6cd-24f5-4dd1-8809-fc71dd4d026a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Math">
+      <UniqueIdentifier>{a7938454-77d5-4553-80e6-fa7b425a2c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObject\Quad\PresetQuads">
+      <UniqueIdentifier>{1dac2203-2767-460d-97ba-f5a694f2d66e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\BlendState">
+      <UniqueIdentifier>{bed09d1e-7a16-491e-8a7e-a6b38beb28a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -69,6 +81,22 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>GameEngine\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="ConstantBuffer.cpp" />
+    <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="GameObjectManager.cpp" />
+    <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="IndexBuffer.cpp" />
+    <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="PulsingQuad.cpp" />
+    <ClCompile Include="RotatingCube.cpp" />
+    <ClCompile Include="SceneWindow.cpp" />
+    <ClCompile Include="EngineTime.cpp" />
+    <ClCompile Include="Area51.cpp">
+      <Filter>GameEngine\GameObject\Quad\PresetQuads</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendState.cpp">
+      <Filter>GameEngine\GraphicsEngine\BlendState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -101,6 +129,32 @@
     <ClInclude Include="GameObject.h">
       <Filter>GameEngine\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="Constant.h" />
+    <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="Cube.h" />
+    <ClInclude Include="GameObjectManager.h" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="Grid.h" />
+    <ClInclude Include="IndexBuffer.h" />
+    <ClInclude Include="InputListener.h" />
+    <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="Matrix4x4.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="PulsingQuad.h" />
+    <ClInclude Include="Rect.h" />
+    <ClInclude Include="RotatingCube.h" />
+    <ClInclude Include="SceneWindow.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Vector3.h" />
+    <ClInclude Include="Vector4.h" />
+    <ClInclude Include="Vertex.h" />
+    <ClInclude Include="EngineTime.h" />
+    <ClInclude Include="Area51.h">
+      <Filter>GameEngine\GameObject\Quad\PresetQuads</Filter>
+    </ClInclude>
+    <ClInclude Include="BlendState.h">
+      <Filter>GameEngine\GraphicsEngine\BlendState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
@@ -109,5 +163,9 @@
     <FxCompile Include="PixelShader.hlsl">
       <Filter>App</Filter>
     </FxCompile>
+    <FxCompile Include="3DPixelShader.hlsl" />
+    <FxCompile Include="3DVertexShader.hlsl" />
+    <FxCompile Include="GridPixelShader.hlsl" />
+    <FxCompile Include="GridVertexShader.hlsl" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #include "AppWindow.h"
 #include "Windows.h"
 #include "InputSystem.h"
+#include "EngineTime.h"
 
 #include "Constants.h"
 #include "Constant.h"
@@ -58,7 +59,8 @@ void AppWindow::onUpdate()
 	// Update Delta time.
 	oldDelta = newDelta;
 	newDelta = ::GetTickCount();
-	deltaTime = (oldDelta) ? ((newDelta - oldDelta) / 1000.0f) : 0;
+	//deltaTime = (oldDelta) ? ((newDelta - oldDelta) / 1000.0f) : 0;
+	deltaTime = EngineTime::getDeltaTime();
 }
 
 void AppWindow::onDestroy()
@@ -87,6 +89,7 @@ void AppWindow::onKillFocus()
 
 void AppWindow::initializeEngine()
 {
+	EngineTime::initialize();
 	// Input System
 	InputSystem::initialize();
 	InputSystem::getInstance()->addListener(AppWindow::getInstance());
@@ -100,8 +103,8 @@ void AppWindow::initializeEngine()
 	this->swapChain->init(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
 
 	// Create Game OBjects.
-	//this->createQuads();
-	this->createCubes();
+	this->createQuads();
+	//this->createCubes();
 }
 
 void AppWindow::updateTime()
@@ -145,11 +148,11 @@ void AppWindow::createQuads()
 	Quad* quad1 = new Quad("Quad 1", quadProps1, false);
 	this->GOList.push_back(quad1);
 
-	Quad* quad2 = new Quad("Quad 2", quadProps2, false);
+	/*Quad* quad2 = new Quad("Quad 2", quadProps2, false);
 	this->GOList.push_back(quad2);
 
 	Quad* quad3 = new Quad("Quad 3", quadProps3, false);
-	this->GOList.push_back(quad3);
+	this->GOList.push_back(quad3);*/
 }
 
 void AppWindow::createCubes()

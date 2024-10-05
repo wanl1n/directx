@@ -1,5 +1,7 @@
 #include "Window.h"
 
+#include "EngineTime.h"
+
 Window::Window() {}
 Window::~Window() {}
 
@@ -113,8 +115,8 @@ bool Window::createChildWindow() {
 
 bool Window::broadcast()
 {
+	EngineTime::LogFrameStart();
 	MSG msg;
-	
 	this->onUpdate();
 
 	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0) {
@@ -123,7 +125,7 @@ bool Window::broadcast()
 	}
 
 	Sleep(1);
-
+	EngineTime::LogFrameEnd();
 	return true;
 }
 
