@@ -34,6 +34,9 @@
     <Filter Include="GameEngine\GameObject\Quad">
       <UniqueIdentifier>{cb352de3-7f9b-4bae-8133-bbe5dbef0bbd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="App\EngineTime">
+      <UniqueIdentifier>{c18eca37-1d91-454e-b21b-19c1472044a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -69,6 +72,8 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>GameEngine\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="ConstantBuffer.cpp" />
+    <ClCompile Include="EngineTime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -101,6 +106,14 @@
     <ClInclude Include="GameObject.h">
       <Filter>GameEngine\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="Constant.h" />
+    <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="Colors.h" />
+    <ClInclude Include="Matrix4x4.h" />
+    <ClInclude Include="Rect.h" />
+    <ClInclude Include="Vector3.h" />
+    <ClInclude Include="Vertex.h" />
+    <ClInclude Include="EngineTime.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
