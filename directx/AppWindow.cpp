@@ -107,15 +107,15 @@ void AppWindow::initializeEngine()
 	QuadVertex pos2 = { Vector3(-0.6f, -0.2f, 0.0f),
 						Vector3(-0.4f, 0.5f, 0.0f),
 						Vector3(0.6f, -0.3f, 0.0f),
-						Vector3(0.1f, 0.5f, 0.0f) };
+						Vector3(-0.6f, -0.2f, 0.0f) };
 	QuadVertex pos3 = { Vector3(-0.9f, -0.6f, 0.0f),
 						Vector3(-0.9f, 0.6f, 0.0f),
 						Vector3(-0.6f, -0.4f, 0.0f),
 						Vector3(-0.6f, 0.4f, 0.0f) };
-	QuadVertex pos4 = { Vector3(0.6f, -0.2f, 0.0f),
-						Vector3(0.6f, 0.5f, 0.0f),
-						Vector3(0.9f, -0.3f, 0.0f),
-						Vector3(0.9f, 0.5f, 0.0f) };
+	QuadVertex pos4 = { Vector3(-0.2f, -0.2f, 0.0f),
+						Vector3(-0.2f, 0.5f, 0.0f),
+						Vector3(0.7f, -0.3f, 0.0f),
+						Vector3(0.7f, 0.5f, 0.0f) };
 	QuadColor color1 = { CREAM, MATCHA, SPACE, LAVENDER };
 	QuadColor color2 = { LAVENDER, CREAM, MATCHA, SPACE };
 	QuadColor color3 = { LAVENDER, LAVENDER, MATCHA, MATCHA };
@@ -124,11 +124,11 @@ void AppWindow::initializeEngine()
 	QuadProps quadProps2 = { pos3, pos2, color2, color3 };
 	QuadProps quadProps3 = { pos4, pos2, color3, color4 };
 
-	Quad* quad1 = new Quad("Quad 1", shaderByteCode, sizeShader, quadProps1);
+	/*Quad* quad1 = new Quad("Quad 1", shaderByteCode, sizeShader, quadProps1);
 	this->GOList.push_back(quad1);
 
 	Quad* quad2 = new Quad("Quad 2", shaderByteCode, sizeShader, quadProps2);
-	this->GOList.push_back(quad2);
+	this->GOList.push_back(quad2);*/
 
 	Quad* quad3 = new Quad("Quad 3", shaderByteCode, sizeShader, quadProps3);
 	this->GOList.push_back(quad3);
