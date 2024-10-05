@@ -35,6 +35,10 @@ class Quad : GameObject
 		float deltaScale = 0;
 		float m_angle = 0;
 
+		float animIntervalCounter = 0;
+		bool speedUp = false;
+		float speed = 1.57f;
+
 	public:
 		Quad(std::string name, void* shader_byte_code, size_t size_shader,
 			QuadProps props);
