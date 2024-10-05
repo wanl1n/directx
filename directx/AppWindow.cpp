@@ -39,29 +39,16 @@ void AppWindow::onUpdate()
 	RECT rc = this->getClientWindowRect();
 	device->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	//Testing
-	unsigned long new_time = 0;
-	if (oldTime)
-		new_time = ::GetTickCount64() - oldTime;
-
-	deltaTime = new_time / 1000.0f;
-	oldTime = ::GetTickCount();
-
 	deltaTime = EngineTime::getDeltaTime();
-
 
 	// 3. Update Game Objects.
 	for (Quad* obj : this->GOList) {
-		obj->update(deltaTime, this->getClientWindowRect(), this->vs, this->ps);
+		obj->update(deltaTime, this->getClientWindowRect());
 	}
-
-	// 4. Set Shaders.
-	device->setVertexShader(this->vs);
-	device->setPixelShader(this->ps);
-
+	
 	// 5. Draw all Game Objects.
 	for (int i = 0; i < this->GOList.size(); i++) {
-		this->GOList[i]->draw(this->vs, this->ps);
+		this->GOList[i]->draw();
 	}
 
 	this->swapChain->present(true);
@@ -76,8 +63,6 @@ void AppWindow::onDestroy()
 	}
 
 	this->swapChain->release();
-	this->vs->release();
-	this->ps->release();
 	GraphicsEngine::get()->release();
 }
 
@@ -95,14 +80,11 @@ void AppWindow::initializeEngine()
 	int height = windowRect.bottom - windowRect.top;
 	this->swapChain->init(this->hwnd, width, height);
 
-	// Shader Attributes
-	void* shaderByteCode = nullptr;
-	size_t sizeShader = 0;
+	this->createQuads();
+}
 
-	// Creating Vertex Shader
-	graphicsEngine->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
-	this->vs = graphicsEngine->createVertexShader(shaderByteCode, sizeShader);
-
+void AppWindow::createQuads()
+{
 	QuadVertex pos1 = { Vector3(-0.5f, -0.5f, 0.0f),
 						Vector3(-0.5f, 0.5f, 0.0f),
 						Vector3(0.5f, -0.5f, 0.0f),
@@ -127,19 +109,12 @@ void AppWindow::initializeEngine()
 	QuadProps quadProps2 = { pos3, pos2, color2, color3 };
 	QuadProps quadProps3 = { pos4, pos2, color3, color4 };
 
-	Quad* quad1 = new Quad("Quad 1", shaderByteCode, sizeShader, quadProps1);
+	Quad* quad1 = new Quad("Quad 1", quadProps1);
 	//this->GOList.push_back(quad1);
 
-	Quad* quad2 = new Quad("Quad 2", shaderByteCode, sizeShader, quadProps2);
+	Quad* quad2 = new Quad("Quad 2", quadProps2);
 	//this->GOList.push_back(quad2);
 
-	Quad* quad3 = new Quad("Quad 3", shaderByteCode, sizeShader, quadProps3);
+	Quad* quad3 = new Quad("Quad 3", quadProps3);
 	this->GOList.push_back(quad3);
-
-	graphicsEngine->releaseCompiledShader();
-
-	// Creating Pixel Shader
-	graphicsEngine->compilePixelShader(L"PixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
-	this->ps = graphicsEngine->createPixelShader(shaderByteCode, sizeShader);
-	graphicsEngine->releaseCompiledShader();
 }

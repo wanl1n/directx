@@ -25,28 +25,28 @@ class Quad : GameObject
 		VertexBuffer* vb;
 		ConstantBuffer* cb;
 
+		VertexShader* vs;
+		PixelShader* ps;
+
 		QuadVertex initPoints;
 		QuadVertex targetPoints;
-
-		/*Vector3 deltaPos;
-		Vector3 deltaScale;*/
 
 		float deltaPos = 0;
 		float deltaScale = 0;
 		float m_angle = 0;
 
+		// Animations
 		float animIntervalCounter = 0;
 		bool speedUp = false;
 		float speed = 1.57f;
 
 	public:
-		Quad(std::string name, void* shader_byte_code, size_t size_shader,
-			QuadProps props);
+		Quad(std::string name, QuadProps props);
 
 		~Quad();
 
-		void update(float deltaTime, RECT viewport, VertexShader* vs, PixelShader* ps);
-		void draw(VertexShader* vs, PixelShader* ps);
+		void update(float deltaTime, RECT viewport);
+		void draw();
 		bool release();
 };
 

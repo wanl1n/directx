@@ -21,8 +21,6 @@ class AppWindow : public Window
 
 	private:
 		SwapChain* swapChain;
-		VertexShader* vs;
-		PixelShader* ps;
 
 		unsigned long oldTime = 0;
 		float deltaTime = 0;
@@ -43,5 +41,7 @@ class AppWindow : public Window
 		virtual void onDestroy() override;
 
 		void initializeEngine();
+
+		void createQuads();
 };
 
