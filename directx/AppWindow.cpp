@@ -106,14 +106,14 @@ void AppWindow::createQuads()
 	QuadColor color3 = { LAVENDER, LAVENDER, MATCHA, MATCHA };
 	QuadColor color4 = { CREAM, CREAM, SPACE, SPACE };
 	QuadProps quadProps1 = { pos1, pos2, color1, color2 };
-	QuadProps quadProps2 = { pos3, pos2, color2, color3 };
+	QuadProps quadProps2 = { pos3, pos1, color2, color3 };
 	QuadProps quadProps3 = { pos4, pos2, color3, color4 };
 
 	Quad* quad1 = new Quad("Quad 1", quadProps1);
 	//this->GOList.push_back(quad1);
 
 	Quad* quad2 = new Quad("Quad 2", quadProps2);
-	//this->GOList.push_back(quad2);
+	this->GOList.push_back(quad2);
 
 	Quad* quad3 = new Quad("Quad 3", quadProps3);
 	this->GOList.push_back(quad3);
