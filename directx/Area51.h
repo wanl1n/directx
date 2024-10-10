@@ -3,10 +3,18 @@
 
 class Area51 : public Quad
 {
-public:
-	Area51(std::string name, QuadProps props, bool blending);
-	~Area51();
+	private:
+		Vector3 position;
+		Vector3 direction;
 
-	void update(float deltaTime, RECT viewport);
+	public:
+		Area51(std::string name, QuadProps props, bool blending);
+		~Area51();
+
+		void update(float deltaTime, RECT viewport);
+
+		void checkBounds();
+
+		void randomizeInit();
 };
 

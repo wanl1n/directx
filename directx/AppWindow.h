@@ -63,8 +63,8 @@ class AppWindow : public Window, public InputListener
 		virtual void onKillFocus() override;
 
 		void initializeEngine();
-		void updateTime();
 
+		void createQuad();
 		void createQuads();
 		void createCubes();
 

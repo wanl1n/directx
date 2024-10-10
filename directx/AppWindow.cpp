@@ -5,6 +5,8 @@
 
 #include "Constants.h"
 #include "Constant.h"
+#include <cstdlib>
+#include <ctime>
 
 AppWindow* AppWindow::sharedInstance = nullptr;
 AppWindow* AppWindow::getInstance()
@@ -15,7 +17,7 @@ AppWindow* AppWindow::getInstance()
 void AppWindow::initialize()
 {
 	sharedInstance = new AppWindow();
-	sharedInstance->init(1024, 728);
+	sharedInstance->init(1024, 768);
 }
 
 AppWindow::AppWindow() {}
@@ -36,11 +38,13 @@ void AppWindow::onUpdate()
 	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
 
 	// 1. Clear Render Target.
-	device->clearRenderTargetColor(this->swapChain, 0.957f, 0.761f, 0.761, 1);
+	device->clearRenderTargetColor(this->swapChain, 0, 0, 0, 1);
 
 	// 2. Set the target Viewport where we'll draw.
 	RECT rc = this->getClientWindowRect();
 	device->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
+
+	//std::cout << "Current Game Object Count: " << this->GOList.size() << std::endl;
 
 	// 3. Update Game Objects.
 	for (Quad* obj : this->GOList) 
@@ -57,9 +61,6 @@ void AppWindow::onUpdate()
 	this->swapChain->present(true);
 
 	// Update Delta time.
-	oldDelta = newDelta;
-	newDelta = ::GetTickCount();
-	//deltaTime = (oldDelta) ? ((newDelta - oldDelta) / 1000.0f) : 0;
 	deltaTime = EngineTime::getDeltaTime();
 }
 
@@ -102,21 +103,37 @@ void AppWindow::initializeEngine()
 	RECT windowRect = this->getClientWindowRect();
 	this->swapChain->init(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
 
+
 	// Create Game OBjects.
-	this->createQuads();
+	this->createQuad();
 	//this->createCubes();
 }
 
-void AppWindow::updateTime()
+void AppWindow::createQuad()
 {
-	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+	std::cout << "Creating Quad." << std::endl;
+	float radius = 0.1f;
+	int min = -1 + radius * 2;
+	int max = 1 - radius * 2;
 
-	unsigned long new_time = 0;
-	if (oldTime)
-		new_time = ::GetTickCount64() - oldTime;
+	float posX = min + (std::rand() % (max - min + 1));
+	float posY = min + (std::rand() % (max - min + 1));
 
-	deltaTime = new_time / 1000.0f;
-	oldTime = ::GetTickCount64();
+	// left top right bottom
+	Rect pts = {posX - radius, posY + radius, posX + radius, posY - radius};
+
+	QuadVertex pos1 = { Vector3(pts.left, pts.bottom, 1.0f),
+						Vector3(pts.left, pts.top, 1.0f),
+						Vector3(pts.right, pts.bottom, 1.0f),
+						Vector3(pts.right, pts.top, 1.0f) };
+	
+	QuadColor color1 = { CREAM, MATCHA, SPACE, LAVENDER };
+	QuadColor color2 = { LAVENDER, CREAM, MATCHA, SPACE };
+	QuadProps quadProps1 = { pos1, pos1, color1, color2 };
+
+	Area51* quad1 = new Area51("Generic Quad", quadProps1, false);
+	this->GOList.push_back(quad1);
 }
 
 void AppWindow::createQuads()
@@ -172,7 +189,7 @@ void AppWindow::createCubes()
 
 void AppWindow::onKeyDown(int key)
 {
-	std::cout << "Key down." << std::endl;
+	//std::cout << "Key down." << std::endl;
 	switch (key) {
 		case 'W':
 			this->rotX += 0.707f * deltaTime;
@@ -187,11 +204,22 @@ void AppWindow::onKeyDown(int key)
 			this->rotY -= 0.707f * deltaTime;
 			break;
 	}
+	//std::cout << key << std::endl;
 }
 
 void AppWindow::onKeyUp(int key)
 {
-	std::cout << "Key up." << std::endl;
+	switch (key) {
+		case ' ': // Spacebar
+			this->createQuad();
+			break;
+		case 8: // Backspace
+			this->GOList.pop_back();
+			break;
+		case 46: // Delete
+			this->GOList.clear();
+			break;
+	}
 }
 
 void AppWindow::onMouseMove(const Point& deltaMousePos)

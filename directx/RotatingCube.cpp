@@ -8,12 +8,9 @@ void RotatingCube::update(float deltaTime, RECT viewport, Vector3 translate, Vec
 {
 	cc.m_world.setScale(scale);
 
-	this->rotateZ(rotate.z);/*
+	this->rotateZ(rotate.z);
 	this->rotateY(rotate.y);
-	this->rotateX(rotate.x);*/
-	std::cout << "Rotate y " << rotate.y << std::endl;
-	this->rotateY(rotate.y);
-	this->rotateX(-2);
+	this->rotateX(rotate.x);
 
 	Cube::update(deltaTime, viewport);
 }
