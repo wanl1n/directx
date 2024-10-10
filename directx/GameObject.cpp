@@ -15,9 +15,7 @@ GameObject::~GameObject() {}
 
 void GameObject::update(float deltaTime)
 {
-	m_time += 1.57f * deltaTime;
-	this->cc.m_time = m_time;
-	//cc.m_time = ::GetTickCount64();
+	this->cc.m_time = deltaTime;
 
 	this->deltaPos = deltaTime / 5000000;
 
@@ -28,10 +26,7 @@ void GameObject::update(float deltaTime)
 void GameObject::translate(Vector3 offset)
 {
 	Matrix4x4 translation;
-	Vector3 lerpValue;
-	translation.setTranslation(lerpValue = Vector3::lerp(transform.position, transform.position + offset, this->deltaPos));
-
-	this->transform.position += lerpValue;
+	translation.setTranslation(this->transform.position);
 
 	this->cc.m_world *= translation;
 }

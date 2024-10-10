@@ -51,11 +51,15 @@ void AppWindow::onUpdate()
 		obj->update(deltaTime, this->getClientWindowRect());
 	for (Cube* obj : this->CubeList)
 		obj->update(deltaTime, this->getClientWindowRect(), Vector3(0), Vector3(this->rotX, this->rotY, 0.0f), Vector3(this->scaler));
+	for (Circle* obj : this->CircleList)
+		obj->update(deltaTime, this->getClientWindowRect());
 
 	// 4. Draw all Game Objects.
 	for (Quad* obj : this->GOList)
 		obj->draw();
 	for (Cube* obj : this->CubeList)
+		obj->draw();
+	for (Circle* obj : this->CircleList)
 		obj->draw();
 
 	this->swapChain->present(true);
@@ -106,6 +110,7 @@ void AppWindow::initializeEngine()
 
 	// Create Game OBjects.
 	this->createQuad();
+	this->createCircle();
 	//this->createCubes();
 }
 
@@ -134,6 +139,22 @@ void AppWindow::createQuad()
 
 	Area51* quad1 = new Area51("Generic Quad", quadProps1, false);
 	this->GOList.push_back(quad1);
+}
+
+void AppWindow::createCircle()
+{
+	std::cout << "Creating Circle." << std::endl;
+	CircleProps prop = {
+		Vector3(0, 0, 0),
+		0.1f,
+		25,
+		PINK,
+		CREAM
+	};
+
+	BouncingCircle* newCircle = new BouncingCircle("pls work", prop, true);
+	//Circle* newCircle = new Circle("pls work", prop, true);
+	this->CircleList.push_back(newCircle);
 }
 
 void AppWindow::createQuads()
@@ -211,13 +232,13 @@ void AppWindow::onKeyUp(int key)
 {
 	switch (key) {
 		case ' ': // Spacebar
-			this->createQuad();
+			this->createCircle();
 			break;
 		case 8: // Backspace
-			this->GOList.pop_back();
+			this->CircleList.pop_back();
 			break;
 		case 46: // Delete
-			this->GOList.clear();
+			this->CircleList.clear();
 			break;
 	}
 }

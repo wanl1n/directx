@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector3.h"
+#include "Vector4.h"
 
 // Quads
 struct Vertex {
@@ -33,6 +34,20 @@ struct QuadProps {
 struct DuoColor {
 	Vector4 color1;
 	Vector4 color2;
+};
+
+// Circles
+struct CircleProps {
+	Vector3 center;
+	float radius;
+	float segments;
+	Vector4 color;
+	Vector4 colorCenter;
+};
+
+struct CircleVertex {
+	Vector3 point;
+	Vector4 color;
 };
 
 // Cubes

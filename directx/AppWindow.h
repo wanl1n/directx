@@ -13,6 +13,9 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
+#include "Circle.h"
+#include "BouncingCircle.h"
+
 #include "Quad.h"
 #include "PulsingQuad.h"
 #include "Area51.h"
@@ -46,6 +49,7 @@ class AppWindow : public Window, public InputListener
 	private:
 		std::vector<Quad*> GOList;
 		std::vector<Quad*> QuadList;
+		std::vector<Circle*> CircleList;
 		std::vector<Cube*> CubeList;
 
 	private:
@@ -65,6 +69,7 @@ class AppWindow : public Window, public InputListener
 		void initializeEngine();
 
 		void createQuad();
+		void createCircle();
 		void createQuads();
 		void createCubes();
 
