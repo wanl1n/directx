@@ -48,11 +48,11 @@ void AppWindow::onUpdate()
 
 	// 3. Update Game Objects.
 	for (Quad* obj : this->GOList) 
-		obj->update(deltaTime, this->getClientWindowRect());
+		obj->update(deltaTime, rc);
 	for (Cube* obj : this->CubeList)
-		obj->update(deltaTime, this->getClientWindowRect(), Vector3(0), Vector3(this->rotX, this->rotY, 0.0f), Vector3(this->scaler));
+		obj->update(deltaTime, rc, Vector3(0), Vector3(this->rotX, this->rotY, 0.0f), Vector3(this->scaler));
 	for (Circle* obj : this->CircleList)
-		obj->update(deltaTime, this->getClientWindowRect());
+		obj->update(deltaTime, rc);
 
 	// 4. Draw all Game Objects.
 	for (Quad* obj : this->GOList)
@@ -73,6 +73,15 @@ void AppWindow::onDestroy()
 	Window::onDestroy();
 
 	for (Quad* gameObject : GOList) {
+		if (gameObject) gameObject->release();
+	}
+	for (Quad* gameObject : QuadList) {
+		if (gameObject) gameObject->release();
+	}
+	for (Circle* gameObject : CircleList) {
+		if (gameObject) gameObject->release();
+	}
+	for (Cube* gameObject : CubeList) {
 		if (gameObject) gameObject->release();
 	}
 
@@ -106,11 +115,7 @@ void AppWindow::initializeEngine()
 
 	RECT windowRect = this->getClientWindowRect();
 	this->swapChain->init(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
-
-	// Create Game OBjects.
-	//this->createQuad();
-	this->createCircle();
-	//this->createCubes();
+	std::cout << "Window Rect: [R]:" << windowRect.right << " [L]:" << windowRect.left << " [B]:" << windowRect.bottom << " [T]:" << windowRect.top << std::endl;
 }
 
 void AppWindow::createQuad()
@@ -195,7 +200,7 @@ void AppWindow::createQuads()
 void AppWindow::createCubes()
 {
 	CubeVertex props = {
-		Vector3(0),
+		Vector3(1),
 		CREAM,
 		LAVENDER
 	};
@@ -228,7 +233,7 @@ void AppWindow::onKeyDown(int key)
 			break;
 
 	}
-	std::cout << key << std::endl;
+	//std::cout << key << std::endl;
 }
 
 void AppWindow::onKeyUp(int key)
@@ -238,10 +243,12 @@ void AppWindow::onKeyUp(int key)
 			this->createCircle();
 			break;
 		case 8: // Backspace
-			this->CircleList.pop_back();
+			if (this->CircleList.size() > 0)
+				this->CircleList.pop_back();
 			break;
 		case 46: // Delete
-			this->CircleList.clear();
+			if (this->CircleList.size() > 0)
+				this->CircleList.clear();
 			break;
 	}
 }

@@ -1,5 +1,7 @@
 #include "SceneWindow.h"
 #include "Windows.h"
+#include "InputSystem.h"
+#include "EngineTime.h"
 
 #include "Constants.h"
 #include "Constant.h"
@@ -38,38 +40,25 @@ void SceneWindow::onUpdate()
 	device->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
 	// 3. Update Game Objects.
-	if (this->QuadList.size() > 0) {
-		std::cout << "Updating Quads." << std::endl;
-		for (Quad* obj : this->QuadList)
-			obj->update(deltaTime, this->getClientWindowRect());
-	}
-	if (this->CubeList.size() > 0) {
-		std::cout << "Updating Cubes." << std::endl;
-		for (Cube* obj : this->CubeList)
-			obj->update(deltaTime, this->getClientWindowRect());
-	}
+	for (Quad* obj : this->QuadList)
+		obj->update(deltaTime, this->getClientWindowRect());
+	for (Cube* obj : this->CubeList)
+		obj->update(deltaTime, this->getClientWindowRect());
+	for (Circle* obj : this->CircleList)
+		obj->update(deltaTime, this->getClientWindowRect());
 
-	std::cout << "Drawing Grid." << std::endl;
 	this->grid->draw();
 
-	// 4. Draw all Game Objects.
-	if (this->QuadList.size() > 0) {
-		std::cout << "Drawing Quads." << std::endl;
-		for (Quad* obj : this->QuadList)
-			obj->draw();
-	}
-	/*if (this->CubeList.size() > 0) {
-		std::cout << "Drawing Cubes." << std::endl;
-		for (Cube* obj : this->CubeList)
-			obj->draw();
-	}*/
+	for (Quad* obj : this->QuadList)
+		obj->draw();
+	for (Cube* obj : this->CubeList)
+		obj->draw();
+	for (Circle* obj : this->CircleList)
+		obj->draw();
 
 	this->swapChain->present(true);
 
-	// Update Delta time.
-	oldDelta = newDelta;
-	newDelta = ::GetTickCount64();
-	deltaTime = (oldDelta) ? ((newDelta - oldDelta) / 1000.0f) : 0;
+	deltaTime = EngineTime::getDeltaTime();
 }
 
 void SceneWindow::onDestroy()
@@ -84,13 +73,16 @@ void SceneWindow::onDestroy()
 	}
 
 	this->swapChain->release();
-	this->vs->release();
-	this->ps->release();
 	GraphicsEngine::get()->release();
 }
 
 void SceneWindow::initializeEngine()
 {
+	EngineTime::initialize();
+	// Input System
+	InputSystem::initialize();
+	InputSystem::getInstance()->addListener(SceneWindow::getInstance());
+
 	GraphicsEngine::initialize();
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
 	DeviceContext* device = graphicsEngine->getImmediateDeviceContext();
@@ -102,24 +94,10 @@ void SceneWindow::initializeEngine()
 	int height = windowRect.bottom - windowRect.top;
 	this->swapChain->init(this->hwnd, width, height);
 
-	this->createQuads();
+	//this->createQuads();
 	this->createCubes();
 
-	graphicsEngine->releaseCompiledShader();
-
 	this->grid = new Grid("Grid", true);
-}
-
-void SceneWindow::updateTime()
-{
-	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
-
-	unsigned long new_time = 0;
-	if (oldTime)
-		new_time = ::GetTickCount64() - oldTime;
-
-	deltaTime = new_time / 1000.0f;
-	oldTime = ::GetTickCount64();
 }
 
 void SceneWindow::createQuads()
@@ -169,4 +147,64 @@ void SceneWindow::createCubes()
 
 	Cube* cube1 = new Cube("My First Cube", props, true);
 	this->CubeList.push_back(cube1);
+	
+	//std::cout << "Creating Circle." << std::endl;
+	CircleProps prop = {
+		Vector3(0, 0, 0),
+		0.1f,
+		25,
+		PINK,
+		CREAM
+	};
+
+	BouncingCircle* newCircle = new BouncingCircle("pls work", prop, true);
+	//Circle* newCircle = new Circle("pls work", prop, true);
+	this->CircleList.push_back(newCircle);
+}
+
+
+void SceneWindow::onKeyDown(int key)
+{
+	//std::cout << "Key down." << std::endl;
+	switch (key) {
+		case 27: // Escape
+			exit(0);
+			break;
+	}
+	//std::cout << key << std::endl;
+}
+
+void SceneWindow::onKeyUp(int key)
+{
+	switch (key) {
+		case ' ': // Spacebar
+			this->createCubes();
+			break;
+		case 8: // Backspace
+			this->CircleList.pop_back();
+			break;
+		case 46: // Delete
+			this->CircleList.clear();
+			break;
+	}
+}
+
+void SceneWindow::onMouseMove(const Point& deltaMousePos)
+{
+}
+
+void SceneWindow::onLeftMouseDown(const Point& mousePos)
+{
+}
+
+void SceneWindow::onRightMouseDown(const Point& mousePos)
+{
+}
+
+void SceneWindow::onLeftMouseUp(const Point& mousePos)
+{
+}
+
+void SceneWindow::onRightMouseUp(const Point& mousePos)
+{
 }

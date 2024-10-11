@@ -11,17 +11,22 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
+#include "Circle.h"
+#include "BouncingCircle.h"
 #include "Quad.h"
 #include "PulsingQuad.h"
 #include "Area51.h"
 
 #include "Cube.h"
+#include "RotatingCube.h"
+
+#include "InputListener.h"
 
 #include "Grid.h"
 
 #include <vector>
 
-class SceneWindow : public Window
+class SceneWindow : public Window, public InputListener
 {
 	public:
 		static SceneWindow* getInstance();
@@ -29,8 +34,6 @@ class SceneWindow : public Window
 
 	private:
 		SwapChain* swapChain;
-		VertexShader* vs;
-		PixelShader* ps;
 
 		unsigned long oldTime = 0;
 
@@ -44,6 +47,7 @@ class SceneWindow : public Window
 	private:
 		std::vector<Quad*> QuadList;
 		std::vector<Cube*> CubeList;
+		std::vector<Circle*> CircleList;
 
 	private:
 		SceneWindow();
@@ -62,5 +66,14 @@ class SceneWindow : public Window
 
 		void createQuads();
 		void createCubes();
+
+		// Inherited from InputListener.
+		void onKeyDown(int key) override;
+		void onKeyUp(int key) override;
+		void onMouseMove(const Point& deltaMousePos) override;
+		void onLeftMouseDown(const Point& mousePos) override;
+		void onRightMouseDown(const Point& mousePos) override;
+		void onLeftMouseUp(const Point& mousePos) override;
+		void onRightMouseUp(const Point& mousePos) override;
 };
 
