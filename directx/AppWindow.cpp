@@ -145,10 +145,16 @@ void AppWindow::onKeyUp(int key)
 		case 8: // Backspace
 			if (this->CircleList.size() > 0)
 				this->CircleList.pop_back();
+			else
+				std::cout << "No existing circles." << std::endl;
+
 			break;
 		case 46: // Delete
 			if (this->CircleList.size() > 0)
 				this->CircleList.clear();
+			else
+				std::cout << "No existing circles." << std::endl;
+
 			break;
 	}
 }
