@@ -117,22 +117,9 @@ void AppWindow::createCircle()
 void AppWindow::onKeyDown(int key)
 {
 	switch (key) {
-		case 'W':
-			this->rotX += 0.707f * deltaTime;
-			break;
-		case 'S':
-			this->rotX -= 0.707f * deltaTime;
-			break;
-		case 'A':
-			this->rotY += 0.707f * deltaTime;
-			break;
-		case 'D':
-			this->rotY -= 0.707f * deltaTime;
-			break;
 		case 27: // Escape
 			exit(0);
 			break;
-
 	}
 }
 
