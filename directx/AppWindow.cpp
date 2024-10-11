@@ -44,8 +44,6 @@ void AppWindow::onUpdate()
 	RECT rc = this->getClientWindowRect();
 	device->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	//std::cout << "Current Game Object Count: " << this->GOList.size() << std::endl;
-
 	// 3. Update Game Objects.
 	for (Circle* obj : this->CircleList)
 		obj->update(deltaTime, rc);
