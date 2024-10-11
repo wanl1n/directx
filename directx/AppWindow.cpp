@@ -47,18 +47,10 @@ void AppWindow::onUpdate()
 	//std::cout << "Current Game Object Count: " << this->GOList.size() << std::endl;
 
 	// 3. Update Game Objects.
-	for (Quad* obj : this->GOList) 
-		obj->update(deltaTime, rc);
-	for (Cube* obj : this->CubeList)
-		obj->update(deltaTime, rc, Vector3(0), Vector3(this->rotX, this->rotY, 0.0f), Vector3(this->scaler));
 	for (Circle* obj : this->CircleList)
 		obj->update(deltaTime, rc);
 
 	// 4. Draw all Game Objects.
-	for (Quad* obj : this->GOList)
-		obj->draw();
-	for (Cube* obj : this->CubeList)
-		obj->draw();
 	for (Circle* obj : this->CircleList)
 		obj->draw();
 
@@ -72,16 +64,7 @@ void AppWindow::onDestroy()
 {
 	Window::onDestroy();
 
-	for (Quad* gameObject : GOList) {
-		if (gameObject) gameObject->release();
-	}
-	for (Quad* gameObject : QuadList) {
-		if (gameObject) gameObject->release();
-	}
 	for (Circle* gameObject : CircleList) {
-		if (gameObject) gameObject->release();
-	}
-	for (Cube* gameObject : CubeList) {
 		if (gameObject) gameObject->release();
 	}
 
@@ -115,39 +98,10 @@ void AppWindow::initializeEngine()
 
 	RECT windowRect = this->getClientWindowRect();
 	this->swapChain->init(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
-	std::cout << "Window Rect: [R]:" << windowRect.right << " [L]:" << windowRect.left << " [B]:" << windowRect.bottom << " [T]:" << windowRect.top << std::endl;
-}
-
-void AppWindow::createQuad()
-{
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
-	std::cout << "Creating Quad." << std::endl;
-	float radius = 0.1f;
-	int min = -1 + radius * 2;
-	int max = 1 - radius * 2;
-
-	float posX = min + (std::rand() % (max - min + 1));
-	float posY = min + (std::rand() % (max - min + 1));
-
-	// left top right bottom
-	Rect pts = {posX - radius, posY + radius, posX + radius, posY - radius};
-
-	QuadVertex pos1 = { Vector3(pts.left, pts.bottom, 1.0f),
-						Vector3(pts.left, pts.top, 1.0f),
-						Vector3(pts.right, pts.bottom, 1.0f),
-						Vector3(pts.right, pts.top, 1.0f) };
-	
-	QuadColor color1 = { CREAM, MATCHA, SPACE, LAVENDER };
-	QuadColor color2 = { LAVENDER, CREAM, MATCHA, SPACE };
-	QuadProps quadProps1 = { pos1, pos1, color1, color2 };
-
-	Area51* quad1 = new Area51("Generic Quad", quadProps1, false);
-	this->GOList.push_back(quad1);
 }
 
 void AppWindow::createCircle()
 {
-	//std::cout << "Creating Circle." << std::endl;
 	CircleProps prop = {
 		Vector3(0, 0, 0),
 		0.1f,
@@ -156,65 +110,12 @@ void AppWindow::createCircle()
 		CREAM
 	};
 
-	BouncingCircle* newCircle = new BouncingCircle("pls work", prop, true);
-	//Circle* newCircle = new Circle("pls work", prop, true);
+	BouncingCircle* newCircle = new BouncingCircle("Circle " + this->CircleList.size() + 1, prop, true);
 	this->CircleList.push_back(newCircle);
-}
-
-void AppWindow::createQuads()
-{
-	QuadVertex pos1 = { Vector3(-0.5f, -0.5f, 1.0f),
-						Vector3(-0.5f, 0.5f, 1.0f),
-						Vector3(0.5f, -0.5f, 1.0f),
-						Vector3(0.5f, 0.5f, 1.0f) };
-	QuadVertex pos2 = { Vector3(-0.6f, -0.2f, 1.0f),
-						Vector3(-0.4f, 0.5f, 1.0f),
-						Vector3(0.6f, -0.3f, 1.0f),
-						Vector3(0.1f, 0.5f, 1.0f) };
-	QuadVertex pos3 = { Vector3(-0.9f, -0.6f, 1.0f),
-						Vector3(-0.9f, 0.6f, 1.0f),
-						Vector3(-0.6f, -0.4f, 1.0f),
-						Vector3(-0.6f, 0.4f, 1.0f) };
-	QuadVertex pos4 = { Vector3(0.6f, -0.2f, 1.0f),
-						Vector3(0.6f, 0.5f, 1.0f),
-						Vector3(0.9f, -0.3f, 1.0f),
-						Vector3(0.9f, 0.5f, 1.0f) };
-	QuadColor color1 = { CREAM, MATCHA, SPACE, LAVENDER };
-	QuadColor color2 = { LAVENDER, CREAM, MATCHA, SPACE };
-	QuadColor color3 = { LAVENDER, LAVENDER, MATCHA, MATCHA };
-	QuadColor color4 = { CREAM, CREAM, SPACE, SPACE };
-	QuadProps quadProps1 = { pos1, pos2, color1, color2 };
-	QuadProps quadProps2 = { pos3, pos2, color2, color3 };
-	QuadProps quadProps3 = { pos4, pos2, color3, color4 };
-
-	Quad* quad1 = new Quad("Quad 1", quadProps1, false);
-	this->GOList.push_back(quad1);
-
-	/*Quad* quad2 = new Quad("Quad 2", quadProps2, false);
-	this->GOList.push_back(quad2);
-
-	Quad* quad3 = new Quad("Quad 3", quadProps3, false);
-	this->GOList.push_back(quad3);*/
-}
-
-void AppWindow::createCubes()
-{
-	CubeVertex props = {
-		Vector3(1),
-		CREAM,
-		LAVENDER
-	};
-
-	/*Cube* cube1 = new Cube("My First Cube", props, true);
-	this->CubeList.push_back(cube1);*/
-
-	RotatingCube* mefr = new RotatingCube("me when i rotate", props, true);
-	this->CubeList.push_back(mefr);
 }
 
 void AppWindow::onKeyDown(int key)
 {
-	//std::cout << "Key down." << std::endl;
 	switch (key) {
 		case 'W':
 			this->rotX += 0.707f * deltaTime;
@@ -233,7 +134,6 @@ void AppWindow::onKeyDown(int key)
 			break;
 
 	}
-	//std::cout << key << std::endl;
 }
 
 void AppWindow::onKeyUp(int key)
@@ -255,26 +155,20 @@ void AppWindow::onKeyUp(int key)
 
 void AppWindow::onMouseMove(const Point& deltaMousePos)
 {
-	this->rotX -= deltaMousePos.y * deltaTime;
-	this->rotY -= deltaMousePos.x * deltaTime;
 }
 
 void AppWindow::onLeftMouseDown(const Point& mousePos)
 {
-	this->scaler = 0.5f;
 }
 
 void AppWindow::onRightMouseDown(const Point& mousePos)
 {
-	this->scaler = 2.0f;
 }
 
 void AppWindow::onLeftMouseUp(const Point& mousePos)
 {
-	this->scaler = 1.0f;
 }
 
 void AppWindow::onRightMouseUp(const Point& mousePos)
 {
-	this->scaler = 1.0f;
 }

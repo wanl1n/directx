@@ -11,7 +11,6 @@ BouncingCircle::~BouncingCircle() {}
 
 void BouncingCircle::update(float deltaTime, RECT viewport)
 {
-	//std::cout << this->m_name << " Position : " << this->transform.position.x << ", " << this->transform.position.y << std::endl;
 	Vector3 offset = this->direction * this->speed * EngineTime::getDeltaTime();
 	transform.position += offset;
 	this->checkBounds(offset);
@@ -24,26 +23,22 @@ void BouncingCircle::update(float deltaTime, RECT viewport)
 void BouncingCircle::checkBounds(Vector3 offset)
 {
 	if (this->transform.position.x < -1.26f + radius) {
-		//std::cout << "[LEFT] : " << this->transform.position.x << " < " << -1.0f + radius << std::endl;
 		this->transform.position -= offset;
 		if (this->direction.x < 0)
 			this->direction.x = -this->direction.x;
 	}
 	if (this->transform.position.x > 1.26f - radius) {
-		//std::cout << "[RIGHT] : " << this->transform.position.x << " > " << 1.0f - radius << std::endl;
 		this->transform.position -= offset;
 		if (this->direction.x > 0)
 			this->direction.x = -this->direction.x;
 	}
 
 	if (this->transform.position.y < -1.01f + radius*2) {
-		//std::cout << "[BOTTOM] : " << this->transform.position.y << " < " << -1.0f + radius << std::endl;
 		this->transform.position -= offset;
 		if (this->direction.y < 0)
 			this->direction.y = -this->direction.y;
 	}
 	if (this->transform.position.y > 1.01f - radius*2) {
-		//std::cout << "[TOP] : " << this->transform.position.y << " > " << 1.0f - radius << std::endl;
 		this->transform.position -= offset;
 		if (this->direction.y > 0)
 			this->direction.y = -this->direction.y;
