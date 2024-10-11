@@ -223,8 +223,12 @@ void AppWindow::onKeyDown(int key)
 		case 'D':
 			this->rotY -= 0.707f * deltaTime;
 			break;
+		case 27: // Escape
+			exit(0);
+			break;
+
 	}
-	//std::cout << key << std::endl;
+	std::cout << key << std::endl;
 }
 
 void AppWindow::onKeyUp(int key)
