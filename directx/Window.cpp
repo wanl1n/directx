@@ -117,11 +117,31 @@ bool Window::broadcast()
 {
 	EngineTime::LogFrameStart();
 	MSG msg;
-	this->onUpdate();
+
+	float timePerFrame = 1.0f / FPS;
+	this->lastUpdatedTime += EngineTime::getDeltaTime();
+
+	if (this->lastUpdatedTime > timePerFrame) {
+		this->lastUpdatedTime -= timePerFrame;
+		this->onUpdate();
+		
+		fpsCounter++;
+	}
 
 	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
+	}
+
+	if (showFPS) {
+		float timeElapsed = GetTickCount64();
+		fpsTimer += EngineTime::getDeltaTime();
+
+		if (fpsTimer >= 1) {
+			fpsTimer--;
+			std::cout << "FPS: " << fpsCounter << std::endl;
+			fpsCounter = 0;
+		}
 	}
 
 	Sleep(1);

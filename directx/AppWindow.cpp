@@ -107,9 +107,8 @@ void AppWindow::initializeEngine()
 	RECT windowRect = this->getClientWindowRect();
 	this->swapChain->init(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
 
-
 	// Create Game OBjects.
-	this->createQuad();
+	//this->createQuad();
 	this->createCircle();
 	//this->createCubes();
 }
@@ -143,7 +142,7 @@ void AppWindow::createQuad()
 
 void AppWindow::createCircle()
 {
-	std::cout << "Creating Circle." << std::endl;
+	//std::cout << "Creating Circle." << std::endl;
 	CircleProps prop = {
 		Vector3(0, 0, 0),
 		0.1f,

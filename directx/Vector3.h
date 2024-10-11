@@ -23,6 +23,28 @@ class Vector3
 			return v;
 		}
 
+		float magnitude() {
+			return sqrt(pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2));
+		}
+
+		Vector3 normalize() {
+			float magnitude = this->magnitude();
+			Vector3 normal = Vector3(x, y, z);
+
+			if (magnitude == 0) {
+				normal.x = 0;
+				normal.y = 0;
+				normal.z = 0;
+				return normal;
+			}
+
+			normal.x /= magnitude;
+			normal.y /= magnitude;
+			normal.z /= magnitude;
+
+			return normal; 
+		}
+
 		void operator +=(const Vector3& other) {
 			this->x += other.x;
 			this->y += other.y;
@@ -47,6 +69,26 @@ class Vector3
 			result.x = x + other.x;
 			result.y = y + other.y;
 			result.z = z + other.z;
+
+			return result;
+		}
+
+		Vector3 operator *(const Vector3& other) {
+			Vector3 result;
+
+			result.x = x * other.x;
+			result.y = y * other.y;
+			result.z = z * other.z;
+
+			return result;
+		}
+
+		Vector3 operator *(float mult) {
+			Vector3 result;
+
+			result.x = x * mult;
+			result.y = y * mult;
+			result.z = z * mult;
 
 			return result;
 		}

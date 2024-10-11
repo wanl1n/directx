@@ -14,3 +14,5 @@ const Vector4 CLEAR = Vector4(1, 1, 1, 0.1f);
 const int ORTHOGRAPHIC = 0;
 const float GRID_INTERVAL = 0.1f;
 const int GRIDPOINTS_COUNT = ((2 / 0.1f)) * 4;
+
+static const int NUM_SAMPLES = 10;

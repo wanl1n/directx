@@ -11,34 +11,35 @@ BouncingCircle::~BouncingCircle() {}
 
 void BouncingCircle::update(float deltaTime, RECT viewport)
 {
-	transform.position += this->direction;
-	this->checkBounds();
+	Vector3 offset = this->direction * this->speed * EngineTime::getDeltaTime();
+	transform.position += offset;
+	this->checkBounds(offset);
 
 	this->cc.m_world.setTranslation(transform.position);
 
 	Circle::update(deltaTime, viewport);
 }
 
-void BouncingCircle::checkBounds()
+void BouncingCircle::checkBounds(Vector3 offset)
 {
 	if (this->transform.position.x < -1.0f + radius) {
-		this->transform.position -= this->direction;
+		this->transform.position -= offset;
 		if (this->direction.x < 0)
 			this->direction.x = -this->direction.x;
 	}
 	if (this->transform.position.x > 1.0f - radius) {
-		this->transform.position -= this->direction;
+		this->transform.position -= offset;
 		if (this->direction.x > 0)
 			this->direction.x = -this->direction.x;
 	}
 
 	if (this->transform.position.y < -1.0f + radius) {
-		this->transform.position -= this->direction;
+		this->transform.position -= offset;
 		if (this->direction.y < 0)
 			this->direction.y = -this->direction.y;
 	}
 	if (this->transform.position.y > 1.0f - radius) {
-		this->transform.position -= this->direction;
+		this->transform.position -= offset;
 		if (this->direction.y > 0)
 			this->direction.y = -this->direction.y;
 	}
@@ -66,4 +67,5 @@ void BouncingCircle::randomizeInit()
 	float dirX = (float)(min + (std::rand() % (max - min + 1))) / 5000.0f;
 	float dirY = (float)(min + (std::rand() % (max - min + 1))) / 5000.0f;
 	this->direction = Vector3(dirX, dirY, 0);
+	this->direction = this->direction.normalize();
 }

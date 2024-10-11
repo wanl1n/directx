@@ -12,6 +12,13 @@ class Window {
 		bool running;
 		std::vector<bool> windowRunning;
 
+		float FPS = 60;
+		float lastUpdatedTime = 0;
+
+		bool showFPS = true;
+		float fpsTimer = 0;
+		float fpsCounter = 0;
+
 	public:
 		Window();
 		~Window();

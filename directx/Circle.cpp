@@ -65,7 +65,6 @@ std::vector<Vector3> Circle::generateCircleVertices(float radius, int segments)
 
 	// Outer circle vertices
 	float angleStep = DirectX::XM_2PI / segments;
-	std::cout << "Angle interval: " << angleStep << std::endl;
 	for (int i = 0; i < segments; ++i) {
 		float angle = i * angleStep;
 		float x = radius * cos(angle);
