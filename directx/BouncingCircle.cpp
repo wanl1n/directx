@@ -16,7 +16,7 @@ void BouncingCircle::update(float deltaTime, RECT viewport)
 	transform.position += offset;
 	this->checkBounds(offset);
 
-	this->cc.m_world.setTranslation(transform.position);
+	this->cc.world.setTranslation(transform.position);
 
 	Circle::update(deltaTime, viewport);
 }
@@ -61,8 +61,8 @@ void BouncingCircle::randomizeInit()
 	float posY = (float)(min + (std::rand() % (max - min + 1))) / 100;
 
 	this->position = Vector3(posX, posY, 1.0f);
-	cc.m_world.setScale(Vector3(1));
-	cc.m_world.setTranslation(this->position);
+	cc.world.setScale(Vector3(1));
+	cc.world.setTranslation(this->position);
 	transform.position = this->position;
 
 	// Direction

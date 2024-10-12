@@ -66,7 +66,6 @@ void Plane::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
 
-	this->resetView();
 	this->project(ORTHOGRAPHIC, viewport);
 
 	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);

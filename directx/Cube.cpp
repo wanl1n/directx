@@ -65,7 +65,7 @@ Cube::Cube(std::string name, CubeVertex props, bool blending) : GameObject(name)
 	graphicsEngine->releaseCompiledShader();
 
 	// 3. Create a constant buffer.
-	cc.m_time = 0;
+	cc.time = 0;
 	this->cb = GraphicsEngine::get()->createConstantBuffer();
 	this->cb->load(&cc, sizeof(Constant));
 
@@ -90,7 +90,6 @@ void Cube::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
 
-	this->resetView();
 	this->project(ORTHOGRAPHIC, viewport);
 
 	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);

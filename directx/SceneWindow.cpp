@@ -45,10 +45,7 @@ void SceneWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	this->grid = new Grid("Grid", true);
-
-	GameObjectManager::getInstance()->addGameObject(CUBE);
-	GameObjectManager::getInstance()->addGameObject(ROTATING_PLANE);
+	this->grid = new Grid("Grid", false);
 }
 
 void SceneWindow::onCreate()
@@ -59,20 +56,43 @@ void SceneWindow::onCreate()
 void SceneWindow::onUpdate()
 {
 	Window::onUpdate();
-
-	// Input System Update.
-	InputSystem::getInstance()->update();
-
 	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
 
+
 	// 1. Clear Render Target.
-	device->clearRenderTargetColor(this->swapChain, PINK);
+	device->clearRenderTargetColor(this->swapChain, BLACK);
 
 	// 2. Set the target Viewport where we'll draw.
 	RECT rc = this->getClientWindowRect();
 	device->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
+	// Input System Update:
+	InputSystem::getInstance()->update();
+	// Scene Tools Update:
+	this->grid->update(deltaTime, rc);
+	// Game Object Manager Update:
 	GameObjectManager::getInstance()->update(deltaTime, rc);
+
+	// Camera
+	Matrix4x4 worldCam;
+	Matrix4x4 temp;
+
+	worldCam.setIdentity();
+	temp.setIdentity();
+	temp.setRotationX(this->rotX);
+	worldCam *= temp;
+
+	temp.setIdentity();
+	temp.setRotationY(this->rotY);
+	worldCam *= temp;
+
+	worldCam.setTranslation(Vector3(0, 0, 3));
+	worldCam.inverse();
+
+	GameObjectManager::getInstance()->updateCameraView(worldCam);
+
+	// Draw calls
+	this->grid->draw();
 	GameObjectManager::getInstance()->render();
 
 	this->swapChain->present(true);
@@ -121,11 +141,19 @@ void SceneWindow::onKeyUp(int key)
 			break;
 		case 46: // Delete
 			break;
+		case '1': // 1
+			GameObjectManager::getInstance()->addGameObject(CUBE);
+			break;
+		case '2': // 2
+			GameObjectManager::getInstance()->addGameObject(ROTATING_PLANE);
+			break;
 	}
 }
 
 void SceneWindow::onMouseMove(const Point& deltaMousePos)
 {
+	this->rotX -= deltaMousePos.y * deltaTime;
+	this->rotY -= deltaMousePos.x * deltaTime;
 }
 
 void SceneWindow::onLeftMouseDown(const Point& mousePos)

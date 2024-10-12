@@ -36,10 +36,6 @@ Grid::Grid(std::string name, bool showGrid) : GameObject("Grid")
 	this->ps = GraphicsEngine::get()->createPixelShader(shaderByteCode, sizeShader);
 	GraphicsEngine::get()->releaseCompiledShader();
 
-	cc.m_time = 0;
-	transform.position = Vector3(0);
-	cc.m_world.setTranslation(transform.position);
-
 	this->cb = GraphicsEngine::get()->createConstantBuffer();
 	this->cb->load(&cc, sizeof(Constant));
 

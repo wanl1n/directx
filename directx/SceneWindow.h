@@ -29,6 +29,8 @@ class SceneWindow : public Window, public InputListener
 		SwapChain* swapChain;
 
 		float deltaTime = 0;
+		float rotX = 0;
+		float rotY = 0;
 
 		// Scene Tools
 		Grid* grid;

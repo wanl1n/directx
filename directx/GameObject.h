@@ -14,7 +14,7 @@ class GameObjectManager;
 class GameObject
 {
 	protected:
-		std::string m_name;
+		std::string name;
 		bool isActive;
 		PRIMITIVE type;
 
@@ -33,19 +33,20 @@ class GameObject
 		virtual void draw();
 		virtual bool release() = 0;
 
+		// Transform Functions
 		virtual void translate(Vector3 offset, float speed);
 		virtual void rotateX(float offset);
 		virtual void rotateY(float offset);
 		virtual void rotateZ(float offset);
 		virtual void scale(Vector3 offset);
+		virtual void resetView();
+		virtual void project(int type, RECT viewport);
 
+		// Getters/Setters
 		virtual void setPosition(Vector3 newPos);
 		virtual void setPosition(float x, float y, float z);
 
 		virtual Vector3 getPosition();
-
-		virtual void resetView();
-
-		virtual void project(int type, RECT viewport);
+		virtual void setRotation(Vector3 newRot);
 };
 

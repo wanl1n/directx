@@ -1,42 +1,42 @@
 #include "GameObject.h"
 #include "EngineTime.h"
 
-GameObject::GameObject(std::string name) : m_name(name) {
+GameObject::GameObject(std::string name) : name(name) {
 	this->isActive = true;
 
-	cc.m_time = 0;
-	cc.m_world.setIdentity();
-	cc.m_view.setIdentity();
-	cc.m_proj.setIdentity();
+	cc.time = 0;
+	cc.world.setIdentity();
+	cc.view.setIdentity();
+	cc.proj.setIdentity();
 
 	transform.position = Vector3(0);
 	transform.rotation = Vector3(0);
 	transform.scale = Vector3(1);
 
-	cc.m_world.setTranslation(transform.position);
+	cc.world.setTranslation(transform.position);
 }
 
 GameObject::GameObject(std::string name, PRIMITIVE type) : 
-	m_name(name), type(type) {
+	name(name), type(type) {
 	this->isActive = true;
 
-	cc.m_time = 0;
-	cc.m_world.setIdentity();
-	cc.m_view.setIdentity();
-	cc.m_proj.setIdentity();
+	cc.time = 0;
+	cc.world.setIdentity();
+	cc.view.setIdentity();
+	cc.proj.setIdentity();
 
 	transform.position = Vector3(0);
 	transform.rotation = Vector3(0);
 	transform.scale = Vector3(1);
 
-	cc.m_world.setTranslation(transform.position);
+	cc.world.setTranslation(transform.position);
 }
 
 GameObject::~GameObject() {}
 
 void GameObject::update(float deltaTime, RECT viewport)
 {
-	this->cc.m_time = deltaTime;
+	this->cc.time = deltaTime;
 }
 
 void GameObject::draw()
@@ -46,7 +46,8 @@ void GameObject::draw()
 void GameObject::translate(Vector3 offset, float speed)
 {
 	this->transform.position += offset * speed * (float)EngineTime::getDeltaTime();
-	this->cc.m_world.setTranslation(this->transform.position);
+	this->cc.world.setIdentity();
+	this->cc.world.setTranslation(this->transform.position);
 }
 
 void GameObject::rotateX(float offset)
@@ -55,7 +56,7 @@ void GameObject::rotateX(float offset)
 	rotation.setIdentity();
 	rotation.setRotationX(offset);
 
-	this->cc.m_world *= rotation;
+	this->cc.world *= rotation;
 }
 
 void GameObject::rotateY(float offset)
@@ -64,7 +65,7 @@ void GameObject::rotateY(float offset)
 	rotation.setIdentity();
 	rotation.setRotationY(offset);
 
-	this->cc.m_world *= rotation;
+	this->cc.world *= rotation;
 }
 
 void GameObject::rotateZ(float offset)
@@ -73,14 +74,15 @@ void GameObject::rotateZ(float offset)
 	rotation.setIdentity();
 	rotation.setRotationZ(offset);
 
-	this->cc.m_world *= rotation;
+	this->cc.world *= rotation;
 }
 
 void GameObject::scale(Vector3 offset)
 {
 	Matrix4x4 scale;
-	scale.setScale(transform.scale = Vector3::lerp(transform.scale, transform.scale + offset, (sin(this->cc.m_time) + 1.0f) / 2.0f));
-	this->cc.m_world *= scale;
+	scale.setIdentity();
+	scale.setScale(transform.scale = Vector3::lerp(transform.scale, transform.scale + offset, (sin(this->cc.time) + 1.0f) / 2.0f));
+	this->cc.world *= scale;
 }
 
 void GameObject::setPosition(Vector3 newPos)
@@ -98,16 +100,23 @@ Vector3 GameObject::getPosition()
 	return this->transform.position;
 }
 
+void GameObject::setRotation(Vector3 newRot)
+{
+	this->transform.rotation.x += newRot.x;
+	this->transform.rotation.y += newRot.y;
+	this->transform.rotation.z += newRot.z;
+}
+
 void GameObject::resetView()
 {
-	cc.m_view.setIdentity();
+	this->cc.view.setIdentity();
 }
 
 void GameObject::project(int type, RECT viewport)
 {
 	switch (type) {
 		case ORTHOGRAPHIC:
-			this->cc.m_proj.setOrthoLH(
+			this->cc.proj.setOrthoLH(
 				(viewport.right - viewport.left) / 400.0f,
 				(viewport.bottom - viewport.top) / 400.0f,
 				-4.0f, 4.0f

@@ -71,6 +71,12 @@ void GameObjectManager::removeGameObject(GameObject* go)
 	}
 }
 
+void GameObjectManager::updateCameraView(Matrix4x4 worldCam)
+{
+	for (GameObject* obj : this->GOList)
+		obj->cc.view = worldCam;
+}
+
 Quad* GameObjectManager::createQuad(PRIMITIVE type)
 {
 	//std::cout << "Creating Quad." << std::endl;
@@ -137,7 +143,7 @@ Cube* GameObjectManager::createCube(PRIMITIVE type)
 	CubeVertex props = {
 		Vector3(0),
 		CREAM,
-		PINK
+		LAVENDER
 	};
 
 	Cube* newCube = new Cube("Cube " + (this->CubeList.size() + 1), props, true);

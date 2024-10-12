@@ -15,5 +15,5 @@ cbuffer constant : register(b0)
 float4 gpsmain(PS_INPUT input) : SV_TARGET
 {
     //return input.color;
-    return float4(0.5f, 0.5f, 0.5f, 0.1f);
+    return float4(0,0,0, 0.1f);
 }

@@ -23,7 +23,7 @@ Area51::~Area51() {}
 void Area51::update(float deltaTime, RECT viewport)
 {
 	// Move Up Indefinitely
-	cc.m_world.setScale(Vector3(1));
+	cc.world.setScale(Vector3(1));
 
 	/*Matrix4x4 translation;
 	Vector3 lerpValue;
@@ -83,7 +83,7 @@ void Area51::randomizeInit()
 	float posY = (float)(min + (std::rand() % (max - min + 1))) / 100;
 
 	this->position = Vector3(posX, posY, 1.0f);
-	cc.m_world.setTranslation(this->position);
+	cc.world.setTranslation(this->position);
 	transform.position = this->position;
 
 	// Direction

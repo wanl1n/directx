@@ -4,10 +4,10 @@
 // Constant buffer.
 __declspec(align(16))
 struct Constant {
-	Matrix4x4 m_world;
-	Matrix4x4 m_view;
-	Matrix4x4 m_proj;
-	unsigned int m_time;
+	Matrix4x4 world;
+	Matrix4x4 view;
+	Matrix4x4 proj;
+	unsigned int time;
 };
 
 // Rect

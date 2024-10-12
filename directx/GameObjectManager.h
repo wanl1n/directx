@@ -47,6 +47,8 @@ class GameObjectManager
 		void addGameObject(PRIMITIVE type, int count=1);
 		void removeGameObject(GameObject* go);
 
+		void updateCameraView(Matrix4x4 worldCam);
+
 	private:
 		Quad* createQuad(PRIMITIVE type);
 		Circle* createCircle(PRIMITIVE type);
