@@ -28,10 +28,6 @@ class AppWindow : public Window, public InputListener
 	private:
 		SwapChain* swapChain;
 
-		unsigned long oldTime = 0;
-
-		float oldDelta = 0;
-		float newDelta = 0;
 		float deltaTime = 0;
 
 		// Input testers
@@ -47,16 +43,15 @@ class AppWindow : public Window, public InputListener
 		AppWindow& operator = (AppWindow const&) {};
 		static AppWindow* sharedInstance;
 
+		void initializeEngine();
+		void createQuads();
+
 	public:
 		virtual void onCreate() override;
 		virtual void onUpdate() override;
 		virtual void onDestroy() override;
 		virtual void onFocus() override;
 		virtual void onKillFocus() override;
-
-		void initializeEngine();
-
-		void createQuads();
 
 		// Inherited from InputListener.
 		void onKeyDown(int key) override;

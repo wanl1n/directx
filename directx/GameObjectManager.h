@@ -43,7 +43,7 @@ class GameObjectManager
 		void update(float deltaTime, RECT viewport);
 		void render();
 
-		void addGameObject(PRIMITIVE type, int count);
+		void addGameObject(PRIMITIVE type, int count=1);
 		void removeGameObject(GameObject* go);
 
 	private:

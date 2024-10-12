@@ -8,6 +8,8 @@ class RotatingCube : public Cube
 		Vector3 deltaRot;
 		Vector3 rotDir;
 
+		float speed;
+
 	public:
 		RotatingCube(std::string name, CubeVertex props, bool blending);
 		~RotatingCube();

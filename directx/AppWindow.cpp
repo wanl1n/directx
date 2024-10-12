@@ -23,6 +23,31 @@ void AppWindow::initialize()
 AppWindow::AppWindow() {}
 AppWindow::~AppWindow() {}
 
+void AppWindow::initializeEngine()
+{
+	// Engine Time
+	EngineTime::initialize();
+
+	// Input System
+	InputSystem::initialize();
+	InputSystem::getInstance()->addListener(AppWindow::getInstance());
+
+	// Game Object Manager
+	GameObjectManager::initialize();
+
+	// Graphics Engine
+	GraphicsEngine::initialize();
+	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
+
+	// Swap Chain
+	this->swapChain = graphicsEngine->createSwapChain();
+	RECT windowRect = this->getClientWindowRect();
+	this->swapChain->init(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
+
+	// Random seed
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+}
+
 void AppWindow::onCreate() 
 {
 	Window::onCreate();
@@ -74,30 +99,6 @@ void AppWindow::onKillFocus()
 {
 	if (!InputSystem::getInstance()) InputSystem::initialize();
 	InputSystem::getInstance()->removeListener(AppWindow::getInstance());
-}
-
-void AppWindow::initializeEngine()
-{
-	EngineTime::initialize();
-
-	// Input System
-	InputSystem::initialize();
-	InputSystem::getInstance()->addListener(AppWindow::getInstance());
-
-	GameObjectManager::initialize();
-
-	GraphicsEngine::initialize();
-	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
-
-	this->swapChain = graphicsEngine->createSwapChain();
-
-	RECT windowRect = this->getClientWindowRect();
-	this->swapChain->init(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
-
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
-
-	// Create 100 cubes in random positions
-	GameObjectManager::getInstance()->addGameObject(ROTATING_CUBE, 100);
 }
 
 void AppWindow::onKeyDown(int key)

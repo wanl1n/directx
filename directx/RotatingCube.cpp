@@ -1,15 +1,17 @@
 #include "RotatingCube.h"
 
 RotatingCube::RotatingCube(std::string name, CubeVertex props, bool blending) : Cube(name, props, blending) {
-	this->randomizeInit();
 	this->deltaRot = Vector3(0);
+	this->rotDir = Vector3(0);
+	this->speed = 0;
+	this->randomizeInit();
 }
 
 RotatingCube::~RotatingCube() {}
 
 void RotatingCube::update(float deltaTime, RECT viewport)
 {
-	this->deltaRot += this->rotDir * deltaTime;
+	this->deltaRot += this->rotDir * this->speed * deltaTime;
 
 	// Reset world space matrix.
 	cc.m_world.setIdentity();
@@ -55,4 +57,8 @@ void RotatingCube::randomizeInit()
 	float dirY = (float)(min + (std::rand() % (max - min + 1))) / 5000.0f;
 	this->rotDir = Vector3(dirX, dirY, 0);
 	this->rotDir = this->rotDir.normalize();
+
+	min = 1;
+	max = 5;
+	this->speed = (float)(min + (std::rand() % (max - min + 1)));
 }
