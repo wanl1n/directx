@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "EngineTime.h"
 
 GameObject::GameObject(std::string name) : m_name(name) {
 	cc.m_time = 0;
@@ -23,12 +24,10 @@ void GameObject::update(float deltaTime)
 	this->deltaRot += deltaTime / 0.55f;
 }
 
-void GameObject::translate(Vector3 offset)
+void GameObject::translate(Vector3 offset, float speed)
 {
-	Matrix4x4 translation;
-	translation.setTranslation(this->transform.position);
-
-	this->cc.m_world *= translation;
+	this->transform.position += offset * speed * EngineTime::getDeltaTime();
+	this->cc.m_world.setTranslation(this->transform.position);
 }
 
 void GameObject::rotateX(float offset)
@@ -67,6 +66,21 @@ void GameObject::scale(Vector3 offset)
 
 	// PULSING ANIMATION
 	cc.m_world.setScale(Vector3::lerp(Vector3(0.5f, 0.5f, 0), Vector3(1, 1, 0), (sin(this->deltaScale) + 1.0f) / 2.0f));
+}
+
+void GameObject::setPosition(Vector3 newPos)
+{
+	this->transform.position = newPos;
+}
+
+void GameObject::setPosition(float x, float y, float z)
+{
+	this->transform.position = Vector3(x, y, z);
+}
+
+Vector3 GameObject::getPosition()
+{
+	return this->transform.position;
 }
 
 void GameObject::resetView()

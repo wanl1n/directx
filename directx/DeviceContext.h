@@ -13,7 +13,7 @@ class PixelShader;
 class DeviceContext
 {
 	private:
-		ID3D11DeviceContext* m_device_context;
+		ID3D11DeviceContext* devContext;
 
 	private:
 		friend class ConstantBuffer;

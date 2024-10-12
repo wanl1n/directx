@@ -8,6 +8,7 @@ class RotatingCube : public Cube
 		~RotatingCube();
 
 		void update(float deltaTime, RECT viewport,
-			Vector3 translate = Vector3(0), Vector3 rotate = Vector3(0), Vector3 scale = Vector3(0));
+			Vector3 translate = Vector3(0), Vector3 rotate = Vector3(0), Vector3 scale = Vector3(1));
+		void randomizeInit();
 };
 

@@ -71,7 +71,8 @@ class AppWindow : public Window, public InputListener
 		void createQuad();
 		void createCircle();
 		void createQuads();
-		void createCubes();
+		void createCube();
+		void createRotatingCube();
 
 		// Inherited from InputListener.
 		void onKeyDown(int key) override;

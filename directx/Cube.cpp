@@ -4,19 +4,19 @@
 Cube::Cube(std::string name, CubeVertex props, bool blending) : GameObject(name)
 {
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
-	
+	this->side = 0.1f;
 	// 1. Set up the Vertex buffer.
 	CubeVertex vertices[] = { // Cube Vertices
 		// FRONT FACE
-		{ Vector3(-0.1f, -0.1f, -0.1f), props.color1, props.color1 },
-		{ Vector3(-0.1f, 0.1f, -0.1f),	props.color1, props.color1 },
-		{ Vector3(0.1f, 0.1f, -0.1f),	props.color1, props.color1 },
-		{ Vector3(0.1f, -0.1f, -0.1f),	props.color1, props.color1 },
+		{ Vector3(-side, -side, -side), props.color1, props.color1 },
+		{ Vector3(-side, side, -side),	props.color1, props.color1 },
+		{ Vector3(side, side, -side),	props.color1, props.color1 },
+		{ Vector3(side, -side, -side),	props.color1, props.color1 },
 		// BACK FACE
-		{ Vector3(0.1f, -0.1f, 0.1f),	props.color2, props.color2 },
-		{ Vector3(0.1f, 0.1f, 0.1f),	props.color2, props.color2 },
-		{ Vector3(-0.1f, 0.1f, 0.1f),	props.color2, props.color2 },
-		{ Vector3(-0.1f, -0.1f, 0.1f),	props.color2, props.color2 }
+		{ Vector3(side, -side, side),	props.color2, props.color2 },
+		{ Vector3(side, side, side),	props.color2, props.color2 },
+		{ Vector3(-side, side, side),	props.color2, props.color2 },
+		{ Vector3(-side, -side, side),	props.color2, props.color2 }
 	};
 	this->vb = GraphicsEngine::get()->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(vertices);
@@ -90,6 +90,7 @@ void Cube::update(float deltaTime, RECT viewport, Vector3 translate, Vector3 rot
 {
 	GameObject::update(deltaTime);
 
+	this->resetView();
 	this->project(ORTHOGRAPHIC, viewport);
 
 	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);

@@ -28,11 +28,16 @@ class GameObject
 		virtual void update(float deltaTime);
 		virtual bool release() = 0;
 
-		virtual void translate(Vector3 offset);
+		virtual void translate(Vector3 offset, float speed);
 		virtual void rotateX(float offset);
 		virtual void rotateY(float offset);
 		virtual void rotateZ(float offset);
 		virtual void scale(Vector3 offset);
+
+		virtual void setPosition(Vector3 newPos);
+		virtual void setPosition(float x, float y, float z);
+
+		virtual Vector3 getPosition();
 
 		virtual void resetView();
 

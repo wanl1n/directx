@@ -46,11 +46,15 @@ void AppWindow::onUpdate()
 
 	//std::cout << "Current Game Object Count: " << this->GOList.size() << std::endl;
 
+	this->rotX += deltaTime;
+	this->rotY += deltaTime;
+
 	// 3. Update Game Objects.
 	for (Quad* obj : this->GOList) 
 		obj->update(deltaTime, rc);
 	for (Cube* obj : this->CubeList)
-		obj->update(deltaTime, rc, Vector3(0), Vector3(this->rotX, this->rotY, 0.0f), Vector3(this->scaler));
+		obj->update(deltaTime, rc, Vector3(0), Vector3(rotX, rotY, 0));
+	//obj->update(deltaTime, rc, Vector3(0), Vector3(this->rotX, this->rotY, 0.0f), Vector3(this->scaler));
 	for (Circle* obj : this->CircleList)
 		obj->update(deltaTime, rc);
 
@@ -115,7 +119,12 @@ void AppWindow::initializeEngine()
 
 	RECT windowRect = this->getClientWindowRect();
 	this->swapChain->init(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
-	std::cout << "Window Rect: [R]:" << windowRect.right << " [L]:" << windowRect.left << " [B]:" << windowRect.bottom << " [T]:" << windowRect.top << std::endl;
+
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+	// Create 100 cubes in random positions
+	for (int i = 0; i < 100; i++) {
+		this->createRotatingCube();
+	}
 }
 
 void AppWindow::createQuad()
@@ -197,7 +206,7 @@ void AppWindow::createQuads()
 	this->GOList.push_back(quad3);*/
 }
 
-void AppWindow::createCubes()
+void AppWindow::createCube()
 {
 	CubeVertex props = {
 		Vector3(1),
@@ -205,8 +214,17 @@ void AppWindow::createCubes()
 		LAVENDER
 	};
 
-	/*Cube* cube1 = new Cube("My First Cube", props, true);
-	this->CubeList.push_back(cube1);*/
+	Cube* cube1 = new Cube("My First Cube", props, true);
+	this->CubeList.push_back(cube1);
+}
+
+void AppWindow::createRotatingCube()
+{
+	CubeVertex props = {
+		Vector3(1),
+		CREAM,
+		LAVENDER
+	};
 
 	RotatingCube* mefr = new RotatingCube("me when i rotate", props, true);
 	this->CubeList.push_back(mefr);
@@ -215,66 +233,66 @@ void AppWindow::createCubes()
 void AppWindow::onKeyDown(int key)
 {
 	//std::cout << "Key down." << std::endl;
-	switch (key) {
-		case 'W':
-			this->rotX += 0.707f * deltaTime;
-			break;
-		case 'S':
-			this->rotX -= 0.707f * deltaTime;
-			break;
-		case 'A':
-			this->rotY += 0.707f * deltaTime;
-			break;
-		case 'D':
-			this->rotY -= 0.707f * deltaTime;
-			break;
-		case 27: // Escape
-			exit(0);
-			break;
+	//switch (key) {
+	//	case 'W':
+	//		this->rotX += 0.707f * deltaTime;
+	//		break;
+	//	case 'S':
+	//		this->rotX -= 0.707f * deltaTime;
+	//		break;
+	//	case 'A':
+	//		this->rotY += 0.707f * deltaTime;
+	//		break;
+	//	case 'D':
+	//		this->rotY -= 0.707f * deltaTime;
+	//		break;
+	//	case 27: // Escape
+	//		exit(0);
+	//		break;
 
-	}
+	//}
 	//std::cout << key << std::endl;
 }
 
 void AppWindow::onKeyUp(int key)
 {
-	switch (key) {
-		case ' ': // Spacebar
-			this->createCircle();
-			break;
-		case 8: // Backspace
-			if (this->CircleList.size() > 0)
-				this->CircleList.pop_back();
-			break;
-		case 46: // Delete
-			if (this->CircleList.size() > 0)
-				this->CircleList.clear();
-			break;
-	}
+	//switch (key) {
+	//	case ' ': // Spacebar
+	//		this->createCube();
+	//		break;
+	//	case 8: // Backspace
+	//		if (this->CircleList.size() > 0)
+	//			this->CircleList.pop_back();
+	//		break;
+	//	case 46: // Delete
+	//		if (this->CircleList.size() > 0)
+	//			this->CircleList.clear();
+	//		break;
+	//}
 }
 
 void AppWindow::onMouseMove(const Point& deltaMousePos)
 {
-	this->rotX -= deltaMousePos.y * deltaTime;
-	this->rotY -= deltaMousePos.x * deltaTime;
+	/*this->rotX -= deltaMousePos.y * deltaTime;
+	this->rotY -= deltaMousePos.x * deltaTime;*/
 }
 
 void AppWindow::onLeftMouseDown(const Point& mousePos)
 {
-	this->scaler = 0.5f;
+	//this->scaler = 0.5f;
 }
 
 void AppWindow::onRightMouseDown(const Point& mousePos)
 {
-	this->scaler = 2.0f;
+	//this->scaler = 2.0f;
 }
 
 void AppWindow::onLeftMouseUp(const Point& mousePos)
 {
-	this->scaler = 1.0f;
+	//this->scaler = 1.0f;
 }
 
 void AppWindow::onRightMouseUp(const Point& mousePos)
 {
-	this->scaler = 1.0f;
+	//this->scaler = 1.0f;
 }

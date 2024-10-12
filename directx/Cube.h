@@ -27,24 +27,26 @@
 
 class Cube : public GameObject
 {
-protected:
-	VertexBuffer* vb;
-	ConstantBuffer* cb;
-	IndexBuffer* ib;
+	protected:
+		VertexBuffer* vb;
+		ConstantBuffer* cb;
+		IndexBuffer* ib;
 
-	VertexShader* vs;
-	PixelShader* ps;
+		VertexShader* vs;
+		PixelShader* ps;
 
-	BlendState* bs;
+		BlendState* bs;
+		
+		float side = 0;
 
-public:
-	Cube(std::string name, CubeVertex props, bool blending);
+	public:
+		Cube(std::string name, CubeVertex props, bool blending);
 
-	~Cube();
+		~Cube();
 
-	virtual void update(float deltaTime, RECT viewport, 
-						Vector3 translate = Vector3(0), Vector3 rotate = Vector3(0), Vector3 scale = Vector3(0));
-	void draw();
-	bool release();
+		virtual void update(float deltaTime, RECT viewport, 
+							Vector3 translate = Vector3(0), Vector3 rotate = Vector3(0), Vector3 scale = Vector3(0));
+		void draw();
+		bool release();
 };
 
