@@ -16,7 +16,7 @@ GameObject::GameObject(std::string name) : name(name) {
 	cc.world.setTranslation(transform.position);
 }
 
-GameObject::GameObject(std::string name, PRIMITIVE type) : 
+GameObject::GameObject(std::string name, OBJECT_TYPE type) :
 	name(name), type(type) {
 	this->isActive = true;
 
@@ -50,29 +50,29 @@ void GameObject::translate(Vector3 offset, float speed)
 	this->cc.world.setTranslation(this->transform.position);
 }
 
-void GameObject::rotateX(float offset)
+void GameObject::rotateX(float radians)
 {
 	Matrix4x4 rotation;
 	rotation.setIdentity();
-	rotation.setRotationX(offset);
+	rotation.setRotationX(radians);
 
 	this->cc.world *= rotation;
 }
 
-void GameObject::rotateY(float offset)
+void GameObject::rotateY(float radians)
 {
 	Matrix4x4 rotation;
 	rotation.setIdentity();
-	rotation.setRotationY(offset);
+	rotation.setRotationY(radians);
 
 	this->cc.world *= rotation;
 }
 
-void GameObject::rotateZ(float offset)
+void GameObject::rotateZ(float radians)
 {
 	Matrix4x4 rotation;
 	rotation.setIdentity();
-	rotation.setRotationZ(offset);
+	rotation.setRotationZ(radians);
 
 	this->cc.world *= rotation;
 }
@@ -114,8 +114,26 @@ void GameObject::resetView()
 
 void GameObject::project(int type, RECT viewport)
 {
+	int width = (viewport.right - viewport.left);
+	int height = (viewport.bottom - viewport.top);
+
 	switch (type) {
 		case ORTHOGRAPHIC:
+			this->cc.proj.setOrthoLH(
+				width / 400.0f,
+				height / 400.0f,
+				-4.0f, 4.0f
+			);
+			break;
+		case PERSPECTIVE:
+			this->cc.proj.setPerspectiveFovLH(
+				1.57f, // fov
+				(float)width / (float)height, // aspect
+				0.1f, // near
+				100.0f // far
+			);
+			break;
+		default:
 			this->cc.proj.setOrthoLH(
 				(viewport.right - viewport.left) / 400.0f,
 				(viewport.bottom - viewport.top) / 400.0f,

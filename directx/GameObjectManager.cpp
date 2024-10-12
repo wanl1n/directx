@@ -34,7 +34,7 @@ void GameObjectManager::render()
 		obj->draw();
 }
 
-void GameObjectManager::addGameObject(PRIMITIVE type, int count)
+void GameObjectManager::addGameObject(OBJECT_TYPE type, int count)
 {
 	for (int i = 0; i < count; i++) {
 		switch (type) {
@@ -77,7 +77,13 @@ void GameObjectManager::updateCameraView(Matrix4x4 worldCam)
 		obj->cc.view = worldCam;
 }
 
-Quad* GameObjectManager::createQuad(PRIMITIVE type)
+void GameObjectManager::setProjection(int type, RECT vp)
+{
+	for (GameObject* obj : this->GOList)
+		obj->project(type, vp);
+}
+
+Quad* GameObjectManager::createQuad(OBJECT_TYPE type)
 {
 	//std::cout << "Creating Quad." << std::endl;
 	float sides = 0.1f;
@@ -110,7 +116,7 @@ Quad* GameObjectManager::createQuad(PRIMITIVE type)
 	return newQuad;
 }
 
-Circle* GameObjectManager::createCircle(PRIMITIVE type)
+Circle* GameObjectManager::createCircle(OBJECT_TYPE type)
 {
 	//std::cout << "Creating Circle." << std::endl;
 	CircleProps props = {
@@ -138,7 +144,7 @@ Circle* GameObjectManager::createCircle(PRIMITIVE type)
 	return newCircle;
 }
 
-Cube* GameObjectManager::createCube(PRIMITIVE type)
+Cube* GameObjectManager::createCube(OBJECT_TYPE type)
 {
 	CubeVertex props = {
 		Vector3(0),
@@ -165,13 +171,13 @@ Cube* GameObjectManager::createCube(PRIMITIVE type)
 	return newCube;
 }
 
-Plane* GameObjectManager::createPlane(PRIMITIVE type)
+Plane* GameObjectManager::createPlane(OBJECT_TYPE type)
 {
 	PlaneProps props = {
 		Vector3(0),
 		LAVENDER,
-		1.0f, // Width
-		1.0f  // Height
+		2.0f, // Width
+		2.0f  // Height
 	};
 
 	Plane* newPlane = new Plane("Plane " + (this->PlaneList.size() + 1), props, true);

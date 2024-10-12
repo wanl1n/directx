@@ -32,5 +32,8 @@ class InputSystem
 
 		void addListener(InputListener* listener);
 		void removeListener(InputListener* listener);
+
+		void setCursorPosition(const Point& pos);
+		void toggleCursor(bool enabled);
 };
 

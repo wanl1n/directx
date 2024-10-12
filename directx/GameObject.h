@@ -16,7 +16,7 @@ class GameObject
 	protected:
 		std::string name;
 		bool isActive;
-		PRIMITIVE type;
+		OBJECT_TYPE type;
 
 		Constant cc;
 		Transform transform;
@@ -26,7 +26,7 @@ class GameObject
 
 	public:
 		GameObject(std::string name);
-		GameObject(std::string name, PRIMITIVE type);
+		GameObject(std::string name, OBJECT_TYPE type);
 		~GameObject();
 
 		virtual void update(float deltaTime, RECT viewport);
@@ -35,9 +35,9 @@ class GameObject
 
 		// Transform Functions
 		virtual void translate(Vector3 offset, float speed);
-		virtual void rotateX(float offset);
-		virtual void rotateY(float offset);
-		virtual void rotateZ(float offset);
+		virtual void rotateX(float radians);
+		virtual void rotateY(float radians);
+		virtual void rotateZ(float radians);
 		virtual void scale(Vector3 offset);
 		virtual void resetView();
 		virtual void project(int type, RECT viewport);

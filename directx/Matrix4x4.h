@@ -124,6 +124,29 @@ class Matrix4x4
 			::memcpy(mat, matrix.mat, sizeof(float) * 16);
 		}
 
+		Vector3 getZDir() {
+			return Vector3(mat[2][0], mat[2][1], mat[2][2]);
+		}
+
+		Vector3 getXDir() {
+			return Vector3(mat[0][0], mat[0][1], mat[0][2]);
+		}
+
+		Vector3 getTranslation() {
+			return Vector3(mat[3][0], mat[3][1], mat[3][2]);
+		}
+
+		void setPerspectiveFovLH(float fov, float aspect, float znear, float zfar) {
+			float yscale = 1.0f / tan(fov / 2.0f);
+			float xscale = yscale / aspect;
+
+			mat[0][0] = xscale;
+			mat[1][1] = yscale;
+			mat[2][2] = zfar / (zfar - znear);
+			mat[2][3] = 1.0f;
+			mat[3][2] = (-znear * zfar) / (zfar - znear);
+		}
+
 		void setOrthoLH(float width, float height, float near_plane, float far_plane) {
 			this->setIdentity();
 			mat[0][0] = 2.0f / width;

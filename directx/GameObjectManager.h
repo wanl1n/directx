@@ -44,15 +44,16 @@ class GameObjectManager
 		void update(float deltaTime, RECT viewport);
 		void render();
 
-		void addGameObject(PRIMITIVE type, int count=1);
+		void addGameObject(OBJECT_TYPE type, int count=1);
 		void removeGameObject(GameObject* go);
 
 		void updateCameraView(Matrix4x4 worldCam);
+		void setProjection(int type, RECT vp);
 
 	private:
-		Quad* createQuad(PRIMITIVE type);
-		Circle* createCircle(PRIMITIVE type);
-		Cube* createCube(PRIMITIVE type);
-		Plane* createPlane(PRIMITIVE type);
+		Quad* createQuad(OBJECT_TYPE type);
+		Circle* createCircle(OBJECT_TYPE type);
+		Cube* createCube(OBJECT_TYPE type);
+		Plane* createPlane(OBJECT_TYPE type);
 };
 

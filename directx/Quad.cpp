@@ -57,8 +57,6 @@ void Quad::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
 
-	this->project(ORTHOGRAPHIC, viewport);
-
 	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);
 }
 

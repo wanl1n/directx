@@ -29,6 +29,7 @@ void SceneWindow::initializeEngine()
 	// Input System
 	InputSystem::initialize();
 	InputSystem::getInstance()->addListener(SceneWindow::getInstance());
+	InputSystem::getInstance()->toggleCursor(false);
 
 	// Game Object Manager
 	GameObjectManager::initialize();
@@ -46,6 +47,9 @@ void SceneWindow::initializeEngine()
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
 	this->grid = new Grid("Grid", false);
+
+	this->worldCamera.setIdentity();
+	this->worldCamera.setTranslation(Vector3(0, 0, -2));
 }
 
 void SceneWindow::onCreate()
@@ -86,10 +90,15 @@ void SceneWindow::onUpdate()
 	temp.setRotationY(this->rotY);
 	worldCam *= temp;
 
-	worldCam.setTranslation(Vector3(0, 0, 3));
+	Vector3 newPos = worldCamera.getTranslation() + worldCam.getZDir() * (this->forward * 0.3f);
+	newPos += worldCam.getXDir() * (this->rightward * 0.3f);
+
+	worldCam.setTranslation(newPos);
+	worldCamera = worldCam;
 	worldCam.inverse();
 
 	GameObjectManager::getInstance()->updateCameraView(worldCam);
+	GameObjectManager::getInstance()->setProjection(PERSPECTIVE, rc);
 
 	// Draw calls
 	this->grid->draw();
@@ -125,6 +134,18 @@ void SceneWindow::onKeyDown(int key)
 {
 	//std::cout << "Key down." << std::endl;
 	switch (key) {
+		case 'W':
+			this->forward = 1.0f;
+			break;
+		case 'A':
+			this->rightward = -1.0f;
+			break;
+		case 'S':
+			this->forward = -1.0f;
+			break;
+		case 'D':
+			this->rightward = 1.0f;
+			break;
 		case 27: // Escape
 			exit(0);
 			break;
@@ -134,6 +155,9 @@ void SceneWindow::onKeyDown(int key)
 
 void SceneWindow::onKeyUp(int key)
 {
+	this->forward = 0;
+	this->rightward = 0;
+
 	switch (key) {
 		case ' ': // Spacebar
 			break;
@@ -145,15 +169,22 @@ void SceneWindow::onKeyUp(int key)
 			GameObjectManager::getInstance()->addGameObject(CUBE);
 			break;
 		case '2': // 2
-			GameObjectManager::getInstance()->addGameObject(ROTATING_PLANE);
+			GameObjectManager::getInstance()->addGameObject(PLANE);
 			break;
 	}
 }
 
-void SceneWindow::onMouseMove(const Point& deltaMousePos)
+void SceneWindow::onMouseMove(const Point& mousePos)
 {
-	this->rotX -= deltaMousePos.y * deltaTime;
-	this->rotY -= deltaMousePos.x * deltaTime;
+	RECT viewport = this->getClientWindowRect();
+	int width = (viewport.right - viewport.left);
+	int height = (viewport.bottom - viewport.top);
+
+	float speed = 0.1f;
+	this->rotX += (mousePos.y - (height/2.0f)) * deltaTime * speed;
+	this->rotY += (mousePos.x - (width/2.0f)) * deltaTime * speed;
+
+	InputSystem::getInstance()->setCursorPosition(Point(width/2.0f, height/2.0f));
 }
 
 void SceneWindow::onLeftMouseDown(const Point& mousePos)

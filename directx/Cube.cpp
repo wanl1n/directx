@@ -4,7 +4,7 @@
 Cube::Cube(std::string name, CubeVertex props, bool blending) : GameObject(name)
 {
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
-	this->side = 0.1f;
+	this->side = 0.5f;
 	// 1. Set up the Vertex buffer.
 	CubeVertex vertices[] = { // Cube Vertices
 		// FRONT FACE
@@ -89,8 +89,6 @@ bool Cube::release()
 void Cube::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
-
-	this->project(ORTHOGRAPHIC, viewport);
 
 	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);
 }

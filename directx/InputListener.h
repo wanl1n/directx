@@ -11,7 +11,7 @@ class InputListener {
 		virtual void onKeyUp(int key) = 0;
 
 		// Mouse pure virtual callback functions
-		virtual void onMouseMove(const Point& deltaMousePos) = 0;
+		virtual void onMouseMove(const Point& mousePos) = 0;
 		virtual void onLeftMouseDown(const Point& mousePos) = 0;
 		virtual void onRightMouseDown(const Point& mousePos) = 0;
 		virtual void onLeftMouseUp(const Point& mousePos) = 0;

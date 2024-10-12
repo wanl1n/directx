@@ -65,10 +65,9 @@ std::vector<Vector3> Circle::generateCircleVertices(float radius, int segments)
 		float x = radius * cos(angle);
 		float y = radius * sin(angle);
 
-			vertices.push_back(Vector3(0.0f, 0.0f, 0.0f));
+		vertices.push_back(Vector3(0.0f, 0.0f, 0.0f));
 		vertices.push_back(Vector3(x, y, 0.0f));
 	}
-
 
 	vertices.push_back(Vector3(0.0f, 0.0f, 0.0f));
 	vertices.push_back(Vector3(0.1, 0, 0.0f));
@@ -79,6 +78,10 @@ bool Circle::release()
 {
 	this->vb->release();
 	this->cb->release();
+	this->ib->release();
+	this->bs->release();
+	this->vs->release();
+	this->ps->release();
 	delete this;
 	return true;
 }
@@ -86,9 +89,6 @@ bool Circle::release()
 void Circle::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
-
-	this->resetView();
-	this->project(ORTHOGRAPHIC, viewport);
 
 	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);
 }

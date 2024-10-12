@@ -13,12 +13,14 @@ const Vector4 BLACK = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
 const Vector4 CLEAR = Vector4(1, 1, 1, 0.0f);
 
 const int ORTHOGRAPHIC = 0;
+const int PERSPECTIVE = 1;
 const float GRID_INTERVAL = 0.1f;
 const int GRIDPOINTS_COUNT = (int)(((2 / 0.1f)) * 4);
 
 static const int NUM_SAMPLES = 10;
 
-enum PRIMITIVE {
+enum OBJECT_TYPE {
+	// Primitives
 	QUAD = 0,
 	PULSING_QUAD,
 	AREA51_QUAD,
@@ -27,5 +29,8 @@ enum PRIMITIVE {
 	CUBE,
 	ROTATING_CUBE,
 	PLANE,
-	ROTATING_PLANE
+	ROTATING_PLANE,
+
+	// Camera
+	CAMERA
 };

@@ -31,7 +31,9 @@ class SceneWindow : public Window, public InputListener
 		float deltaTime = 0;
 		float rotX = 0;
 		float rotY = 0;
-
+		float forward = 0;
+		float rightward = 0;
+		Matrix4x4 worldCamera;
 		// Scene Tools
 		Grid* grid;
 
@@ -54,7 +56,7 @@ class SceneWindow : public Window, public InputListener
 		// Inherited from InputListener.
 		void onKeyDown(int key) override;
 		void onKeyUp(int key) override;
-		void onMouseMove(const Point& deltaMousePos) override;
+		void onMouseMove(const Point& mousePos) override;
 		void onLeftMouseDown(const Point& mousePos) override;
 		void onRightMouseDown(const Point& mousePos) override;
 		void onLeftMouseUp(const Point& mousePos) override;

@@ -31,32 +31,8 @@
     <Filter Include="GameEngine\GraphicsEngine\BlendState">
       <UniqueIdentifier>{bed09d1e-7a16-491e-8a7e-a6b38beb28a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\GameObject\2D">
-      <UniqueIdentifier>{949b44c9-2311-464a-a76e-84dbb75a109f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GameObject\3D">
-      <UniqueIdentifier>{dfe30e7a-f445-40c7-a408-f2ca32ac80b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GameObject\3D\Cube">
-      <UniqueIdentifier>{f18237d2-d053-4d5d-89fa-fbfedfb877b5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="App\Shaders">
       <UniqueIdentifier>{5294991e-0cfd-4ac1-a9d8-5357ab13c006}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GameObject\2D\Quad">
-      <UniqueIdentifier>{cb352de3-7f9b-4bae-8133-bbe5dbef0bbd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GameObject\2D\Quad\PresetQuads">
-      <UniqueIdentifier>{1dac2203-2767-460d-97ba-f5a694f2d66e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GameObject\2D\Circle">
-      <UniqueIdentifier>{741c1e1e-ee4e-434e-a963-59dac7f6d2ca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GameObject\2D\Circle\BouncingCircle">
-      <UniqueIdentifier>{512c5d8a-1463-4fa0-aee8-6fe01a14749c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GameObject\3D\Cube\RotatingCube">
-      <UniqueIdentifier>{64f4c347-dadf-46b3-85a9-966403d93265}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameEngine\GraphicsEngine\EngineTime">
       <UniqueIdentifier>{4921e0ac-5fff-4a12-af32-30ed11818ef7}</UniqueIdentifier>
@@ -97,11 +73,41 @@
     <Filter Include="GameEngine\GraphicsEngine\Shaders\VertexShader">
       <UniqueIdentifier>{dba0e2b7-94cb-461e-b4ee-6d23469528e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\GameObject\3D\Plane">
+    <Filter Include="GameEngine\GameObject\Camera">
+      <UniqueIdentifier>{72401afa-8504-48eb-9628-4919e33577ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObject\Primitives">
+      <UniqueIdentifier>{14d41404-733b-4f92-9334-a509cfa6599a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObject\Primitives\3D">
+      <UniqueIdentifier>{dfe30e7a-f445-40c7-a408-f2ca32ac80b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObject\Primitives\3D\Cube">
+      <UniqueIdentifier>{f18237d2-d053-4d5d-89fa-fbfedfb877b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObject\Primitives\3D\Cube\RotatingCube">
+      <UniqueIdentifier>{64f4c347-dadf-46b3-85a9-966403d93265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObject\Primitives\3D\Plane">
       <UniqueIdentifier>{31dc01d1-166b-4000-881e-8c362dfb7eef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\GameObject\3D\Plane\RotatingPlane">
+    <Filter Include="GameEngine\GameObject\Primitives\3D\Plane\RotatingPlane">
       <UniqueIdentifier>{aab9d89f-cdc0-4c27-9b16-445846bae11c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObject\Primitives\2D">
+      <UniqueIdentifier>{949b44c9-2311-464a-a76e-84dbb75a109f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObject\Primitives\2D\Quad">
+      <UniqueIdentifier>{cb352de3-7f9b-4bae-8133-bbe5dbef0bbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObject\Primitives\2D\Quad\PresetQuads">
+      <UniqueIdentifier>{1dac2203-2767-460d-97ba-f5a694f2d66e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObject\Primitives\2D\Circle">
+      <UniqueIdentifier>{741c1e1e-ee4e-434e-a963-59dac7f6d2ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObject\Primitives\2D\Circle\BouncingCircle">
+      <UniqueIdentifier>{512c5d8a-1463-4fa0-aee8-6fe01a14749c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -130,28 +136,28 @@
       <Filter>GameEngine\GraphicsEngine\Shaders\PixelShader</Filter>
     </ClCompile>
     <ClCompile Include="Quad.cpp">
-      <Filter>GameEngine\GameObject\2D\Quad</Filter>
+      <Filter>GameEngine\GameObject\Primitives\2D\Quad</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>GameEngine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Area51.cpp">
-      <Filter>GameEngine\GameObject\2D\Quad\PresetQuads</Filter>
+      <Filter>GameEngine\GameObject\Primitives\2D\Quad\PresetQuads</Filter>
     </ClCompile>
     <ClCompile Include="BlendState.cpp">
       <Filter>GameEngine\GraphicsEngine\BlendState</Filter>
     </ClCompile>
     <ClCompile Include="Circle.cpp">
-      <Filter>GameEngine\GameObject\2D\Circle</Filter>
+      <Filter>GameEngine\GameObject\Primitives\2D\Circle</Filter>
     </ClCompile>
     <ClCompile Include="BouncingCircle.cpp">
-      <Filter>GameEngine\GameObject\2D\Circle\BouncingCircle</Filter>
+      <Filter>GameEngine\GameObject\Primitives\2D\Circle\BouncingCircle</Filter>
     </ClCompile>
     <ClCompile Include="ConstantBuffer.cpp">
       <Filter>GameEngine\GraphicsEngine\Buffers\ConstantBuffer</Filter>
     </ClCompile>
     <ClCompile Include="Cube.cpp">
-      <Filter>GameEngine\GameObject\3D\Cube</Filter>
+      <Filter>GameEngine\GameObject\Primitives\3D\Cube</Filter>
     </ClCompile>
     <ClCompile Include="EngineTime.cpp">
       <Filter>GameEngine\GraphicsEngine\EngineTime</Filter>
@@ -160,7 +166,7 @@
       <Filter>GameEngine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="PulsingQuad.cpp">
-      <Filter>GameEngine\GameObject\2D\Quad\PresetQuads</Filter>
+      <Filter>GameEngine\GameObject\Primitives\2D\Quad\PresetQuads</Filter>
     </ClCompile>
     <ClCompile Include="Grid.cpp">
       <Filter>GameEngine\Tools\Grid</Filter>
@@ -172,7 +178,7 @@
       <Filter>GameEngine\InputSystem</Filter>
     </ClCompile>
     <ClCompile Include="RotatingCube.cpp">
-      <Filter>GameEngine\GameObject\3D\Cube\RotatingCube</Filter>
+      <Filter>GameEngine\GameObject\Primitives\3D\Cube\RotatingCube</Filter>
     </ClCompile>
     <ClCompile Include="SceneWindow.cpp">
       <Filter>App\SceneWindow</Filter>
@@ -181,11 +187,14 @@
       <Filter>App\GameWindow</Filter>
     </ClCompile>
     <ClCompile Include="Plane.cpp">
-      <Filter>GameEngine\GameObject\3D\Plane</Filter>
+      <Filter>GameEngine\GameObject\Primitives\3D\Plane</Filter>
     </ClCompile>
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="RotatingPlane.cpp">
-      <Filter>GameEngine\GameObject\3D\Plane\RotatingPlane</Filter>
+      <Filter>GameEngine\GameObject\Primitives\3D\Plane\RotatingPlane</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>GameEngine\GameObject\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -211,22 +220,22 @@
       <Filter>GameEngine\GraphicsEngine\Shaders\PixelShader</Filter>
     </ClInclude>
     <ClInclude Include="Quad.h">
-      <Filter>GameEngine\GameObject\2D\Quad</Filter>
+      <Filter>GameEngine\GameObject\Primitives\2D\Quad</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>GameEngine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Area51.h">
-      <Filter>GameEngine\GameObject\2D\Quad\PresetQuads</Filter>
+      <Filter>GameEngine\GameObject\Primitives\2D\Quad\PresetQuads</Filter>
     </ClInclude>
     <ClInclude Include="BlendState.h">
       <Filter>GameEngine\GraphicsEngine\BlendState</Filter>
     </ClInclude>
     <ClInclude Include="Circle.h">
-      <Filter>GameEngine\GameObject\2D\Circle</Filter>
+      <Filter>GameEngine\GameObject\Primitives\2D\Circle</Filter>
     </ClInclude>
     <ClInclude Include="BouncingCircle.h">
-      <Filter>GameEngine\GameObject\2D\Circle\BouncingCircle</Filter>
+      <Filter>GameEngine\GameObject\Primitives\2D\Circle\BouncingCircle</Filter>
     </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
       <Filter>GameEngine\GraphicsEngine\Buffers\ConstantBuffer</Filter>
@@ -238,7 +247,7 @@
       <Filter>GameEngine\Structs</Filter>
     </ClInclude>
     <ClInclude Include="Cube.h">
-      <Filter>GameEngine\GameObject\3D\Cube</Filter>
+      <Filter>GameEngine\GameObject\Primitives\3D\Cube</Filter>
     </ClInclude>
     <ClInclude Include="EngineTime.h">
       <Filter>GameEngine\GraphicsEngine\EngineTime</Filter>
@@ -253,7 +262,7 @@
       <Filter>GameEngine\Math</Filter>
     </ClInclude>
     <ClInclude Include="PulsingQuad.h">
-      <Filter>GameEngine\GameObject\2D\Quad\PresetQuads</Filter>
+      <Filter>GameEngine\GameObject\Primitives\2D\Quad\PresetQuads</Filter>
     </ClInclude>
     <ClInclude Include="Grid.h">
       <Filter>GameEngine\Tools\Grid</Filter>
@@ -268,7 +277,7 @@
       <Filter>GameEngine\InputSystem</Filter>
     </ClInclude>
     <ClInclude Include="RotatingCube.h">
-      <Filter>GameEngine\GameObject\3D\Cube\RotatingCube</Filter>
+      <Filter>GameEngine\GameObject\Primitives\3D\Cube\RotatingCube</Filter>
     </ClInclude>
     <ClInclude Include="Vector3.h">
       <Filter>GameEngine\Math</Filter>
@@ -289,11 +298,14 @@
       <Filter>App\GameWindow</Filter>
     </ClInclude>
     <ClInclude Include="Plane.h">
-      <Filter>GameEngine\GameObject\3D\Plane</Filter>
+      <Filter>GameEngine\GameObject\Primitives\3D\Plane</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="RotatingPlane.h">
-      <Filter>GameEngine\GameObject\3D\Plane\RotatingPlane</Filter>
+      <Filter>GameEngine\GameObject\Primitives\3D\Plane\RotatingPlane</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>GameEngine\GameObject\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

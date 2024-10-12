@@ -40,6 +40,11 @@ Plane::Plane(std::string name, PlaneProps props, bool blending) : GameObject(nam
 	this->ps = graphicsEngine->createPixelShader(shaderByteCode, sizeShader);
 	graphicsEngine->releaseCompiledShader();
 
+	this->transform.rotation.x = 1.57f;
+	this->cc.world.setIdentity();
+	this->cc.world.setTranslation(this->transform.position);
+	this->rotateX(this->transform.rotation.x);
+
 	// Create Constant Buffer and load.
 	this->cb = GraphicsEngine::get()->createConstantBuffer();
 	this->cb->load(&cc, sizeof(Constant));
@@ -65,8 +70,6 @@ bool Plane::release()
 void Plane::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
-
-	this->project(ORTHOGRAPHIC, viewport);
 
 	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);
 }

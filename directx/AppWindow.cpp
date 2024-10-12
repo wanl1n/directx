@@ -144,7 +144,7 @@ void AppWindow::onKeyUp(int key)
 	//}
 }
 
-void AppWindow::onMouseMove(const Point& deltaMousePos)
+void AppWindow::onMouseMove(const Point& mousePos)
 {
 	/*this->rotX -= deltaMousePos.y * deltaTime;
 	this->rotY -= deltaMousePos.x * deltaTime;*/

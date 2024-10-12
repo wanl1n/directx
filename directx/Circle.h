@@ -12,6 +12,7 @@
 
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
+#include "IndexBuffer.h"
 #include "BlendState.h"
 
 #include "VertexShader.h"
