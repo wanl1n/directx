@@ -15,17 +15,7 @@
 
 // Game Objects
 #include "GameObjectManager.h"
-#include "Circle.h"
-#include "BouncingCircle.h"
-
 #include "Quad.h"
-#include "PulsingQuad.h"
-#include "Area51.h"
-
-#include "Cube.h"
-#include "RotatingCube.h"
-
-#include "Plane.h"
 
 #include "InputListener.h"
 
@@ -51,12 +41,6 @@ class AppWindow : public Window, public InputListener
 		float scaler = 1;
 
 	private:
-		std::vector<Quad*> GOList;
-		std::vector<Quad*> QuadList;
-		std::vector<Circle*> CircleList;
-		std::vector<Cube*> CubeList;
-
-	private:
 		AppWindow();
 		~AppWindow(); 
 		AppWindow(AppWindow const&) {};
@@ -72,11 +56,7 @@ class AppWindow : public Window, public InputListener
 
 		void initializeEngine();
 
-		void createQuad();
-		void createCircle();
 		void createQuads();
-		void createCube();
-		void createRotatingCube();
 
 		// Inherited from InputListener.
 		void onKeyDown(int key) override;

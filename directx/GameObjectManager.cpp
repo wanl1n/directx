@@ -130,19 +130,19 @@ Cube* GameObjectManager::createCube(PRIMITIVE type)
 	CubeVertex props = {
 		Vector3(0),
 		CREAM,
-		LAVENDER
+		PINK
 	};
 
 	Cube* newCube = new Cube("Cube " + (this->CubeList.size() + 1), props, true);
 
 	switch (type) {
 		case ROTATING_CUBE:
-			std::cout << "Creating Rotating Cube." << std::endl;
+			//std::cout << "Creating Rotating Cube." << std::endl;
 			free(newCube);
 			newCube = new RotatingCube("Rotating Cube " + (this->CubeList.size() + 1), props, true);
 			break;
 		default:
-			std::cout << "Creating Cube." << std::endl;
+			//std::cout << "Creating Cube." << std::endl;
 			break;
 	}
 

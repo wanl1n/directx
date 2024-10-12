@@ -9,18 +9,22 @@ RotatingCube::~RotatingCube() {}
 
 void RotatingCube::update(float deltaTime, RECT viewport)
 {
-	this->deltaRot += deltaTime;
+	this->deltaRot += this->rotDir * deltaTime;
 
+	// Reset world space matrix.
 	cc.m_world.setIdentity();
 
+	// Rotate cube.
 	this->rotateZ(this->deltaRot.z);
 	this->rotateY(this->deltaRot.y);
 	this->rotateX(this->deltaRot.x);
 
+	// Move back to actual position.
 	Matrix4x4 pos;
 	pos.setTranslation(this->transform.position);
 	this->cc.m_world *= pos;
 	
+	// Project
 	Cube::update(deltaTime, viewport);
 }
 
@@ -32,9 +36,23 @@ void RotatingCube::randomizeInit()
 
 	float posX = (float)(min + (std::rand() % (max - min + 1))) / 100.0f;
 	float posY = (float)(min + (std::rand() % (max - min + 1))) / 100.0f;
+	
+	min = (int)(-300 + this->side * 100);
+	max = (int)(300 - this->side * 100);
+	
+	float posZ = (float)(min + (std::rand() % (max - min + 1))) / 100.0f;
 
-	this->transform.position = Vector3(posX, posY, 1.0f);
+	this->transform.position = Vector3(posX, posY, posZ);
 	cc.m_world.setScale(Vector3(1));
 	cc.m_world.setTranslation(this->transform.position);
 	//std::cout << transform.position.x << "," << transform.position.y << std::endl;
+	
+	// Rotation Direction
+	min = -100;
+	max = 100;
+
+	float dirX = (float)(min + (std::rand() % (max - min + 1))) / 5000.0f;
+	float dirY = (float)(min + (std::rand() % (max - min + 1))) / 5000.0f;
+	this->rotDir = Vector3(dirX, dirY, 0);
+	this->rotDir = this->rotDir.normalize();
 }

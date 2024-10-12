@@ -286,9 +286,6 @@
       <Filter>GameEngine\GameObject\3D\Plane</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h" />
-    <ClInclude Include="Enums.h">
-      <Filter>GameEngine\Structs</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">

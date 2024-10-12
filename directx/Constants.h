@@ -8,11 +8,23 @@ const Vector4 LAVENDER = Vector4(215 / 255.0f, 180 / 255.0f, 243 / 255.0f, 1.0f)
 const Vector4 PINK = Vector4(0.957f, 0.761f, 0.761f, 1.0f);
 
 const Vector4 GRAY = Vector4(0.5f, 0.5f, 0.5f, 0.1f);
-
-const Vector4 CLEAR = Vector4(1, 1, 1, 0.1f);
+const Vector4 WHITE = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+const Vector4 BLACK = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+const Vector4 CLEAR = Vector4(1, 1, 1, 0.0f);
 
 const int ORTHOGRAPHIC = 0;
 const float GRID_INTERVAL = 0.1f;
 const int GRIDPOINTS_COUNT = (int)(((2 / 0.1f)) * 4);
 
 static const int NUM_SAMPLES = 10;
+
+enum PRIMITIVE {
+	QUAD = 0,
+	PULSING_QUAD,
+	AREA51_QUAD,
+	CIRCLE,
+	BOUNCING_CIRCLE,
+	CUBE,
+	ROTATING_CUBE,
+	PLANE
+};

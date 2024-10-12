@@ -13,7 +13,7 @@
 
 #include "Plane.h"
 
-#include "Enums.h"
+#include "Constants.h"
 
 class GameObject;
 

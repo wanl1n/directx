@@ -7,7 +7,7 @@
 #include "Vertex.h"
 #include "Math.h"
 #include "Transform.h"
-#include "Enums.h"
+#include "Constants.h"
 
 class GameObjectManager;
 

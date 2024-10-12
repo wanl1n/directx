@@ -6,6 +6,7 @@ class RotatingCube : public Cube
 {
 	private:
 		Vector3 deltaRot;
+		Vector3 rotDir;
 
 	public:
 		RotatingCube(std::string name, CubeVertex props, bool blending);
