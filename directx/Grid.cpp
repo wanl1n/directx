@@ -1,5 +1,5 @@
 #include "Grid.h"
-#include "Constant.h"
+#include "Vertex.h"
 
 Grid::Grid(std::string name, bool showGrid) : GameObject("Grid")
 {
@@ -62,9 +62,9 @@ bool Grid::release()
 	return true;
 }
 
-void Grid::update(float deltaTime, RECT viewport, VertexShader* vs, PixelShader* ps)
+void Grid::update(float deltaTime, RECT viewport)
 {
-	GameObject::update(deltaTime);
+	GameObject::update(deltaTime, viewport);
 
 	this->project(ORTHOGRAPHIC, viewport);
 

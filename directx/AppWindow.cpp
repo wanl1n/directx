@@ -4,7 +4,7 @@
 #include "EngineTime.h"
 
 #include "Constants.h"
-#include "Constant.h"
+#include "Vertex.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -17,7 +17,7 @@ AppWindow* AppWindow::getInstance()
 void AppWindow::initialize()
 {
 	sharedInstance = new AppWindow();
-	sharedInstance->init(1024, 768);
+	sharedInstance->init(1024, 1024);
 }
 
 AppWindow::AppWindow() {}
@@ -50,26 +50,29 @@ void AppWindow::onUpdate()
 	this->rotY += deltaTime;
 
 	// 3. Update Game Objects.
-	for (Quad* obj : this->GOList) 
-		obj->update(deltaTime, rc);
-	for (Cube* obj : this->CubeList)
-		obj->update(deltaTime, rc, Vector3(0), Vector3(rotX, rotY, 0));
-	//obj->update(deltaTime, rc, Vector3(0), Vector3(this->rotX, this->rotY, 0.0f), Vector3(this->scaler));
-	for (Circle* obj : this->CircleList)
-		obj->update(deltaTime, rc);
+	//for (Quad* obj : this->GOList) 
+	//	obj->update(deltaTime, rc);
+	//for (Cube* obj : this->CubeList)
+	//	obj->update(deltaTime, rc, Vector3(0), Vector3(rotX, rotY, 0));
+	////obj->update(deltaTime, rc, Vector3(0), Vector3(this->rotX, this->rotY, 0.0f), Vector3(this->scaler));
+	//for (Circle* obj : this->CircleList)
+	//	obj->update(deltaTime, rc);
 
 	// 4. Draw all Game Objects.
-	for (Quad* obj : this->GOList)
+	/*for (Quad* obj : this->GOList)
 		obj->draw();
 	for (Cube* obj : this->CubeList)
 		obj->draw();
 	for (Circle* obj : this->CircleList)
-		obj->draw();
+		obj->draw();*/
+
+	GameObjectManager::getInstance()->update(deltaTime, rc);
+	GameObjectManager::getInstance()->render();
 
 	this->swapChain->present(true);
 
 	// Update Delta time.
-	deltaTime = EngineTime::getDeltaTime();
+	deltaTime = (float)EngineTime::getDeltaTime();
 }
 
 void AppWindow::onDestroy()
@@ -108,9 +111,12 @@ void AppWindow::onKillFocus()
 void AppWindow::initializeEngine()
 {
 	EngineTime::initialize();
+
 	// Input System
 	InputSystem::initialize();
 	InputSystem::getInstance()->addListener(AppWindow::getInstance());
+
+	GameObjectManager::initialize();
 
 	GraphicsEngine::initialize();
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
@@ -121,33 +127,35 @@ void AppWindow::initializeEngine()
 	this->swapChain->init(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
 
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
 	// Create 100 cubes in random positions
-	for (int i = 0; i < 100; i++) {
+	/*for (int i = 0; i < 100; i++) {
 		this->createRotatingCube();
-	}
+	}*/
+
+	GameObjectManager::getInstance()->addGameObject(ROTATING_CUBE, 100);
 }
 
 void AppWindow::createQuad()
 {
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 	std::cout << "Creating Quad." << std::endl;
 	float radius = 0.1f;
-	int min = -1 + radius * 2;
-	int max = 1 - radius * 2;
+	int min = (int)(-100 + radius * 200);
+	int max = (int)(100 - radius * 200);
 
-	float posX = min + (std::rand() % (max - min + 1));
-	float posY = min + (std::rand() % (max - min + 1));
+	float posX = (float)(min + (std::rand() % (max - min + 1)));
+	float posY = (float)(min + (std::rand() % (max - min + 1)));
 
 	// left top right bottom
 	Rect pts = {posX - radius, posY + radius, posX + radius, posY - radius};
 
-	QuadVertex pos1 = { Vector3(pts.left, pts.bottom, 1.0f),
-						Vector3(pts.left, pts.top, 1.0f),
-						Vector3(pts.right, pts.bottom, 1.0f),
-						Vector3(pts.right, pts.top, 1.0f) };
+	QuadVertices pos1 = { Vector3(pts.left, pts.bottom, 1.0f),
+							Vector3(pts.left, pts.top, 1.0f),
+							Vector3(pts.right, pts.bottom, 1.0f),
+							Vector3(pts.right, pts.top, 1.0f) };
 	
-	QuadColor color1 = { CREAM, MATCHA, SPACE, LAVENDER };
-	QuadColor color2 = { LAVENDER, CREAM, MATCHA, SPACE };
+	QuadColors color1 = { CREAM, MATCHA, SPACE, LAVENDER };
+	QuadColors color2 = { LAVENDER, CREAM, MATCHA, SPACE };
 	QuadProps quadProps1 = { pos1, pos1, color1, color2 };
 
 	Area51* quad1 = new Area51("Generic Quad", quadProps1, false);
@@ -172,26 +180,26 @@ void AppWindow::createCircle()
 
 void AppWindow::createQuads()
 {
-	QuadVertex pos1 = { Vector3(-0.5f, -0.5f, 1.0f),
+	QuadVertices pos1 = { Vector3(-0.5f, -0.5f, 1.0f),
 						Vector3(-0.5f, 0.5f, 1.0f),
 						Vector3(0.5f, -0.5f, 1.0f),
 						Vector3(0.5f, 0.5f, 1.0f) };
-	QuadVertex pos2 = { Vector3(-0.6f, -0.2f, 1.0f),
+	QuadVertices pos2 = { Vector3(-0.6f, -0.2f, 1.0f),
 						Vector3(-0.4f, 0.5f, 1.0f),
 						Vector3(0.6f, -0.3f, 1.0f),
 						Vector3(0.1f, 0.5f, 1.0f) };
-	QuadVertex pos3 = { Vector3(-0.9f, -0.6f, 1.0f),
+	QuadVertices pos3 = { Vector3(-0.9f, -0.6f, 1.0f),
 						Vector3(-0.9f, 0.6f, 1.0f),
 						Vector3(-0.6f, -0.4f, 1.0f),
 						Vector3(-0.6f, 0.4f, 1.0f) };
-	QuadVertex pos4 = { Vector3(0.6f, -0.2f, 1.0f),
+	QuadVertices pos4 = { Vector3(0.6f, -0.2f, 1.0f),
 						Vector3(0.6f, 0.5f, 1.0f),
 						Vector3(0.9f, -0.3f, 1.0f),
 						Vector3(0.9f, 0.5f, 1.0f) };
-	QuadColor color1 = { CREAM, MATCHA, SPACE, LAVENDER };
-	QuadColor color2 = { LAVENDER, CREAM, MATCHA, SPACE };
-	QuadColor color3 = { LAVENDER, LAVENDER, MATCHA, MATCHA };
-	QuadColor color4 = { CREAM, CREAM, SPACE, SPACE };
+	QuadColors color1 = { CREAM, MATCHA, SPACE, LAVENDER };
+	QuadColors color2 = { LAVENDER, CREAM, MATCHA, SPACE };
+	QuadColors color3 = { LAVENDER, LAVENDER, MATCHA, MATCHA };
+	QuadColors color4 = { CREAM, CREAM, SPACE, SPACE };
 	QuadProps quadProps1 = { pos1, pos2, color1, color2 };
 	QuadProps quadProps2 = { pos3, pos2, color2, color3 };
 	QuadProps quadProps3 = { pos4, pos2, color3, color4 };

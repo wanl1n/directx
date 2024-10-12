@@ -139,7 +139,7 @@ bool Window::broadcast()
 
 		if (fpsTimer >= 1) {
 			fpsTimer--;
-			std::cout << "FPS: " << fpsCounter << std::endl;
+			//std::cout << "FPS: " << fpsCounter << std::endl;
 			fpsCounter = 0;
 		}
 	}

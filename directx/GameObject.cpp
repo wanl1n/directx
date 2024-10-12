@@ -2,6 +2,8 @@
 #include "EngineTime.h"
 
 GameObject::GameObject(std::string name) : m_name(name) {
+	this->isActive = true;
+
 	cc.m_time = 0;
 	cc.m_world.setIdentity();
 	cc.m_view.setIdentity();
@@ -10,23 +12,40 @@ GameObject::GameObject(std::string name) : m_name(name) {
 	transform.position = Vector3(0);
 	transform.rotation = Vector3(0);
 	transform.scale = Vector3(1);
+
+	cc.m_world.setTranslation(transform.position);
+}
+
+GameObject::GameObject(std::string name, PRIMITIVE type) : 
+	m_name(name), type(type) {
+	this->isActive = true;
+
+	cc.m_time = 0;
+	cc.m_world.setIdentity();
+	cc.m_view.setIdentity();
+	cc.m_proj.setIdentity();
+
+	transform.position = Vector3(0);
+	transform.rotation = Vector3(0);
+	transform.scale = Vector3(1);
+
+	cc.m_world.setTranslation(transform.position);
 }
 
 GameObject::~GameObject() {}
 
-void GameObject::update(float deltaTime)
+void GameObject::update(float deltaTime, RECT viewport)
 {
 	this->cc.m_time = deltaTime;
+}
 
-	this->deltaPos = deltaTime / 5000000;
-
-	this->deltaScale += deltaTime / 0.15f;
-	this->deltaRot += deltaTime / 0.55f;
+void GameObject::draw()
+{
 }
 
 void GameObject::translate(Vector3 offset, float speed)
 {
-	this->transform.position += offset * speed * EngineTime::getDeltaTime();
+	this->transform.position += offset * speed * (float)EngineTime::getDeltaTime();
 	this->cc.m_world.setTranslation(this->transform.position);
 }
 
@@ -59,13 +78,9 @@ void GameObject::rotateZ(float offset)
 
 void GameObject::scale(Vector3 offset)
 {
-	// Offset Scaling.
-	/*Matrix4x4 scale;
-	scale.setScale(transform.scale = Vector3::lerp(transform.scale, transform.scale + offset, (sin(this->deltaScale) + 1.0f) / 2.0f));
-	this->cc.m_world *= scale;*/
-
-	// PULSING ANIMATION
-	cc.m_world.setScale(Vector3::lerp(Vector3(0.5f, 0.5f, 0), Vector3(1, 1, 0), (sin(this->deltaScale) + 1.0f) / 2.0f));
+	Matrix4x4 scale;
+	scale.setScale(transform.scale = Vector3::lerp(transform.scale, transform.scale + offset, (sin(this->cc.m_time) + 1.0f) / 2.0f));
+	this->cc.m_world *= scale;
 }
 
 void GameObject::setPosition(Vector3 newPos)

@@ -1,5 +1,5 @@
 #include "Cube.h"
-#include "Constant.h"
+#include "Vertex.h"
 
 Cube::Cube(std::string name, CubeVertex props, bool blending) : GameObject(name)
 {
@@ -86,9 +86,9 @@ bool Cube::release()
 	return true;
 }
 
-void Cube::update(float deltaTime, RECT viewport, Vector3 translate, Vector3 rotate, Vector3 scale)
+void Cube::update(float deltaTime, RECT viewport)
 {
-	GameObject::update(deltaTime);
+	GameObject::update(deltaTime, viewport);
 
 	this->resetView();
 	this->project(ORTHOGRAPHIC, viewport);

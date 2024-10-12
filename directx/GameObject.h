@@ -4,28 +4,33 @@
 
 #include "Windows.h"
 #include "Constants.h"
-#include "Constant.h"
-#include "Vector3.h"
+#include "Vertex.h"
+#include "Math.h"
 #include "Transform.h"
+#include "Enums.h"
+
+class GameObjectManager;
 
 class GameObject
 {
 	protected:
 		std::string m_name;
+		bool isActive;
+		PRIMITIVE type;
 
 		Constant cc;
 		Transform transform;
 
-		float deltaPos = 0;
-		float deltaScale = 0;
-		Vector3 deltaRot = Vector3(0);
-		float m_time = 0;
+	private:
+		friend class GameObjectManager;
 
 	public:
 		GameObject(std::string name);
+		GameObject(std::string name, PRIMITIVE type);
 		~GameObject();
 
-		virtual void update(float deltaTime);
+		virtual void update(float deltaTime, RECT viewport);
+		virtual void draw();
 		virtual bool release() = 0;
 
 		virtual void translate(Vector3 offset, float speed);

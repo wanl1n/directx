@@ -34,7 +34,7 @@ public:
 	Grid(std::string name, bool showGrid);
 	~Grid();
 
-	void update(float deltaTime, RECT viewport, VertexShader* vs, PixelShader* ps);
+	void update(float deltaTime, RECT viewport);
 	void draw();
 	bool release();
 };

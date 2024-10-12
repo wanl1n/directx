@@ -1,5 +1,5 @@
 #include "Circle.h"
-#include "Constant.h"
+#include "Vertex.h"
 #include <iostream>
 
 #include <DirectXMath.h>
@@ -90,7 +90,7 @@ bool Circle::release()
 
 void Circle::update(float deltaTime, RECT viewport)
 {
-	GameObject::update(deltaTime);
+	GameObject::update(deltaTime, viewport);
 
 	this->cc.m_view.setIdentity();
 	this->project(ORTHOGRAPHIC, viewport);

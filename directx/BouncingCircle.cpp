@@ -12,7 +12,7 @@ BouncingCircle::~BouncingCircle() {}
 void BouncingCircle::update(float deltaTime, RECT viewport)
 {
 	//std::cout << this->m_name << " Position : " << this->transform.position.x << ", " << this->transform.position.y << std::endl;
-	Vector3 offset = this->direction * this->speed * EngineTime::getDeltaTime();
+	Vector3 offset = this->direction * this->speed * (float)EngineTime::getDeltaTime();
 	transform.position += offset;
 	this->checkBounds(offset);
 

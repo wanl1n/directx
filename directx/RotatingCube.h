@@ -1,14 +1,17 @@
 #pragma once
 #include "Cube.h"
+#include "Math.h"
 
 class RotatingCube : public Cube
 {
+	private:
+		Vector3 deltaRot;
+
 	public:
 		RotatingCube(std::string name, CubeVertex props, bool blending);
 		~RotatingCube();
 
-		void update(float deltaTime, RECT viewport,
-			Vector3 translate = Vector3(0), Vector3 rotate = Vector3(0), Vector3 scale = Vector3(1));
+		void update(float deltaTime, RECT viewport);
 		void randomizeInit();
 };
 

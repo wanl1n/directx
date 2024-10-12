@@ -13,6 +13,8 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
+// Game Objects
+#include "GameObjectManager.h"
 #include "Circle.h"
 #include "BouncingCircle.h"
 
@@ -22,6 +24,8 @@
 
 #include "Cube.h"
 #include "RotatingCube.h"
+
+#include "Plane.h"
 
 #include "InputListener.h"
 

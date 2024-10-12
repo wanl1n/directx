@@ -17,8 +17,7 @@
 #include "PixelShader.h"
 
 #include "Vertex.h"
-#include "Rect.h"
-#include "Vector3.h"
+#include "Math.h"
 
 class Quad : public GameObject
 {

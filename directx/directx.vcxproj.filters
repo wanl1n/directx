@@ -19,15 +19,6 @@
     <Filter Include="GameEngine\GraphicsEngine\DeviceContext">
       <UniqueIdentifier>{3975270d-0fae-4107-9c08-8d47879b988f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\VertexBuffer">
-      <UniqueIdentifier>{c88e5f98-d57e-4e47-b273-138f05dfc95b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\VertexShader">
-      <UniqueIdentifier>{dba0e2b7-94cb-461e-b4ee-6d23469528e9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\PixelShader">
-      <UniqueIdentifier>{c1a9ec90-3646-4c2e-bb90-3af016eab6e8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameEngine\GameObject">
       <UniqueIdentifier>{5c3aa537-c7fa-42c0-b33f-1dfd2db3f5d3}</UniqueIdentifier>
     </Filter>
@@ -67,12 +58,6 @@
     <Filter Include="GameEngine\GameObject\3D\Cube\RotatingCube">
       <UniqueIdentifier>{64f4c347-dadf-46b3-85a9-966403d93265}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\IndexBuffer">
-      <UniqueIdentifier>{ca44f696-9659-49a2-9048-faa5ab2e2e7e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\ConstantBuffer">
-      <UniqueIdentifier>{091a1626-d985-435e-bcda-4704311ad1d4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameEngine\GraphicsEngine\EngineTime">
       <UniqueIdentifier>{4921e0ac-5fff-4a12-af32-30ed11818ef7}</UniqueIdentifier>
     </Filter>
@@ -90,6 +75,30 @@
     </Filter>
     <Filter Include="App\SceneWindow">
       <UniqueIdentifier>{67e0aea8-7a78-460d-9cdc-4faf4952c4d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Buffers">
+      <UniqueIdentifier>{983ce364-4372-4e70-bc67-2fae0b909630}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Buffers\IndexBuffer">
+      <UniqueIdentifier>{ca44f696-9659-49a2-9048-faa5ab2e2e7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Buffers\ConstantBuffer">
+      <UniqueIdentifier>{091a1626-d985-435e-bcda-4704311ad1d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Buffers\VertexBuffer">
+      <UniqueIdentifier>{c88e5f98-d57e-4e47-b273-138f05dfc95b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Shaders">
+      <UniqueIdentifier>{ba750035-e302-4048-98f3-fd615b49102d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Shaders\PixelShader">
+      <UniqueIdentifier>{c1a9ec90-3646-4c2e-bb90-3af016eab6e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Shaders\VertexShader">
+      <UniqueIdentifier>{dba0e2b7-94cb-461e-b4ee-6d23469528e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObject\3D\Plane">
+      <UniqueIdentifier>{31dc01d1-166b-4000-881e-8c362dfb7eef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -109,13 +118,13 @@
       <Filter>GameEngine\GraphicsEngine\DeviceContext</Filter>
     </ClCompile>
     <ClCompile Include="VertexBuffer.cpp">
-      <Filter>GameEngine\GraphicsEngine\VertexBuffer</Filter>
+      <Filter>GameEngine\GraphicsEngine\Buffers\VertexBuffer</Filter>
     </ClCompile>
     <ClCompile Include="VertexShader.cpp">
-      <Filter>GameEngine\GraphicsEngine\VertexShader</Filter>
+      <Filter>GameEngine\GraphicsEngine\Shaders\VertexShader</Filter>
     </ClCompile>
     <ClCompile Include="PixelShader.cpp">
-      <Filter>GameEngine\GraphicsEngine\PixelShader</Filter>
+      <Filter>GameEngine\GraphicsEngine\Shaders\PixelShader</Filter>
     </ClCompile>
     <ClCompile Include="Quad.cpp">
       <Filter>GameEngine\GameObject\2D\Quad</Filter>
@@ -136,7 +145,7 @@
       <Filter>GameEngine\GameObject\2D\Circle\BouncingCircle</Filter>
     </ClCompile>
     <ClCompile Include="ConstantBuffer.cpp">
-      <Filter>GameEngine\GraphicsEngine\ConstantBuffer</Filter>
+      <Filter>GameEngine\GraphicsEngine\Buffers\ConstantBuffer</Filter>
     </ClCompile>
     <ClCompile Include="Cube.cpp">
       <Filter>GameEngine\GameObject\3D\Cube</Filter>
@@ -154,7 +163,7 @@
       <Filter>GameEngine\Tools\Grid</Filter>
     </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
-      <Filter>GameEngine\GraphicsEngine\IndexBuffer</Filter>
+      <Filter>GameEngine\GraphicsEngine\Buffers\IndexBuffer</Filter>
     </ClCompile>
     <ClCompile Include="InputSystem.cpp">
       <Filter>GameEngine\InputSystem</Filter>
@@ -168,6 +177,10 @@
     <ClCompile Include="AppWindow.cpp">
       <Filter>App\GameWindow</Filter>
     </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>GameEngine\GameObject\3D\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -183,13 +196,13 @@
       <Filter>GameEngine\GraphicsEngine\DeviceContext</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">
-      <Filter>GameEngine\GraphicsEngine\VertexBuffer</Filter>
+      <Filter>GameEngine\GraphicsEngine\Buffers\VertexBuffer</Filter>
     </ClInclude>
     <ClInclude Include="VertexShader.h">
-      <Filter>GameEngine\GraphicsEngine\VertexShader</Filter>
+      <Filter>GameEngine\GraphicsEngine\Shaders\VertexShader</Filter>
     </ClInclude>
     <ClInclude Include="PixelShader.h">
-      <Filter>GameEngine\GraphicsEngine\PixelShader</Filter>
+      <Filter>GameEngine\GraphicsEngine\Shaders\PixelShader</Filter>
     </ClInclude>
     <ClInclude Include="Quad.h">
       <Filter>GameEngine\GameObject\2D\Quad</Filter>
@@ -210,15 +223,12 @@
       <Filter>GameEngine\GameObject\2D\Circle\BouncingCircle</Filter>
     </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
-      <Filter>GameEngine\GraphicsEngine\ConstantBuffer</Filter>
+      <Filter>GameEngine\GraphicsEngine\Buffers\ConstantBuffer</Filter>
     </ClInclude>
     <ClInclude Include="Math.h">
       <Filter>GameEngine\Math</Filter>
     </ClInclude>
     <ClInclude Include="Constants.h">
-      <Filter>GameEngine\Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="Constant.h">
       <Filter>GameEngine\Structs</Filter>
     </ClInclude>
     <ClInclude Include="Cube.h">
@@ -236,9 +246,6 @@
     <ClInclude Include="Matrix4x4.h">
       <Filter>GameEngine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Rect.h">
-      <Filter>GameEngine\Structs</Filter>
-    </ClInclude>
     <ClInclude Include="PulsingQuad.h">
       <Filter>GameEngine\GameObject\2D\Quad\PresetQuads</Filter>
     </ClInclude>
@@ -246,7 +253,7 @@
       <Filter>GameEngine\Tools\Grid</Filter>
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">
-      <Filter>GameEngine\GraphicsEngine\IndexBuffer</Filter>
+      <Filter>GameEngine\GraphicsEngine\Buffers\IndexBuffer</Filter>
     </ClInclude>
     <ClInclude Include="InputListener.h">
       <Filter>GameEngine\InputSystem</Filter>
@@ -274,6 +281,13 @@
     </ClInclude>
     <ClInclude Include="AppWindow.h">
       <Filter>App\GameWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>GameEngine\GameObject\3D\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h" />
+    <ClInclude Include="Enums.h">
+      <Filter>GameEngine\Structs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

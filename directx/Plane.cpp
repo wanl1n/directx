@@ -1,7 +1,7 @@
-#include "Quad.h"
+#include "Plane.h"
 #include "Vertex.h"
 
-Quad::Quad(std::string name, QuadProps props, bool blending) : GameObject(name)
+Plane::Plane(std::string name, PlaneProps props, bool blending) : GameObject(name)
 {
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
 
@@ -13,16 +13,22 @@ Quad::Quad(std::string name, QuadProps props, bool blending) : GameObject(name)
 	graphicsEngine->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
 	this->vs = graphicsEngine->createVertexShader(shaderByteCode, sizeShader);
 
-	QuadVertex vertices[] = {
-		{ props.points1.point1,	props.points2.point1,	props.color1.color1,	props.color2.color1 },
-		{ props.points1.point2,	props.points2.point2,	props.color1.color2,	props.color2.color2 },
-		{ props.points1.point3,	props.points2.point3,	props.color1.color3,	props.color2.color3 },
-		{ props.points1.point4,	props.points2.point4,	props.color1.color4,	props.color2.color4 }
+	Vector3 center = props.position;
+	Rect rec = { center.x - width / 2, // left
+				 center.y + height / 2,// top
+				 center.x + width / 2, // right
+				 center.y - height / 2 }; // bottom
+
+	PlaneVertex vertices[] = {
+		{ Vector3(rec.left,	rec.bottom, 0.0f), props.color },
+		{ Vector3(rec.left,	rec.top, 0.0f),	props.color },
+		{ Vector3(rec.right, rec.bottom, 0.0f),	props.color },
+		{ Vector3(rec.right, rec.top, 0.0f), props.color }
 	};
 
 	this->vb = GraphicsEngine::get()->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(vertices);
-	this->vb->load(vertices, sizeof(QuadVertex), size_list, shaderByteCode, sizeShader);
+	this->vb->load(vertices, sizeof(PlaneVertex), size_list, shaderByteCode, sizeShader);
 
 	graphicsEngine->releaseCompiledShader();
 
@@ -38,14 +44,14 @@ Quad::Quad(std::string name, QuadProps props, bool blending) : GameObject(name)
 	// Blend state.
 	this->bs = GraphicsEngine::get()->createBlendState(blending);
 
-	this->height = props.points1.point2.y - props.points1.point1.y;
-	this->width = props.points1.point3.x - props.points1.point1.x;
+	this->height = props.height;
+	this->width = props.width;
 }
 
-Quad::~Quad()
+Plane::~Plane()
 {}
 
-bool Quad::release()
+bool Plane::release()
 {
 	this->vb->release();
 	this->cb->release();
@@ -53,7 +59,7 @@ bool Quad::release()
 	return true;
 }
 
-void Quad::update(float deltaTime, RECT viewport)
+void Plane::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
 
@@ -62,7 +68,7 @@ void Quad::update(float deltaTime, RECT viewport)
 	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);
 }
 
-void Quad::draw()
+void Plane::draw()
 {
 	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
 

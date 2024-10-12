@@ -4,7 +4,7 @@
 #include "EngineTime.h"
 
 #include "Constants.h"
-#include "Constant.h"
+#include "Vertex.h"
 
 SceneWindow* SceneWindow::sharedInstance = nullptr;
 SceneWindow* SceneWindow::getInstance()
@@ -102,27 +102,27 @@ void SceneWindow::initializeEngine()
 
 void SceneWindow::createQuads()
 {
-	QuadVertex pos1 = { Vector3(-0.5f, -0.5f, 1.0f),
+	QuadVertices pos1 = { Vector3(-0.5f, -0.5f, 1.0f),
 						Vector3(-0.5f, 0.5f, 1.0f),
 						Vector3(0.5f, -0.5f, 1.0f),
 						Vector3(0.5f, 0.5f, 1.0f) };
-	QuadVertex pos2 = { Vector3(-0.6f, -0.2f, 1.0f),
+	QuadVertices pos2 = { Vector3(-0.6f, -0.2f, 1.0f),
 						Vector3(-0.4f, 0.5f, 1.0f),
 						Vector3(0.6f, -0.3f, 1.0f),
 						Vector3(0.1f, 0.5f, 1.0f) };
-	QuadVertex pos3 = { Vector3(-0.9f, -0.6f, 1.0f),
+	QuadVertices pos3 = { Vector3(-0.9f, -0.6f, 1.0f),
 						Vector3(-0.9f, 0.6f, 1.0f),
 						Vector3(-0.6f, -0.4f, 1.0f),
 						Vector3(-0.6f, 0.4f, 1.0f) };
-	QuadVertex pos4 = { Vector3(0.6f, -0.2f, 1.0f),
+	QuadVertices pos4 = { Vector3(0.6f, -0.2f, 1.0f),
 						Vector3(0.6f, 0.5f, 1.0f),
 						Vector3(0.9f, -0.3f, 1.0f),
 						Vector3(0.9f, 0.5f, 1.0f) };
-	QuadColor color1 = { CREAM, LAVENDER, CREAM, LAVENDER };
-	QuadColor color2 = { SPACE, MATCHA, CREAM, LAVENDER };
-	QuadColor color3 = { LAVENDER, LAVENDER, CREAM, CREAM };
-	QuadColor color4 = { SPACE, SPACE, LAVENDER, LAVENDER };
-	QuadColor trans = { CLEAR, CLEAR, CLEAR, CLEAR };
+	QuadColors color1 = { CREAM, LAVENDER, CREAM, LAVENDER };
+	QuadColors color2 = { SPACE, MATCHA, CREAM, LAVENDER };
+	QuadColors color3 = { LAVENDER, LAVENDER, CREAM, CREAM };
+	QuadColors color4 = { SPACE, SPACE, LAVENDER, LAVENDER };
+	QuadColors trans = { CLEAR, CLEAR, CLEAR, CLEAR };
 	QuadProps quadProps1 = { pos1, pos2, color2, trans };
 	QuadProps quadProps2 = { pos3, pos2, color2, trans };
 	QuadProps quadProps3 = { pos4, pos2, color2, trans };

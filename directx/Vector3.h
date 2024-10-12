@@ -24,7 +24,7 @@ class Vector3
 		}
 
 		float magnitude() {
-			return sqrt(pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2));
+			return (float)sqrt(pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2));
 		}
 
 		Vector3 normalize() {
