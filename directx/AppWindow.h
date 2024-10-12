@@ -25,7 +25,7 @@ class AppWindow : public Window, public InputListener
 		static AppWindow* getInstance();
 		static void initialize();
 
-	private:
+	protected:
 		SwapChain* swapChain;
 
 		float deltaTime = 0;
@@ -43,10 +43,9 @@ class AppWindow : public Window, public InputListener
 		AppWindow& operator = (AppWindow const&) {};
 		static AppWindow* sharedInstance;
 
-		void initializeEngine();
-		void createQuads();
-
 	public:
+		void initializeEngine();
+
 		virtual void onCreate() override;
 		virtual void onUpdate() override;
 		virtual void onDestroy() override;

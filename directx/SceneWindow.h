@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+
 #include "Window.h"
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
@@ -11,20 +13,11 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
-#include "Circle.h"
-#include "BouncingCircle.h"
-#include "Quad.h"
-#include "PulsingQuad.h"
-#include "Area51.h"
-
-#include "Cube.h"
-#include "RotatingCube.h"
+#include "GameObjectManager.h"
+#include "Grid.h"
 
 #include "InputListener.h"
 
-#include "Grid.h"
-
-#include <vector>
 
 class SceneWindow : public Window, public InputListener
 {
@@ -35,19 +28,10 @@ class SceneWindow : public Window, public InputListener
 	private:
 		SwapChain* swapChain;
 
-		unsigned long oldTime = 0;
-
-		float oldDelta = 0;
-		float newDelta = 0;
 		float deltaTime = 0;
 
 		// Scene Tools
 		Grid* grid;
-
-	private:
-		std::vector<Quad*> QuadList;
-		std::vector<Cube*> CubeList;
-		std::vector<Circle*> CircleList;
 
 	private:
 		SceneWindow();
@@ -57,15 +41,13 @@ class SceneWindow : public Window, public InputListener
 		static SceneWindow* sharedInstance;
 
 	public:
+		void initializeEngine();
+
 		virtual void onCreate() override;
 		virtual void onUpdate() override;
 		virtual void onDestroy() override;
-
-		void initializeEngine();
-		void updateTime();
-
-		void createQuads();
-		void createCubes();
+		virtual void onFocus() override;
+		virtual void onKillFocus() override;
 
 		// Inherited from InputListener.
 		void onKeyDown(int key) override;
