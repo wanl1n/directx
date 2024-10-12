@@ -38,11 +38,6 @@ Circle::Circle(std::string name, CircleProps props, bool blending) : GameObject(
 	this->ps = graphicsEngine->createPixelShader(shaderByteCode, sizeShader);
 	graphicsEngine->releaseCompiledShader();
 
-	// Initialize Constant
-	cc.m_time = 0;
-	transform.position = Vector3(0);
-	cc.m_world.setTranslation(transform.position);
-
 	// Create Constant Buffer and load.
 	this->cb = GraphicsEngine::get()->createConstantBuffer();
 	this->cb->load(&cc, sizeof(Constant));

@@ -12,6 +12,7 @@
 #include "RotatingCube.h"
 
 #include "Plane.h"
+#include "RotatingPlane.h"
 
 #include "Constants.h"
 

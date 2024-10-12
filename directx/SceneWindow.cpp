@@ -48,7 +48,7 @@ void SceneWindow::initializeEngine()
 	this->grid = new Grid("Grid", true);
 
 	GameObjectManager::getInstance()->addGameObject(CUBE);
-	GameObjectManager::getInstance()->addGameObject(PLANE);
+	GameObjectManager::getInstance()->addGameObject(ROTATING_PLANE);
 }
 
 void SceneWindow::onCreate()
@@ -66,7 +66,7 @@ void SceneWindow::onUpdate()
 	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
 
 	// 1. Clear Render Target.
-	device->clearRenderTargetColor(this->swapChain, 0,0,0,1);
+	device->clearRenderTargetColor(this->swapChain, PINK);
 
 	// 2. Set the target Viewport where we'll draw.
 	RECT rc = this->getClientWindowRect();

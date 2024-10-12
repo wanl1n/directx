@@ -27,7 +27,7 @@ Grid::Grid(std::string name, bool showGrid) : GameObject("Grid")
 	// Load into vertex buffer
 	this->vb = GraphicsEngine::get()->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(lines);
-	this->vb->load(lines, sizeof(Vector3), size_list, shaderByteCode, sizeShader, "Grid");
+	this->vb->loadTool(lines, sizeof(Vector3), size_list, shaderByteCode, sizeShader);
 
 	GraphicsEngine::get()->releaseCompiledShader();
 

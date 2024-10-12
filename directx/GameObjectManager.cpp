@@ -52,7 +52,10 @@ void GameObjectManager::addGameObject(PRIMITIVE type, int count)
 				this->createCube(type);
 				break;
 			case PLANE:
+			case ROTATING_PLANE:
 				this->createPlane(type);
+				break;
+			default:
 				break;
 		}
 	}
@@ -71,7 +74,11 @@ void GameObjectManager::removeGameObject(GameObject* go)
 Quad* GameObjectManager::createQuad(PRIMITIVE type)
 {
 	//std::cout << "Creating Quad." << std::endl;
-	QuadVertices pos = { Vector3(0), Vector3(0), Vector3(0), Vector3(0) };
+	float sides = 0.1f;
+	QuadVertices pos = { Vector3(-sides, -sides, 0), 
+						 Vector3(-sides, sides, 0), 
+						 Vector3(sides, -sides, 0), 
+						 Vector3(sides, sides, 0) };
 	QuadColors color1 = { CREAM, MATCHA, SPACE, LAVENDER };
 	QuadColors color2 = { LAVENDER, CREAM, MATCHA, SPACE };
 	QuadProps quadProps = { pos, pos, color1, color2 };
@@ -156,14 +163,18 @@ Plane* GameObjectManager::createPlane(PRIMITIVE type)
 {
 	PlaneProps props = {
 		Vector3(0),
-		CREAM,
-		0.1f,
-		0.1f
+		LAVENDER,
+		1.0f, // Width
+		1.0f  // Height
 	};
 
 	Plane* newPlane = new Plane("Plane " + (this->PlaneList.size() + 1), props, true);
 
 	switch (type) {
+		case ROTATING_PLANE:
+			free(newPlane);
+			newPlane = new RotatingPlane("Rotating Plane " + (this->PlaneList.size() + 1), props, true);
+			break;
 		default:
 			break;
 	}

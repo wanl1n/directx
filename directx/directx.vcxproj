@@ -149,6 +149,7 @@
     <ClCompile Include="PulsingQuad.cpp" />
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="RotatingCube.cpp" />
+    <ClCompile Include="RotatingPlane.cpp" />
     <ClCompile Include="SceneWindow.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="SwapChain.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="PulsingQuad.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="RotatingCube.h" />
+    <ClInclude Include="RotatingPlane.h" />
     <ClInclude Include="SceneWindow.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SwapChain.h" />

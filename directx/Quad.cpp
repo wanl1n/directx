@@ -22,7 +22,7 @@ Quad::Quad(std::string name, QuadProps props, bool blending) : GameObject(name)
 
 	this->vb = GraphicsEngine::get()->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(vertices);
-	this->vb->load(vertices, sizeof(QuadVertex), size_list, shaderByteCode, sizeShader);
+	this->vb->loadQuad(vertices, sizeof(QuadVertex), size_list, shaderByteCode, sizeShader);
 
 	graphicsEngine->releaseCompiledShader();
 

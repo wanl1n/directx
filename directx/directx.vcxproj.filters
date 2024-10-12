@@ -100,6 +100,9 @@
     <Filter Include="GameEngine\GameObject\3D\Plane">
       <UniqueIdentifier>{31dc01d1-166b-4000-881e-8c362dfb7eef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GameObject\3D\Plane\RotatingPlane">
+      <UniqueIdentifier>{aab9d89f-cdc0-4c27-9b16-445846bae11c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -181,6 +184,9 @@
       <Filter>GameEngine\GameObject\3D\Plane</Filter>
     </ClCompile>
     <ClCompile Include="Singleton.cpp" />
+    <ClCompile Include="RotatingPlane.cpp">
+      <Filter>GameEngine\GameObject\3D\Plane\RotatingPlane</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -286,6 +292,9 @@
       <Filter>GameEngine\GameObject\3D\Plane</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="RotatingPlane.h">
+      <Filter>GameEngine\GameObject\3D\Plane\RotatingPlane</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">

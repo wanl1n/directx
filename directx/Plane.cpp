@@ -4,13 +4,16 @@
 Plane::Plane(std::string name, PlaneProps props, bool blending) : GameObject(name)
 {
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
+	
+	this->height = props.height;
+	this->width = props.width;
 
 	// Shader Attributes
 	void* shaderByteCode = nullptr;
 	size_t sizeShader = 0;
 
 	// Creating Vertex Shader
-	graphicsEngine->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
+	graphicsEngine->compileVertexShader(L"CircleVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
 	this->vs = graphicsEngine->createVertexShader(shaderByteCode, sizeShader);
 
 	Vector3 center = props.position;
@@ -18,7 +21,7 @@ Plane::Plane(std::string name, PlaneProps props, bool blending) : GameObject(nam
 				 center.y + height / 2,// top
 				 center.x + width / 2, // right
 				 center.y - height / 2 }; // bottom
-
+	//std::cout << "Rect: [L]: " << rec.left << " [R]: " << rec.right << " [T]: " << rec.top << " [B]: " << rec.bottom << std::endl;
 	PlaneVertex vertices[] = {
 		{ Vector3(rec.left,	rec.bottom, 0.0f), props.color },
 		{ Vector3(rec.left,	rec.top, 0.0f),	props.color },
@@ -28,12 +31,12 @@ Plane::Plane(std::string name, PlaneProps props, bool blending) : GameObject(nam
 
 	this->vb = GraphicsEngine::get()->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(vertices);
-	this->vb->load(vertices, sizeof(PlaneVertex), size_list, shaderByteCode, sizeShader);
+	this->vb->loadPlane(vertices, sizeof(PlaneVertex), size_list, shaderByteCode, sizeShader);
 
 	graphicsEngine->releaseCompiledShader();
 
 	// Creating Pixel Shader
-	graphicsEngine->compilePixelShader(L"PixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
+	graphicsEngine->compilePixelShader(L"CirclePixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
 	this->ps = graphicsEngine->createPixelShader(shaderByteCode, sizeShader);
 	graphicsEngine->releaseCompiledShader();
 
@@ -43,9 +46,6 @@ Plane::Plane(std::string name, PlaneProps props, bool blending) : GameObject(nam
 
 	// Blend state.
 	this->bs = GraphicsEngine::get()->createBlendState(blending);
-
-	this->height = props.height;
-	this->width = props.width;
 }
 
 Plane::~Plane()
@@ -55,6 +55,9 @@ bool Plane::release()
 {
 	this->vb->release();
 	this->cb->release();
+	this->bs->release();
+	this->vs->release();
+	this->ps->release();
 	delete this;
 	return true;
 }
@@ -63,6 +66,7 @@ void Plane::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
 
+	this->resetView();
 	this->project(ORTHOGRAPHIC, viewport);
 
 	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);
@@ -87,4 +91,3 @@ void Plane::draw()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(this->vb);
 	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(this->vb->getSizeVertexList(), 0);
 }
-

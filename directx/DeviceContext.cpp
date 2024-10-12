@@ -27,8 +27,9 @@ void DeviceContext::clearRenderTargetColor(SwapChain* swap_chain, Vector4 color)
 	FLOAT clearColor[] = { color.x, color.y, color.z, color.a };
 
 	this->devContext->ClearRenderTargetView(swap_chain->renderView, clearColor);
+	this->devContext->ClearDepthStencilView(swap_chain->depthView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
 
-	this->devContext->OMSetRenderTargets(1, &swap_chain->renderView, NULL);
+	this->devContext->OMSetRenderTargets(1, &swap_chain->renderView, swap_chain->depthView);
 }
 
 void DeviceContext::setVertexBuffer(VertexBuffer* vertex_buffer)
