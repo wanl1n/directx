@@ -23,8 +23,6 @@ void GameObjectManager::update(float deltaTime, RECT viewport)
 {
 	for (GameObject* obj : this->GOList)
 	{
-		//std::cout << obj->name << std::endl;
-		//std::cout << obj->transform.position.x << ", " << obj->transform.position.y << ", " << obj->transform.position.z << std::endl;
 		if (obj->isActive)
 			obj->update(deltaTime, viewport);
 	}
@@ -56,6 +54,9 @@ void GameObjectManager::addGameObject(OBJECT_TYPE type, int count)
 			case PLANE:
 			case ROTATING_PLANE:
 				this->createPlane(type);
+				break;
+			case SPHERE:
+				this->createSphere(type);
 				break;
 			default:
 				break;
@@ -169,13 +170,6 @@ Cube* GameObjectManager::createCube(OBJECT_TYPE type)
 
 Plane* GameObjectManager::createPlane(OBJECT_TYPE type)
 {
-	PlaneProps props = {
-		Vector3(0),
-		PINK,
-		5.0f, // Width
-		5.0f  // Height
-	};
-
 	Plane* newPlane = new Plane("Plane " + std::to_string(this->PlaneList.size() + 1), true);
 
 	switch (type) {
@@ -191,4 +185,19 @@ Plane* GameObjectManager::createPlane(OBJECT_TYPE type)
 	this->PlaneList.push_back(newPlane);
 
 	return newPlane;
+}
+
+Sphere* GameObjectManager::createSphere(OBJECT_TYPE type)
+{
+	Sphere* newSphere = new Sphere("Sphere " + std::to_string(this->SphereList.size() + 1), true);
+
+	switch (type) {
+		default:
+			break;
+	}
+
+	this->GOList.push_back((GameObject*)newSphere);
+	this->SphereList.push_back(newSphere);
+
+	return newSphere;
 }

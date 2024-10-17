@@ -15,6 +15,8 @@
 #include "Plane.h"
 #include "RotatingPlane.h"
 
+#include "Sphere.h"
+
 #include "Constants.h"
 
 class GameObject;
@@ -31,6 +33,7 @@ class GameObjectManager
 		std::vector<Circle*> CircleList;
 		std::vector<Cube*> CubeList;
 		std::vector<Plane*> PlaneList;
+		std::vector<Sphere*> SphereList;
 
 	private:
 		GameObjectManager();
@@ -56,5 +59,6 @@ class GameObjectManager
 		Circle* createCircle(OBJECT_TYPE type);
 		Cube* createCube(OBJECT_TYPE type);
 		Plane* createPlane(OBJECT_TYPE type);
+		Sphere* createSphere(OBJECT_TYPE type);
 };
 

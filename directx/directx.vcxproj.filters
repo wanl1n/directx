@@ -115,6 +115,12 @@
     <Filter Include="GameEngine\GraphicsEngine\RenderSystem\SwapChain">
       <UniqueIdentifier>{094caefa-879f-4e05-980d-3b1ebb1530cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GameObject\Primitives\3D\Sphere">
+      <UniqueIdentifier>{cd1f7a6f-0634-48a6-902c-e7774aa96fc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObject\Primitives\3D\Cylinder">
+      <UniqueIdentifier>{8fc44549-0e15-4782-b7c7-cb401d7c760d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -204,6 +210,9 @@
     </ClCompile>
     <ClCompile Include="Primitive.cpp">
       <Filter>GameEngine\GameObject\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>GameEngine\GameObject\Primitives\3D\Sphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -321,6 +330,9 @@
     </ClInclude>
     <ClInclude Include="PrimitivesInclude.h">
       <Filter>GameEngine\GameObject\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>GameEngine\GameObject\Primitives\3D\Sphere</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

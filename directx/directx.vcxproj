@@ -154,6 +154,7 @@
     <ClCompile Include="RotatingPlane.cpp" />
     <ClCompile Include="SceneWindow.cpp" />
     <ClCompile Include="Singleton.cpp" />
+    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexShader.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="RotatingPlane.h" />
     <ClInclude Include="SceneWindow.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector3.h" />

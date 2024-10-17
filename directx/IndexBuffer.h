@@ -1,6 +1,7 @@
 #pragma once
 #include <d3d11.h>
 #include "string"
+#include <vector>
 
 class DeviceContext;
 
@@ -17,6 +18,7 @@ class IndexBuffer
 		~IndexBuffer();
 
 		bool load(void* list_indices, UINT size_list);
+		bool load(std::vector<unsigned int> indices);
 		bool release();
 		UINT getSizeIndexList();
 };
