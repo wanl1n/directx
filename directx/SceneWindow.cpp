@@ -52,8 +52,8 @@ void SceneWindow::initializeEngine()
 	this->worldCamera.setTranslation(Vector3(0, 0, -6));
 
 	// Default Primitives
-	GameObjectManager::getInstance()->addGameObject(PLANE);
-	GameObjectManager::getInstance()->addGameObject(SPHERE);
+	//GameObjectManager::getInstance()->addGameObject(PLANE);
+	GameObjectManager::getInstance()->addGameObject(CYLINDER);
 }
 
 void SceneWindow::onCreate()

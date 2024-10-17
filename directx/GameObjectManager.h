@@ -1,22 +1,6 @@
 #pragma once
 #include "vector"
-
-#include "Primitive.h"
-#include "Circle.h"
-#include "BouncingCircle.h"
-
-#include "Quad.h"
-#include "PulsingQuad.h"
-#include "Area51.h"
-
-#include "Cube.h"
-#include "RotatingCube.h"
-
-#include "Plane.h"
-#include "RotatingPlane.h"
-
-#include "Sphere.h"
-
+#include "PrimitivesList.h"
 #include "Constants.h"
 
 class GameObject;
@@ -34,6 +18,7 @@ class GameObjectManager
 		std::vector<Cube*> CubeList;
 		std::vector<Plane*> PlaneList;
 		std::vector<Sphere*> SphereList;
+		std::vector<Cylinder*> CylinderList;
 
 	private:
 		GameObjectManager();
@@ -60,5 +45,6 @@ class GameObjectManager
 		Cube* createCube(OBJECT_TYPE type);
 		Plane* createPlane(OBJECT_TYPE type);
 		Sphere* createSphere(OBJECT_TYPE type);
+		Cylinder* createCylinder(OBJECT_TYPE type);
 };
 

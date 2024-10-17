@@ -214,6 +214,9 @@
     <ClCompile Include="Sphere.cpp">
       <Filter>GameEngine\GameObject\Primitives\3D\Sphere</Filter>
     </ClCompile>
+    <ClCompile Include="Cylinder.cpp">
+      <Filter>GameEngine\GameObject\Primitives\3D\Cylinder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -333,6 +336,12 @@
     </ClInclude>
     <ClInclude Include="Sphere.h">
       <Filter>GameEngine\GameObject\Primitives\3D\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Cylinder.h">
+      <Filter>GameEngine\GameObject\Primitives\3D\Cylinder</Filter>
+    </ClInclude>
+    <ClInclude Include="PrimitivesList.h">
+      <Filter>GameEngine\GameObject\Primitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -58,6 +58,9 @@ void GameObjectManager::addGameObject(OBJECT_TYPE type, int count)
 			case SPHERE:
 				this->createSphere(type);
 				break;
+			case CYLINDER:
+				this->createCylinder(type);
+				break;
 			default:
 				break;
 		}
@@ -200,4 +203,19 @@ Sphere* GameObjectManager::createSphere(OBJECT_TYPE type)
 	this->SphereList.push_back(newSphere);
 
 	return newSphere;
+}
+
+Cylinder* GameObjectManager::createCylinder(OBJECT_TYPE type)
+{
+	Cylinder* newCylinder = new Cylinder("Cylinder " + std::to_string(this->CylinderList.size() + 1), true);
+
+	switch (type) {
+	default:
+		break;
+	}
+
+	this->GOList.push_back((GameObject*)newCylinder);
+	this->CylinderList.push_back(newCylinder);
+
+	return newCylinder;
 }
