@@ -13,7 +13,7 @@ cbuffer constant : register(b0)
     unsigned int m_time;
 };
 
-float4 dpsmain(PS_INPUT input) : SV_TARGET
+float4 psmain(PS_INPUT input) : SV_TARGET
 {
     float3 color1 = input.color.xyz;
     float3 color2 = input.color1.xyz;

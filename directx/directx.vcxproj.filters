@@ -196,6 +196,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>GameEngine\GameObject\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Primitive.cpp">
+      <Filter>GameEngine\GameObject\Primitives</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -306,6 +309,12 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>GameEngine\GameObject\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Primitive.h">
+      <Filter>GameEngine\GameObject\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="PrimitivesInclude.h">
+      <Filter>GameEngine\GameObject\Primitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

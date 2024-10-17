@@ -49,7 +49,7 @@ void SceneWindow::initializeEngine()
 	this->grid = new Grid("Grid", false);
 
 	this->worldCamera.setIdentity();
-	this->worldCamera.setTranslation(Vector3(0, 0, -2));
+	this->worldCamera.setTranslation(Vector3(0, 0, -6));
 }
 
 void SceneWindow::onCreate()

@@ -1,50 +1,15 @@
 #pragma once
-#include <iostream>
-#include <string>
+#include "PrimitivesInclude.h"
 
-#include "GameObject.h"
+#include "Primitive.h"
 
-// Engine
-#include "Windows.h"
-#include "GraphicsEngine.h"
-#include "SwapChain.h"
-#include "DeviceContext.h"
-
-// Buffers
-#include "VertexBuffer.h"
-#include "ConstantBuffer.h"
-#include "IndexBuffer.h"
-#include "BlendState.h"
-
-// Shaders
-#include "VertexShader.h"
-#include "PixelShader.h"
-
-// Structs
-#include "Vertex.h"
-#include "Math.h"
-
-class Cube : public GameObject
+class Cube : public Primitive
 {
 	protected:
-		VertexBuffer* vb;
-		ConstantBuffer* cb;
-		IndexBuffer* ib;
-
-		VertexShader* vs;
-		PixelShader* ps;
-
-		BlendState* bs;
-		
 		float side = 0;
 
 	public:
 		Cube(std::string name, CubeVertex props, bool blending);
-
 		~Cube();
-
-		virtual void update(float deltaTime, RECT viewport) override;
-		void draw() override;
-		bool release();
 };
 

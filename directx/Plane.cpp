@@ -8,14 +8,6 @@ Plane::Plane(std::string name, PlaneProps props, bool blending) : GameObject(nam
 	this->height = props.height;
 	this->width = props.width;
 
-	// Shader Attributes
-	void* shaderByteCode = nullptr;
-	size_t sizeShader = 0;
-
-	// Creating Vertex Shader
-	graphicsEngine->compileVertexShader(L"CircleVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
-	this->vs = graphicsEngine->createVertexShader(shaderByteCode, sizeShader);
-
 	Vector3 center = props.position;
 	Rect rec = { center.x - width / 2, // left
 				 center.y + height / 2,// top
@@ -25,12 +17,39 @@ Plane::Plane(std::string name, PlaneProps props, bool blending) : GameObject(nam
 	PlaneVertex vertices[] = {
 		{ Vector3(rec.left,	rec.bottom, 0.0f), props.color },
 		{ Vector3(rec.left,	rec.top, 0.0f),	props.color },
+		{ Vector3(rec.right, rec.top, 0.0f), props.color },
 		{ Vector3(rec.right, rec.bottom, 0.0f),	props.color },
-		{ Vector3(rec.right, rec.top, 0.0f), props.color }
-	};
 
+		{ Vector3(rec.right, rec.bottom, 0.0f),	props.color },
+		{ Vector3(rec.right, rec.top, 0.0f), props.color },
+		{ Vector3(rec.left,	rec.top, 0.0f),	props.color },
+		{ Vector3(rec.left,	rec.bottom, 0.0f), props.color }
+	};
 	this->vb = GraphicsEngine::get()->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(vertices);
+
+	// 2. Set up the Index buffer.
+	unsigned int indices[] = {
+		//FRONT SIDE
+		0,1,2,  //FIRST TRIANGLE
+		2,3,0,  //SECOND TRIANGLE
+		//BACK SIDE
+		4,5,6,
+		6,7,4,
+	};
+	this->ib = GraphicsEngine::get()->createIndexBuffer();
+	UINT size_indices = ARRAYSIZE(indices);
+
+	// Load into index buffer.
+	this->ib->load(indices, size_indices);
+
+	// Shader Attributes
+	void* shaderByteCode = nullptr;
+	size_t sizeShader = 0;
+
+	// Creating Vertex Shader
+	graphicsEngine->compileVertexShader(L"CircleVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
+	this->vs = graphicsEngine->createVertexShader(shaderByteCode, sizeShader);
 	this->vb->loadPlane(vertices, sizeof(PlaneVertex), size_list, shaderByteCode, sizeShader);
 
 	graphicsEngine->releaseCompiledShader();
@@ -90,6 +109,8 @@ void Plane::draw()
 	device->setPixelShader(ps);
 
 	// Draw Object.
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(this->vb);
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(this->vb->getSizeVertexList(), 0);
+	device->setVertexBuffer(this->vb);
+	device->setIndexBuffer(this->ib);
+	device->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
+	//device->drawTriangleStrip(this->vb->getSizeVertexList(), 0);
 }

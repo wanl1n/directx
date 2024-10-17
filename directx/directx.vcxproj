@@ -147,6 +147,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="PulsingQuad.cpp" />
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="RotatingCube.cpp" />
@@ -182,6 +183,8 @@
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Point.h" />
+    <ClInclude Include="Primitive.h" />
+    <ClInclude Include="PrimitivesInclude.h" />
     <ClInclude Include="PulsingQuad.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="RotatingCube.h" />

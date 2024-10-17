@@ -12,6 +12,7 @@
 
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
+#include "IndexBuffer.h"
 #include "BlendState.h"
 
 #include "VertexShader.h"
@@ -25,6 +26,7 @@ class Plane : public GameObject
 	protected:
 		VertexBuffer* vb;
 		ConstantBuffer* cb;
+		IndexBuffer* ib;
 		BlendState* bs;
 
 		VertexShader* vs;

@@ -175,9 +175,9 @@ Plane* GameObjectManager::createPlane(OBJECT_TYPE type)
 {
 	PlaneProps props = {
 		Vector3(0),
-		LAVENDER,
-		2.0f, // Width
-		2.0f  // Height
+		PINK,
+		5.0f, // Width
+		5.0f  // Height
 	};
 
 	Plane* newPlane = new Plane("Plane " + (this->PlaneList.size() + 1), props, true);
