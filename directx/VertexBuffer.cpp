@@ -77,14 +77,14 @@ bool VertexBuffer::loadCircle(std::vector<CircleVertex> list_vertices, UINT size
 }
 
 // 3D Cube
-bool VertexBuffer::loadIndexed(std::vector<Vertex3D> vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader)
+bool VertexBuffer::loadIndexed(std::vector<Vertex3D> vertices, UINT size_vertex, void* shader_byte_code, UINT size_byte_shader)
 {
 	if (m_layout) m_layout->Release();
 	if (m_buffer) m_buffer->Release();
 
 	D3D11_BUFFER_DESC buff_desc = {};
 	buff_desc.Usage = D3D11_USAGE_DEFAULT;
-	buff_desc.ByteWidth = size_vertex * size_list;
+	buff_desc.ByteWidth = size_vertex * vertices.size();
 	buff_desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	buff_desc.CPUAccessFlags = 0;
 	buff_desc.MiscFlags = 0;
@@ -93,7 +93,7 @@ bool VertexBuffer::loadIndexed(std::vector<Vertex3D> vertices, UINT size_vertex,
 	init_data.pSysMem = vertices.data();
 
 	this->m_size_vertex = size_vertex;
-	this->m_size_list = size_list;
+	this->m_size_list = vertices.size();
 
 	if (FAILED(GraphicsEngine::get()->m_d3d_device->CreateBuffer(&buff_desc, &init_data, &m_buffer)))
 		return false;

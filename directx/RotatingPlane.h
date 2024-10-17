@@ -8,7 +8,7 @@ private:
 	float speed;
 
 public:
-	RotatingPlane(std::string name, PlaneProps props, bool blending);
+	RotatingPlane(std::string name, bool blending);
 	~RotatingPlane();
 
 	void update(float deltaTime, RECT viewport);

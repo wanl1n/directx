@@ -176,12 +176,12 @@ Plane* GameObjectManager::createPlane(OBJECT_TYPE type)
 		5.0f  // Height
 	};
 
-	Plane* newPlane = new Plane("Plane " + std::to_string(this->PlaneList.size() + 1), props, true);
+	Plane* newPlane = new Plane("Plane " + std::to_string(this->PlaneList.size() + 1), true);
 
 	switch (type) {
 		case ROTATING_PLANE:
 			free(newPlane);
-			newPlane = new RotatingPlane("Rotating Plane " + std::to_string(this->PlaneList.size() + 1), props, true);
+			newPlane = new RotatingPlane("Rotating Plane " + std::to_string(this->PlaneList.size() + 1), true);
 			break;
 		default:
 			break;

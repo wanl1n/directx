@@ -1,6 +1,7 @@
 #include "Cube.h"
 
-Cube::Cube(std::string name, bool blending) : Primitive(name, blending)
+Cube::Cube(std::string name, bool blending, OBJECT_TYPE type) :
+	Primitive(name, type, blending), side(1), frontColor(WHITE), backColor(WHITE)
 {
 	this->init();
 }
@@ -9,8 +10,6 @@ Cube::~Cube() {}
 
 void Cube::initializeBuffers()
 {
-	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
-
 	// Set up the Index buffer.
 	unsigned int indices[] = {
 		//FRONT SIDE

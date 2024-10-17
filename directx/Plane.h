@@ -5,18 +5,13 @@
 class Plane : public Primitive
 { 
 	protected:
-		Vector3 center;
-		Vector4 color;
-		float height;
-		float width;
+		Vector4 color = WHITE;
+		float height = 1.0f;
+		float width = 1.0f;
 
 	public:
-		Plane(std::string name, PlaneProps props, bool blending);
+		Plane(std::string name, bool blending, OBJECT_TYPE type = PLANE);
 		~Plane();
-
-		virtual void update(float deltaTime, RECT viewport) override;
-		virtual void draw() override;
-		bool release();
 
 		virtual void initializeBuffers();
 		virtual std::vector<Vertex3D> createVertices();

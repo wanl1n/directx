@@ -16,7 +16,7 @@ class Primitive : public GameObject
 		bool alphaOn;
 
 	public:
-		Primitive(std::string name, bool blending);
+		Primitive(std::string name, OBJECT_TYPE type, bool blending);
 		~Primitive();
 
 		virtual void init();

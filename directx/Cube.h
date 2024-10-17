@@ -11,7 +11,7 @@ class Cube : public Primitive
 		Vector4 backColor = WHITE;
 
 	public:
-		Cube(std::string name, bool blending);
+		Cube(std::string name, bool blending, OBJECT_TYPE type = CUBE);
 		~Cube();
 
 	protected:

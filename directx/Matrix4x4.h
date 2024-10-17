@@ -98,10 +98,10 @@ class Matrix4x4
 				}
 				v.cross(vec[0], vec[1], vec[2]);
 
-				out.mat[0][i] = pow(-1.0f, i) * v.x / det;
-				out.mat[1][i] = pow(-1.0f, i) * v.y / det;
-				out.mat[2][i] = pow(-1.0f, i) * v.z / det;
-				out.mat[3][i] = pow(-1.0f, i) * v.a / det;
+				out.mat[0][i] = pow(-1.0f, (float)i) * v.x / det;
+				out.mat[1][i] = pow(-1.0f, (float)i) * v.y / det;
+				out.mat[2][i] = pow(-1.0f, (float)i) * v.z / det;
+				out.mat[3][i] = pow(-1.0f, (float)i) * v.a / det;
 			}
 
 			this->setMatrix(out);

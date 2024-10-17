@@ -1,6 +1,7 @@
 #include "RotatingPlane.h"
 
-RotatingPlane::RotatingPlane(std::string name, PlaneProps props, bool blending) : Plane(name, props, blending) {
+RotatingPlane::RotatingPlane(std::string name, bool blending) : 
+	Plane(name, blending, ROTATING_PLANE) {
 	this->speed = 1;
 }
 
