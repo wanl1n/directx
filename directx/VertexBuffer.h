@@ -24,7 +24,6 @@ class VertexBuffer
 	public:
 		VertexBuffer(void* vertices, UINT vertexSize, UINT listSize, void* sbc, UINT bsSize, RenderSystem* system);
 		VertexBuffer(std::vector<Vertex3D> vertices, UINT vertexSize, void* sbc, UINT bsSize, RenderSystem* system);
-		VertexBuffer(void* vertices, UINT vertexSize, UINT listSize, void* sbc, UINT bsSize, bool tool, RenderSystem* system);
 		~VertexBuffer();
 
 	public:

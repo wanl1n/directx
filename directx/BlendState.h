@@ -13,12 +13,6 @@ private:
 	friend class DeviceContext;
 
 public:
-	BlendState(RenderSystem* system);
+	BlendState(bool blending, RenderSystem* system);
 	~BlendState();
-
-	void release();
-
-private:
-	bool init(bool blending);
 };
-

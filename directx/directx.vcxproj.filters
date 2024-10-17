@@ -366,17 +366,5 @@
     <FxCompile Include="SolidVertexShader.hlsl">
       <Filter>App\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="CircleVertexShader.hlsl">
-      <Filter>App\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="CirclePixelShader.hlsl">
-      <Filter>App\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="GridPixelShader.hlsl">
-      <Filter>App\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="GridVertexShader.hlsl">
-      <Filter>App\Shaders</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>

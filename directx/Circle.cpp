@@ -13,7 +13,7 @@ Circle::Circle(std::string name, CircleProps props, bool blending) : GameObject(
 	size_t sizeShader = 0;
 
 	// Creating Vertex Shader
-	renderSystem->compileVertexShader(L"CircleVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
+	renderSystem->compileVertexShader(L"SolidVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
 	this->vs = renderSystem->createVertexShader(shaderByteCode, sizeShader);
 
 	std::vector<Vector3> verticesGenerated = this->generateCircleVertices(props.radius, props.segments);
@@ -29,7 +29,7 @@ Circle::Circle(std::string name, CircleProps props, bool blending) : GameObject(
 	renderSystem->releaseCompiledShader();
 
 	// Creating Pixel Shader
-	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
+	renderSystem->compilePixelShader(L"SolidPixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
 	this->ps = renderSystem->createPixelShader(shaderByteCode, sizeShader);
 	renderSystem->releaseCompiledShader();
 

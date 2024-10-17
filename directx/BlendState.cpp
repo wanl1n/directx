@@ -1,18 +1,9 @@
 #include "BlendState.h"
 #include "RenderSystem.h"
 #include "iostream"
+#include <exception>
 
-BlendState::BlendState(RenderSystem* system) : system(system) {}
-
-BlendState::~BlendState() {}
-
-void BlendState::release()
-{
-	if (bs) this->bs->Release();
-	delete this;
-}
-
-bool BlendState::init(bool blending)
+BlendState::BlendState(bool blending, RenderSystem* system) : system(system)
 {
 	D3D11_BLEND_DESC desc = {};
 
@@ -34,6 +25,10 @@ bool BlendState::init(bool blending)
 	}
 
 	if (!SUCCEEDED(system->d3dDevice->CreateBlendState(&desc, &this->bs)))
-		return false;
-	return true;
+		throw std::exception("BlendState creation failed.");
+}
+
+BlendState::~BlendState() 
+{
+	if (bs) this->bs->Release();
 }
