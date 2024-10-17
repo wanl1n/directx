@@ -12,13 +12,10 @@ class SwapChain
 		RenderSystem* system = nullptr;
 
 	public:
-		SwapChain(RenderSystem* system);
+		SwapChain(HWND hwnd, UINT width, UINT height, RenderSystem* system);
 		~SwapChain();
 
-		bool init(HWND hwnd, UINT width, UINT height);
-
 		bool present(bool vsync);
-		bool release();
 
 	private:
 		friend class DeviceContext;

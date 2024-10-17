@@ -62,11 +62,6 @@ struct CircleProps {
 	Vector4 colorCenter;
 };
 
-struct CircleVertex {
-	Vector3 point;
-	Vector4 color;
-};
-
 // Cubes
 struct CubeProps {
 	float side;

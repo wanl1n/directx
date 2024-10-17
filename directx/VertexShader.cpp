@@ -1,20 +1,14 @@
 #include "VertexShader.h"
 #include "RenderSystem.h"
+#include <exception>
 
-VertexShader::VertexShader(RenderSystem* system) : system(system) {}
-
-VertexShader::~VertexShader() {}
-
-void VertexShader::release()
-{
-	this->m_vs->Release();
-	delete this;
-}
-
-bool VertexShader::init(const void* shader_byte_code, size_t byte_code_size)
+VertexShader::VertexShader(const void* shader_byte_code, size_t byte_code_size, RenderSystem* system) : system(system) 
 {
 	if (!SUCCEEDED(system->d3dDevice->CreateVertexShader(shader_byte_code, byte_code_size, nullptr, &m_vs)))
-		return false;
+		throw std::exception("VertexShader creation failed.");
+}
 
-	return true;
+VertexShader::~VertexShader() 
+{
+	this->m_vs->Release();
 }

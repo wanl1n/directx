@@ -1,20 +1,14 @@
 #include "PixelShader.h"
 #include "RenderSystem.h"
+#include <exception>
 
-PixelShader::PixelShader(RenderSystem* system) : system(system) {}
-
-PixelShader::~PixelShader() {}
-
-void PixelShader::release()
-{
-	this->m_ps->Release();
-	delete this;
-}
-
-bool PixelShader::init(const void* shader_byte_code, size_t byte_code_size)
+PixelShader::PixelShader(const void* shader_byte_code, size_t byte_code_size, RenderSystem* system) : system(system) 
 {
 	if (!SUCCEEDED(system->d3dDevice->CreatePixelShader(shader_byte_code, byte_code_size, nullptr, &m_ps)))
-		return false;
+		throw std::exception("PixelShader creation failed.");
+}
 
-	return true;
+PixelShader::~PixelShader() 
+{
+	this->m_ps->Release();
 }

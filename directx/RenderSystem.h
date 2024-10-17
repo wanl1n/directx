@@ -1,6 +1,7 @@
 #pragma once
 #include <d3d11.h>
-
+#include <vector>
+#include "Vertex.h"
 #include "Prerequisites.h"
 
 class RenderSystem
@@ -35,12 +36,14 @@ class RenderSystem
 		bool release();
 
 	public:
-		SwapChain* createSwapChain();
+		SwapChain* createSwapChain(HWND hwnd, UINT width, UINT height);
 		DeviceContext* getImmediateDeviceContext();
 
-		VertexBuffer* createVertexBuffer();
-		ConstantBuffer* createConstantBuffer();
-		IndexBuffer* createIndexBuffer();
+		VertexBuffer* createVertexBuffer(void* vertices, UINT vertexSize, UINT listSize, void* sbc, UINT bsSize);
+		VertexBuffer* createVertexBuffer(std::vector<Vertex3D> vertices, UINT vertexSize, void* sbc, UINT bsSize);
+		ConstantBuffer* createConstantBuffer(void* buffer, UINT size_buffer);
+		IndexBuffer* createIndexBuffer(void* list_indices, UINT size_list);
+		IndexBuffer* createIndexBuffer(std::vector<unsigned int> indices);
 
 		BlendState* createBlendState(bool blending);
 

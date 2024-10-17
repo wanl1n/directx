@@ -39,9 +39,8 @@ void SceneWindow::initializeEngine()
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
 
 	// Swap Chain
-	this->swapChain = graphicsEngine->getRenderSystem()->createSwapChain();
 	RECT windowRect = this->getClientWindowRect();
-	this->swapChain->init(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
+	this->swapChain = graphicsEngine->getRenderSystem()->createSwapChain(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
 
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
@@ -117,7 +116,7 @@ void SceneWindow::onDestroy()
 {
 	Window::onDestroy();
 
-	this->swapChain->release();
+	delete swapChain;
 	GraphicsEngine::get()->release();
 }
 

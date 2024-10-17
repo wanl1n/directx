@@ -11,7 +11,6 @@ Plane::Plane(std::string name, bool blending, OBJECT_TYPE type) :
 	this->cc.world.setIdentity();
 	this->cc.world.setTranslation(this->transform.position);
 	this->rotateX(this->transform.rotation.x);
-	this->cb->load(&cc, sizeof(Constant));
 }
 
 Plane::~Plane() {}
@@ -27,9 +26,8 @@ void Plane::initializeBuffers()
 		4,5,6,
 		6,7,4,
 	};
-	this->ib = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer();
 	UINT size_indices = ARRAYSIZE(indices);
-	this->ib->load(indices, size_indices);
+	this->ib = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer(indices, size_indices);
 }
 
 std::vector<Vertex3D> Plane::createVertices()

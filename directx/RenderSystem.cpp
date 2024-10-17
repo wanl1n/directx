@@ -11,6 +11,7 @@
 #include "PixelShader.h"
 
 #include <d3dcompiler.h>
+#include <exception>
 
 RenderSystem::RenderSystem() {}
 RenderSystem::~RenderSystem() {}
@@ -54,14 +55,14 @@ bool RenderSystem::release()
 	this->immContext->Release();
 	this->d3dDevice->Release();
 
-	this->immDeviceContext->release();
+	delete this->immDeviceContext;
 
 	return true;
 }
 
-SwapChain* RenderSystem::createSwapChain()
+SwapChain* RenderSystem::createSwapChain(HWND hwnd, UINT width, UINT height)
 {
-	return new SwapChain(this);
+	return new SwapChain(hwnd, width, height, this);
 }
 
 DeviceContext* RenderSystem::getImmediateDeviceContext()
@@ -69,19 +70,29 @@ DeviceContext* RenderSystem::getImmediateDeviceContext()
 	return this->immDeviceContext;
 }
 
-VertexBuffer* RenderSystem::createVertexBuffer()
+VertexBuffer* RenderSystem::createVertexBuffer(void* vertices, UINT vertexSize, UINT listSize, void* sbc, UINT bsSize)
 {
-	return new VertexBuffer(this);
+	return new VertexBuffer(vertices, vertexSize, listSize, sbc, bsSize, this);
 }
 
-ConstantBuffer* RenderSystem::createConstantBuffer()
+VertexBuffer* RenderSystem::createVertexBuffer(std::vector<Vertex3D> vertices, UINT vertexSize, void* sbc, UINT bsSize)
 {
-	return new ConstantBuffer(this);
+	return new VertexBuffer(vertices, vertexSize, sbc, bsSize, this);
 }
 
-IndexBuffer* RenderSystem::createIndexBuffer()
+ConstantBuffer* RenderSystem::createConstantBuffer(void* buffer, UINT size_buffer)
 {
-	return new IndexBuffer(this);
+	return new ConstantBuffer(buffer, size_buffer, this);
+}
+
+IndexBuffer* RenderSystem::createIndexBuffer(void* list_indices, UINT size_list)
+{
+	return new IndexBuffer(list_indices, size_list, this);
+}
+
+IndexBuffer* RenderSystem::createIndexBuffer(std::vector<unsigned int> indices)
+{
+	return new IndexBuffer(indices, this);
 }
 
 BlendState* RenderSystem::createBlendState(bool blending)
@@ -98,25 +109,13 @@ BlendState* RenderSystem::createBlendState(bool blending)
 
 VertexShader* RenderSystem::createVertexShader(const void* shader_byte_code, size_t byte_code_size)
 {
-	VertexShader* vs = new VertexShader(this);
-
-	if (!vs->init(shader_byte_code, byte_code_size)) {
-		vs->release();
-		return nullptr;
-	}
-
+	VertexShader* vs = new VertexShader(shader_byte_code, byte_code_size, this);
 	return vs;
 }
 
 PixelShader* RenderSystem::createPixelShader(const void* shader_byte_code, size_t byte_code_size)
 {
-	PixelShader* ps = new PixelShader(this);
-
-	if (!ps->init(shader_byte_code, byte_code_size)) {
-		ps->release();
-		return nullptr;
-	}
-
+	PixelShader* ps = new PixelShader(shader_byte_code, byte_code_size, this);
 	return ps;
 }
 

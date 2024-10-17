@@ -15,12 +15,10 @@ class IndexBuffer
 		friend class DeviceContext;
 
 	public:
-		IndexBuffer(RenderSystem* system);
+		IndexBuffer(void* list_indices, UINT size_list, RenderSystem* system);
+		IndexBuffer(std::vector<unsigned int> indices, RenderSystem* system);
 		~IndexBuffer();
 
-		bool load(void* list_indices, UINT size_list);
-		bool load(std::vector<unsigned int> indices);
-		bool release();
 		UINT getSizeIndexList();
 };
 

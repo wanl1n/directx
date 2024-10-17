@@ -30,6 +30,5 @@ class Primitive : public GameObject
 
 		virtual void update(float deltaTime, RECT viewport) override;
 		virtual void draw() override;
-		virtual bool release() override;
 };
 

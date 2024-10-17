@@ -13,12 +13,7 @@ class PixelShader
 		friend class DeviceContext;
 
 	public:
-		PixelShader(RenderSystem* system);
+		PixelShader(const void* shader_byte_code, size_t byte_code_size, RenderSystem* system);
 		~PixelShader();
-
-		void release();
-
-	private:
-		bool init(const void* shader_byte_code, size_t byte_code_size);
 };
 

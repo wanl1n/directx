@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "GameObject.h"
 
@@ -36,6 +37,5 @@ public:
 
 	void update(float deltaTime, RECT viewport);
 	void draw();
-	bool release();
 };
 

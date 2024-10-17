@@ -5,41 +5,36 @@ Grid::Grid(std::string name, bool showGrid) : GameObject("Grid")
 {
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
+	// Gridlines
+	std::vector<Vertex3D> lines;
+
+	float i = -1;
+	for (int j = 0; j < GRIDPOINTS_COUNT; j += 4) {
+		lines.push_back({ Vector3(i, 1, 0), GRAY });
+		lines.push_back({ Vector3(i, -1, 0), GRAY });
+		lines.push_back({ Vector3(-1, i, 0), GRAY });
+		lines.push_back({ Vector3(1, i, 0), GRAY });
+
+		i += GRID_INTERVAL;
+	}
+	
 	// Shader Attributes
 	void* shaderByteCode = nullptr;
 	size_t sizeShader = 0;
 
 	// Creating Vertex Shader
-	renderSystem->compileVertexShader(L"GridVertexShader.hlsl", "gvsmain", &shaderByteCode, &sizeShader);
+	renderSystem->compileVertexShader(L"SolidVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
 	this->vs = renderSystem->createVertexShader(shaderByteCode, sizeShader);
-
-	// Gridlines
-	Vector3 lines[GRIDPOINTS_COUNT];
-
-	float i = -1;
-	for (int j = 0; j < GRIDPOINTS_COUNT; j += 4) {
-		lines[j] = Vector3(i, 1, 0);
-		lines[j + 1] = Vector3(i, -1, 0);
-		lines[j + 2] = Vector3(-1, i, 0);
-		lines[j + 3] = Vector3(1, i, 0);
-
-		i += GRID_INTERVAL;
-	}
-
-	// Load into vertex buffer
-	this->vb = renderSystem->createVertexBuffer();
-	UINT size_list = ARRAYSIZE(lines);
-	this->vb->loadTool(lines, sizeof(Vector3), size_list, shaderByteCode, sizeShader);
+	this->vb = renderSystem->createVertexBuffer(lines, sizeof(Vertex3D), shaderByteCode, sizeShader);
 
 	renderSystem->releaseCompiledShader();
 
 	// Creating Pixel Shader
-	renderSystem->compilePixelShader(L"GridPixelShader.hlsl", "gpsmain", &shaderByteCode, &sizeShader);
+	renderSystem->compilePixelShader(L"SolidPixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
 	this->ps = renderSystem->createPixelShader(shaderByteCode, sizeShader);
 	renderSystem->releaseCompiledShader();
 
-	this->cb = renderSystem->createConstantBuffer();
-	this->cb->load(&cc, sizeof(Constant));
+	this->cb = renderSystem->createConstantBuffer(&cc, sizeof(Constant));
 
 	this->bs = renderSystem->createBlendState(true);
 
@@ -47,17 +42,12 @@ Grid::Grid(std::string name, bool showGrid) : GameObject("Grid")
 }
 
 Grid::~Grid()
-{}
-
-bool Grid::release()
 {
-	this->vb->release();
-	this->cb->release();
-	this->vs->release();
-	this->ps->release();
-	this->bs->release();
-	delete this;
-	return true;
+	delete vb;
+	delete cb;
+	delete vs;
+	delete ps;
+	delete bs;
 }
 
 void Grid::update(float deltaTime, RECT viewport)

@@ -22,14 +22,10 @@ class VertexBuffer
 		friend class DeviceContext;
 
 	public:
-		VertexBuffer(RenderSystem* system);
+		VertexBuffer(void* vertices, UINT vertexSize, UINT listSize, void* sbc, UINT bsSize, RenderSystem* system);
+		VertexBuffer(std::vector<Vertex3D> vertices, UINT vertexSize, void* sbc, UINT bsSize, RenderSystem* system);
+		VertexBuffer(void* vertices, UINT vertexSize, UINT listSize, void* sbc, UINT bsSize, bool tool, RenderSystem* system);
 		~VertexBuffer();
-
-		bool loadQuad(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);
-		bool loadCircle(std::vector<CircleVertex> list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);
-		bool loadIndexed(std::vector<Vertex3D> vertices, UINT size_vertex, void* shader_byte_code, UINT size_byte_shader);
-		bool loadTool(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);
-		bool release();
 
 	public:
 		UINT getSizeVertexList();

@@ -6,8 +6,8 @@
 class Cylinder : public Primitive
 {
 	protected:
-		int height = 2.0f;
-		int slices = 32.0f;
+		float height = 2.0f;
+		int slices = 32;
 		float radius = 1.0f;
 		float stacks = 1.0f;
 		Vector4 color = WHITE;

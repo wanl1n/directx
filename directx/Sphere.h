@@ -6,8 +6,8 @@
 class Sphere : public Primitive
 {
 	protected:
-		int rings = 32.0f;
-		int sectors = 32.0f;
+		int rings = 32;
+		int sectors = 32;
 		float radius = 1.0f;
 		Vector4 color = WHITE;
 

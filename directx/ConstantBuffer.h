@@ -16,11 +16,9 @@ class ConstantBuffer
 		friend class DeviceContext;
 
 	public:
-		ConstantBuffer(RenderSystem* system);
+		ConstantBuffer(void* buffer, UINT size_buffer, RenderSystem* system);
 		~ConstantBuffer();
 
-		bool load(void* buffer, UINT size_buffer);
 		void update(DeviceContext* context, void* buffer);
-		bool release();
 };
 

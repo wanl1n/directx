@@ -3,7 +3,15 @@
 Primitive::Primitive(std::string name, OBJECT_TYPE type, bool blending) : 
 	GameObject(name), alphaOn(blending) {}
 
-Primitive::~Primitive() {}
+Primitive::~Primitive() 
+{
+	delete vb;
+	delete cb;
+	delete ib;
+	delete vs;
+	delete ps;
+	delete bs;
+}
 
 void Primitive::init()
 {
@@ -12,21 +20,6 @@ void Primitive::init()
 	this->createPixelShader();
 	this->createConstantBuffer();
 	this->createBlendState(alphaOn);
-}
-
-bool Primitive::release()
-{
-	this->vb->release();
-	this->cb->release();
-	this->ib->release();
-
-	this->vs->release();
-	this->ps->release();
-
-	this->bs->release();
-
-	delete this;
-	return true;
 }
 
 void Primitive::createVertexShader()
@@ -38,11 +31,10 @@ void Primitive::createVertexShader()
 	size_t sizeShader = 0;
 
 	std::vector<Vertex3D> vertices = this->createVertices();
-	this->vb = renderSystem->createVertexBuffer();
 
 	renderSystem->compileVertexShader(L"SolidVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
 	this->vs = renderSystem->createVertexShader(shaderByteCode, sizeShader);
-	this->vb->loadIndexed(vertices, sizeof(Vertex3D), shaderByteCode, sizeShader);
+	this->vb = renderSystem->createVertexBuffer(vertices, sizeof(Vertex3D), shaderByteCode, sizeShader);
 	renderSystem->releaseCompiledShader();
 }
 
@@ -61,8 +53,7 @@ void Primitive::createPixelShader()
 
 void Primitive::createConstantBuffer()
 {
-	this->cb = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer();
-	this->cb->load(&cc, sizeof(Constant));
+	this->cb = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&cc, sizeof(Constant));
 }
 
 void Primitive::createBlendState(bool blending)

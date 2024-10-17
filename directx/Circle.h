@@ -43,6 +43,5 @@ public:
 
 	virtual void update(float deltaTime, RECT viewport);
 	void draw();
-	bool release();
 };
 

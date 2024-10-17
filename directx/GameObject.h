@@ -31,7 +31,6 @@ class GameObject
 
 		virtual void update(float deltaTime, RECT viewport);
 		virtual void draw();
-		virtual bool release() = 0;
 
 		// Transform Functions
 		virtual void translate(Vector3 offset, float speed);

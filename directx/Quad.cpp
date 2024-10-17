@@ -20,9 +20,8 @@ Quad::Quad(std::string name, QuadProps props, bool blending) : GameObject(name)
 		{ props.points1.point4,	props.points2.point4,	props.color1.color4,	props.color2.color4 }
 	};
 
-	this->vb = renderSystem->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(vertices);
-	this->vb->loadQuad(vertices, sizeof(QuadVertex), size_list, shaderByteCode, sizeShader);
+	this->vb = renderSystem->createVertexBuffer(vertices, sizeof(QuadVertex), size_list, shaderByteCode, sizeShader);
 
 	renderSystem->releaseCompiledShader();
 
@@ -32,8 +31,7 @@ Quad::Quad(std::string name, QuadProps props, bool blending) : GameObject(name)
 	renderSystem->releaseCompiledShader();
 
 	// Create Constant Buffer and load.
-	this->cb = renderSystem->createConstantBuffer();
-	this->cb->load(&cc, sizeof(Constant));
+	this->cb = renderSystem->createConstantBuffer(&cc, sizeof(Constant));
 
 	// Blend state.
 	this->bs = renderSystem->createBlendState(blending);
@@ -47,8 +45,8 @@ Quad::~Quad()
 
 bool Quad::release()
 {
-	this->vb->release();
-	this->cb->release();
+	delete vb;
+	delete cb;
 	delete this;
 	return true;
 }

@@ -1,14 +1,10 @@
 #include "IndexBuffer.h"
 #include "RenderSystem.h"
-#include "iostream"
+#include <exception>
 
-IndexBuffer::IndexBuffer(RenderSystem* system) : system(system), m_buffer(0) {}
-IndexBuffer::~IndexBuffer() {}
-
-bool IndexBuffer::load(void* list_indices, UINT size_list)
+IndexBuffer::IndexBuffer(void* list_indices, UINT size_list, RenderSystem* system) : 
+	system(system), m_buffer(0)
 {
-	if (m_buffer) m_buffer->Release();
-
 	D3D11_BUFFER_DESC buff_desc = {};
 	buff_desc.Usage = D3D11_USAGE_DEFAULT;
 	buff_desc.ByteWidth = 4 * size_list; // Index is an integer which is 4 bytes.
@@ -22,15 +18,12 @@ bool IndexBuffer::load(void* list_indices, UINT size_list)
 	this->m_size_list = size_list;
 
 	if (FAILED(system->d3dDevice->CreateBuffer(&buff_desc, &init_data, &m_buffer)))
-		return false;
-
-	return true;
+		throw std::exception("Index Buffer creation failed.");
 }
 
-bool IndexBuffer::load(std::vector<unsigned int> indices)
+IndexBuffer::IndexBuffer(std::vector<unsigned int> indices, RenderSystem* system) : 
+	system(system), m_buffer(0)
 {
-	if (m_buffer) m_buffer->Release();
-
 	D3D11_BUFFER_DESC buff_desc = {};
 	buff_desc.Usage = D3D11_USAGE_DEFAULT;
 	buff_desc.ByteWidth = 4 * indices.size(); // Index is an integer which is 4 bytes.
@@ -44,16 +37,12 @@ bool IndexBuffer::load(std::vector<unsigned int> indices)
 	this->m_size_list = indices.size();
 
 	if (FAILED(system->d3dDevice->CreateBuffer(&buff_desc, &init_data, &m_buffer)))
-		return false;
-
-	return true;
+		throw std::exception("Index Buffer creation failed.");
 }
 
-bool IndexBuffer::release()
+IndexBuffer::~IndexBuffer() 
 {
 	if (m_buffer) m_buffer->Release();
-	delete this;
-	return true;
 }
 
 UINT IndexBuffer::getSizeIndexList()

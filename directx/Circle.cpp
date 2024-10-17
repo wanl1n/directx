@@ -17,20 +17,15 @@ Circle::Circle(std::string name, CircleProps props, bool blending) : GameObject(
 	this->vs = renderSystem->createVertexShader(shaderByteCode, sizeShader);
 
 	std::vector<Vector3> verticesGenerated = this->generateCircleVertices(props.radius, props.segments);
-	std::vector<CircleVertex> vertices;
+	std::vector<Vertex3D> vertices;
 	for (int i = 0; i < verticesGenerated.size(); i++) {
 		if (verticesGenerated[i].x == 0 && verticesGenerated[i].y == 0)
 			vertices.push_back({ verticesGenerated[i], props.colorCenter });
 		else
 			vertices.push_back( { verticesGenerated[i], props.color } );
-		//std::cout << "circle vertex " << i << ": " << verticesGenerated[i].x << ", " << verticesGenerated[i].y << std::endl;
 	}
 
-	this->vb = renderSystem->createVertexBuffer();
-	UINT size_list = vertices.size();
-	//this->vb->loadC(vertices, sizeof(CircleVertex), size_list, shaderByteCode, sizeShader);
-	this->vb->loadCircle(vertices, sizeof(CircleVertex), size_list, shaderByteCode, sizeShader);
-
+	this->vb = renderSystem->createVertexBuffer(vertices, sizeof(Vertex3D), shaderByteCode, sizeShader);
 	renderSystem->releaseCompiledShader();
 
 	// Creating Pixel Shader
@@ -39,8 +34,7 @@ Circle::Circle(std::string name, CircleProps props, bool blending) : GameObject(
 	renderSystem->releaseCompiledShader();
 
 	// Create Constant Buffer and load.
-	this->cb = renderSystem->createConstantBuffer();
-	this->cb->load(&cc, sizeof(Constant));
+	this->cb = renderSystem->createConstantBuffer(&cc, sizeof(Constant));
 
 	// Blend state.
 	this->bs = renderSystem->createBlendState(blending);
@@ -49,7 +43,14 @@ Circle::Circle(std::string name, CircleProps props, bool blending) : GameObject(
 }
 
 Circle::~Circle()
-{}
+{
+	delete vb;
+	delete cb;
+	delete ib;
+	delete vs;
+	delete ps;
+	delete bs;
+}
 
 std::vector<Vector3> Circle::generateCircleVertices(float radius, int segments)
 {
@@ -72,18 +73,6 @@ std::vector<Vector3> Circle::generateCircleVertices(float radius, int segments)
 	vertices.push_back(Vector3(0.0f, 0.0f, 0.0f));
 	vertices.push_back(Vector3(0.1, 0, 0.0f));
 	return vertices;
-}
-
-bool Circle::release()
-{
-	this->vb->release();
-	this->cb->release();
-	this->ib->release();
-	this->bs->release();
-	this->vs->release();
-	this->ps->release();
-	delete this;
-	return true;
 }
 
 void Circle::update(float deltaTime, RECT viewport)
