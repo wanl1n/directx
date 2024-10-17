@@ -1,5 +1,5 @@
 #pragma once
-
+#include <cmath>
 class Vector4
 {
 	public:

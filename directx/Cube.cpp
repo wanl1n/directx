@@ -31,7 +31,7 @@ void Cube::initializeBuffers()
 		7,6,1,
 		1,0,7
 	};
-	this->ib = GraphicsEngine::get()->createIndexBuffer();
+	this->ib = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer();
 	UINT size_indices = ARRAYSIZE(indices);
 	this->ib->load(indices, size_indices);
 }

@@ -27,7 +27,7 @@ void Plane::initializeBuffers()
 		4,5,6,
 		6,7,4,
 	};
-	this->ib = GraphicsEngine::get()->createIndexBuffer();
+	this->ib = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer();
 	UINT size_indices = ARRAYSIZE(indices);
 	this->ib->load(indices, size_indices);
 }

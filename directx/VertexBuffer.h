@@ -6,7 +6,7 @@
 #include "Vector3.h"
 #include "Vertex.h"
 
-class DeviceContext;
+#include "Prerequisites.h"
 
 class VertexBuffer
 {
@@ -16,12 +16,13 @@ class VertexBuffer
 
 		ID3D11Buffer* m_buffer;
 		ID3D11InputLayout* m_layout;
+		RenderSystem* system = nullptr;
 
 	private:
 		friend class DeviceContext;
 
 	public:
-		VertexBuffer();
+		VertexBuffer(RenderSystem* system);
 		~VertexBuffer();
 
 		bool loadQuad(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);

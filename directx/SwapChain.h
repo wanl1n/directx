@@ -1,7 +1,7 @@
 #pragma once
 #include <d3d11.h>
 
-class DeviceContext;
+#include "Prerequisites.h"
 
 class SwapChain
 {
@@ -9,9 +9,10 @@ class SwapChain
 		IDXGISwapChain* swapChain;
 		ID3D11RenderTargetView* renderView;
 		ID3D11DepthStencilView* depthView;
+		RenderSystem* system = nullptr;
 
 	public:
-		SwapChain();
+		SwapChain(RenderSystem* system);
 		~SwapChain();
 
 		bool init(HWND hwnd, UINT width, UINT height);

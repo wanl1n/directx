@@ -9,7 +9,8 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
-DeviceContext::DeviceContext(ID3D11DeviceContext* device_context) : devContext(device_context) {}
+DeviceContext::DeviceContext(ID3D11DeviceContext* device_context, RenderSystem* system) : 
+	devContext(device_context), system(system) {}
 DeviceContext::~DeviceContext() {}
 
 void DeviceContext::clearRenderTargetColor(SwapChain* swap_chain, float red, float green, float blue, float alpha)

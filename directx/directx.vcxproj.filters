@@ -100,9 +100,6 @@
     <Filter Include="GameEngine\GraphicsEngine\RenderSystem\DeviceContext">
       <UniqueIdentifier>{3975270d-0fae-4107-9c08-8d47879b988f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\EngineTime">
-      <UniqueIdentifier>{4921e0ac-5fff-4a12-af32-30ed11818ef7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameEngine\GraphicsEngine\RenderSystem\Shaders">
       <UniqueIdentifier>{ba750035-e302-4048-98f3-fd615b49102d}</UniqueIdentifier>
     </Filter>
@@ -120,6 +117,9 @@
     </Filter>
     <Filter Include="GameEngine\GameObject\Primitives\3D\Cylinder">
       <UniqueIdentifier>{8fc44549-0e15-4782-b7c7-cb401d7c760d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\EngineTime">
+      <UniqueIdentifier>{4921e0ac-5fff-4a12-af32-30ed11818ef7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -172,7 +172,7 @@
       <Filter>GameEngine\GameObject\Primitives\3D\Cube</Filter>
     </ClCompile>
     <ClCompile Include="EngineTime.cpp">
-      <Filter>GameEngine\GraphicsEngine\RenderSystem\EngineTime</Filter>
+      <Filter>GameEngine\EngineTime</Filter>
     </ClCompile>
     <ClCompile Include="GameObjectManager.cpp">
       <Filter>GameEngine\GameObject</Filter>
@@ -216,6 +216,9 @@
     </ClCompile>
     <ClCompile Include="Cylinder.cpp">
       <Filter>GameEngine\GameObject\Primitives\3D\Cylinder</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -271,7 +274,7 @@
       <Filter>GameEngine\GameObject\Primitives\3D\Cube</Filter>
     </ClInclude>
     <ClInclude Include="EngineTime.h">
-      <Filter>GameEngine\GraphicsEngine\RenderSystem\EngineTime</Filter>
+      <Filter>GameEngine\EngineTime</Filter>
     </ClInclude>
     <ClInclude Include="GameObjectManager.h">
       <Filter>GameEngine\GameObject</Filter>
@@ -342,6 +345,12 @@
     </ClInclude>
     <ClInclude Include="PrimitivesList.h">
       <Filter>GameEngine\GameObject\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Prerequisites.h">
+      <Filter>GameEngine\GraphicsEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

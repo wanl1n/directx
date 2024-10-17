@@ -39,7 +39,7 @@ void SceneWindow::initializeEngine()
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
 
 	// Swap Chain
-	this->swapChain = graphicsEngine->createSwapChain();
+	this->swapChain = graphicsEngine->getRenderSystem()->createSwapChain();
 	RECT windowRect = this->getClientWindowRect();
 	this->swapChain->init(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
 
@@ -64,8 +64,7 @@ void SceneWindow::onCreate()
 void SceneWindow::onUpdate()
 {
 	Window::onUpdate();
-	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
-
+	DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	// 1. Clear Render Target.
 	device->clearRenderTargetColor(this->swapChain, BLACK);

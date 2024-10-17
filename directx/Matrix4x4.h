@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <iostream>
-
+#include <cmath>
 #include "Vector3.h"
 
 class Matrix4x4

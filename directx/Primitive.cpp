@@ -31,55 +31,55 @@ bool Primitive::release()
 
 void Primitive::createVertexShader()
 {
-	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
+	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
 	// Shader Attributes
 	void* shaderByteCode = nullptr;
 	size_t sizeShader = 0;
 
 	std::vector<Vertex3D> vertices = this->createVertices();
-	this->vb = GraphicsEngine::get()->createVertexBuffer();
+	this->vb = renderSystem->createVertexBuffer();
 
-	graphicsEngine->compileVertexShader(L"SolidVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
-	this->vs = graphicsEngine->createVertexShader(shaderByteCode, sizeShader);
+	renderSystem->compileVertexShader(L"SolidVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
+	this->vs = renderSystem->createVertexShader(shaderByteCode, sizeShader);
 	this->vb->loadIndexed(vertices, sizeof(Vertex3D), shaderByteCode, sizeShader);
-	graphicsEngine->releaseCompiledShader();
+	renderSystem->releaseCompiledShader();
 }
 
 void Primitive::createPixelShader()
 {
-	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
+	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
 	// Shader Attributes
 	void* shaderByteCode = nullptr;
 	size_t sizeShader = 0;
 
-	graphicsEngine->compilePixelShader(L"SolidPixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
-	this->ps = graphicsEngine->createPixelShader(shaderByteCode, sizeShader);
-	graphicsEngine->releaseCompiledShader();
+	renderSystem->compilePixelShader(L"SolidPixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
+	this->ps = renderSystem->createPixelShader(shaderByteCode, sizeShader);
+	renderSystem->releaseCompiledShader();
 }
 
 void Primitive::createConstantBuffer()
 {
-	this->cb = GraphicsEngine::get()->createConstantBuffer();
+	this->cb = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer();
 	this->cb->load(&cc, sizeof(Constant));
 }
 
 void Primitive::createBlendState(bool blending)
 {
-	this->bs = GraphicsEngine::get()->createBlendState(blending);
+	this->bs = GraphicsEngine::get()->getRenderSystem()->createBlendState(blending);
 }
 
 void Primitive::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
 
-	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);
+	this->cb->update(GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext(), &this->cc);
 }
 
 void Primitive::draw()
 {
-	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
+	DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	// Bind to Shaders.
 	device->setConstantBuffer(vs, this->cb);
@@ -93,8 +93,8 @@ void Primitive::draw()
 	device->setPixelShader(ps);
 
 	// Draw Object.
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(this->vb);
-	GraphicsEngine::get()->getImmediateDeviceContext()->setIndexBuffer(this->ib);
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
+	device->setVertexBuffer(this->vb);
+	device->setIndexBuffer(this->ib);
+	device->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
 }
 

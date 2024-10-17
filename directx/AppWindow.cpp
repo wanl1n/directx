@@ -40,7 +40,7 @@ void AppWindow::initializeEngine()
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
 
 	// Swap Chain
-	this->swapChain = graphicsEngine->createSwapChain();
+	this->swapChain = graphicsEngine->getRenderSystem()->createSwapChain();
 	RECT windowRect = this->getClientWindowRect();
 	this->swapChain->init(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
 
@@ -62,7 +62,7 @@ void AppWindow::onUpdate()
 	// Input System Update.
 	InputSystem::getInstance()->update();
 
-	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
+	DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	// 1. Clear Render Target.
 	device->clearRenderTargetColor(this->swapChain, MATCHA);

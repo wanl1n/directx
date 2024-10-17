@@ -6,15 +6,15 @@
 
 Circle::Circle(std::string name, CircleProps props, bool blending) : GameObject(name)
 {
-	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
+	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
 	// Shader Attributes
 	void* shaderByteCode = nullptr;
 	size_t sizeShader = 0;
 
 	// Creating Vertex Shader
-	graphicsEngine->compileVertexShader(L"CircleVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
-	this->vs = graphicsEngine->createVertexShader(shaderByteCode, sizeShader);
+	renderSystem->compileVertexShader(L"CircleVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
+	this->vs = renderSystem->createVertexShader(shaderByteCode, sizeShader);
 
 	std::vector<Vector3> verticesGenerated = this->generateCircleVertices(props.radius, props.segments);
 	std::vector<CircleVertex> vertices;
@@ -26,24 +26,24 @@ Circle::Circle(std::string name, CircleProps props, bool blending) : GameObject(
 		//std::cout << "circle vertex " << i << ": " << verticesGenerated[i].x << ", " << verticesGenerated[i].y << std::endl;
 	}
 
-	this->vb = GraphicsEngine::get()->createVertexBuffer();
+	this->vb = renderSystem->createVertexBuffer();
 	UINT size_list = vertices.size();
 	//this->vb->loadC(vertices, sizeof(CircleVertex), size_list, shaderByteCode, sizeShader);
 	this->vb->loadCircle(vertices, sizeof(CircleVertex), size_list, shaderByteCode, sizeShader);
 
-	graphicsEngine->releaseCompiledShader();
+	renderSystem->releaseCompiledShader();
 
 	// Creating Pixel Shader
-	graphicsEngine->compilePixelShader(L"PixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
-	this->ps = graphicsEngine->createPixelShader(shaderByteCode, sizeShader);
-	graphicsEngine->releaseCompiledShader();
+	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
+	this->ps = renderSystem->createPixelShader(shaderByteCode, sizeShader);
+	renderSystem->releaseCompiledShader();
 
 	// Create Constant Buffer and load.
-	this->cb = GraphicsEngine::get()->createConstantBuffer();
+	this->cb = renderSystem->createConstantBuffer();
 	this->cb->load(&cc, sizeof(Constant));
 
 	// Blend state.
-	this->bs = GraphicsEngine::get()->createBlendState(blending);
+	this->bs = renderSystem->createBlendState(blending);
 
 	this->radius = props.radius;
 }
@@ -90,12 +90,12 @@ void Circle::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
 
-	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);
+	this->cb->update(GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext(), &this->cc);
 }
 
 void Circle::draw()
 {
-	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
+	DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	// Bind to Shaders.
 	device->setConstantBuffer(vs, this->cb);
@@ -109,7 +109,7 @@ void Circle::draw()
 	device->setPixelShader(ps);
 
 	// Draw Object.
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(this->vb);
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(this->vb->getSizeVertexList(), 0);
+	device->setVertexBuffer(this->vb);
+	device->drawTriangleStrip(this->vb->getSizeVertexList(), 0);
 }
 

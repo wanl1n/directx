@@ -3,15 +3,15 @@
 
 Quad::Quad(std::string name, QuadProps props, bool blending) : GameObject(name)
 {
-	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
+	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
 	// Shader Attributes
 	void* shaderByteCode = nullptr;
 	size_t sizeShader = 0;
 
 	// Creating Vertex Shader
-	graphicsEngine->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
-	this->vs = graphicsEngine->createVertexShader(shaderByteCode, sizeShader);
+	renderSystem->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
+	this->vs = renderSystem->createVertexShader(shaderByteCode, sizeShader);
 
 	QuadVertex vertices[] = {
 		{ props.points1.point1,	props.points2.point1,	props.color1.color1,	props.color2.color1 },
@@ -20,23 +20,23 @@ Quad::Quad(std::string name, QuadProps props, bool blending) : GameObject(name)
 		{ props.points1.point4,	props.points2.point4,	props.color1.color4,	props.color2.color4 }
 	};
 
-	this->vb = GraphicsEngine::get()->createVertexBuffer();
+	this->vb = renderSystem->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(vertices);
 	this->vb->loadQuad(vertices, sizeof(QuadVertex), size_list, shaderByteCode, sizeShader);
 
-	graphicsEngine->releaseCompiledShader();
+	renderSystem->releaseCompiledShader();
 
 	// Creating Pixel Shader
-	graphicsEngine->compilePixelShader(L"PixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
-	this->ps = graphicsEngine->createPixelShader(shaderByteCode, sizeShader);
-	graphicsEngine->releaseCompiledShader();
+	renderSystem->compilePixelShader(L"PixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
+	this->ps = renderSystem->createPixelShader(shaderByteCode, sizeShader);
+	renderSystem->releaseCompiledShader();
 
 	// Create Constant Buffer and load.
-	this->cb = GraphicsEngine::get()->createConstantBuffer();
+	this->cb = renderSystem->createConstantBuffer();
 	this->cb->load(&cc, sizeof(Constant));
 
 	// Blend state.
-	this->bs = GraphicsEngine::get()->createBlendState(blending);
+	this->bs = renderSystem->createBlendState(blending);
 
 	this->height = props.points1.point2.y - props.points1.point1.y;
 	this->width = props.points1.point3.x - props.points1.point1.x;
@@ -57,12 +57,12 @@ void Quad::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
 
-	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);
+	this->cb->update(GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext(), &this->cc);
 }
 
 void Quad::draw()
 {
-	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
+	DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	// Bind to Shaders.
 	device->setConstantBuffer(vs, this->cb);
@@ -76,7 +76,7 @@ void Quad::draw()
 	device->setPixelShader(ps);
 
 	// Draw Object.
-	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(this->vb);
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(this->vb->getSizeVertexList(), 0);
+	device->setVertexBuffer(this->vb);
+	device->drawTriangleStrip(this->vb->getSizeVertexList(), 0);
 }
 

@@ -1,8 +1,8 @@
 #include "VertexBuffer.h"
-#include "GraphicsEngine.h"
+#include "RenderSystem.h"
 #include "iostream"
 
-VertexBuffer::VertexBuffer() : m_layout(0), m_buffer(0) {}
+VertexBuffer::VertexBuffer(RenderSystem* system) : system(system), m_layout(0), m_buffer(0) {}
 VertexBuffer::~VertexBuffer() {}
 
 // 2D Quad
@@ -24,7 +24,7 @@ bool VertexBuffer::loadQuad(void* list_vertices, UINT size_vertex, UINT size_lis
 	this->m_size_vertex = size_vertex;
 	this->m_size_list = size_list;
 
-	if (FAILED(GraphicsEngine::get()->m_d3d_device->CreateBuffer(&buff_desc, &init_data, &m_buffer))) 
+	if (FAILED(system->d3dDevice->CreateBuffer(&buff_desc, &init_data, &m_buffer)))
 		return false;
 
 	D3D11_INPUT_ELEMENT_DESC layout[] = {
@@ -36,7 +36,7 @@ bool VertexBuffer::loadQuad(void* list_vertices, UINT size_vertex, UINT size_lis
 	};
 	UINT size_layout = ARRAYSIZE(layout);
 
-	if (FAILED(GraphicsEngine::get()->m_d3d_device->CreateInputLayout(layout, size_layout, shader_byte_code, size_byte_shader, &m_layout)))
+	if (FAILED(system->d3dDevice->CreateInputLayout(layout, size_layout, shader_byte_code, size_byte_shader, &m_layout)))
 		return false;
 	
 	return true;
@@ -60,7 +60,7 @@ bool VertexBuffer::loadCircle(std::vector<CircleVertex> list_vertices, UINT size
 	this->m_size_vertex = size_vertex;
 	this->m_size_list = size_list;
 
-	if (FAILED(GraphicsEngine::get()->m_d3d_device->CreateBuffer(&buff_desc, &init_data, &m_buffer)))
+	if (FAILED(system->d3dDevice->CreateBuffer(&buff_desc, &init_data, &m_buffer)))
 		return false;
 
 	D3D11_INPUT_ELEMENT_DESC layout[] = {
@@ -70,7 +70,7 @@ bool VertexBuffer::loadCircle(std::vector<CircleVertex> list_vertices, UINT size
 	};
 	UINT size_layout = ARRAYSIZE(layout);
 
-	if (FAILED(GraphicsEngine::get()->m_d3d_device->CreateInputLayout(layout, size_layout, shader_byte_code, size_byte_shader, &m_layout)))
+	if (FAILED(system->d3dDevice->CreateInputLayout(layout, size_layout, shader_byte_code, size_byte_shader, &m_layout)))
 		return false;
 
 	return true;
@@ -95,7 +95,7 @@ bool VertexBuffer::loadIndexed(std::vector<Vertex3D> vertices, UINT size_vertex,
 	this->m_size_vertex = size_vertex;
 	this->m_size_list = vertices.size();
 
-	if (FAILED(GraphicsEngine::get()->m_d3d_device->CreateBuffer(&buff_desc, &init_data, &m_buffer)))
+	if (FAILED(system->d3dDevice->CreateBuffer(&buff_desc, &init_data, &m_buffer)))
 		return false;
 
 	D3D11_INPUT_ELEMENT_DESC layout[] = {
@@ -105,7 +105,7 @@ bool VertexBuffer::loadIndexed(std::vector<Vertex3D> vertices, UINT size_vertex,
 	};
 	UINT size_layout = ARRAYSIZE(layout);
 
-	if (FAILED(GraphicsEngine::get()->m_d3d_device->CreateInputLayout(layout, size_layout, shader_byte_code, size_byte_shader, &m_layout)))
+	if (FAILED(system->d3dDevice->CreateInputLayout(layout, size_layout, shader_byte_code, size_byte_shader, &m_layout)))
 		return false;
 
 	return true;
@@ -129,7 +129,7 @@ bool VertexBuffer::loadTool(void* list_vertices, UINT size_vertex, UINT size_lis
 	this->m_size_vertex = size_vertex;
 	this->m_size_list = size_list;
 
-	if (FAILED(GraphicsEngine::get()->m_d3d_device->CreateBuffer(&buff_desc, &init_data, &m_buffer)))
+	if (FAILED(system->d3dDevice->CreateBuffer(&buff_desc, &init_data, &m_buffer)))
 		return false;
 
 	D3D11_INPUT_ELEMENT_DESC layout[] = {
@@ -138,7 +138,7 @@ bool VertexBuffer::loadTool(void* list_vertices, UINT size_vertex, UINT size_lis
 	};
 	UINT size_layout = ARRAYSIZE(layout);
 
-	if (FAILED(GraphicsEngine::get()->m_d3d_device->CreateInputLayout(layout, size_layout, shader_byte_code, size_byte_shader, &m_layout)))
+	if (FAILED(system->d3dDevice->CreateInputLayout(layout, size_layout, shader_byte_code, size_byte_shader, &m_layout)))
 		return false;
 
 	return true;

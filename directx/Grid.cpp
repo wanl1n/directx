@@ -3,13 +3,15 @@
 
 Grid::Grid(std::string name, bool showGrid) : GameObject("Grid")
 {
+	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
+
 	// Shader Attributes
 	void* shaderByteCode = nullptr;
 	size_t sizeShader = 0;
 
 	// Creating Vertex Shader
-	GraphicsEngine::get()->compileVertexShader(L"GridVertexShader.hlsl", "gvsmain", &shaderByteCode, &sizeShader);
-	this->vs = GraphicsEngine::get()->createVertexShader(shaderByteCode, sizeShader);
+	renderSystem->compileVertexShader(L"GridVertexShader.hlsl", "gvsmain", &shaderByteCode, &sizeShader);
+	this->vs = renderSystem->createVertexShader(shaderByteCode, sizeShader);
 
 	// Gridlines
 	Vector3 lines[GRIDPOINTS_COUNT];
@@ -25,21 +27,21 @@ Grid::Grid(std::string name, bool showGrid) : GameObject("Grid")
 	}
 
 	// Load into vertex buffer
-	this->vb = GraphicsEngine::get()->createVertexBuffer();
+	this->vb = renderSystem->createVertexBuffer();
 	UINT size_list = ARRAYSIZE(lines);
 	this->vb->loadTool(lines, sizeof(Vector3), size_list, shaderByteCode, sizeShader);
 
-	GraphicsEngine::get()->releaseCompiledShader();
+	renderSystem->releaseCompiledShader();
 
 	// Creating Pixel Shader
-	GraphicsEngine::get()->compilePixelShader(L"GridPixelShader.hlsl", "gpsmain", &shaderByteCode, &sizeShader);
-	this->ps = GraphicsEngine::get()->createPixelShader(shaderByteCode, sizeShader);
-	GraphicsEngine::get()->releaseCompiledShader();
+	renderSystem->compilePixelShader(L"GridPixelShader.hlsl", "gpsmain", &shaderByteCode, &sizeShader);
+	this->ps = renderSystem->createPixelShader(shaderByteCode, sizeShader);
+	renderSystem->releaseCompiledShader();
 
-	this->cb = GraphicsEngine::get()->createConstantBuffer();
+	this->cb = renderSystem->createConstantBuffer();
 	this->cb->load(&cc, sizeof(Constant));
 
-	this->bs = GraphicsEngine::get()->createBlendState(true);
+	this->bs = renderSystem->createBlendState(true);
 
 	this->showGrid = showGrid;
 }
@@ -64,13 +66,13 @@ void Grid::update(float deltaTime, RECT viewport)
 
 	this->project(ORTHOGRAPHIC, viewport);
 
-	this->cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &this->cc);
+	this->cb->update(GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext(), &this->cc);
 }
 
 void Grid::draw()
 {
 	if (this->showGrid) {
-		DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
+		DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 		// Set Blend State.
 		if (this->bs) device->setBlendState(bs);
@@ -80,7 +82,7 @@ void Grid::draw()
 		device->setPixelShader(ps);
 
 		// Draw Object.
-		GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(this->vb);
-		GraphicsEngine::get()->getImmediateDeviceContext()->drawLineList(this->vb->getSizeVertexList(), 0);
+		device->setVertexBuffer(this->vb);
+		device->drawLineList(this->vb->getSizeVertexList(), 0);
 	}
 }

@@ -1,8 +1,8 @@
 #include "BlendState.h"
-#include "GraphicsEngine.h"
+#include "RenderSystem.h"
 #include "iostream"
 
-BlendState::BlendState() {}
+BlendState::BlendState(RenderSystem* system) : system(system) {}
 
 BlendState::~BlendState() {}
 
@@ -33,7 +33,7 @@ bool BlendState::init(bool blending)
 		desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 	}
 
-	if (!SUCCEEDED(GraphicsEngine::get()->m_d3d_device->CreateBlendState(&desc, &this->bs)))
+	if (!SUCCEEDED(system->d3dDevice->CreateBlendState(&desc, &this->bs)))
 		return false;
 	return true;
 }

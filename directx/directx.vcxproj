@@ -151,6 +151,7 @@
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="PulsingQuad.cpp" />
     <ClCompile Include="Quad.cpp" />
+    <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="RotatingCube.cpp" />
     <ClCompile Include="RotatingPlane.cpp" />
     <ClCompile Include="SceneWindow.cpp" />
@@ -186,11 +187,13 @@
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Point.h" />
+    <ClInclude Include="Prerequisites.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="PrimitivesInclude.h" />
     <ClInclude Include="PrimitivesList.h" />
     <ClInclude Include="PulsingQuad.h" />
     <ClInclude Include="Quad.h" />
+    <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="RotatingCube.h" />
     <ClInclude Include="RotatingPlane.h" />
     <ClInclude Include="SceneWindow.h" />

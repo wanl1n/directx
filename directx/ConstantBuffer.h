@@ -1,7 +1,7 @@
 #pragma once
 #include <d3d11.h>
 
-class DeviceContext;
+#include "Prerequisites.h"
 
 class ConstantBuffer
 {
@@ -10,12 +10,13 @@ class ConstantBuffer
 		UINT m_size_list;
 
 		ID3D11Buffer* m_buffer;
+		RenderSystem* system = nullptr;
 
 	private:
 		friend class DeviceContext;
 
 	public:
-		ConstantBuffer();
+		ConstantBuffer(RenderSystem* system);
 		~ConstantBuffer();
 
 		bool load(void* buffer, UINT size_buffer);

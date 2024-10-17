@@ -1,8 +1,8 @@
 #include "IndexBuffer.h"
-#include "GraphicsEngine.h"
+#include "RenderSystem.h"
 #include "iostream"
 
-IndexBuffer::IndexBuffer() : m_buffer(0) {}
+IndexBuffer::IndexBuffer(RenderSystem* system) : system(system), m_buffer(0) {}
 IndexBuffer::~IndexBuffer() {}
 
 bool IndexBuffer::load(void* list_indices, UINT size_list)
@@ -21,7 +21,7 @@ bool IndexBuffer::load(void* list_indices, UINT size_list)
 
 	this->m_size_list = size_list;
 
-	if (FAILED(GraphicsEngine::get()->m_d3d_device->CreateBuffer(&buff_desc, &init_data, &m_buffer)))
+	if (FAILED(system->d3dDevice->CreateBuffer(&buff_desc, &init_data, &m_buffer)))
 		return false;
 
 	return true;
@@ -43,7 +43,7 @@ bool IndexBuffer::load(std::vector<unsigned int> indices)
 
 	this->m_size_list = indices.size();
 
-	if (FAILED(GraphicsEngine::get()->m_d3d_device->CreateBuffer(&buff_desc, &init_data, &m_buffer)))
+	if (FAILED(system->d3dDevice->CreateBuffer(&buff_desc, &init_data, &m_buffer)))
 		return false;
 
 	return true;

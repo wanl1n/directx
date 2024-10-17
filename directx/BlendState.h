@@ -1,19 +1,19 @@
 #pragma once
 #include <d3d11.h>
 
-class GraphicsEngine;
-class DeviceContext;
+#include "Prerequisites.h"
 
 class BlendState
 {
 private:
 	ID3D11BlendState* bs;
+	RenderSystem* system = nullptr;
 
-	friend class GraphicsEngine;
+	friend class RenderSystem;
 	friend class DeviceContext;
 
 public:
-	BlendState();
+	BlendState(RenderSystem* system);
 	~BlendState();
 
 	void release();

@@ -3,18 +3,19 @@
 #include "string"
 #include <vector>
 
-class DeviceContext;
+#include "Prerequisites.h"
 
 class IndexBuffer
 {
 	private:
 		UINT m_size_list;
 		ID3D11Buffer* m_buffer;
+		RenderSystem* system = nullptr;
 
 		friend class DeviceContext;
 
 	public:
-		IndexBuffer();
+		IndexBuffer(RenderSystem* system);
 		~IndexBuffer();
 
 		bool load(void* list_indices, UINT size_list);

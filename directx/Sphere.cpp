@@ -34,7 +34,7 @@ void Sphere::initializeBuffers()
 			indices.push_back(ring * sectors + (sector + 1));
 		}
 	}
-	this->ib = GraphicsEngine::get()->createIndexBuffer();
+	this->ib = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer();
 	this->ib->load(indices);
 }
 
