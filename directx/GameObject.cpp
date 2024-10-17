@@ -2,6 +2,7 @@
 #include "EngineTime.h"
 
 GameObject::GameObject(std::string name) : name(name) {
+	std::cout << "Creating Game Object: " << name << std::endl;
 	this->isActive = true;
 
 	cc.time = 0;

@@ -50,6 +50,10 @@ void SceneWindow::initializeEngine()
 
 	this->worldCamera.setIdentity();
 	this->worldCamera.setTranslation(Vector3(0, 0, -6));
+
+	// Default Primitives
+	GameObjectManager::getInstance()->addGameObject(CUBE);
+	//GameObjectManager::getInstance()->addGameObject(PLANE);
 }
 
 void SceneWindow::onCreate()
@@ -166,10 +170,8 @@ void SceneWindow::onKeyUp(int key)
 		case 46: // Delete
 			break;
 		case '1': // 1
-			GameObjectManager::getInstance()->addGameObject(CUBE);
 			break;
 		case '2': // 2
-			GameObjectManager::getInstance()->addGameObject(PLANE);
 			break;
 	}
 }

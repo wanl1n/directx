@@ -11,7 +11,7 @@ class RotatingCube : public Cube
 		float speed;
 
 	public:
-		RotatingCube(std::string name, CubeVertex props, bool blending);
+		RotatingCube(std::string name, CubeProps props, bool blending);
 		~RotatingCube();
 
 		void update(float deltaTime, RECT viewport);

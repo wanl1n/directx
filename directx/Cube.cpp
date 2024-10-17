@@ -1,30 +1,17 @@
 #include "Cube.h"
 
-Cube::Cube(std::string name, CubeVertex props, bool blending) : Primitive(name, blending)
+Cube::Cube(std::string name, bool blending) : Primitive(name, blending)
+{
+	this->init();
+}
+
+Cube::~Cube() {}
+
+void Cube::initializeBuffers()
 {
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
 
-	void* shaderByteCode = nullptr;
-	size_t sizeShader = 0;
-	this->side = 0.3f;
-
-	// 1. Set up the Vertex buffer.
-	CubeVertex vertices[] = { // Cube Vertices
-		// FRONT FACE
-		{ Vector3(-side, -side, -side), props.color1, props.color1 },
-		{ Vector3(-side, side, -side),	props.color1, props.color1 },
-		{ Vector3(side, side, -side),	props.color1, props.color1 },
-		{ Vector3(side, -side, -side),	props.color1, props.color1 },
-		// BACK FACE
-		{ Vector3(side, -side, side),	props.color2, props.color2 },
-		{ Vector3(side, side, side),	props.color2, props.color2 },
-		{ Vector3(-side, side, side),	props.color2, props.color2 },
-		{ Vector3(-side, -side, side),	props.color2, props.color2 }
-	};
-	this->vb = GraphicsEngine::get()->createVertexBuffer();
-	UINT size_list = ARRAYSIZE(vertices);
-
-	// 2. Set up the Index buffer.
+	// Set up the Index buffer.
 	unsigned int indices[] = {
 		//FRONT SIDE
 		0,1,2,  //FIRST TRIANGLE
@@ -47,11 +34,36 @@ Cube::Cube(std::string name, CubeVertex props, bool blending) : Primitive(name, 
 	};
 	this->ib = GraphicsEngine::get()->createIndexBuffer();
 	UINT size_indices = ARRAYSIZE(indices);
-
-	// Load into buffers.
 	this->ib->load(indices, size_indices);
-	this->vb->loadIndexed(vertices, sizeof(CubeVertex), size_list, shaderByteCode, sizeShader);
 }
 
-Cube::~Cube()
-{}
+std::vector<Vertex3D> Cube::createVertices()
+{
+	std::vector<Vertex3D> vecVerts;
+
+	// Default Values
+	this->side = 1.0f;
+	this->frontColor = WHITE;
+	this->backColor = WHITE;
+
+	// 1. Set up the Vertex buffer.
+	Vertex3D vertices[] = { // Cube Vertices
+		// FRONT FACE
+		{ Vector3(-side, -side, -side), this->frontColor },
+		{ Vector3(-side, side, -side),	this->frontColor },
+		{ Vector3(side, side, -side),	this->frontColor },
+		{ Vector3(side, -side, -side),	this->frontColor },
+		// BACK FACE
+		{ Vector3(side, -side, side),	this->backColor },
+		{ Vector3(side, side, side),	this->backColor },
+		{ Vector3(-side, side, side),	this->backColor },
+		{ Vector3(-side, -side, side),	this->backColor }
+	};
+	UINT size_list = ARRAYSIZE(vertices);
+
+	for (int i = 0; i < size_list; i++) {
+		vecVerts.push_back(vertices[i]);
+	}
+
+	return vecVerts;
+}

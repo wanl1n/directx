@@ -1,32 +1,37 @@
 #include "Plane.h"
 #include "Vertex.h"
 
-Plane::Plane(std::string name, PlaneProps props, bool blending) : GameObject(name)
+Plane::Plane(std::string name, PlaneProps props, bool blending) : Primitive(name, blending)
 {
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
-	
+
 	this->height = props.height;
 	this->width = props.width;
+	this->center = props.position;
+	this->color = props.color;
 
-	Vector3 center = props.position;
 	Rect rec = { center.x - width / 2, // left
 				 center.y + height / 2,// top
 				 center.x + width / 2, // right
 				 center.y - height / 2 }; // bottom
 	//std::cout << "Rect: [L]: " << rec.left << " [R]: " << rec.right << " [T]: " << rec.top << " [B]: " << rec.bottom << std::endl;
-	PlaneVertex vertices[] = {
-		{ Vector3(rec.left,	rec.bottom, 0.0f), props.color },
-		{ Vector3(rec.left,	rec.top, 0.0f),	props.color },
-		{ Vector3(rec.right, rec.top, 0.0f), props.color },
-		{ Vector3(rec.right, rec.bottom, 0.0f),	props.color },
+	Vertex3D verticesArray[] = {
+		{ Vector3(rec.left,	rec.bottom, 0.0f), color },
+		{ Vector3(rec.left,	rec.top, 0.0f),	color },
+		{ Vector3(rec.right, rec.top, 0.0f), color },
+		{ Vector3(rec.right, rec.bottom, 0.0f),	color },
 
-		{ Vector3(rec.right, rec.bottom, 0.0f),	props.color },
-		{ Vector3(rec.right, rec.top, 0.0f), props.color },
-		{ Vector3(rec.left,	rec.top, 0.0f),	props.color },
-		{ Vector3(rec.left,	rec.bottom, 0.0f), props.color }
+		{ Vector3(rec.right, rec.bottom, 0.0f),	color },
+		{ Vector3(rec.right, rec.top, 0.0f), color },
+		{ Vector3(rec.left,	rec.top, 0.0f),	color },
+		{ Vector3(rec.left,	rec.bottom, 0.0f), color }
 	};
+
+	std::vector<Vertex3D> vertices;
+	for (int i = 0; i < ARRAYSIZE(verticesArray); i++) {
+		vertices.push_back(verticesArray[i]);
+	}
 	this->vb = GraphicsEngine::get()->createVertexBuffer();
-	UINT size_list = ARRAYSIZE(vertices);
 
 	// 2. Set up the Index buffer.
 	unsigned int indices[] = {
@@ -42,20 +47,20 @@ Plane::Plane(std::string name, PlaneProps props, bool blending) : GameObject(nam
 
 	// Load into index buffer.
 	this->ib->load(indices, size_indices);
-
 	// Shader Attributes
 	void* shaderByteCode = nullptr;
 	size_t sizeShader = 0;
 
+
 	// Creating Vertex Shader
-	graphicsEngine->compileVertexShader(L"CircleVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
+	graphicsEngine->compileVertexShader(L"SolidVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
 	this->vs = graphicsEngine->createVertexShader(shaderByteCode, sizeShader);
-	this->vb->loadPlane(vertices, sizeof(PlaneVertex), size_list, shaderByteCode, sizeShader);
+	this->vb->loadIndexed(vertices, sizeof(Vertex3D), vertices.size(), shaderByteCode, sizeShader);
 
 	graphicsEngine->releaseCompiledShader();
 
 	// Creating Pixel Shader
-	graphicsEngine->compilePixelShader(L"CirclePixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
+	graphicsEngine->compilePixelShader(L"SolidPixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
 	this->ps = graphicsEngine->createPixelShader(shaderByteCode, sizeShader);
 	graphicsEngine->releaseCompiledShader();
 
@@ -96,6 +101,7 @@ void Plane::update(float deltaTime, RECT viewport)
 void Plane::draw()
 {
 	DeviceContext* device = GraphicsEngine::get()->getImmediateDeviceContext();
+	std::cout << "Drawing " << name << ". " << device << std::endl;
 
 	// Bind to Shaders.
 	device->setConstantBuffer(vs, this->cb);
@@ -113,4 +119,85 @@ void Plane::draw()
 	device->setIndexBuffer(this->ib);
 	device->drawIndexedTriangleList(this->ib->getSizeIndexList(), 0, 0);
 	//device->drawTriangleStrip(this->vb->getSizeVertexList(), 0);
+}
+
+void Plane::initializeBuffers()
+{
+	// Shader Attributes
+	void* shaderByteCode = nullptr;
+	size_t sizeShader = 0;
+
+	Rect rec = { -width / 2, // left
+				 height / 2,// top
+				 width / 2, // right
+				 -height / 2 }; // bottom
+	Vertex3D verticesArray[] = {
+		{ Vector3(rec.left,	rec.bottom, 0.0f), color },
+		{ Vector3(rec.left,	rec.top, 0.0f),	color },
+		{ Vector3(rec.right, rec.top, 0.0f), color },
+		{ Vector3(rec.right, rec.bottom, 0.0f),	color },
+
+		{ Vector3(rec.right, rec.bottom, 0.0f),	color },
+		{ Vector3(rec.right, rec.top, 0.0f), color },
+		{ Vector3(rec.left,	rec.top, 0.0f),	color },
+		{ Vector3(rec.left,	rec.bottom, 0.0f), color }
+	};
+
+	std::vector<Vertex3D> vertices;
+	for (int i = 0; i < ARRAYSIZE(verticesArray); i++) {
+		vertices.push_back(verticesArray[i]);
+	}
+	this->vb = GraphicsEngine::get()->createVertexBuffer();
+	// 2. Set up the Index buffer.
+	unsigned int indices[] = {
+		//FRONT SIDE
+		0,1,2,  //FIRST TRIANGLE
+		2,3,0,  //SECOND TRIANGLE
+		//BACK SIDE
+		4,5,6,
+		6,7,4,
+	};
+	this->ib = GraphicsEngine::get()->createIndexBuffer();
+	UINT size_indices = ARRAYSIZE(indices);
+
+	// Load into index buffer.
+	this->ib->load(indices, size_indices);
+	this->vb->loadIndexed(vertices, sizeof(Vertex3D), vertices.size(), shaderByteCode, sizeShader);
+
+	// Lying down
+	this->transform.position = this->center;
+	this->transform.rotation.x = 1.57f;
+	this->cc.world.setIdentity();
+	this->cc.world.setTranslation(this->transform.position);
+	this->rotateX(this->transform.rotation.x);
+}
+
+std::vector<Vertex3D> Plane::createVertices()
+{
+	std::vector<Vertex3D> vecVerts;
+
+	// 1. Set up the Vertex buffer.
+	Rect rec = { center.x - width / 2, // left
+				 center.y + height / 2,// top
+				 center.x + width / 2, // right
+				 center.y - height / 2 }; // bottom
+	//std::cout << "Rect: [L]: " << rec.left << " [R]: " << rec.right << " [T]: " << rec.top << " [B]: " << rec.bottom << std::endl;
+	Vertex3D vertices[] = {
+		{ Vector3(rec.left,	rec.bottom, 0.0f), color },
+		{ Vector3(rec.left,	rec.top, 0.0f),	color },
+		{ Vector3(rec.right, rec.top, 0.0f), color },
+		{ Vector3(rec.right, rec.bottom, 0.0f),	color },
+
+		{ Vector3(rec.right, rec.bottom, 0.0f),	color },
+		{ Vector3(rec.right, rec.top, 0.0f), color },
+		{ Vector3(rec.left,	rec.top, 0.0f),	color },
+		{ Vector3(rec.left,	rec.bottom, 0.0f), color }
+	};
+	UINT size_list = ARRAYSIZE(vertices);
+
+	for (int i = 0; i < size_list; i++) {
+		vecVerts.push_back(vertices[i]);
+	}
+
+	return vecVerts;
 }

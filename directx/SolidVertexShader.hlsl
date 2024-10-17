@@ -2,14 +2,12 @@ struct VS_INPUT
 {
     float4 position : POSITION;
     float4 color : COLOR;
-    float4 color1 : COLOR1;
 };
 
 struct VS_OUTPUT
 {
     float4 position : SV_POSITION;
     float4 color : COLOR;
-    float4 color1 : COLOR1;
 };
 
 cbuffer constant : register(b0)
@@ -32,7 +30,6 @@ VS_OUTPUT vsmain(VS_INPUT input)
     output.position = mul(output.position, m_proj);
     
     output.color = input.color;
-    output.color1 = input.color1;
     
     return output;
 }

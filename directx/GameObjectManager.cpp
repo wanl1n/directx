@@ -23,6 +23,8 @@ void GameObjectManager::update(float deltaTime, RECT viewport)
 {
 	for (GameObject* obj : this->GOList)
 	{
+		//std::cout << obj->name << std::endl;
+		//std::cout << obj->transform.position.x << ", " << obj->transform.position.y << ", " << obj->transform.position.z << std::endl;
 		if (obj->isActive)
 			obj->update(deltaTime, viewport);
 	}
@@ -95,16 +97,16 @@ Quad* GameObjectManager::createQuad(OBJECT_TYPE type)
 	QuadColors color2 = { LAVENDER, CREAM, MATCHA, SPACE };
 	QuadProps quadProps = { pos, pos, color1, color2 };
 
-	Quad* newQuad = new Quad("Quad " + (this->QuadList.size() + 1), quadProps, false);
+	Quad* newQuad = new Quad("Quad " + std::to_string(this->QuadList.size() + 1), quadProps, false);
 
 	switch (type) {
 		case PULSING_QUAD:
 			free(newQuad);
-			newQuad = new PulsingQuad("Pulsing Quad " + (this->QuadList.size() + 1), quadProps, false);
+			newQuad = new PulsingQuad("Pulsing Quad " + std::to_string(this->QuadList.size() + 1), quadProps, false);
 			break;
 		case AREA51_QUAD:
 			free(newQuad);
-			newQuad = new Area51("Test Quad " + (this->QuadList.size() + 1), quadProps, false);
+			newQuad = new Area51("Test Quad " + std::to_string(this->QuadList.size() + 1), quadProps, false);
 			break;
 		default:
 			break;
@@ -127,12 +129,12 @@ Circle* GameObjectManager::createCircle(OBJECT_TYPE type)
 		CREAM		// Inner color
 	};
 
-	Circle* newCircle = new Circle("Circle " + (this->CircleList.size() + 1), props, true);
+	Circle* newCircle = new Circle("Circle " + std::to_string(this->CircleList.size() + 1), props, true);
 
 	switch (type) {
 		case BOUNCING_CIRCLE:
 			free(newCircle); 
-			newCircle = new BouncingCircle("Bouncing Circle " + (this->CircleList.size() + 1), props, true);
+			newCircle = new BouncingCircle("Bouncing Circle " + std::to_string(this->CircleList.size() + 1), props, true);
 			break;
 		default:
 			break;
@@ -146,19 +148,13 @@ Circle* GameObjectManager::createCircle(OBJECT_TYPE type)
 
 Cube* GameObjectManager::createCube(OBJECT_TYPE type)
 {
-	CubeVertex props = {
-		Vector3(0),
-		CREAM,
-		LAVENDER
-	};
-
-	Cube* newCube = new Cube("Cube " + (this->CubeList.size() + 1), props, true);
+	Cube* newCube = new Cube("Cube " + std::to_string(this->CubeList.size() + 1), true);
 
 	switch (type) {
 		case ROTATING_CUBE:
 			//std::cout << "Creating Rotating Cube." << std::endl;
 			free(newCube);
-			newCube = new RotatingCube("Rotating Cube " + (this->CubeList.size() + 1), props, true);
+			newCube = new RotatingCube("Rotating Cube " + std::to_string(this->CubeList.size() + 1), true);
 			break;
 		default:
 			//std::cout << "Creating Cube." << std::endl;
@@ -180,12 +176,12 @@ Plane* GameObjectManager::createPlane(OBJECT_TYPE type)
 		5.0f  // Height
 	};
 
-	Plane* newPlane = new Plane("Plane " + (this->PlaneList.size() + 1), props, true);
+	Plane* newPlane = new Plane("Plane " + std::to_string(this->PlaneList.size() + 1), props, true);
 
 	switch (type) {
 		case ROTATING_PLANE:
 			free(newPlane);
-			newPlane = new RotatingPlane("Rotating Plane " + (this->PlaneList.size() + 1), props, true);
+			newPlane = new RotatingPlane("Rotating Plane " + std::to_string(this->PlaneList.size() + 1), props, true);
 			break;
 		default:
 			break;

@@ -1,37 +1,12 @@
 #pragma once
-#include <iostream>
-#include <string>
-#include <vector>
+#include "PrimitivesInclude.h"
+#include "Primitive.h"
 
-#include "GameObject.h"
-
-#include "Windows.h"
-#include "GraphicsEngine.h"
-#include "SwapChain.h"
-#include "DeviceContext.h"
-
-#include "VertexBuffer.h"
-#include "ConstantBuffer.h"
-#include "IndexBuffer.h"
-#include "BlendState.h"
-
-#include "VertexShader.h"
-#include "PixelShader.h"
-
-#include "Vertex.h"
-#include "Math.h"
-
-class Plane : public GameObject
-{
+class Plane : public Primitive
+{ 
 	protected:
-		VertexBuffer* vb;
-		ConstantBuffer* cb;
-		IndexBuffer* ib;
-		BlendState* bs;
-
-		VertexShader* vs;
-		PixelShader* ps;
-
+		Vector3 center;
+		Vector4 color;
 		float height;
 		float width;
 
@@ -42,5 +17,8 @@ class Plane : public GameObject
 		virtual void update(float deltaTime, RECT viewport) override;
 		virtual void draw() override;
 		bool release();
+
+		virtual void initializeBuffers();
+		virtual std::vector<Vertex3D> createVertices();
 };
 

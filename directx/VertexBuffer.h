@@ -26,8 +26,7 @@ class VertexBuffer
 
 		bool loadQuad(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);
 		bool loadCircle(std::vector<CircleVertex> list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);
-		bool loadIndexed(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);
-		bool loadPlane(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);
+		bool loadIndexed(std::vector<Vertex3D> vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);
 		bool loadTool(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);
 		bool release();
 

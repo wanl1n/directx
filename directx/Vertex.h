@@ -68,8 +68,8 @@ struct CircleVertex {
 };
 
 // Cubes
-struct CubeVertex {
-	Vector3 position;
+struct CubeProps {
+	float side;
 	Vector4 color1;
 	Vector4 color2;
 };
@@ -82,7 +82,7 @@ struct PlaneProps {
 	float height;
 };
 
-struct PlaneVertex {
+struct Vertex3D {
 	Vector3 position;
 	Vector4 color;
 };

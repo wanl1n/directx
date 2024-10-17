@@ -1,6 +1,6 @@
 #include "RotatingCube.h"
 
-RotatingCube::RotatingCube(std::string name, CubeVertex props, bool blending) : Cube(name, props, blending) {
+RotatingCube::RotatingCube(std::string name, CubeProps props, bool blending) : Cube(name, props, blending) {
 	this->deltaRot = Vector3(0);
 	this->rotDir = Vector3(0);
 	this->speed = 0;

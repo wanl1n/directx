@@ -1,6 +1,7 @@
 #pragma once
 #include "vector"
 
+#include "Primitive.h"
 #include "Circle.h"
 #include "BouncingCircle.h"
 
