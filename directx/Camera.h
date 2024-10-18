@@ -19,11 +19,12 @@ class Camera : public GameObject, public InputListener
 		float moveSpeed = 0.3f;
 
 		bool moving = false;
+		RECT viewport;
 
 		friend class CameraManager;
 
 	public:
-		Camera(std::string name, OBJECT_TYPE type = CAMERA);
+		Camera(std::string name, RECT viewport, OBJECT_TYPE type = CAMERA);
 		~Camera();
 
 		virtual void update(RECT viewport);

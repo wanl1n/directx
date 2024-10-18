@@ -11,7 +11,7 @@ class CameraManager
 {
 	public:
 		static CameraManager* getInstance();
-		static void initialize();
+		static void initialize(RECT viewport);
 
 	private:
 		std::vector<Camera*> CameraList;
@@ -19,7 +19,7 @@ class CameraManager
 		int selectedCameraIndex = 0;
 
 	private:
-		CameraManager();
+		CameraManager(RECT viewport);
 		~CameraManager();
 		CameraManager(CameraManager const&) {};
 		CameraManager& operator = (CameraManager const&) {};
@@ -28,7 +28,7 @@ class CameraManager
 	public:
 		void update(RECT viewport);
 
-		void addCamera(OBJECT_TYPE type, int count = 1);
+		void addCamera(OBJECT_TYPE type, RECT viewport, int count = 1);
 		void removeCamera(Camera* cam);
 		
 		Camera* getActiveCamera();

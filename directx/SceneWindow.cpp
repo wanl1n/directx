@@ -32,7 +32,7 @@ void SceneWindow::initializeEngine()
 
 	// Game Object Manager
 	GameObjectManager::initialize();
-	CameraManager::initialize();
+	CameraManager::initialize(this->getClientWindowRect());
 
 	// Graphics Engine
 	GraphicsEngine::initialize();
@@ -78,9 +78,6 @@ void SceneWindow::onUpdate()
 	GameObjectManager::getInstance()->update(deltaTime, rc);
 	CameraManager::getInstance()->update(rc);
 
-	/*GameObjectManager::getInstance()->updateCameraView(CameraManager::getInstance()->getActiveCameraView());
-	GameObjectManager::getInstance()->setProjection(CameraManager::getInstance()->getActiveProjection());*/
-
 	// 4. Draw calls
 	this->grid->draw();
 	GameObjectManager::getInstance()->render();
@@ -115,34 +112,8 @@ void SceneWindow::onKillFocus()
 	InputSystem::getInstance()->removeListener(SceneWindow::getInstance());
 }
 
-void SceneWindow::onMouseMove(const Point& mousePos)
-{
-	RECT viewport = this->getClientWindowRect();
-	int width = (viewport.right - viewport.left);
-	int height = (viewport.bottom - viewport.top);
-
-	float speed = CameraManager::getInstance()->getActiveCamera()->getPanSpeed();
-	float deltaRotX = (mousePos.y - (height/2.0f)) * deltaTime * speed;
-	float deltaRotY = (mousePos.x - (width/2.0f)) * deltaTime * speed;
-
-	InputSystem::getInstance()->setCursorPosition(Point(width/2.0f, height/2.0f));
-
-	CameraManager::getInstance()->getActiveCamera()->setRotationX(deltaRotX);
-	CameraManager::getInstance()->getActiveCamera()->setRotationY(deltaRotY);
-}
-
-void SceneWindow::onLeftMouseDown(const Point& mousePos)
-{
-}
-
-void SceneWindow::onRightMouseDown(const Point& mousePos)
-{
-}
-
-void SceneWindow::onLeftMouseUp(const Point& mousePos)
-{
-}
-
-void SceneWindow::onRightMouseUp(const Point& mousePos)
-{
-}
+void SceneWindow::onMouseMove(const Point& mousePos) {} 
+void SceneWindow::onLeftMouseDown(const Point& mousePos) {}
+void SceneWindow::onRightMouseDown(const Point& mousePos) {}
+void SceneWindow::onLeftMouseUp(const Point& mousePos) {}
+void SceneWindow::onRightMouseUp(const Point& mousePos) {}

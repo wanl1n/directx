@@ -7,15 +7,15 @@ CameraManager* CameraManager::getInstance()
 	return sharedInstance;
 }
 
-void CameraManager::initialize()
+void CameraManager::initialize(RECT viewport)
 {
-	sharedInstance = new CameraManager();
+	sharedInstance = new CameraManager(viewport);
 }
 
-CameraManager::CameraManager() : selectedCameraIndex(0) 
+CameraManager::CameraManager(RECT viewport) : selectedCameraIndex(0)
 {
 	// Default Camera.
-	this->addCamera(PERSPECTIVE_CAMERA, 1);
+	this->addCamera(PERSPECTIVE_CAMERA, viewport, 1);
 }
 
 CameraManager::~CameraManager()
@@ -32,10 +32,10 @@ void CameraManager::update(RECT viewport)
 	}
 }
 
-void CameraManager::addCamera(OBJECT_TYPE type, int count)
+void CameraManager::addCamera(OBJECT_TYPE type, RECT viewport, int count)
 {
 	for (int i = 0; i < count; i++) {
-		Camera* newCam = new Camera("Camera " + std::to_string(this->CameraList.size() + 1), type);
+		Camera* newCam = new Camera("Camera " + std::to_string(this->CameraList.size() + 1), viewport, type);
 		this->CameraList.push_back(newCam);
 	}
 }

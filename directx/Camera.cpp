@@ -1,15 +1,20 @@
 #include "Camera.h"
 #include "InputSystem.h"
+#include "EngineTime.h"
 
-Camera::Camera(std::string name, OBJECT_TYPE type) : GameObject(name, type)
+Camera::Camera(std::string name, RECT viewport, OBJECT_TYPE type) : 
+	GameObject(name, type), viewport(viewport)
 {
 	if (type == ORTHO_CAMERA)
 		this->type = ORTHOGRAPHIC;
 	else if (type == PERSPECTIVE_CAMERA)
 		this->type = PERSPECTIVE;
 
+	this->transform.position = Vector3(0, 0, -6);
+	this->transform.rotation = Vector3(0, 0.25f, 0);
 	this->prevCamMat.setIdentity();
-	this->prevCamMat.setTranslation(Vector3(0, 0, -6));
+	this->prevCamMat.setTranslation(this->transform.position);
+	this->updateViewMatrix();
 
 	InputSystem::getInstance()->addListener(this);
 }
@@ -20,6 +25,8 @@ void Camera::update(RECT viewport)
 {
 	this->checkForInput();
 	this->updateProjectionMatrix(viewport);
+
+	std::cout << this->transform.rotation.x << ", " << this->transform.rotation.y << std::endl;
 }
 
 void Camera::checkForInput()
@@ -129,18 +136,16 @@ void Camera::setRightward(float dir)
 
 void Camera::onMouseMove(const Point& mousePos)
 {
-	/*RECT viewport = this->getClientWindowRect();
 	int width = (viewport.right - viewport.left);
 	int height = (viewport.bottom - viewport.top);
+	float deltaTime = EngineTime::getDeltaTime();
 
-	float speed = CameraManager::getInstance()->getActiveCamera()->getPanSpeed();
-	float deltaRotX = (mousePos.y - (height / 2.0f)) * deltaTime * speed;
-	float deltaRotY = (mousePos.x - (width / 2.0f)) * deltaTime * speed;
-
+	if (moving) {
+		this->transform.rotation.x += (mousePos.y - (height / 2.0f)) * deltaTime * panSpeed;
+		this->transform.rotation.y += (mousePos.x - (width / 2.0f)) * deltaTime * panSpeed;
+	}
+	
 	InputSystem::getInstance()->setCursorPosition(Point(width / 2.0f, height / 2.0f));
-
-	CameraManager::getInstance()->getActiveCamera()->setRotationX(deltaRotX);
-	CameraManager::getInstance()->getActiveCamera()->setRotationY(deltaRotY);*/
 }
 
 void Camera::onLeftMouseDown(const Point& mousePos)
