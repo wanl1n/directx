@@ -1,7 +1,7 @@
 #include "Primitive.h"
 
 Primitive::Primitive(std::string name, OBJECT_TYPE type, bool blending) : 
-	GameObject(name), alphaOn(blending) {}
+	GameObject(name, type), alphaOn(blending) {}
 
 Primitive::~Primitive() 
 {

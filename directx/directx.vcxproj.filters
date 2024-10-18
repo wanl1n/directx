@@ -28,12 +28,6 @@
     <Filter Include="GameEngine\InputSystem">
       <UniqueIdentifier>{dcb02ccf-714d-46f1-8ae3-721aa929c45b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\Tools">
-      <UniqueIdentifier>{48508f4f-ca01-447e-9aa1-4532e4d261d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngine\Tools\Grid">
-      <UniqueIdentifier>{6547a3a5-cee3-4157-936d-326d1078077a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="App\GameWindow">
       <UniqueIdentifier>{e1e3f015-c922-4546-a6ad-9f6aa1ab9655}</UniqueIdentifier>
     </Filter>
@@ -124,6 +118,12 @@
     <Filter Include="GameEngine\GameObject\Primitives\3D\Capsule">
       <UniqueIdentifier>{73ced6de-f07f-41f3-94e9-5f293d7fcd85}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GameObject\SceneTools">
+      <UniqueIdentifier>{48508f4f-ca01-447e-9aa1-4532e4d261d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GameObject\SceneTools\Grid">
+      <UniqueIdentifier>{6547a3a5-cee3-4157-936d-326d1078077a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -184,7 +184,7 @@
       <Filter>GameEngine\GameObject\Primitives\2D\Quad\PresetQuads</Filter>
     </ClCompile>
     <ClCompile Include="Grid.cpp">
-      <Filter>GameEngine\Tools\Grid</Filter>
+      <Filter>GameEngine\GameObject\SceneTools\Grid</Filter>
     </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
       <Filter>GameEngine\GraphicsEngine\RenderSystem\Buffers\IndexBuffer</Filter>
@@ -295,7 +295,7 @@
       <Filter>GameEngine\GameObject\Primitives\2D\Quad\PresetQuads</Filter>
     </ClInclude>
     <ClInclude Include="Grid.h">
-      <Filter>GameEngine\Tools\Grid</Filter>
+      <Filter>GameEngine\GameObject\SceneTools\Grid</Filter>
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">
       <Filter>GameEngine\GraphicsEngine\RenderSystem\Buffers\IndexBuffer</Filter>

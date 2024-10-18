@@ -4,7 +4,7 @@
 
 #include <DirectXMath.h>
 
-Circle::Circle(std::string name, CircleProps props, bool blending) : GameObject(name)
+Circle::Circle(std::string name, CircleProps props, bool blending) : GameObject(name, CIRCLE)
 {
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 

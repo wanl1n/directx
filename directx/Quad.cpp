@@ -1,7 +1,7 @@
 #include "Quad.h"
 #include "Vertex.h"
 
-Quad::Quad(std::string name, QuadProps props, bool blending) : GameObject(name)
+Quad::Quad(std::string name, QuadProps props, bool blending) : GameObject(name, QUAD)
 {
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 

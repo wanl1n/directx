@@ -1,7 +1,7 @@
 #include "Grid.h"
 #include "Vertex.h"
 
-Grid::Grid(std::string name, bool showGrid) : GameObject("Grid")
+Grid::Grid(std::string name, bool showGrid) : GameObject("Grid", TOOLS_GRID)
 {
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 

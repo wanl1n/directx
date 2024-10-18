@@ -1,22 +1,6 @@
 #include "GameObject.h"
 #include "EngineTime.h"
 
-GameObject::GameObject(std::string name) : name(name) {
-	std::cout << "Creating Game Object: " << name << std::endl;
-	this->isActive = true;
-
-	cc.time = 0;
-	cc.world.setIdentity();
-	cc.view.setIdentity();
-	cc.proj.setIdentity();
-
-	transform.position = Vector3(0);
-	transform.rotation = Vector3(0);
-	transform.scale = Vector3(1);
-
-	cc.world.setTranslation(transform.position);
-}
-
 GameObject::GameObject(std::string name, OBJECT_TYPE type) :
 	name(name), type(type) {
 	this->isActive = true;

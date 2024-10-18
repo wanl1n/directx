@@ -13,7 +13,18 @@ void GameObjectManager::initialize()
 }
 
 GameObjectManager::GameObjectManager() {}
-GameObjectManager::~GameObjectManager() {}
+
+GameObjectManager::~GameObjectManager() 
+{
+	this->GOList.clear();
+	this->QuadList.clear();
+	this->CircleList.clear();
+	this->CubeList.clear();
+	this->PlaneList.clear();
+	this->SphereList.clear();
+	this->CylinderList.clear();
+	this->CapsuleList.clear();
+}
 
 void GameObjectManager::init()
 {

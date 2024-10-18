@@ -35,5 +35,8 @@ enum OBJECT_TYPE {
 	CAPSULE,
 
 	// Camera
-	CAMERA
+	CAMERA,
+
+	// Tools
+	TOOLS_GRID
 };

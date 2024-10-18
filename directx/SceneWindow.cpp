@@ -51,7 +51,6 @@ void SceneWindow::initializeEngine()
 	this->worldCamera.setTranslation(Vector3(0, 0, -6));
 
 	// Default Primitives
-	//GameObjectManager::getInstance()->addGameObject(PLANE);
 	GameObjectManager::getInstance()->addGameObject(CAPSULE);
 	GameObjectManager::getInstance()->addGameObject(SPHERE);
 }
@@ -73,11 +72,9 @@ void SceneWindow::onUpdate()
 	RECT rc = this->getClientWindowRect();
 	device->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	// Input System Update:
+	// 3. Update all objects.
 	InputSystem::getInstance()->update();
-	// Scene Tools Update:
 	this->grid->update(deltaTime, rc);
-	// Game Object Manager Update:
 	GameObjectManager::getInstance()->update(deltaTime, rc);
 
 	// Camera
@@ -103,13 +100,13 @@ void SceneWindow::onUpdate()
 	GameObjectManager::getInstance()->updateCameraView(worldCam);
 	GameObjectManager::getInstance()->setProjection(PERSPECTIVE, rc);
 
-	// Draw calls
+	// 4. Draw calls
 	this->grid->draw();
 	GameObjectManager::getInstance()->render();
 
 	this->swapChain->present(true);
 
-	// Update Delta time.
+	// 5. Update Delta time.
 	deltaTime = (float)EngineTime::getDeltaTime();
 }
 
