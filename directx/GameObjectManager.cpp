@@ -61,6 +61,9 @@ void GameObjectManager::addGameObject(OBJECT_TYPE type, int count)
 			case CYLINDER:
 				this->createCylinder(type);
 				break;
+			case CAPSULE:
+				this->createCapsule(type);
+				break;
 			default:
 				break;
 		}
@@ -218,4 +221,19 @@ Cylinder* GameObjectManager::createCylinder(OBJECT_TYPE type)
 	this->CylinderList.push_back(newCylinder);
 
 	return newCylinder;
+}
+
+Capsule* GameObjectManager::createCapsule(OBJECT_TYPE type)
+{
+	Capsule* newCapsule = new Capsule("Capsule " + std::to_string(this->CapsuleList.size() + 1), true);
+
+	switch (type) {
+	default:
+		break;
+	}
+
+	this->GOList.push_back((GameObject*)newCapsule);
+	this->CapsuleList.push_back(newCapsule);
+
+	return newCapsule;
 }

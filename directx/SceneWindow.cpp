@@ -52,7 +52,8 @@ void SceneWindow::initializeEngine()
 
 	// Default Primitives
 	//GameObjectManager::getInstance()->addGameObject(PLANE);
-	GameObjectManager::getInstance()->addGameObject(CYLINDER);
+	GameObjectManager::getInstance()->addGameObject(CAPSULE);
+	GameObjectManager::getInstance()->addGameObject(SPHERE);
 }
 
 void SceneWindow::onCreate()

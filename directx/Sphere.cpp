@@ -42,30 +42,31 @@ std::vector<Vertex3D> Sphere::createVertices()
 	std::vector<Vertex3D> vertices;
 
 	// Default Values
-	this->rings = 32.0f;
-	this->sectors = 32.0f;
-	this->color = WHITE;
+	this->rings = 32;
+	this->sectors = 32;
 	this->radius = 1.0f;
+	float height = 2.0f;
+	this->color = WHITE;
 
 	// Precomputed values to optimize calculations
-	float const ringStep = 1.0f / static_cast<float>(rings - 1);    // Step size for the rings
-	float const sectorStep = 1.0f / static_cast<float>(sectors - 1); // Step size for the sectors
-	
-	for (unsigned int ring = 0; ring < rings; ++ring)
+	float ringStep = 1.0f / (float)(rings - 1);    // Step size for the rings
+	float sectorStep = 1.0f / (float)(sectors - 1); // Step size for the sectors
+	float half = (float)rings / 2;
+
+	for (int ring = 0; ring < rings; ++ring)
 	{
 		for (unsigned int sector = 0; sector < sectors; ++sector)
 		{
 			// Calculate the spherical coordinates for the vertex
-			float const y = sinf(-DirectX::XM_PIDIV2 + DirectX::XM_PI * ring * ringStep); // Vertical (Y) position
-			float const x = cosf(2 * DirectX::XM_PI * sector * sectorStep) * sinf(DirectX::XM_PI * ring * ringStep); // Horizontal (X) position
-			float const z = sinf(2 * DirectX::XM_PI * sector * sectorStep) * sinf(DirectX::XM_PI * ring * ringStep); // Depth (Z) position
+			float y = sinf(-DirectX::XM_PIDIV2 + DirectX::XM_PI * ring * ringStep); // Vertical (Y) position
+			float x = cosf(2 * DirectX::XM_PI * sector * sectorStep) * sinf(DirectX::XM_PI * ring * ringStep); // Horizontal (X) position
+			float z = sinf(2 * DirectX::XM_PI * sector * sectorStep) * sinf(DirectX::XM_PI * ring * ringStep); // Depth (Z) position
 
 			// Create the vertex with position, normal, and texture coordinate
-			Vertex3D vertex;
-			vertex.position = Vector3(x * radius, y * radius, z * radius);
-			vertex.color = WHITE;
-			//vertex.normal = DirectX::XMFLOAT3(x, y, z); // Normal vector
-			//vertex.texcoord = DirectX::XMFLOAT2(sector * sectorStep, ring * ringStep); // Texture coordinates
+			Vertex3D vertex = {
+				Vector3(x * radius, y * radius, z * radius),
+				color
+			};
 
 			// Store the vertex in the vertex buffer
 			vertices.push_back(vertex);

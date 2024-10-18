@@ -121,6 +121,9 @@
     <Filter Include="GameEngine\EngineTime">
       <UniqueIdentifier>{4921e0ac-5fff-4a12-af32-30ed11818ef7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GameObject\Primitives\3D\Capsule">
+      <UniqueIdentifier>{73ced6de-f07f-41f3-94e9-5f293d7fcd85}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -219,6 +222,9 @@
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
       <Filter>GameEngine\GraphicsEngine\RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Capsule.cpp">
+      <Filter>GameEngine\GameObject\Primitives\3D\Capsule</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -351,6 +357,9 @@
     </ClInclude>
     <ClInclude Include="Prerequisites.h">
       <Filter>GameEngine\GraphicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Capsule.h">
+      <Filter>GameEngine\GameObject\Primitives\3D\Capsule</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

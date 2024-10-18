@@ -19,6 +19,7 @@ class GameObjectManager
 		std::vector<Plane*> PlaneList;
 		std::vector<Sphere*> SphereList;
 		std::vector<Cylinder*> CylinderList;
+		std::vector<Capsule*> CapsuleList;
 
 	private:
 		GameObjectManager();
@@ -46,5 +47,6 @@ class GameObjectManager
 		Plane* createPlane(OBJECT_TYPE type);
 		Sphere* createSphere(OBJECT_TYPE type);
 		Cylinder* createCylinder(OBJECT_TYPE type);
+		Capsule* createCapsule(OBJECT_TYPE type);
 };
 
