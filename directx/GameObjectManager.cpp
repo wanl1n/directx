@@ -9,7 +9,6 @@ GameObjectManager* GameObjectManager::getInstance()
 void GameObjectManager::initialize()
 {
 	sharedInstance = new GameObjectManager();
-	sharedInstance->init();
 }
 
 GameObjectManager::GameObjectManager() {}
@@ -24,10 +23,6 @@ GameObjectManager::~GameObjectManager()
 	this->SphereList.clear();
 	this->CylinderList.clear();
 	this->CapsuleList.clear();
-}
-
-void GameObjectManager::init()
-{
 }
 
 void GameObjectManager::update(float deltaTime, RECT viewport)
@@ -97,10 +92,10 @@ void GameObjectManager::updateCameraView(Matrix4x4 worldCam)
 		obj->cc.view = worldCam;
 }
 
-void GameObjectManager::setProjection(int type, RECT vp)
+void GameObjectManager::setProjection(Matrix4x4 projMat)
 {
 	for (GameObject* obj : this->GOList)
-		obj->project(type, vp);
+		obj->cc.proj = projMat;
 }
 
 Quad* GameObjectManager::createQuad(OBJECT_TYPE type)

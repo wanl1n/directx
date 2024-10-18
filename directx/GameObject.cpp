@@ -24,9 +24,7 @@ void GameObject::update(float deltaTime, RECT viewport)
 	this->cc.time = deltaTime;
 }
 
-void GameObject::draw()
-{
-}
+void GameObject::draw() {}
 
 void GameObject::translate(Vector3 offset, float speed)
 {
@@ -70,6 +68,17 @@ void GameObject::scale(Vector3 offset)
 	this->cc.world *= scale;
 }
 
+void GameObject::resetView()
+{
+	this->cc.view.setIdentity();
+}
+
+// GETTERS AND SETTERS
+Vector3 GameObject::getPosition()
+{
+	return this->transform.position;
+}
+
 void GameObject::setPosition(Vector3 newPos)
 {
 	this->transform.position = newPos;
@@ -80,11 +89,6 @@ void GameObject::setPosition(float x, float y, float z)
 	this->transform.position = Vector3(x, y, z);
 }
 
-Vector3 GameObject::getPosition()
-{
-	return this->transform.position;
-}
-
 void GameObject::setRotation(Vector3 newRot)
 {
 	this->transform.rotation.x += newRot.x;
@@ -92,38 +96,17 @@ void GameObject::setRotation(Vector3 newRot)
 	this->transform.rotation.z += newRot.z;
 }
 
-void GameObject::resetView()
+void GameObject::setRotationX(float xOffset)
 {
-	this->cc.view.setIdentity();
+	this->transform.rotation.x += xOffset;
 }
 
-void GameObject::project(int type, RECT viewport)
+void GameObject::setRotationY(float yOffset)
 {
-	int width = (viewport.right - viewport.left);
-	int height = (viewport.bottom - viewport.top);
+	this->transform.rotation.y += yOffset;
+}
 
-	switch (type) {
-		case ORTHOGRAPHIC:
-			this->cc.proj.setOrthoLH(
-				width / 400.0f,
-				height / 400.0f,
-				-4.0f, 4.0f
-			);
-			break;
-		case PERSPECTIVE:
-			this->cc.proj.setPerspectiveFovLH(
-				1.57f, // fov
-				(float)width / (float)height, // aspect
-				0.1f, // near
-				100.0f // far
-			);
-			break;
-		default:
-			this->cc.proj.setOrthoLH(
-				(viewport.right - viewport.left) / 400.0f,
-				(viewport.bottom - viewport.top) / 400.0f,
-				-4.0f, 4.0f
-			);
-			break;
-	}
+void GameObject::setRotationZ(float zOffset)
+{
+	this->transform.rotation.z += zOffset;
 }

@@ -133,6 +133,7 @@
     <ClCompile Include="BlendState.cpp" />
     <ClCompile Include="BouncingCircle.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Capsule.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="BlendState.h" />
     <ClInclude Include="BouncingCircle.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Capsule.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="ConstantBuffer.h" />

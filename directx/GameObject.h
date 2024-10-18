@@ -39,13 +39,14 @@ class GameObject
 		virtual void rotateZ(float radians);
 		virtual void scale(Vector3 offset);
 		virtual void resetView();
-		virtual void project(int type, RECT viewport);
 
 		// Getters/Setters
+		virtual Vector3 getPosition();
 		virtual void setPosition(Vector3 newPos);
 		virtual void setPosition(float x, float y, float z);
-
-		virtual Vector3 getPosition();
 		virtual void setRotation(Vector3 newRot);
+		virtual void setRotationX(float xOffset);
+		virtual void setRotationY(float yOffset);
+		virtual void setRotationZ(float zOffset);
 };
 

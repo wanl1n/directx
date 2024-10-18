@@ -14,6 +14,7 @@
 #include "PixelShader.h"
 
 #include "GameObjectManager.h"
+#include "CameraManager.h"
 #include "Grid.h"
 
 #include "InputListener.h"
@@ -29,11 +30,13 @@ class SceneWindow : public Window, public InputListener
 		SwapChain* swapChain;
 
 		float deltaTime = 0;
+
 		float rotX = 0;
 		float rotY = 0;
 		float forward = 0;
 		float rightward = 0;
 		Matrix4x4 worldCamera;
+
 		// Scene Tools
 		Grid* grid;
 

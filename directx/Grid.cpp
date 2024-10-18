@@ -54,8 +54,6 @@ void Grid::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
 
-	this->project(ORTHOGRAPHIC, viewport);
-
 	this->cb->update(GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext(), &this->cc);
 }
 

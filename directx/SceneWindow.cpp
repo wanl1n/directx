@@ -33,6 +33,7 @@ void SceneWindow::initializeEngine()
 
 	// Game Object Manager
 	GameObjectManager::initialize();
+	CameraManager::initialize();
 
 	// Graphics Engine
 	GraphicsEngine::initialize();
@@ -46,9 +47,6 @@ void SceneWindow::initializeEngine()
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
 	this->grid = new Grid("Grid", false);
-
-	this->worldCamera.setIdentity();
-	this->worldCamera.setTranslation(Vector3(0, 0, -6));
 
 	// Default Primitives
 	GameObjectManager::getInstance()->addGameObject(CAPSULE);
@@ -76,29 +74,10 @@ void SceneWindow::onUpdate()
 	InputSystem::getInstance()->update();
 	this->grid->update(deltaTime, rc);
 	GameObjectManager::getInstance()->update(deltaTime, rc);
+	CameraManager::getInstance()->update(rc);
 
-	// Camera
-	Matrix4x4 worldCam;
-	Matrix4x4 temp;
-
-	worldCam.setIdentity();
-	temp.setIdentity();
-	temp.setRotationX(this->rotX);
-	worldCam *= temp;
-
-	temp.setIdentity();
-	temp.setRotationY(this->rotY);
-	worldCam *= temp;
-
-	Vector3 newPos = worldCamera.getTranslation() + worldCam.getZDir() * (this->forward * 0.3f);
-	newPos += worldCam.getXDir() * (this->rightward * 0.3f);
-
-	worldCam.setTranslation(newPos);
-	worldCamera = worldCam;
-	worldCam.inverse();
-
-	GameObjectManager::getInstance()->updateCameraView(worldCam);
-	GameObjectManager::getInstance()->setProjection(PERSPECTIVE, rc);
+	GameObjectManager::getInstance()->updateCameraView(CameraManager::getInstance()->getActiveCameraView());
+	GameObjectManager::getInstance()->setProjection(CameraManager::getInstance()->getActiveProjection());
 
 	// 4. Draw calls
 	this->grid->draw();
@@ -132,31 +111,29 @@ void SceneWindow::onKillFocus()
 
 void SceneWindow::onKeyDown(int key)
 {
-	//std::cout << "Key down." << std::endl;
 	switch (key) {
 		case 'W':
-			this->forward = 1.0f;
+			CameraManager::getInstance()->getActiveCamera()->setForward(1.0f);
 			break;
 		case 'A':
-			this->rightward = -1.0f;
+			CameraManager::getInstance()->getActiveCamera()->setRightward(-1.0f);
 			break;
 		case 'S':
-			this->forward = -1.0f;
+			CameraManager::getInstance()->getActiveCamera()->setForward(-1.0f);
 			break;
 		case 'D':
-			this->rightward = 1.0f;
+			CameraManager::getInstance()->getActiveCamera()->setRightward(1.0f);
 			break;
 		case 27: // Escape
 			exit(0);
 			break;
 	}
-	//std::cout << key << std::endl;
 }
 
 void SceneWindow::onKeyUp(int key)
 {
-	this->forward = 0;
-	this->rightward = 0;
+	CameraManager::getInstance()->getActiveCamera()->setForward(0);
+	CameraManager::getInstance()->getActiveCamera()->setRightward(0);
 
 	switch (key) {
 		case ' ': // Spacebar
@@ -178,11 +155,14 @@ void SceneWindow::onMouseMove(const Point& mousePos)
 	int width = (viewport.right - viewport.left);
 	int height = (viewport.bottom - viewport.top);
 
-	float speed = 0.1f;
-	this->rotX += (mousePos.y - (height/2.0f)) * deltaTime * speed;
-	this->rotY += (mousePos.x - (width/2.0f)) * deltaTime * speed;
+	float speed = CameraManager::getInstance()->getActiveCamera()->getPanSpeed();
+	float deltaRotX = (mousePos.y - (height/2.0f)) * deltaTime * speed;
+	float deltaRotY = (mousePos.x - (width/2.0f)) * deltaTime * speed;
 
 	InputSystem::getInstance()->setCursorPosition(Point(width/2.0f, height/2.0f));
+
+	CameraManager::getInstance()->getActiveCamera()->setRotationX(deltaRotX);
+	CameraManager::getInstance()->getActiveCamera()->setRotationY(deltaRotY);
 }
 
 void SceneWindow::onLeftMouseDown(const Point& mousePos)

@@ -226,6 +226,9 @@
     <ClCompile Include="Capsule.cpp">
       <Filter>GameEngine\GameObject\Primitives\3D\Capsule</Filter>
     </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>GameEngine\GameObject\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -360,6 +363,9 @@
     </ClInclude>
     <ClInclude Include="Capsule.h">
       <Filter>GameEngine\GameObject\Primitives\3D\Capsule</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
+      <Filter>GameEngine\GameObject\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

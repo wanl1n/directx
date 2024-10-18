@@ -28,8 +28,6 @@ class GameObjectManager
 		GameObjectManager& operator = (GameObjectManager const&) {};
 		static GameObjectManager* sharedInstance;
 
-		void init();
-
 	public:
 		void update(float deltaTime, RECT viewport);
 		void render();
@@ -38,7 +36,7 @@ class GameObjectManager
 		void removeGameObject(GameObject* go);
 
 		void updateCameraView(Matrix4x4 worldCam);
-		void setProjection(int type, RECT vp);
+		void setProjection(Matrix4x4 projMat);
 
 	private:
 		Quad* createQuad(OBJECT_TYPE type);

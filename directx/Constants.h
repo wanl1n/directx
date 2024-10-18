@@ -36,6 +36,8 @@ enum OBJECT_TYPE {
 
 	// Camera
 	CAMERA,
+	ORTHO_CAMERA,
+	PERSPECTIVE_CAMERA,
 
 	// Tools
 	TOOLS_GRID
