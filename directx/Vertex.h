@@ -64,6 +64,7 @@ struct CircleProps {
 
 // Cubes
 struct CubeProps {
+	Vector3 position;
 	float side;
 	Vector4 color1;
 	Vector4 color2;

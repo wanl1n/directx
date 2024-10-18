@@ -112,7 +112,7 @@ void SceneWindow::onKillFocus()
 void SceneWindow::onKeyDown(int key)
 {
 	switch (key) {
-		case 'W':
+		/*case 'W':
 			CameraManager::getInstance()->getActiveCamera()->setForward(1.0f);
 			break;
 		case 'A':
@@ -123,7 +123,7 @@ void SceneWindow::onKeyDown(int key)
 			break;
 		case 'D':
 			CameraManager::getInstance()->getActiveCamera()->setRightward(1.0f);
-			break;
+			break;*/
 		case 27: // Escape
 			exit(0);
 			break;
@@ -132,8 +132,8 @@ void SceneWindow::onKeyDown(int key)
 
 void SceneWindow::onKeyUp(int key)
 {
-	CameraManager::getInstance()->getActiveCamera()->setForward(0);
-	CameraManager::getInstance()->getActiveCamera()->setRightward(0);
+	/*CameraManager::getInstance()->getActiveCamera()->setForward(0);
+	CameraManager::getInstance()->getActiveCamera()->setRightward(0);*/
 
 	switch (key) {
 		case ' ': // Spacebar

@@ -46,5 +46,9 @@ class GameObjectManager
 		Sphere* createSphere(OBJECT_TYPE type);
 		Cylinder* createCylinder(OBJECT_TYPE type);
 		Capsule* createCapsule(OBJECT_TYPE type);
+
+	public:
+		GameObject* findGameObject(std::string name);
+		GameObject* getGameObject(int index);
 };
 

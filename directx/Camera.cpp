@@ -100,3 +100,59 @@ void Camera::setRightward(float dir)
 {
 	this->rightward = dir;
 }
+
+void Camera::onKeyDown(int key)
+{
+	switch (key) {
+		case 'W':
+			this->forward = 1.0f;
+			break;
+		case 'A':
+			this->rightward = -1.0f;
+			break;
+		case 'S':
+			this->forward = -1.0f;
+			break;
+		case 'D':
+			this->rightward = 1.0f;
+			break;
+	}
+}
+
+void Camera::onKeyUp(int key)
+{
+	this->forward = 0;
+	this->rightward = 0;
+}
+
+void Camera::onMouseMove(const Point& mousePos)
+{
+	/*RECT viewport = this->getClientWindowRect();
+	int width = (viewport.right - viewport.left);
+	int height = (viewport.bottom - viewport.top);
+
+	float speed = CameraManager::getInstance()->getActiveCamera()->getPanSpeed();
+	float deltaRotX = (mousePos.y - (height / 2.0f)) * deltaTime * speed;
+	float deltaRotY = (mousePos.x - (width / 2.0f)) * deltaTime * speed;
+
+	InputSystem::getInstance()->setCursorPosition(Point(width / 2.0f, height / 2.0f));
+
+	CameraManager::getInstance()->getActiveCamera()->setRotationX(deltaRotX);
+	CameraManager::getInstance()->getActiveCamera()->setRotationY(deltaRotY);*/
+}
+
+void Camera::onLeftMouseDown(const Point& mousePos)
+{
+}
+
+void Camera::onRightMouseDown(const Point& mousePos)
+{
+}
+
+void Camera::onLeftMouseUp(const Point& mousePos)
+{
+}
+
+void Camera::onRightMouseUp(const Point& mousePos)
+{
+}

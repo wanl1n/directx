@@ -1,15 +1,18 @@
 #pragma once
 #include <string>
+#include "Windows.h"
 #include "GameObject.h"
+#include "InputListener.h"
 #include "Constants.h"
 
 class CameraManager;
 
-class Camera : public GameObject
+class Camera : public GameObject, public InputListener
 {
 	protected:
 		Matrix4x4 prevCamMat;
 		Matrix4x4 viewMat;
+
 		int type = 0;
 		float forward = 0;
 		float rightward = 0;
@@ -30,5 +33,14 @@ class Camera : public GameObject
 		Matrix4x4 getProjMatrix();
 		void setForward(float dir);
 		void setRightward(float dir);
+
+		// Inherited from InputListener.
+		void onKeyDown(int key) override;
+		void onKeyUp(int key) override;
+		void onMouseMove(const Point& mousePos) override;
+		void onLeftMouseDown(const Point& mousePos) override;
+		void onRightMouseDown(const Point& mousePos) override;
+		void onLeftMouseUp(const Point& mousePos) override;
+		void onRightMouseUp(const Point& mousePos) override;
 };
 

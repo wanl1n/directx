@@ -243,3 +243,17 @@ Capsule* GameObjectManager::createCapsule(OBJECT_TYPE type)
 
 	return newCapsule;
 }
+
+GameObject* GameObjectManager::findGameObject(std::string name)
+{
+	for (GameObject* obj : this->GOList) {
+		if (obj->name == name)
+			return obj;
+	}
+	return nullptr;
+}
+
+GameObject* GameObjectManager::getGameObject(int index)
+{
+	return this->GOList[index];
+}

@@ -33,6 +33,9 @@ class InputSystem
 		void addListener(InputListener* listener);
 		void removeListener(InputListener* listener);
 
+		bool isKeyDown(int key);
+		bool isKeyUp(int key);
+
 		void setCursorPosition(const Point& pos);
 		void toggleCursor(bool enabled);
 };
