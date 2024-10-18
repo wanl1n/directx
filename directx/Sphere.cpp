@@ -2,9 +2,14 @@
 #include <DirectXMath.h>
 
 Sphere::Sphere(std::string name, bool blending, OBJECT_TYPE type) :
-	Primitive(name, type, blending), rings(32), sectors(32), radius(1), color(WHITE)
+	Primitive(name, type, blending), rings(32), sectors(32), radius(1.0f), color(WHITE)
 {
 	this->init();
+
+	// Lying down
+	this->transform.position = Vector3(3, 4, 2);
+	this->cc.world.setIdentity();
+	this->cc.world.setTranslation(this->transform.position);
 }
 
 Sphere::~Sphere() {}
@@ -45,7 +50,6 @@ std::vector<Vertex3D> Sphere::createVertices()
 	this->rings = 32;
 	this->sectors = 32;
 	this->radius = 1.0f;
-	float height = 2.0f;
 	this->color = WHITE;
 
 	// Precomputed values to optimize calculations
@@ -67,6 +71,11 @@ std::vector<Vertex3D> Sphere::createVertices()
 				Vector3(x * radius, y * radius, z * radius),
 				color
 			};
+
+			if (ring % 2 == 0)
+				color = LAVENDER;
+			else
+				color = PINK;
 
 			// Store the vertex in the vertex buffer
 			vertices.push_back(vertex);

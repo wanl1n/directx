@@ -28,7 +28,7 @@ void SceneWindow::initializeEngine()
 
 	// Input System
 	InputSystem::getInstance()->addListener(SceneWindow::getInstance());
-	InputSystem::getInstance()->toggleCursor(false);
+	//InputSystem::getInstance()->toggleCursor(false);
 
 	// Game Object Manager
 	GameObjectManager::initialize();
@@ -48,7 +48,10 @@ void SceneWindow::initializeEngine()
 	this->grid = new Grid("Grid", false);
 
 	// Default Primitives
+	GameObjectManager::getInstance()->addGameObject(PLANE);
+	GameObjectManager::getInstance()->addGameObject(CUBE);
 	GameObjectManager::getInstance()->addGameObject(CAPSULE);
+	GameObjectManager::getInstance()->addGameObject(CYLINDER);
 	GameObjectManager::getInstance()->addGameObject(SPHERE);
 }
 
@@ -66,7 +69,7 @@ void SceneWindow::onUpdate()
 	DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	// 1. Clear Render Target.
-	device->clearRenderTargetColor(this->swapChain, BLACK);
+	device->clearRenderTargetColor(this->swapChain, GRAY);
 
 	// 2. Set the target Viewport where we'll draw.
 	RECT rc = this->getClientWindowRect();

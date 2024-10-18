@@ -5,6 +5,11 @@ Cylinder::Cylinder(std::string name, bool blending, OBJECT_TYPE type) :
 	Primitive(name, type, blending), height(2), slices(32), radius(1), stacks(1), color(WHITE)
 {
 	this->init();
+
+    // Lying down
+    this->transform.position = Vector3(-5, 1.1f, 5);
+    this->cc.world.setIdentity();
+    this->cc.world.setTranslation(this->transform.position);
 }
 
 Cylinder::~Cylinder() {}
@@ -86,7 +91,7 @@ std::vector<Vertex3D> Cylinder::createVertices()
         float theta = i * sliceStep;
         float x = radius * cosf(theta);
         float z = radius * sinf(theta);
-        Vertex3D topVertex = { Vector3(x, halfHeight, z), color };
+        Vertex3D topVertex = { Vector3(x, halfHeight, z), ROSETAUPE };
         //Vertex3D topVertex = { Vector3(x, halfHeight, z), Vector3(0.0f, 1.0f, 0.0f), DirectX::XMFLOAT2((x / radius + 1) * 0.5f, (z / radius + 1) * 0.5f) };
         vertices.push_back(topVertex);
     }
@@ -101,7 +106,7 @@ std::vector<Vertex3D> Cylinder::createVertices()
         float theta = i * sliceStep;
         float x = radius * cosf(theta);
         float z = radius * sinf(theta);
-        Vertex3D bottomVertex = { Vector3(x, -halfHeight, z), color };
+        Vertex3D bottomVertex = { Vector3(x, -halfHeight, z), PALEDOGWOOD };
         //Vertex bottomVertex = { Vector3(x, -halfHeight, z), Vector3(0.0f, -1.0f, 0.0f), DirectX::XMFLOAT2((x / radius + 1) * 0.5f, (z / radius + 1) * 0.5f) };
         vertices.push_back(bottomVertex);
     }
@@ -114,12 +119,12 @@ std::vector<Vertex3D> Cylinder::createVertices()
         float z = radius * sinf(theta);
 
         // Top vertex of the side
-        Vertex3D sideTopVertex = { Vector3(x, halfHeight, z), color };
+        Vertex3D sideTopVertex = { Vector3(x, halfHeight, z), ROSETAUPE };
         //Vertex3D sideTopVertex = { Vector3(x, halfHeight, z), Vector3(x, 0.0f, z), DirectX::XMFLOAT2(i / static_cast<float>(slices), 0.0f) };
         vertices.push_back(sideTopVertex);
 
         // Bottom vertex of the side
-        Vertex3D sideBottomVertex = { Vector3(x, -halfHeight, z), color };
+        Vertex3D sideBottomVertex = { Vector3(x, -halfHeight, z), PALEDOGWOOD };
         //Vertex3D sideBottomVertex = { Vector3(x, -halfHeight, z), Vector3(x, 0.0f, z), DirectX::XMFLOAT2(i / static_cast<float>(slices), 1.0f) };
         vertices.push_back(sideBottomVertex);
     }

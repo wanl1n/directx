@@ -8,7 +8,7 @@ class Capsule : public Primitive
 	protected:
 		int rings = 32;
 		int sectors = 32;
-		float height = 1.0f;
+		float height = 0.5f;
 		float radius = 1.0f;
 		Vector4 color = WHITE;
 

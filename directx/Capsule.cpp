@@ -3,14 +3,14 @@
 
 Capsule::Capsule(std::string name, bool blending, OBJECT_TYPE type) :
     Primitive(name, type, blending), 
-	height(1), rings(32), sectors(32), radius(1), color(WHITE)
+	height(1.0f), rings(32), sectors(32), radius(0.5f), color(WHITE)
 {
     this->init();
 
-    // Lying down
-    this->transform.position.x = 3.0f;
-    this->cc.world.setIdentity();
-    this->cc.world.setTranslation(this->transform.position);
+	// Lying down
+	this->transform.position = Vector3(-1, 1.1f, -1);
+	this->cc.world.setIdentity();
+	this->cc.world.setTranslation(this->transform.position);
 }
 
 Capsule::~Capsule() {}
@@ -50,9 +50,9 @@ std::vector<Vertex3D> Capsule::createVertices()
 	// Default Values
 	this->rings = 32;
 	this->sectors = 32;
-	this->radius = 1.0f;
-	float height = 1.0f;
-	this->color = WHITE;
+	this->radius = 0.5f;
+	this->height = 1.0f;
+	this->color = ASHGRAY;
 
 	// Precomputed values to optimize calculations
 	float ringStep = 1.0f / (float)(rings - 1);    // Step size for the rings
@@ -72,6 +72,11 @@ std::vector<Vertex3D> Capsule::createVertices()
 				y += height;
 			else
 				y -= height;
+
+			if (sector % 2 == 0)
+				color = COUNTRYCORK;
+			else
+				color = LIGHTMAUVE;
 
 			// Create the vertex with position, normal, and texture coordinate
 			Vertex3D vertex = {

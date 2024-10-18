@@ -4,6 +4,11 @@ Cube::Cube(std::string name, bool blending, OBJECT_TYPE type) :
 	Primitive(name, type, blending), side(1), frontColor(WHITE), backColor(WHITE)
 {
 	this->init();
+
+	// Lying down
+	this->transform.position = Vector3(5, 1.1f, 5);
+	this->cc.world.setIdentity();
+	this->cc.world.setTranslation(this->transform.position);
 }
 
 Cube::~Cube() {}
@@ -42,20 +47,20 @@ std::vector<Vertex3D> Cube::createVertices()
 	// Default Values
 	this->side = 1.0f;
 	this->frontColor = WHITE;
-	this->backColor = WHITE;
+	this->backColor = PINK;
 
 	// 1. Set up the Vertex buffer.
 	Vertex3D vertices[] = { // Cube Vertices
 		// FRONT FACE
-		{ Vector3(-side, -side, -side), this->frontColor },
-		{ Vector3(-side, side, -side),	this->frontColor },
-		{ Vector3(side, side, -side),	this->frontColor },
-		{ Vector3(side, -side, -side),	this->frontColor },
+		{ Vector3(-side, -side, -side), REDCARPET },
+		{ Vector3(-side, side, -side),	REDRAMPAGE },
+		{ Vector3(side, side, -side),	CORALROSE },
+		{ Vector3(side, -side, -side),	SCOTCHMIST },
 		// BACK FACE
-		{ Vector3(side, -side, side),	this->backColor },
-		{ Vector3(side, side, side),	this->backColor },
-		{ Vector3(-side, side, side),	this->backColor },
-		{ Vector3(-side, -side, side),	this->backColor }
+		{ Vector3(side, -side, side),	REDCARPET },
+		{ Vector3(side, side, side),	REDRAMPAGE },
+		{ Vector3(-side, side, side),	CORALROSE },
+		{ Vector3(-side, -side, side),	SCOTCHMIST }
 	};
 	UINT size_list = ARRAYSIZE(vertices);
 

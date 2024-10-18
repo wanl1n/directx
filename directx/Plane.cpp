@@ -8,9 +8,11 @@ Plane::Plane(std::string name, bool blending, OBJECT_TYPE type) :
 
 	// Lying down
 	this->transform.rotation.x = 1.57f;
+	this->transform.scale = Vector3(10, 10, 10);
 	this->cc.world.setIdentity();
 	this->cc.world.setTranslation(this->transform.position);
 	this->rotateX(this->transform.rotation.x);
+	this->scale(this->transform.rotation);
 }
 
 Plane::~Plane() {}
@@ -41,7 +43,7 @@ std::vector<Vertex3D> Plane::createVertices()
 	// Set up the Vertex buffer.
 	Vertex3D vertices[] = { // Cube Vertices
 		// FRONT FACE
-		{ Vector3(-width, -height, 0), this->color },
+		{ Vector3(-width, -height, 0),	this->color },
 		{ Vector3(-width, height, 0),	this->color },
 		{ Vector3(width, height, 0),	this->color },
 		{ Vector3(width, -height, 0),	this->color },

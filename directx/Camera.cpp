@@ -10,8 +10,8 @@ Camera::Camera(std::string name, RECT viewport, OBJECT_TYPE type) :
 	else if (type == PERSPECTIVE_CAMERA)
 		this->type = PERSPECTIVE;
 
-	this->transform.position = Vector3(0, 0, -6);
-	this->transform.rotation = Vector3(0, 0.25f, 0);
+	this->transform.position = Vector3(0, 2, -6);
+	this->transform.rotation = Vector3(0.5f, 0.25f, 0);
 	this->prevCamMat.setIdentity();
 	this->prevCamMat.setTranslation(this->transform.position);
 	this->updateViewMatrix();
