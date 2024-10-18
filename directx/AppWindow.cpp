@@ -102,46 +102,46 @@ void AppWindow::onKillFocus()
 	InputSystem::getInstance()->removeListener(AppWindow::getInstance());
 }
 
-void AppWindow::onKeyDown(int key)
-{
-	//std::cout << "Key down." << std::endl;
-	switch (key) {
-		case 'W':
-			//this->rotX += 0.707f * deltaTime;
-			break;
-		case 'S':
-			//this->rotX -= 0.707f * deltaTime;
-			break;
-		case 'A':
-			//this->rotY += 0.707f * deltaTime;
-			break;
-		case 'D':
-			//this->rotY -= 0.707f * deltaTime;
-			break;
-		case 27: // Escape
-			exit(0);
-			break;
-
-	}
-	//std::cout << key << std::endl;
-}
-
-void AppWindow::onKeyUp(int key)
-{
-	//switch (key) {
-	//	case ' ': // Spacebar
-	//		this->createCube();
-	//		break;
-	//	case 8: // Backspace
-	//		if (this->CircleList.size() > 0)
-	//			this->CircleList.pop_back();
-	//		break;
-	//	case 46: // Delete
-	//		if (this->CircleList.size() > 0)
-	//			this->CircleList.clear();
-	//		break;
-	//}
-}
+//void AppWindow::onKeyDown(int key)
+//{
+//	//std::cout << "Key down." << std::endl;
+//	switch (key) {
+//		case 'W':
+//			//this->rotX += 0.707f * deltaTime;
+//			break;
+//		case 'S':
+//			//this->rotX -= 0.707f * deltaTime;
+//			break;
+//		case 'A':
+//			//this->rotY += 0.707f * deltaTime;
+//			break;
+//		case 'D':
+//			//this->rotY -= 0.707f * deltaTime;
+//			break;
+//		case 27: // Escape
+//			exit(0);
+//			break;
+//
+//	}
+//	//std::cout << key << std::endl;
+//}
+//
+//void AppWindow::onKeyUp(int key)
+//{
+//	//switch (key) {
+//	//	case ' ': // Spacebar
+//	//		this->createCube();
+//	//		break;
+//	//	case 8: // Backspace
+//	//		if (this->CircleList.size() > 0)
+//	//			this->CircleList.pop_back();
+//	//		break;
+//	//	case 46: // Delete
+//	//		if (this->CircleList.size() > 0)
+//	//			this->CircleList.clear();
+//	//		break;
+//	//}
+//}
 
 void AppWindow::onMouseMove(const Point& mousePos)
 {

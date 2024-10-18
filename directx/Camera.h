@@ -11,12 +11,14 @@ class Camera : public GameObject, public InputListener
 {
 	protected:
 		Matrix4x4 prevCamMat;
-		Matrix4x4 viewMat;
 
 		int type = 0;
 		float forward = 0;
 		float rightward = 0;
 		float panSpeed = 0.1f;
+		float moveSpeed = 0.3f;
+
+		bool moving = false;
 
 		friend class CameraManager;
 
@@ -25,18 +27,17 @@ class Camera : public GameObject, public InputListener
 		~Camera();
 
 		virtual void update(RECT viewport);
-		virtual void updateTransform();
-		virtual void project(RECT viewport);
+		virtual void checkForInput();
+		virtual void updateViewMatrix();
+		virtual void updateProjectionMatrix(RECT viewport);
 
 		float getPanSpeed();
-		Matrix4x4 getCameraView();
+		Matrix4x4 getViewMatrix();
 		Matrix4x4 getProjMatrix();
 		void setForward(float dir);
 		void setRightward(float dir);
 
 		// Inherited from InputListener.
-		void onKeyDown(int key) override;
-		void onKeyUp(int key) override;
 		void onMouseMove(const Point& mousePos) override;
 		void onLeftMouseDown(const Point& mousePos) override;
 		void onRightMouseDown(const Point& mousePos) override;

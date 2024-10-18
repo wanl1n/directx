@@ -1,4 +1,5 @@
 #include "Primitive.h"
+#include "CameraManager.h"
 
 Primitive::Primitive(std::string name, OBJECT_TYPE type, bool blending) : 
 	GameObject(name, type), alphaOn(blending) {}
@@ -64,6 +65,9 @@ void Primitive::createBlendState(bool blending)
 void Primitive::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
+
+	this->cc.view = CameraManager::getInstance()->getActiveCameraView();
+	this->cc.proj = CameraManager::getInstance()->getActiveProjection();
 
 	this->cb->update(GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext(), &this->cc);
 }

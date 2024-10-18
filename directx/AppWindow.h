@@ -53,8 +53,6 @@ class AppWindow : public Window, public InputListener
 		virtual void onKillFocus() override;
 
 		// Inherited from InputListener.
-		void onKeyDown(int key) override;
-		void onKeyUp(int key) override;
 		void onMouseMove(const Point& mousePos) override;
 		void onLeftMouseDown(const Point& mousePos) override;
 		void onRightMouseDown(const Point& mousePos) override;

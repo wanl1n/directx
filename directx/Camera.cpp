@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "InputSystem.h"
 
 Camera::Camera(std::string name, OBJECT_TYPE type) : GameObject(name, type)
 {
@@ -9,17 +10,42 @@ Camera::Camera(std::string name, OBJECT_TYPE type) : GameObject(name, type)
 
 	this->prevCamMat.setIdentity();
 	this->prevCamMat.setTranslation(Vector3(0, 0, -6));
+
+	InputSystem::getInstance()->addListener(this);
 }
 
 Camera::~Camera() {}
 
 void Camera::update(RECT viewport)
 {
-	this->updateTransform();
-	this->project(viewport);
+	this->checkForInput();
+	this->updateProjectionMatrix(viewport);
 }
 
-void Camera::updateTransform()
+void Camera::checkForInput()
+{
+	if (InputSystem::getInstance()->isKeyDown('W'))
+		this->forward = 1.0f;
+	if (InputSystem::getInstance()->isKeyDown('A'))
+		this->rightward = -1.0f;
+	if (InputSystem::getInstance()->isKeyDown('S'))
+		this->forward = -1.0f;
+	if (InputSystem::getInstance()->isKeyDown('D'))
+		this->rightward = 1.0f;
+
+	if (InputSystem::getInstance()->isKeyUp('W') ||
+		InputSystem::getInstance()->isKeyUp('S'))
+		this->forward = 0.0f;
+	if (InputSystem::getInstance()->isKeyUp('D') ||
+		InputSystem::getInstance()->isKeyUp('A'))
+		this->rightward = 0.0f;
+
+	// Update if the camera is moving.
+	if (moving)
+		this->updateViewMatrix();
+}
+
+void Camera::updateViewMatrix()
 {
 	Matrix4x4 worldCam;
 	Matrix4x4 temp;
@@ -35,17 +61,17 @@ void Camera::updateTransform()
 	worldCam *= temp;
 
 	// Translation
-	Vector3 newPos = prevCamMat.getTranslation() + worldCam.getZDir() * (this->forward * 0.3f);
-	newPos += worldCam.getXDir() * (this->rightward * 0.3f);
+	Vector3 newPos = prevCamMat.getTranslation() + worldCam.getZDir() * (this->forward * moveSpeed);
+	newPos += worldCam.getXDir() * (this->rightward * moveSpeed);
 
 	// Update Camera Rot and Translation
 	worldCam.setTranslation(newPos);
 	prevCamMat = worldCam;
 	worldCam.inverse();
-	viewMat = worldCam;
+	this->cc.view = worldCam;
 }
 
-void Camera::project(RECT viewport)
+void Camera::updateProjectionMatrix(RECT viewport)
 {
 	int width = (viewport.right - viewport.left);
 	int height = (viewport.bottom - viewport.top);
@@ -81,9 +107,9 @@ float Camera::getPanSpeed()
 	return this->panSpeed;
 }
 
-Matrix4x4 Camera::getCameraView()
+Matrix4x4 Camera::getViewMatrix()
 {
-	return this->viewMat;
+	return this->cc.view;
 }
 
 Matrix4x4 Camera::getProjMatrix()
@@ -99,30 +125,6 @@ void Camera::setForward(float dir)
 void Camera::setRightward(float dir)
 {
 	this->rightward = dir;
-}
-
-void Camera::onKeyDown(int key)
-{
-	switch (key) {
-		case 'W':
-			this->forward = 1.0f;
-			break;
-		case 'A':
-			this->rightward = -1.0f;
-			break;
-		case 'S':
-			this->forward = -1.0f;
-			break;
-		case 'D':
-			this->rightward = 1.0f;
-			break;
-	}
-}
-
-void Camera::onKeyUp(int key)
-{
-	this->forward = 0;
-	this->rightward = 0;
 }
 
 void Camera::onMouseMove(const Point& mousePos)
@@ -147,6 +149,7 @@ void Camera::onLeftMouseDown(const Point& mousePos)
 
 void Camera::onRightMouseDown(const Point& mousePos)
 {
+	moving = true;
 }
 
 void Camera::onLeftMouseUp(const Point& mousePos)
@@ -155,4 +158,5 @@ void Camera::onLeftMouseUp(const Point& mousePos)
 
 void Camera::onRightMouseUp(const Point& mousePos)
 {
+	moving = false;
 }

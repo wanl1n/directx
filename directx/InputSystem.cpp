@@ -1,6 +1,6 @@
 #include "InputSystem.h"
 #include "Windows.h"
-
+#include <iostream>
 
 InputSystem* InputSystem::sharedInstance = nullptr;
 InputSystem* InputSystem::getInstance()
@@ -39,49 +39,53 @@ void InputSystem::update()
 		}
 	}
 	this->oldMousePos = Point(currentMousePos.x, currentMousePos.y);
+	
+	::memcpy(oldKeysState, keysState, sizeof(unsigned char) * 256);
 
 	// Keyboard
 	if (::GetKeyboardState(this->keysState)) {
-		for (unsigned int i = 0; i < 256; i++) {
-			// Only the bit of the value is evaluated.
-			// If this is 1, key is down.
-			if (this->keysState[i] & 0x80) {
+		// Only the bit of the value is evaluated.
+		// If this is 1, mouse key is down.
+		if (this->keysState[VK_LBUTTON] & 0x80) {
+			std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
+
+			while (it != listenersSet.end()) {
+				if (this->keysState[VK_LBUTTON] != this->oldKeysState[VK_LBUTTON])
+					(*it)->onLeftMouseDown(Point(currentMousePos.x, currentMousePos.y));
+				++it;
+			}
+		}
+		else {
+			if (this->keysState[VK_LBUTTON] != this->oldKeysState[VK_LBUTTON]) {
 				std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
 
 				while (it != listenersSet.end()) {
-					// Mouse Key
-					if (i == VK_LBUTTON) {
-						if (this->keysState[i] != this->oldKeysState[i]) 
-							(*it)->onLeftMouseDown(Point(currentMousePos.x, currentMousePos.y));
-					}
-					if (i == VK_RBUTTON) {
-						if (this->keysState[i] != this->oldKeysState[i]) 
-							(*it)->onRightMouseDown(Point(currentMousePos.x, currentMousePos.y));
-					} 
-					else 
-						(*it)->onKeyDown(i);
+					(*it)->onLeftMouseUp(Point(currentMousePos.x, currentMousePos.y));
 					++it;
 				}
 			}
-			else {
-				if (this->keysState[i] != this->oldKeysState[i]) {
-					std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
+		}
 
-					while (it != listenersSet.end()) {
-						// Mouse Key
-						if (i == VK_LBUTTON) 
-							(*it)->onLeftMouseUp(Point(currentMousePos.x, currentMousePos.y));
-						if (i == VK_RBUTTON) 
-							(*it)->onRightMouseUp(Point(currentMousePos.x, currentMousePos.y));
-						else
-							(*it)->onKeyUp(i);
-						++it;
-					}
+		if (this->keysState[VK_RBUTTON] & 0x80) {
+			std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
+
+			while (it != listenersSet.end()) {
+				if (this->keysState[VK_RBUTTON] != this->oldKeysState[VK_RBUTTON])
+					(*it)->onRightMouseDown(Point(currentMousePos.x, currentMousePos.y));
+				++it;
+			}
+		}
+		else {
+			if (this->keysState[VK_RBUTTON] != this->oldKeysState[VK_RBUTTON]) {
+				std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
+
+				while (it != listenersSet.end()) {
+					(*it)->onRightMouseUp(Point(currentMousePos.x, currentMousePos.y));
+					++it;
 				}
 			}
 		}
 		// Store current keys state to old keys buffer.
-		::memcpy(oldKeysState, keysState, sizeof(unsigned char) * 256);
 	}
 }
 
@@ -93,6 +97,27 @@ void InputSystem::addListener(InputListener* listener)
 void InputSystem::removeListener(InputListener* listener)
 {
 	this->listenersSet.erase(listener);
+}
+
+bool InputSystem::isKeyDown(int key)
+{
+	bool state = false;
+
+	if (::GetKeyboardState(this->keysState)) {
+		if (this->keysState[key] & 0x80)
+			state = true;
+	}
+	return state;
+}
+
+bool InputSystem::isKeyUp(int key)
+{
+	bool state = false;
+	if (::GetKeyboardState(this->keysState)) {
+		if (this->keysState[key] != this->oldKeysState[key])
+			state = true;
+	}
+	return state;
 }
 
 void InputSystem::setCursorPosition(const Point& pos)

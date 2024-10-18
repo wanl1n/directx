@@ -57,7 +57,7 @@ Camera* CameraManager::getActiveCamera()
 
 Matrix4x4 CameraManager::getActiveCameraView()
 {
-	return this->CameraList[selectedCameraIndex]->getCameraView();
+	return this->CameraList[selectedCameraIndex]->getViewMatrix();
 }
 
 Matrix4x4 CameraManager::getActiveProjection()

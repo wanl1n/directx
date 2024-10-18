@@ -27,7 +27,6 @@ void SceneWindow::initializeEngine()
 	EngineTime::initialize();
 
 	// Input System
-	InputSystem::initialize();
 	InputSystem::getInstance()->addListener(SceneWindow::getInstance());
 	InputSystem::getInstance()->toggleCursor(false);
 
@@ -56,6 +55,9 @@ void SceneWindow::initializeEngine()
 void SceneWindow::onCreate()
 {
 	Window::onCreate();
+	srand(time(NULL));
+
+	InputSystem::initialize();
 }
 
 void SceneWindow::onUpdate()
@@ -76,8 +78,8 @@ void SceneWindow::onUpdate()
 	GameObjectManager::getInstance()->update(deltaTime, rc);
 	CameraManager::getInstance()->update(rc);
 
-	GameObjectManager::getInstance()->updateCameraView(CameraManager::getInstance()->getActiveCameraView());
-	GameObjectManager::getInstance()->setProjection(CameraManager::getInstance()->getActiveProjection());
+	/*GameObjectManager::getInstance()->updateCameraView(CameraManager::getInstance()->getActiveCameraView());
+	GameObjectManager::getInstance()->setProjection(CameraManager::getInstance()->getActiveProjection());*/
 
 	// 4. Draw calls
 	this->grid->draw();
@@ -87,6 +89,10 @@ void SceneWindow::onUpdate()
 
 	// 5. Update Delta time.
 	deltaTime = (float)EngineTime::getDeltaTime();
+
+	// 6. Check for exit
+	if (InputSystem::getInstance()->isKeyDown(27))
+		exit(0);
 }
 
 void SceneWindow::onDestroy()
@@ -107,46 +113,6 @@ void SceneWindow::onKillFocus()
 {
 	if (!InputSystem::getInstance()) InputSystem::initialize();
 	InputSystem::getInstance()->removeListener(SceneWindow::getInstance());
-}
-
-void SceneWindow::onKeyDown(int key)
-{
-	switch (key) {
-		/*case 'W':
-			CameraManager::getInstance()->getActiveCamera()->setForward(1.0f);
-			break;
-		case 'A':
-			CameraManager::getInstance()->getActiveCamera()->setRightward(-1.0f);
-			break;
-		case 'S':
-			CameraManager::getInstance()->getActiveCamera()->setForward(-1.0f);
-			break;
-		case 'D':
-			CameraManager::getInstance()->getActiveCamera()->setRightward(1.0f);
-			break;*/
-		case 27: // Escape
-			exit(0);
-			break;
-	}
-}
-
-void SceneWindow::onKeyUp(int key)
-{
-	/*CameraManager::getInstance()->getActiveCamera()->setForward(0);
-	CameraManager::getInstance()->getActiveCamera()->setRightward(0);*/
-
-	switch (key) {
-		case ' ': // Spacebar
-			break;
-		case 8: // Backspace
-			break;
-		case 46: // Delete
-			break;
-		case '1': // 1
-			break;
-		case '2': // 2
-			break;
-	}
 }
 
 void SceneWindow::onMouseMove(const Point& mousePos)
