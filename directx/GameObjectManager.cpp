@@ -55,6 +55,7 @@ void GameObjectManager::addGameObject(OBJECT_TYPE type, int count)
 				break;
 			case CUBE:
 			case ROTATING_CUBE:
+			case LERPING_CUBE:
 				this->createCube(type);
 				break;
 			case PLANE:
@@ -168,6 +169,10 @@ Cube* GameObjectManager::createCube(OBJECT_TYPE type)
 			//std::cout << "Creating Rotating Cube." << std::endl;
 			free(newCube);
 			newCube = new RotatingCube("Rotating Cube " + std::to_string(this->CubeList.size() + 1), true);
+			break;
+		case LERPING_CUBE:
+			free(newCube);
+			newCube = new LerpingCube("Lerping Cube " + std::to_string(this->CubeList.size() + 1), true);
 			break;
 		default:
 			//std::cout << "Creating Cube." << std::endl;

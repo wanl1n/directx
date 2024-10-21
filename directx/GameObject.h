@@ -25,7 +25,6 @@ class GameObject
 		friend class GameObjectManager;
 
 	public:
-		GameObject(std::string name);
 		GameObject(std::string name, OBJECT_TYPE type);
 		~GameObject();
 
@@ -48,5 +47,6 @@ class GameObject
 		virtual void setRotationX(float xOffset);
 		virtual void setRotationY(float yOffset);
 		virtual void setRotationZ(float zOffset);
+		virtual void setScale(Vector3 newScale);
 };
 

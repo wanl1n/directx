@@ -15,7 +15,7 @@ SceneWindow* SceneWindow::getInstance()
 void SceneWindow::initialize()
 {
 	sharedInstance = new SceneWindow();
-	sharedInstance->init(1080, 1080);
+	sharedInstance->init(720, 720);
 }
 
 SceneWindow::SceneWindow() {}
@@ -28,7 +28,7 @@ void SceneWindow::initializeEngine()
 
 	// Input System
 	InputSystem::getInstance()->addListener(SceneWindow::getInstance());
-	//InputSystem::getInstance()->toggleCursor(false);
+	InputSystem::getInstance()->toggleCursor(false);
 
 	// Game Object Manager
 	GameObjectManager::initialize();
@@ -48,11 +48,10 @@ void SceneWindow::initializeEngine()
 	this->grid = new Grid("Grid", false);
 
 	// Default Primitives
-	GameObjectManager::getInstance()->addGameObject(PLANE);
-	GameObjectManager::getInstance()->addGameObject(CUBE);
-	GameObjectManager::getInstance()->addGameObject(CAPSULE);
-	GameObjectManager::getInstance()->addGameObject(CYLINDER);
-	GameObjectManager::getInstance()->addGameObject(SPHERE);
+	GameObjectManager::getInstance()->addGameObject(LERPING_CUBE);
+
+	//this->testCase6();
+	//this->testCase7();
 }
 
 void SceneWindow::onCreate()
@@ -93,6 +92,11 @@ void SceneWindow::onUpdate()
 	// 6. Check for exit
 	if (InputSystem::getInstance()->isKeyDown(27))
 		exit(0);
+	if (InputSystem::getInstance()->isKeyDown('O'))
+		CameraManager::getInstance()->getActiveCamera()->setProjectionType(ORTHOGRAPHIC);
+	if (InputSystem::getInstance()->isKeyDown('P'))
+		CameraManager::getInstance()->getActiveCamera()->setProjectionType(PERSPECTIVE);
+
 }
 
 void SceneWindow::onDestroy()
@@ -120,3 +124,85 @@ void SceneWindow::onLeftMouseDown(const Point& mousePos) {}
 void SceneWindow::onRightMouseDown(const Point& mousePos) {}
 void SceneWindow::onLeftMouseUp(const Point& mousePos) {}
 void SceneWindow::onRightMouseUp(const Point& mousePos) {}
+
+void SceneWindow::testCase6()
+{
+	GameObjectManager::getInstance()->addGameObject(PLANE);
+	GameObjectManager::getInstance()->addGameObject(CUBE, 3);
+
+	// Cube 1
+	GameObject* cube = GameObjectManager::getInstance()->findGameObject("Cube 1");
+	cube->setPosition(Vector3(0, 0.9f, 0));
+
+	cube = GameObjectManager::getInstance()->findGameObject("Cube 2");
+	cube->setPosition(Vector3(-1.5f, 2.0f, 0));
+	cube = GameObjectManager::getInstance()->findGameObject("Cube 3");
+	cube->setPosition(Vector3(-1.5f, 3.0f, -2.0f));
+}
+
+void SceneWindow::testCase7()
+{
+	GameObjectManager::getInstance()->addGameObject(PLANE, 15);
+	GameObject* plane;
+
+	float distanceTris = 0.3f;
+	float cardHeight = 1.9f;
+	float cardAngle = 0.3f;
+	float flip = 3.14f;
+	
+	// Base Tris
+	plane = GameObjectManager::getInstance()->findGameObject("Plane 1");
+	plane->rotateZ(-cardAngle + flip);
+	plane->setPosition(Vector3(-distanceTris * 5, 0.0f, 0.0f));
+	plane = GameObjectManager::getInstance()->findGameObject("Plane 2");
+	plane->rotateZ(cardAngle);
+	plane->setPosition(Vector3(-distanceTris * 3, 0.0f, 0.0f));
+	plane = GameObjectManager::getInstance()->findGameObject("Plane 3");
+	plane->rotateZ(-cardAngle + flip);
+	plane->setPosition(Vector3(-distanceTris, 0.0f, 0.0f));
+	plane = GameObjectManager::getInstance()->findGameObject("Plane 4");
+	plane->rotateZ(cardAngle);
+	plane->setPosition(Vector3(distanceTris, 0.0f, 0.0f));
+	plane = GameObjectManager::getInstance()->findGameObject("Plane 5");
+	plane->rotateZ(-cardAngle + flip);
+	plane->setPosition(Vector3(distanceTris * 3, 0.0f, 0.0f));
+	plane = GameObjectManager::getInstance()->findGameObject("Plane 6");
+	plane->rotateZ(cardAngle);
+	plane->setPosition(Vector3(distanceTris * 5, 0.0f, 0.0f));
+
+	// Base Ceils
+	plane = GameObjectManager::getInstance()->findGameObject("Plane 7");
+	plane->rotateZ(1.57f);
+	plane->setPosition(Vector3(-distanceTris * 2, cardHeight * 0.5f, 0.0f));
+	plane = GameObjectManager::getInstance()->findGameObject("Plane 8");
+	plane->rotateZ(1.57f);
+	plane->setPosition(Vector3(distanceTris * 2, cardHeight * 0.5f, 0.0f));
+
+	// Mid Tris
+	plane = GameObjectManager::getInstance()->findGameObject("Plane 9");
+	plane->rotateZ(-cardAngle + flip);
+	plane->setPosition(Vector3(-distanceTris * 3, cardHeight * 1, 0.0f));
+	plane = GameObjectManager::getInstance()->findGameObject("Plane 10");
+	plane->rotateZ(cardAngle);
+	plane->setPosition(Vector3(-distanceTris, cardHeight * 1, 0.0f));
+	plane = GameObjectManager::getInstance()->findGameObject("Plane 11");
+	plane->rotateZ(-cardAngle + flip);
+	plane->setPosition(Vector3(distanceTris, cardHeight * 1, 0.0f));
+	plane = GameObjectManager::getInstance()->findGameObject("Plane 12");
+	plane->rotateZ(cardAngle);
+	plane->setPosition(Vector3(distanceTris * 3, cardHeight * 1, 0.0f));
+
+	// Mid Ceils
+	plane = GameObjectManager::getInstance()->findGameObject("Plane 13");
+	plane->rotateZ(1.57f);
+	plane->setPosition(Vector3(0.0f, cardHeight * 1.5f, 0.0f));
+
+	// Top Tris
+	plane = GameObjectManager::getInstance()->findGameObject("Plane 14");
+	plane->rotateZ(-cardAngle + flip);
+	plane->setPosition(Vector3(-distanceTris, cardHeight * 2, 0.0f));
+	plane = GameObjectManager::getInstance()->findGameObject("Plane 15");
+	plane->rotateZ(cardAngle);
+	plane->setPosition(Vector3(distanceTris, cardHeight * 2, 0.0f));
+
+}

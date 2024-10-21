@@ -1,5 +1,6 @@
 #include "Primitive.h"
 #include "CameraManager.h"
+#include "InputSystem.h"
 
 Primitive::Primitive(std::string name, OBJECT_TYPE type, bool blending) : 
 	GameObject(name, type), alphaOn(blending) {}
@@ -65,6 +66,16 @@ void Primitive::createBlendState(bool blending)
 void Primitive::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
+
+	/*float speed = 1.0f * deltaTime;
+	if (InputSystem::getInstance()->isKeyDown('W'))
+		this->translate(Vector3(0, 0, 1), speed);
+	if (InputSystem::getInstance()->isKeyDown('A'))
+		this->translate(Vector3(-1, 0, 0), speed);
+	if (InputSystem::getInstance()->isKeyDown('S'))
+		this->translate(Vector3(0, 0, -1), speed);
+	if (InputSystem::getInstance()->isKeyDown('D'))
+		this->translate(Vector3(1, 0, 0), speed);*/
 
 	this->cc.view = CameraManager::getInstance()->getActiveCameraView();
 	this->cc.proj = CameraManager::getInstance()->getActiveProjection();

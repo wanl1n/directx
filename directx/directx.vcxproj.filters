@@ -124,6 +124,9 @@
     <Filter Include="GameEngine\GameObject\SceneTools\Grid">
       <UniqueIdentifier>{6547a3a5-cee3-4157-936d-326d1078077a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\GameObject\Primitives\3D\Cube\LerpingCube">
+      <UniqueIdentifier>{8d13d3b3-ef8d-4daf-be27-b54fae82d0cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -228,6 +231,9 @@
     </ClCompile>
     <ClCompile Include="CameraManager.cpp">
       <Filter>GameEngine\GameObject\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="LerpingCube.cpp">
+      <Filter>GameEngine\GameObject\Primitives\3D\Cube\LerpingCube</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -366,6 +372,9 @@
     </ClInclude>
     <ClInclude Include="CameraManager.h">
       <Filter>GameEngine\GameObject\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="LerpingCube.h">
+      <Filter>GameEngine\GameObject\Primitives\3D\Cube\LerpingCube</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

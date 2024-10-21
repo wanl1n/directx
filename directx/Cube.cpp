@@ -3,12 +3,15 @@
 Cube::Cube(std::string name, bool blending, OBJECT_TYPE type) :
 	Primitive(name, type, blending), side(1), frontColor(WHITE), backColor(WHITE)
 {
+	// Default Values
+	this->side = 0.5f;
+	this->frontColor = WHITE;
+	this->backColor = WHITE;
+
 	this->init();
 
-	// Lying down
-	this->transform.position = Vector3(5, 1.1f, 5);
-	this->cc.world.setIdentity();
-	this->cc.world.setTranslation(this->transform.position);
+	this->cc.world.setScale(Vector3(1));
+	this->setPosition(Vector3(0, 0, 0));
 }
 
 Cube::~Cube() {}
@@ -44,28 +47,45 @@ std::vector<Vertex3D> Cube::createVertices()
 {
 	std::vector<Vertex3D> vecVerts;
 
-	// Default Values
-	this->side = 1.0f;
-	this->frontColor = WHITE;
-	this->backColor = PINK;
+	if (COLOR_SETTINGS == RAINBOW_COLORED) {
+		// 1. Set up the Vertex buffer.
+		Vertex3D vertices[] = { // Cube Vertices
+			// FRONT FACE
+			{ Vector3(-side, -side, -side), RED },
+			{ Vector3(-side, side, -side),	ORANGE },
+			{ Vector3(side, side, -side),	YELLOW },
+			{ Vector3(side, -side, -side),	GREEN },
+			// BACK FACE
+			{ Vector3(side, -side, side),	BLUE },
+			{ Vector3(side, side, side),	INDIGO },
+			{ Vector3(-side, side, side),	VIOLET },
+			{ Vector3(-side, -side, side),	PINK }
+		};
+		UINT size_list = ARRAYSIZE(vertices);
 
-	// 1. Set up the Vertex buffer.
-	Vertex3D vertices[] = { // Cube Vertices
-		// FRONT FACE
-		{ Vector3(-side, -side, -side), REDCARPET },
-		{ Vector3(-side, side, -side),	REDRAMPAGE },
-		{ Vector3(side, side, -side),	CORALROSE },
-		{ Vector3(side, -side, -side),	SCOTCHMIST },
-		// BACK FACE
-		{ Vector3(side, -side, side),	REDCARPET },
-		{ Vector3(side, side, side),	REDRAMPAGE },
-		{ Vector3(-side, side, side),	CORALROSE },
-		{ Vector3(-side, -side, side),	SCOTCHMIST }
-	};
-	UINT size_list = ARRAYSIZE(vertices);
+		for (int i = 0; i < size_list; i++) {
+			vecVerts.push_back(vertices[i]);
+		}
+	}
+	else if (COLOR_SETTINGS == WHITE_COLORED) {
+		// 1. Set up the Vertex buffer.
+		Vertex3D vertices[] = { // Cube Vertices
+			// FRONT FACE
+			{ Vector3(-side, -side, -side), frontColor },
+			{ Vector3(-side, side, -side),	frontColor },
+			{ Vector3(side, side, -side),	frontColor },
+			{ Vector3(side, -side, -side),	frontColor },
+			// BACK FACE
+			{ Vector3(side, -side, side),	backColor },
+			{ Vector3(side, side, side),	backColor },
+			{ Vector3(-side, side, side),	backColor },
+			{ Vector3(-side, -side, side),	backColor }
+		};
+		UINT size_list = ARRAYSIZE(vertices);
 
-	for (int i = 0; i < size_list; i++) {
-		vecVerts.push_back(vertices[i]);
+		for (int i = 0; i < size_list; i++) {
+			vecVerts.push_back(vertices[i]);
+		}
 	}
 
 	return vecVerts;

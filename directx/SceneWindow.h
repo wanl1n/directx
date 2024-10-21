@@ -62,5 +62,10 @@ class SceneWindow : public Window, public InputListener
 		void onRightMouseDown(const Point& mousePos) override;
 		void onLeftMouseUp(const Point& mousePos) override;
 		void onRightMouseUp(const Point& mousePos) override;
+
+
+	private:
+		void testCase6();
+		void testCase7();
 };
 

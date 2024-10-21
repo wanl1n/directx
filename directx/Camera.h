@@ -37,6 +37,7 @@ class Camera : public GameObject, public InputListener
 		Matrix4x4 getProjMatrix();
 		void setForward(float dir);
 		void setRightward(float dir);
+		void setProjectionType(int type);
 
 		// Inherited from InputListener.
 		void onMouseMove(const Point& mousePos) override;

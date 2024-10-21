@@ -5,12 +5,16 @@ Capsule::Capsule(std::string name, bool blending, OBJECT_TYPE type) :
     Primitive(name, type, blending), 
 	height(1.0f), rings(32), sectors(32), radius(0.5f), color(WHITE)
 {
+	// Default Values
+	this->rings = 32;
+	this->sectors = 32;
+	this->radius = 0.5f;
+	this->height = 1.0f;
+	this->color = ASHGRAY;
+
     this->init();
 
-	// Lying down
-	this->transform.position = Vector3(-1, 1.1f, -1);
-	this->cc.world.setIdentity();
-	this->cc.world.setTranslation(this->transform.position);
+	this->setPosition(Vector3(-1, -1, 0));
 }
 
 Capsule::~Capsule() {}
@@ -46,14 +50,6 @@ void Capsule::initializeBuffers()
 std::vector<Vertex3D> Capsule::createVertices()
 {
 	std::vector<Vertex3D> vertices;
-
-	// Default Values
-	this->rings = 32;
-	this->sectors = 32;
-	this->radius = 0.5f;
-	this->height = 1.0f;
-	this->color = ASHGRAY;
-
 	// Precomputed values to optimize calculations
 	float ringStep = 1.0f / (float)(rings - 1);    // Step size for the rings
 	float sectorStep = 1.0f / (float)(sectors - 1); // Step size for the sectors

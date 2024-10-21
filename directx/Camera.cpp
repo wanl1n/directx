@@ -10,8 +10,11 @@ Camera::Camera(std::string name, RECT viewport, OBJECT_TYPE type) :
 	else if (type == PERSPECTIVE_CAMERA)
 		this->type = PERSPECTIVE;
 
-	this->transform.position = Vector3(0, 2, -6);
-	this->transform.rotation = Vector3(0.5f, 0.25f, 0);
+	// Test Case 6
+	/*this->transform.position = Vector3(5.88311f, 2.36871f, -5.28797f);
+	this->transform.rotation = Vector3(0.221113f, -0.802211f, 0);*/
+
+	this->transform.position = Vector3(0, 0, -5);
 	this->prevCamMat.setIdentity();
 	this->prevCamMat.setTranslation(this->transform.position);
 	this->updateViewMatrix();
@@ -26,7 +29,8 @@ void Camera::update(RECT viewport)
 	this->checkForInput();
 	this->updateProjectionMatrix(viewport);
 
-	std::cout << this->transform.rotation.x << ", " << this->transform.rotation.y << std::endl;
+	//std::cout << "Camera Position: " << transform.position.x << ", " << this->transform.position.y << ", " << this->transform.position.z << std::endl;
+	//std::cout << "Camera Rotation: " << this->transform.rotation.x << ", " << this->transform.rotation.y << std::endl;
 }
 
 void Camera::checkForInput()
@@ -68,11 +72,11 @@ void Camera::updateViewMatrix()
 	worldCam *= temp;
 
 	// Translation
-	Vector3 newPos = prevCamMat.getTranslation() + worldCam.getZDir() * (this->forward * moveSpeed);
-	newPos += worldCam.getXDir() * (this->rightward * moveSpeed);
+	this->transform.position = prevCamMat.getTranslation() + worldCam.getZDir() * (this->forward * moveSpeed);
+	this->transform.position += worldCam.getXDir() * (this->rightward * moveSpeed);
 
 	// Update Camera Rot and Translation
-	worldCam.setTranslation(newPos);
+	worldCam.setTranslation(this->transform.position);
 	prevCamMat = worldCam;
 	worldCam.inverse();
 	this->cc.view = worldCam;
@@ -86,9 +90,9 @@ void Camera::updateProjectionMatrix(RECT viewport)
 	switch (type) {
 		case ORTHOGRAPHIC:
 			this->cc.proj.setOrthoLH(
-				width / 400.0f,
-				height / 400.0f,
-				-4.0f, 4.0f
+				width / 100.0f,
+				height / 100.0f,
+				-100.0f, 100.0f
 			);
 			break;
 		case PERSPECTIVE:
@@ -132,6 +136,11 @@ void Camera::setForward(float dir)
 void Camera::setRightward(float dir)
 {
 	this->rightward = dir;
+}
+
+void Camera::setProjectionType(int type)
+{
+	this->type = type;
 }
 
 void Camera::onMouseMove(const Point& mousePos)

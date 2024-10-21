@@ -4,12 +4,15 @@
 Cylinder::Cylinder(std::string name, bool blending, OBJECT_TYPE type) :
 	Primitive(name, type, blending), height(2), slices(32), radius(1), stacks(1), color(WHITE)
 {
+    this->height = 2.0f;
+    this->slices = 32.0f;
+    this->radius = 1.0f;
+    this->stacks = 1.0f;
+    this->color = WHITE;
+
 	this->init();
 
-    // Lying down
-    this->transform.position = Vector3(-5, 1.1f, 5);
-    this->cc.world.setIdentity();
-    this->cc.world.setTranslation(this->transform.position);
+    this->setPosition(Vector3(-5, 1.1f, 5));
 }
 
 Cylinder::~Cylinder() {}
@@ -17,12 +20,6 @@ Cylinder::~Cylinder() {}
 void Cylinder::initializeBuffers()
 {
 	std::vector<unsigned int> indices;
-
-    height = 2.0f;
-    slices = 32.0f;
-    radius = 1.0f;
-    stacks = 1.0f;
-    color = WHITE;
 
     // Generate indices for the top cap
     int topCenterIndex = 0;
@@ -71,12 +68,6 @@ void Cylinder::initializeBuffers()
 std::vector<Vertex3D> Cylinder::createVertices()
 {
 	std::vector<Vertex3D> vertices;
-
-    height = 2.0f;
-    slices = 32.0f;
-    radius = 1.0f;
-    stacks = 1.0f;
-    color = WHITE;
 
     float halfHeight = height / 2.0f;
     float sliceStep = 2 * DirectX::XM_PI / static_cast<float>(slices);

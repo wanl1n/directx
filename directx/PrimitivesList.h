@@ -10,6 +10,7 @@
 
 #include "Cube.h"
 #include "RotatingCube.h"
+#include "LerpingCube.h"
 
 #include "Plane.h"
 #include "RotatingPlane.h"

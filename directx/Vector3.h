@@ -92,4 +92,13 @@ class Vector3
 
 			return result;
 		}
+
+		bool operator !=(const Vector3& other) {
+			if (other.x != this->x ||
+				other.y != this->y ||
+				other.z != this->z)
+				return true;
+			else
+				return false;
+		}
 };

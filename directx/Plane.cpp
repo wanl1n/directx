@@ -2,17 +2,17 @@
 #include "Vertex.h"
 
 Plane::Plane(std::string name, bool blending, OBJECT_TYPE type) :
-	Primitive(name, type, blending), color(WHITE), height(1), width(1)
+	Primitive(name, PLANE, blending), color(WHITE), height(1), width(1)
 {
+	this->color = WHITE;
+	this->height = 1.0f;
+	this->width = 1.0f;
+
 	this->init();
 
-	// Lying down
-	this->transform.rotation.x = 1.57f;
-	this->transform.scale = Vector3(10, 10, 10);
-	this->cc.world.setIdentity();
-	this->cc.world.setTranslation(this->transform.position);
-	this->rotateX(this->transform.rotation.x);
-	this->scale(this->transform.rotation);
+	// Side Standing
+	this->setScale(Vector3(0.65f, 1.0f, 1));
+	this->rotateY(1.57f);
 }
 
 Plane::~Plane() {}
@@ -36,22 +36,31 @@ std::vector<Vertex3D> Plane::createVertices()
 {
 	std::vector<Vertex3D> vecVerts;
 
-	this->color = WHITE;
-	this->height = 1.0f;
-	this->width = 1.0f;
-
 	// Set up the Vertex buffer.
+	//Vertex3D vertices[] = { // Cube Vertices
+	//	// FRONT FACE
+	//	{ Vector3(-width, -height, 0),	this->color },
+	//	{ Vector3(-width, height, 0),	this->color },
+	//	{ Vector3(width, height, 0),	this->color },
+	//	{ Vector3(width, -height, 0),	this->color },
+	//	// BACK FACE
+	//	{ Vector3(width, -height, 0),	this->color },
+	//	{ Vector3(width, height, 0),	this->color },
+	//	{ Vector3(-width, height, 0),	this->color },
+	//	{ Vector3(-width, -height, 0),	this->color }
+	//};
+
 	Vertex3D vertices[] = { // Cube Vertices
 		// FRONT FACE
-		{ Vector3(-width, -height, 0),	this->color },
-		{ Vector3(-width, height, 0),	this->color },
-		{ Vector3(width, height, 0),	this->color },
-		{ Vector3(width, -height, 0),	this->color },
+		{ Vector3(-width, -height, 0),	PALEDOGWOOD },
+		{ Vector3(-width, height, 0),	ROSYBROWN },
+		{ Vector3(width, height, 0),	PUCE },
+		{ Vector3(width, -height, 0),	ROSETAUPE },
 		// BACK FACE
 		{ Vector3(width, -height, 0),	this->color },
-		{ Vector3(width, height, 0),	this->color },
+		{ Vector3(width, height, 0),	PINK },
 		{ Vector3(-width, height, 0),	this->color },
-		{ Vector3(-width, -height, 0),	this->color }
+		{ Vector3(-width, -height, 0),	PINK }
 	};
 	UINT size_list = ARRAYSIZE(vertices);
 

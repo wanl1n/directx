@@ -147,6 +147,7 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="LerpingCube.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Plane.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputListener.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="LerpingCube.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="PixelShader.h" />
