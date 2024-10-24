@@ -22,12 +22,12 @@
 class Quad : public GameObject
 {
 	protected:
-		VertexBuffer* vb;
-		ConstantBuffer* cb;
-		BlendState* bs;
+		VertexBufferPtr vb;
+		ConstantBufferPtr cb;
+		BlendStatePtr bs;
 
-		VertexShader* vs;
-		PixelShader* ps;
+		VertexShaderPtr vs;
+		PixelShaderPtr ps;
 		
 		QuadVertex initPoints;
 		QuadVertex targetPoints;

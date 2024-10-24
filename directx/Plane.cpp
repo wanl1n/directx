@@ -11,8 +11,9 @@ Plane::Plane(std::string name, bool blending, OBJECT_TYPE type) :
 	this->init();
 
 	// Side Standing
-	this->setScale(Vector3(0.65f, 1.0f, 1));
-	this->rotateY(1.57f);
+	this->setScale(Vector3(5));
+	this->rotateX(1.57f);
+	this->setPosition(Vector3(0, -1.5f, 0));
 }
 
 Plane::~Plane() {}
@@ -36,36 +37,45 @@ std::vector<Vertex3D> Plane::createVertices()
 {
 	std::vector<Vertex3D> vecVerts;
 
-	// Set up the Vertex buffer.
-	//Vertex3D vertices[] = { // Cube Vertices
-	//	// FRONT FACE
-	//	{ Vector3(-width, -height, 0),	this->color },
-	//	{ Vector3(-width, height, 0),	this->color },
-	//	{ Vector3(width, height, 0),	this->color },
-	//	{ Vector3(width, -height, 0),	this->color },
-	//	// BACK FACE
-	//	{ Vector3(width, -height, 0),	this->color },
-	//	{ Vector3(width, height, 0),	this->color },
-	//	{ Vector3(-width, height, 0),	this->color },
-	//	{ Vector3(-width, -height, 0),	this->color }
-	//};
+	//Set up the Vertex buffer.
+	if (COLOR_SETTINGS == WHITE_COLORED) {
+		Vertex3D vertices[] = { // Cube Vertices
+			// FRONT FACE
+			{ Vector3(-width, -height, 0),	this->color },
+			{ Vector3(-width, height, 0),	this->color },
+			{ Vector3(width, height, 0),	this->color },
+			{ Vector3(width, -height, 0),	this->color },
+			// BACK FACE
+			{ Vector3(width, -height, 0),	this->color },
+			{ Vector3(width, height, 0),	this->color },
+			{ Vector3(-width, height, 0),	this->color },
+			{ Vector3(-width, -height, 0),	this->color }
+		};
+		UINT size_list = ARRAYSIZE(vertices);
 
-	Vertex3D vertices[] = { // Cube Vertices
-		// FRONT FACE
-		{ Vector3(-width, -height, 0),	PALEDOGWOOD },
-		{ Vector3(-width, height, 0),	ROSYBROWN },
-		{ Vector3(width, height, 0),	PUCE },
-		{ Vector3(width, -height, 0),	ROSETAUPE },
-		// BACK FACE
-		{ Vector3(width, -height, 0),	this->color },
-		{ Vector3(width, height, 0),	PINK },
-		{ Vector3(-width, height, 0),	this->color },
-		{ Vector3(-width, -height, 0),	PINK }
-	};
-	UINT size_list = ARRAYSIZE(vertices);
+		for (int i = 0; i < size_list; i++) {
+			vecVerts.push_back(vertices[i]);
+		}
+	}
+	else if (COLOR_SETTINGS == RAINBOW_COLORED) {
 
-	for (int i = 0; i < size_list; i++) {
-		vecVerts.push_back(vertices[i]);
+		Vertex3D vertices[] = { // Cube Vertices
+			// FRONT FACE
+			{ Vector3(-width, -height, 0),	PALEDOGWOOD },
+			{ Vector3(-width, height, 0),	ROSYBROWN },
+			{ Vector3(width, height, 0),	PUCE },
+			{ Vector3(width, -height, 0),	ROSETAUPE },
+			// BACK FACE
+			{ Vector3(width, -height, 0),	this->color },
+			{ Vector3(width, height, 0),	PINK },
+			{ Vector3(-width, height, 0),	this->color },
+			{ Vector3(-width, -height, 0),	PINK }
+		};
+		UINT size_list = ARRAYSIZE(vertices);
+
+		for (int i = 0; i < size_list; i++) {
+			vecVerts.push_back(vertices[i]);
+		}
 	}
 
 	return vecVerts;

@@ -5,15 +5,7 @@
 Primitive::Primitive(std::string name, OBJECT_TYPE type, bool blending) : 
 	GameObject(name, type), alphaOn(blending) {}
 
-Primitive::~Primitive() 
-{
-	delete vb;
-	delete cb;
-	delete ib;
-	delete vs;
-	delete ps;
-	delete bs;
-}
+Primitive::~Primitive() {}
 
 void Primitive::init()
 {
@@ -85,7 +77,7 @@ void Primitive::update(float deltaTime, RECT viewport)
 
 void Primitive::draw()
 {
-	DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	DeviceContextPtr device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	// Bind to Shaders.
 	device->setConstantBuffer(vs, this->cb);

@@ -23,11 +23,11 @@
 class Grid : public GameObject
 {
 private:
-	VertexBuffer* vb;
-	ConstantBuffer* cb;
-	VertexShader* vs;
-	PixelShader* ps;
-	BlendState* bs;
+	VertexBufferPtr vb;
+	ConstantBufferPtr cb;
+	VertexShaderPtr vs;
+	PixelShaderPtr ps;
+	BlendStatePtr bs;
 
 	bool showGrid;
 

@@ -25,7 +25,7 @@ ConstantBuffer::~ConstantBuffer()
 	if (this->m_buffer) this->m_buffer->Release();
 }
 
-void ConstantBuffer::update(DeviceContext* context, void* buffer)
+void ConstantBuffer::update(DeviceContextPtr context, void* buffer)
 {
 	context->devContext->UpdateSubresource(this->m_buffer, NULL, NULL, buffer, NULL, NULL);
 }

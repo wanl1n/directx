@@ -42,15 +42,7 @@ Circle::Circle(std::string name, CircleProps props, bool blending) : GameObject(
 	this->radius = props.radius;
 }
 
-Circle::~Circle()
-{
-	delete vb;
-	delete cb;
-	delete ib;
-	delete vs;
-	delete ps;
-	delete bs;
-}
+Circle::~Circle() {}
 
 std::vector<Vector3> Circle::generateCircleVertices(float radius, int segments)
 {
@@ -84,7 +76,7 @@ void Circle::update(float deltaTime, RECT viewport)
 
 void Circle::draw()
 {
-	DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	DeviceContextPtr device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	// Bind to Shaders.
 	device->setConstantBuffer(vs, this->cb);

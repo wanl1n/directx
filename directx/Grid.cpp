@@ -41,14 +41,7 @@ Grid::Grid(std::string name, bool showGrid) : GameObject("Grid", TOOLS_GRID)
 	this->showGrid = showGrid;
 }
 
-Grid::~Grid()
-{
-	delete vb;
-	delete cb;
-	delete vs;
-	delete ps;
-	delete bs;
-}
+Grid::~Grid() {}
 
 void Grid::update(float deltaTime, RECT viewport)
 {
@@ -60,7 +53,7 @@ void Grid::update(float deltaTime, RECT viewport)
 void Grid::draw()
 {
 	if (this->showGrid) {
-		DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+		DeviceContextPtr device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 		// Set Blend State.
 		if (this->bs) device->setBlendState(bs);

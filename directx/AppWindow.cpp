@@ -5,8 +5,6 @@
 
 #include "Constants.h"
 #include "Vertex.h"
-#include <cstdlib>
-#include <ctime>
 
 AppWindow* AppWindow::sharedInstance = nullptr;
 AppWindow* AppWindow::getInstance()
@@ -29,11 +27,12 @@ void AppWindow::initializeEngine()
 	EngineTime::initialize();
 
 	// Input System
-	InputSystem::initialize();
 	InputSystem::getInstance()->addListener(AppWindow::getInstance());
+	//InputSystem::getInstance()->toggleCursor(false);
 
 	// Game Object Manager
 	GameObjectManager::initialize();
+	CameraManager::initialize(this->getClientWindowRect());
 
 	// Graphics Engine
 	GraphicsEngine::initialize();
@@ -46,47 +45,51 @@ void AppWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	GameObjectManager::getInstance()->addGameObject(ROTATING_CUBE, 100);
+	GameObjectManager::getInstance()->addGameObject(CUBE);
+	GameObjectManager::getInstance()->addGameObject(PLANE);
 }
 
 void AppWindow::onCreate() 
 {
 	Window::onCreate();
+	srand(time(NULL));
+
+	InputSystem::initialize();
 }
 
 void AppWindow::onUpdate()
 {
 	Window::onUpdate();
 
-	// Input System Update.
-	InputSystem::getInstance()->update();
-
-	DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	DeviceContextPtr device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	// 1. Clear Render Target.
-	device->clearRenderTargetColor(this->swapChain, MATCHA);
+	device->clearRenderTargetColor(this->swapChain, PINK);
 
 	// 2. Set the target Viewport where we'll draw.
 	RECT rc = this->getClientWindowRect();
 	device->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	this->rotX += deltaTime;
-	this->rotY += deltaTime;
-
+	// Update.
+	InputSystem::getInstance()->update();
 	GameObjectManager::getInstance()->update(deltaTime, rc);
+	CameraManager::getInstance()->update(rc);
+
 	GameObjectManager::getInstance()->render();
 
 	this->swapChain->present(true);
 
 	// Update Delta time.
 	deltaTime = (float)EngineTime::getDeltaTime();
+
+	// 6. Check for exit
+	if (InputSystem::getInstance()->isKeyDown(27))
+		exit(0);
 }
 
 void AppWindow::onDestroy()
 {
 	Window::onDestroy();
-
-	delete swapChain;
 	GraphicsEngine::get()->release();
 }
 
@@ -102,69 +105,22 @@ void AppWindow::onKillFocus()
 	InputSystem::getInstance()->removeListener(AppWindow::getInstance());
 }
 
-//void AppWindow::onKeyDown(int key)
-//{
-//	//std::cout << "Key down." << std::endl;
-//	switch (key) {
-//		case 'W':
-//			//this->rotX += 0.707f * deltaTime;
-//			break;
-//		case 'S':
-//			//this->rotX -= 0.707f * deltaTime;
-//			break;
-//		case 'A':
-//			//this->rotY += 0.707f * deltaTime;
-//			break;
-//		case 'D':
-//			//this->rotY -= 0.707f * deltaTime;
-//			break;
-//		case 27: // Escape
-//			exit(0);
-//			break;
-//
-//	}
-//	//std::cout << key << std::endl;
-//}
-//
-//void AppWindow::onKeyUp(int key)
-//{
-//	//switch (key) {
-//	//	case ' ': // Spacebar
-//	//		this->createCube();
-//	//		break;
-//	//	case 8: // Backspace
-//	//		if (this->CircleList.size() > 0)
-//	//			this->CircleList.pop_back();
-//	//		break;
-//	//	case 46: // Delete
-//	//		if (this->CircleList.size() > 0)
-//	//			this->CircleList.clear();
-//	//		break;
-//	//}
-//}
-
 void AppWindow::onMouseMove(const Point& mousePos)
 {
-	/*this->rotX -= deltaMousePos.y * deltaTime;
-	this->rotY -= deltaMousePos.x * deltaTime;*/
 }
 
 void AppWindow::onLeftMouseDown(const Point& mousePos)
 {
-	//this->scaler = 0.5f;
 }
 
 void AppWindow::onRightMouseDown(const Point& mousePos)
 {
-	//this->scaler = 2.0f;
 }
 
 void AppWindow::onLeftMouseUp(const Point& mousePos)
 {
-	//this->scaler = 1.0f;
 }
 
 void AppWindow::onRightMouseUp(const Point& mousePos)
 {
-	//this->scaler = 1.0f;
 }

@@ -42,7 +42,7 @@ void InputSystem::update()
 	
 	::memcpy(oldKeysState, keysState, sizeof(unsigned char) * 256);
 
-	// Keyboard
+	// Mouse Keys
 	if (::GetKeyboardState(this->keysState)) {
 		// Only the bit of the value is evaluated.
 		// If this is 1, mouse key is down.

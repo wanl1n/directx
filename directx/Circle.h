@@ -24,13 +24,13 @@
 class Circle : public GameObject
 {
 protected:
-	VertexBuffer* vb;
-	ConstantBuffer* cb;
-	IndexBuffer* ib;
-	BlendState* bs;
+	VertexBufferPtr vb;
+	ConstantBufferPtr cb;
+	IndexBufferPtr ib;
+	BlendStatePtr bs;
 
-	VertexShader* vs;
-	PixelShader* ps;
+	VertexShaderPtr vs;
+	PixelShaderPtr ps;
 
 	float center;
 	float radius;

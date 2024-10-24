@@ -27,15 +27,9 @@ class SceneWindow : public Window, public InputListener
 		static void initialize();
 
 	private:
-		SwapChain* swapChain;
+		SwapChainPtr swapChain;
 
 		float deltaTime = 0;
-
-		float rotX = 0;
-		float rotY = 0;
-		float forward = 0;
-		float rightward = 0;
-		Matrix4x4 worldCamera;
 
 		// Scene Tools
 		Grid* grid;

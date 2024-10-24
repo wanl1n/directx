@@ -49,9 +49,6 @@ void SceneWindow::initializeEngine()
 
 	// Default Primitives
 	GameObjectManager::getInstance()->addGameObject(LERPING_CUBE);
-
-	//this->testCase6();
-	//this->testCase7();
 }
 
 void SceneWindow::onCreate()
@@ -65,7 +62,7 @@ void SceneWindow::onCreate()
 void SceneWindow::onUpdate()
 {
 	Window::onUpdate();
-	DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	DeviceContextPtr device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	// 1. Clear Render Target.
 	device->clearRenderTargetColor(this->swapChain, GRAY);
@@ -92,18 +89,12 @@ void SceneWindow::onUpdate()
 	// 6. Check for exit
 	if (InputSystem::getInstance()->isKeyDown(27))
 		exit(0);
-	if (InputSystem::getInstance()->isKeyDown('O'))
-		CameraManager::getInstance()->getActiveCamera()->setProjectionType(ORTHOGRAPHIC);
-	if (InputSystem::getInstance()->isKeyDown('P'))
-		CameraManager::getInstance()->getActiveCamera()->setProjectionType(PERSPECTIVE);
-
 }
 
 void SceneWindow::onDestroy()
 {
 	Window::onDestroy();
 
-	delete swapChain;
 	GraphicsEngine::get()->release();
 }
 

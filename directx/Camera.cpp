@@ -51,6 +51,11 @@ void Camera::checkForInput()
 		InputSystem::getInstance()->isKeyUp('A'))
 		this->rightward = 0.0f;
 
+	if (InputSystem::getInstance()->isKeyDown('O'))
+		this->setProjectionType(ORTHOGRAPHIC);
+	if (InputSystem::getInstance()->isKeyDown('P'))
+		this->setProjectionType(PERSPECTIVE);
+
 	// Update if the camera is moving.
 	if (moving)
 		this->updateViewMatrix();
@@ -105,9 +110,9 @@ void Camera::updateProjectionMatrix(RECT viewport)
 			break;
 		default:
 			this->cc.proj.setOrthoLH(
-				(viewport.right - viewport.left) / 400.0f,
-				(viewport.bottom - viewport.top) / 400.0f,
-				-4.0f, 4.0f
+				width / 100.0f,
+				height / 100.0f,
+				-100.0f, 100.0f
 			);
 			break;
 	}
@@ -152,9 +157,9 @@ void Camera::onMouseMove(const Point& mousePos)
 	if (moving) {
 		this->transform.rotation.x += (mousePos.y - (height / 2.0f)) * deltaTime * panSpeed;
 		this->transform.rotation.y += (mousePos.x - (width / 2.0f)) * deltaTime * panSpeed;
+		InputSystem::getInstance()->setCursorPosition(Point(width / 2.0f, height / 2.0f));
 	}
 	
-	InputSystem::getInstance()->setCursorPosition(Point(width / 2.0f, height / 2.0f));
 }
 
 void Camera::onLeftMouseDown(const Point& mousePos)

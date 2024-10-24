@@ -15,7 +15,7 @@
 
 // Game Objects
 #include "GameObjectManager.h"
-#include "Quad.h"
+#include "CameraManager.h"
 
 #include "InputListener.h"
 
@@ -26,15 +26,9 @@ class AppWindow : public Window, public InputListener
 		static void initialize();
 
 	protected:
-		SwapChain* swapChain;
+		SwapChainPtr swapChain;
 
 		float deltaTime = 0;
-
-		// Input testers
-		float indexSelected = 0;
-		float rotX = 0;
-		float rotY = 0;
-		float scaler = 1;
 
 	private:
 		AppWindow();
