@@ -11,8 +11,8 @@ Plane::Plane(std::string name, bool blending, OBJECT_TYPE type) :
 	this->init();
 
 	// Side Standing
-	this->setScale(Vector3(0.65f, 1.0f, 1));
-	this->rotateY(1.57f);
+	this->setScale(Vector3(2));
+	this->rotateX(1.57f);
 }
 
 Plane::~Plane() {}

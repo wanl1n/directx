@@ -48,7 +48,8 @@ void SceneWindow::initializeEngine()
 	this->grid = new Grid("Grid", false);
 
 	// Default Primitives
-	GameObjectManager::getInstance()->addGameObject(LERPING_CUBE);
+	GameObjectManager::getInstance()->addGameObject(CUBE);
+	GameObjectManager::getInstance()->addGameObject(PLANE);
 
 	//this->testCase6();
 	//this->testCase7();
@@ -68,7 +69,7 @@ void SceneWindow::onUpdate()
 	DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	// 1. Clear Render Target.
-	device->clearRenderTargetColor(this->swapChain, GRAY);
+	device->clearRenderTargetColor(this->swapChain, PINK);
 
 	// 2. Set the target Viewport where we'll draw.
 	RECT rc = this->getClientWindowRect();
