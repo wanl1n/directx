@@ -21,9 +21,6 @@ class GraphicsEngine
 		static void initialize();
 		static void destroy();
 
-		bool init();
-		bool release();
-
 		RenderSystem* getRenderSystem();
 		static GraphicsEngine* get();
 };

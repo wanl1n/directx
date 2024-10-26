@@ -12,6 +12,13 @@ void CameraManager::initialize(RECT viewport)
 	sharedInstance = new CameraManager(viewport);
 }
 
+void CameraManager::destroy()
+{
+	if (sharedInstance == NULL)
+		return;
+	delete sharedInstance;
+}
+
 CameraManager::CameraManager(RECT viewport) : selectedCameraIndex(0)
 {
 	// Default Camera.

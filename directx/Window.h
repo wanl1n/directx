@@ -11,6 +11,7 @@ class Window {
 
 		bool running;
 		std::vector<bool> windowRunning;
+		bool initializing;
 
 		float FPS = 60;
 		float lastUpdatedTime = 0;
@@ -19,15 +20,17 @@ class Window {
 		float fpsTimer = 0;
 		float fpsCounter = 0;
 
+		float width, height;
+
 	public:
 		Window();
+		Window(float width, float height);
 		~Window();
+		void initialize();
 
-		bool init(float width, float height);
 		bool createChildWindow();
 		bool broadcast();
-		bool release();
-		bool isRunning();
+		bool run();
 
 		virtual void onCreate();
 		virtual void onUpdate();
@@ -38,7 +41,6 @@ class Window {
 		RECT getClientWindowRect();
 		RECT getChildWindowRect(int index);
 		HWND getWindowHandle();
-		void setHWND(HWND hwnd);
 
 		friend class EngineTime;
 };

@@ -11,7 +11,13 @@ InputSystem* InputSystem::getInstance()
 void InputSystem::initialize()
 {
 	sharedInstance = new InputSystem();
-	//sharedInstance->init();
+}
+
+void InputSystem::destroy()
+{
+	if (sharedInstance == NULL)
+		return;
+	delete sharedInstance;
 }
 
 InputSystem::InputSystem() {}

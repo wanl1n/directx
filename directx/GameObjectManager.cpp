@@ -11,6 +11,13 @@ void GameObjectManager::initialize()
 	sharedInstance = new GameObjectManager();
 }
 
+void GameObjectManager::destroy()
+{
+	if (sharedInstance == NULL)
+		return;
+	delete sharedInstance;
+}
+
 GameObjectManager::GameObjectManager() {}
 
 GameObjectManager::~GameObjectManager() 

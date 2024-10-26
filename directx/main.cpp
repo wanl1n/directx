@@ -3,12 +3,14 @@
 
 int main() {
 
-	AppWindow::initialize();
-	AppWindow* app = (AppWindow*)AppWindow::getInstance();
-	app->initializeEngine();
-
-	while (app->isRunning()) {
-		app->broadcast();
+	try {
+		AppWindow::initialize();
+		AppWindow* app = (AppWindow*)AppWindow::getInstance();
+		app->initializeEngine();
+		while (app->run());
+	}
+	catch (...) {
+		return -1;
 	}
 
 	/*SceneWindow::initialize();

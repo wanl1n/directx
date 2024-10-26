@@ -15,10 +15,9 @@ SceneWindow* SceneWindow::getInstance()
 void SceneWindow::initialize()
 {
 	sharedInstance = new SceneWindow();
-	sharedInstance->init(720, 720);
 }
 
-SceneWindow::SceneWindow() {}
+SceneWindow::SceneWindow() : Window(720, 720) {}
 SceneWindow::~SceneWindow() {}
 
 void SceneWindow::initializeEngine()
@@ -95,7 +94,7 @@ void SceneWindow::onDestroy()
 {
 	Window::onDestroy();
 
-	GraphicsEngine::get()->release();
+	GraphicsEngine::get()->destroy();
 }
 
 void SceneWindow::onFocus()

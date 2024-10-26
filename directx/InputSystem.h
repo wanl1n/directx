@@ -23,6 +23,7 @@ class InputSystem
 	public:
 		static InputSystem* getInstance();
 		static void initialize();
+		static void destroy();
 
 		void update();
 		void addListener(InputListener* listener);

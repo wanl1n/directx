@@ -12,6 +12,7 @@ class CameraManager
 	public:
 		static CameraManager* getInstance();
 		static void initialize(RECT viewport);
+		static void destroy();
 
 	private:
 		std::vector<Camera*> CameraList;

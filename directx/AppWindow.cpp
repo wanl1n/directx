@@ -1,4 +1,5 @@
 #include "AppWindow.h"
+#include <exception>
 #include "Windows.h"
 #include "InputSystem.h"
 #include "EngineTime.h"
@@ -15,7 +16,6 @@ AppWindow* AppWindow::getInstance()
 void AppWindow::initialize()
 {
 	sharedInstance = new AppWindow();
-	sharedInstance->init(1024, 1024);
 }
 
 AppWindow::AppWindow() {}
@@ -35,7 +35,8 @@ void AppWindow::initializeEngine()
 	CameraManager::initialize(this->getClientWindowRect());
 
 	// Graphics Engine
-	GraphicsEngine::initialize();
+	try { GraphicsEngine::initialize(); }
+	catch (...) { throw std::exception("Graphics Engine Initialization failed."); }
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
 
 	// Swap Chain
@@ -90,7 +91,10 @@ void AppWindow::onUpdate()
 void AppWindow::onDestroy()
 {
 	Window::onDestroy();
-	GraphicsEngine::get()->release();
+	GraphicsEngine::get()->destroy();
+	InputSystem::getInstance()->destroy();
+	GameObjectManager::getInstance()->destroy();
+	CameraManager::getInstance()->destroy();
 }
 
 void AppWindow::onFocus()

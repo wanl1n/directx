@@ -1,5 +1,6 @@
 #include "GraphicsEngine.h"
 #include "RenderSystem.h"
+#include <exception>
 
 GraphicsEngine* GraphicsEngine::sharedInstance = nullptr;
 GraphicsEngine* GraphicsEngine::get() {
@@ -9,34 +10,32 @@ GraphicsEngine* GraphicsEngine::get() {
 	return sharedInstance;
 }
 
-GraphicsEngine::GraphicsEngine() {}
+GraphicsEngine::GraphicsEngine() 
+{
+	try {
+		this->renderSystem = new RenderSystem();
+	}
+	catch (...) {
+		throw std::exception("Graphics Engine not created successfully.");
+	}
+}
 
-GraphicsEngine::~GraphicsEngine() {}
+GraphicsEngine::~GraphicsEngine() 
+{
+	GraphicsEngine::sharedInstance = nullptr;
+	delete renderSystem;
+}
 
 void GraphicsEngine::initialize()
 {
 	sharedInstance = new GraphicsEngine();
-	sharedInstance->init();
 }
 
 void GraphicsEngine::destroy()
 {
+	if (sharedInstance == NULL)
+		return;
 	delete sharedInstance;
-	if (sharedInstance != NULL)
-		sharedInstance->release();
-}
-
-bool GraphicsEngine::init()
-{
-	this->renderSystem = new RenderSystem();
-	this->renderSystem->init();
-	return true;
-}
-
-bool GraphicsEngine::release()
-{
-	delete renderSystem;
-	return true;
 }
 
 RenderSystem* GraphicsEngine::getRenderSystem()

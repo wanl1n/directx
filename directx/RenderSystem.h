@@ -32,9 +32,6 @@ class RenderSystem
 		RenderSystem();
 		~RenderSystem();
 
-		bool init();
-		bool release();
-
 	public:
 		SwapChainPtr createSwapChain(HWND hwnd, UINT width, UINT height);
 		DeviceContextPtr getImmediateDeviceContext();

@@ -10,6 +10,7 @@ class GameObjectManager
 	public:
 		static GameObjectManager* getInstance();
 		static void initialize();
+		static void destroy();
 
 	private:
 		std::vector<GameObject*> GOList;
