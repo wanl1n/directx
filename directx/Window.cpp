@@ -42,7 +42,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	return NULL;
 }
 
-Window::Window() : width(1024), height(1024) 
+Window::Window() : width(1024), height(1024), initializing(true)
 {
 	this->initialize();
 }

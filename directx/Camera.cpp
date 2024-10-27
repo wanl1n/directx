@@ -18,8 +18,6 @@ Camera::Camera(std::string name, RECT viewport, OBJECT_TYPE type) :
 	this->prevCamMat.setIdentity();
 	this->prevCamMat.setTranslation(this->transform.position);
 	this->updateViewMatrix();
-
-	InputSystem::getInstance()->addListener(this);
 }
 
 Camera::~Camera() {}

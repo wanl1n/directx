@@ -1,5 +1,6 @@
 #include "CameraManager.h"
 #include "Camera.h"
+#include "InputSystem.h"
 
 CameraManager* CameraManager::sharedInstance = nullptr;
 CameraManager* CameraManager::getInstance()
@@ -44,11 +45,14 @@ void CameraManager::addCamera(OBJECT_TYPE type, RECT viewport, int count)
 	for (int i = 0; i < count; i++) {
 		Camera* newCam = new Camera("Camera " + std::to_string(this->CameraList.size() + 1), viewport, type);
 		this->CameraList.push_back(newCam);
+		InputSystem::getInstance()->addListener(newCam);
 	}
 }
 
 void CameraManager::removeCamera(Camera* cam)
 {
+	InputSystem::getInstance()->removeListener(cam);
+
 	std::vector<Camera*>::iterator it;
 
 	for (it = this->CameraList.begin(); it != this->CameraList.end(); ++it) {

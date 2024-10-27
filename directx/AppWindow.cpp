@@ -18,7 +18,7 @@ void AppWindow::initialize()
 	sharedInstance = new AppWindow();
 }
 
-AppWindow::AppWindow() {}
+AppWindow::AppWindow() : Window(1024, 1024) {}
 AppWindow::~AppWindow() {}
 
 void AppWindow::initializeEngine()
@@ -27,6 +27,8 @@ void AppWindow::initializeEngine()
 	EngineTime::initialize();
 
 	// Input System
+	try { InputSystem::initialize(); }
+	catch (...) { throw std::exception("Input System Initialization failed."); }
 	InputSystem::getInstance()->addListener(AppWindow::getInstance());
 	//InputSystem::getInstance()->toggleCursor(false);
 
@@ -54,8 +56,6 @@ void AppWindow::onCreate()
 {
 	Window::onCreate();
 	srand(time(NULL));
-
-	InputSystem::initialize();
 }
 
 void AppWindow::onUpdate()
