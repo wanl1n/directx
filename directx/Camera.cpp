@@ -1,9 +1,12 @@
 #include "Camera.h"
+
+// Singletons
 #include "InputSystem.h"
 #include "EngineTime.h"
+#include "GameObjectManager.h"
 
 Camera::Camera(std::string name, RECT viewport, OBJECT_TYPE type) : 
-	GameObject(name, type), viewport(viewport)
+	GameObject(name, type), viewport(viewport), lastSelectedGO(NULL)
 {
 	if (type == ORTHO_CAMERA)
 		this->type = ORTHOGRAPHIC;
@@ -22,10 +25,10 @@ Camera::Camera(std::string name, RECT viewport, OBJECT_TYPE type) :
 
 Camera::~Camera() {}
 
-void Camera::update(RECT viewport)
+void Camera::update()
 {
 	this->checkForInput();
-	this->updateProjectionMatrix(viewport);
+	this->updateProjectionMatrix();
 
 	//std::cout << "Camera Position: " << transform.position.x << ", " << this->transform.position.y << ", " << this->transform.position.z << std::endl;
 	//std::cout << "Camera Rotation: " << this->transform.rotation.x << ", " << this->transform.rotation.y << std::endl;
@@ -85,7 +88,7 @@ void Camera::updateViewMatrix()
 	this->cc.view = worldCam;
 }
 
-void Camera::updateProjectionMatrix(RECT viewport)
+void Camera::updateProjectionMatrix()
 {
 	int width = (viewport.right - viewport.left);
 	int height = (viewport.bottom - viewport.top);
@@ -157,11 +160,30 @@ void Camera::onMouseMove(const Point& mousePos)
 		this->transform.rotation.y += (mousePos.x - (width / 2.0f)) * deltaTime * panSpeed;
 		InputSystem::getInstance()->setCursorPosition(Point(width / 2.0f, height / 2.0f));
 	}
-	
 }
 
 void Camera::onLeftMouseDown(const Point& mousePos)
 {
+	// 1. Get Screen point.
+	int width = (viewport.right - viewport.left);
+	int height = (viewport.bottom - viewport.top);
+	Vector3 screenPoint = Vector3(mousePos.x, mousePos.y, 1.0f);
+
+	// 2. Convert screen point to world space.
+	Vector4 worldPos = Matrix4x4::unproject(screenPoint, cc.view, cc.proj, width, height);
+	Vector3 collPoint = Vector3(worldPos.x, worldPos.y, worldPos.z);
+	
+	// 3. Check if point collides with a GameObject.
+	GameObject* selectedGO = GameObjectManager::getInstance()->checkCollision(collPoint);
+	if (selectedGO != NULL)
+		selectedGO->setSelected(true);
+	else {
+		if (lastSelectedGO != NULL) {
+			lastSelectedGO->setSelected(false);
+			lastSelectedGO = NULL;
+		}
+	}
+	std::cout << "Ray Point: " << collPoint.x << ", " << collPoint.y << ", " << collPoint.z << std::endl;
 }
 
 void Camera::onRightMouseDown(const Point& mousePos)

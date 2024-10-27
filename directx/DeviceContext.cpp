@@ -30,7 +30,7 @@ void DeviceContext::clearRenderTargetColor(SwapChainPtr swap_chain, float red, f
 
 void DeviceContext::clearRenderTargetColor(SwapChainPtr swap_chain, Vector4 color)
 {
-	FLOAT clearColor[] = { color.x, color.y, color.z, color.a };
+	FLOAT clearColor[] = { color.x, color.y, color.z, color.w };
 
 	this->devContext->ClearRenderTargetView(swap_chain->renderView, clearColor);
 	this->devContext->ClearDepthStencilView(swap_chain->depthView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);

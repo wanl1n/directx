@@ -136,6 +136,7 @@
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Capsule.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Cylinder.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Capsule.h" />
     <ClInclude Include="Circle.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Cylinder.h" />

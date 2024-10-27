@@ -2,6 +2,7 @@
 #include "vector"
 #include "PrimitivesList.h"
 #include "Constants.h"
+#include "Math.h"
 
 class GameObject;
 
@@ -51,5 +52,6 @@ class GameObjectManager
 	public:
 		GameObject* findGameObject(std::string name);
 		GameObject* getGameObject(int index);
+		GameObject* checkCollision(Vector3 rayEndPoint);
 };
 

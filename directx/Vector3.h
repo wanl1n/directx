@@ -10,7 +10,6 @@ class Vector3
 		Vector3(float x) : x(x), y(x), z(x) {}
 		Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
 		Vector3(const Vector3& vec) : x(vec.x), y(vec.y), z(vec.z) {}
-		//Vector3(Vector3D vec) : x(vec.x), y(vec.y), z(vec.z) {}
 		~Vector3() {}
 
 		static Vector3 lerp(const Vector3& start, const Vector3& end, float delta) {

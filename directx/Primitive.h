@@ -25,6 +25,8 @@ class Primitive : public GameObject
 		virtual void createPixelShader();
 		virtual void createConstantBuffer();
 		virtual void createBlendState(bool blending);
+		virtual void calculateBounds();
+		virtual void calculateWorldMatrix();
 
 		virtual std::vector<Vertex3D> createVertices() = 0;
 

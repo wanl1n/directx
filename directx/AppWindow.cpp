@@ -48,7 +48,7 @@ void AppWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	GameObjectManager::getInstance()->addGameObject(CUBE);
+	GameObjectManager::getInstance()->addGameObject(ROTATING_CUBE);
 	GameObjectManager::getInstance()->addGameObject(PLANE);
 }
 
@@ -74,7 +74,7 @@ void AppWindow::onUpdate()
 	// Update.
 	InputSystem::getInstance()->update();
 	GameObjectManager::getInstance()->update(deltaTime, rc);
-	CameraManager::getInstance()->update(rc);
+	CameraManager::getInstance()->update();
 
 	GameObjectManager::getInstance()->render();
 

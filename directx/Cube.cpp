@@ -12,6 +12,10 @@ Cube::Cube(std::string name, bool blending, OBJECT_TYPE type) :
 
 	this->cc.world.setScale(Vector3(1));
 	this->setPosition(Vector3(0, 0, 0));
+
+	std::cout << "Bounds X: " << bounds.minX << ", " << bounds.maxX << std::endl;
+	std::cout << "Bounds Y: " << bounds.minY << ", " << bounds.maxY << std::endl;
+	std::cout << "Bounds Z: " << bounds.minZ << ", " << bounds.maxZ << std::endl;
 }
 
 Cube::~Cube() {}
@@ -89,4 +93,12 @@ std::vector<Vertex3D> Cube::createVertices()
 	}
 
 	return vecVerts;
+}
+
+void Cube::calculateBounds()
+{
+	this->bounds = { 
+		-side * transform.scale.x + transform.position.x, side * transform.scale.x + transform.position.x,
+		-side * transform.scale.y + transform.position.y, side * transform.scale.y + transform.position.y,
+		-side * transform.scale.z + transform.position.z, side * transform.scale.z + transform.position.z };
 }

@@ -269,3 +269,13 @@ GameObject* GameObjectManager::getGameObject(int index)
 {
 	return this->GOList[index];
 }
+
+GameObject* GameObjectManager::checkCollision(Vector3 rayEndPoint)
+{
+	for (GameObject* obj : this->GOList) {
+		if (obj->isWithinBounds(rayEndPoint))
+			return obj;
+	}
+
+	return NULL;
+}

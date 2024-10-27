@@ -18,6 +18,10 @@ struct Rect {
 	float bottom;
 };
 
+struct Bounds {
+	float minX, maxX, minY, maxY, minZ, maxZ;
+};
+
 // Colors
 struct QuadColors {
 	Vector4 color1;

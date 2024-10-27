@@ -21,16 +21,18 @@ class Camera : public GameObject, public InputListener
 		bool moving = false;
 		RECT viewport;
 
+		GameObject* lastSelectedGO;
+
 		friend class CameraManager;
 
 	public:
 		Camera(std::string name, RECT viewport, OBJECT_TYPE type = CAMERA);
 		~Camera();
 
-		virtual void update(RECT viewport);
+		virtual void update();
 		virtual void checkForInput();
 		virtual void updateViewMatrix();
-		virtual void updateProjectionMatrix(RECT viewport);
+		virtual void updateProjectionMatrix();
 
 		float getPanSpeed();
 		Matrix4x4 getViewMatrix();

@@ -31,12 +31,12 @@ CameraManager::~CameraManager()
 	this->CameraList.clear();
 }
 
-void CameraManager::update(RECT viewport)
+void CameraManager::update()
 {
 	for (Camera* cam : this->CameraList)
 	{
 		if (cam->isActive)
-			cam->update(viewport);
+			cam->update();
 	}
 }
 

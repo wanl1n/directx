@@ -74,7 +74,7 @@ void SceneWindow::onUpdate()
 	InputSystem::getInstance()->update();
 	this->grid->update(deltaTime, rc);
 	GameObjectManager::getInstance()->update(deltaTime, rc);
-	CameraManager::getInstance()->update(rc);
+	CameraManager::getInstance()->update();
 
 	// 4. Draw calls
 	this->grid->draw();

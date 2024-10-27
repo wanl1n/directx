@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "EngineTime.h"
+#include "InputSystem.h"
 
 GameObject::GameObject(std::string name, OBJECT_TYPE type) :
 	name(name), type(type) {
@@ -15,16 +16,49 @@ GameObject::GameObject(std::string name, OBJECT_TYPE type) :
 	transform.scale = Vector3(1);
 
 	cc.world.setTranslation(transform.position);
+	
+	this->calculateBounds();
 }
 
 GameObject::~GameObject() {}
 
+void GameObject::calculateBounds()
+{
+	this->bounds = {
+		-1 * transform.scale.x + transform.position.x, 1 * transform.scale.x + transform.position.x,
+		-1 * transform.scale.y + transform.position.y, 1 * transform.scale.y + transform.position.y,
+		-1 * transform.scale.z + transform.position.z, 1 * transform.scale.z + transform.position.z };
+}
+
 void GameObject::update(float deltaTime, RECT viewport)
 {
 	this->cc.time = deltaTime;
+
+	if (isSelected)
+		this->edit(deltaTime);
 }
 
 void GameObject::draw() {}
+
+void GameObject::edit(float deltaTime)
+{
+	float step = 1.0f * deltaTime;
+	if (InputSystem::getInstance()->isKeyDown('W'))
+		this->transform.position.z += step;
+	if (InputSystem::getInstance()->isKeyDown('A'))
+		this->transform.position.x -= step;
+	if (InputSystem::getInstance()->isKeyDown('S'))
+		this->transform.position.z -= step;
+	if (InputSystem::getInstance()->isKeyDown('D'))
+		this->transform.position.x += step;
+
+	if (InputSystem::getInstance()->isKeyDown('Q'))
+		this->transform.position.y -= step;
+	if (InputSystem::getInstance()->isKeyDown('E'))
+		this->transform.position.y += step;
+
+	std::cout << "Editing " << name << std::endl;
+}
 
 void GameObject::translate(Vector3 offset, float speed)
 {
@@ -73,6 +107,18 @@ void GameObject::resetView()
 Vector3 GameObject::getPosition()
 {
 	return this->transform.position;
+}
+
+bool GameObject::isWithinBounds(Vector3 ray)
+{
+	return (
+		ray.x >= bounds.minX &&
+		ray.x <= bounds.maxX &&
+		ray.y >= bounds.minY &&
+		ray.y <= bounds.maxY &&
+		ray.z >= bounds.minZ &&
+		ray.z <= bounds.maxZ
+		);
 }
 
 void GameObject::setPosition(Vector3 newPos)
@@ -155,4 +201,9 @@ void GameObject::setScale(Vector3 newScale)
 	scale.setScale(this->transform.scale);
 
 	this->cc.world *= scale;*/
+}
+
+void GameObject::setSelected(bool selected)
+{
+	this->isSelected = selected;
 }

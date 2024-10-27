@@ -27,7 +27,7 @@ class CameraManager
 		static CameraManager* sharedInstance;
 
 	public:
-		void update(RECT viewport);
+		void update();
 
 		void addCamera(OBJECT_TYPE type, RECT viewport, int count = 1);
 		void removeCamera(Camera* cam);
