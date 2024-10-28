@@ -130,6 +130,12 @@
     <Filter Include="GameEngine\Physics">
       <UniqueIdentifier>{bb9d460e-6b53-473c-9ea2-769ea25e3a6d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\UserInterface">
+      <UniqueIdentifier>{eb9a6805-65f3-442f-8151-ca9a65289fc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\UserInterface\ImGUI">
+      <UniqueIdentifier>{3aa6c599-07c6-4f47-a703-2eea5f2953c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -239,6 +245,30 @@
       <Filter>GameEngine\GameObject\Primitives\3D\Cube\LerpingCube</Filter>
     </ClCompile>
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="imgui-master\imgui.cpp">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui-master\imgui_demo.cpp">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui-master\imgui_draw.cpp">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui-master\imgui_impl_dx11.cpp">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui-master\imgui_impl_win32.cpp">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui-master\imgui_tables.cpp">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui-master\imgui_widgets.cpp">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>GameEngine\UserInterface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -381,6 +411,33 @@
       <Filter>GameEngine\GameObject\Primitives\3D\Cube\LerpingCube</Filter>
     </ClInclude>
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="imgui-master\imconfig.h">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui-master\imgui.h">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui-master\imgui_impl_dx11.h">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui-master\imgui_impl_win32.h">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui-master\imgui_internal.h">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui-master\imstb_rectpack.h">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui-master\imstb_textedit.h">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui-master\imstb_truetype.h">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>GameEngine\UserInterface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">

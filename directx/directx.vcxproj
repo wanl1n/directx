@@ -146,6 +146,13 @@
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="imgui-master\imgui.cpp" />
+    <ClCompile Include="imgui-master\imgui_demo.cpp" />
+    <ClCompile Include="imgui-master\imgui_draw.cpp" />
+    <ClCompile Include="imgui-master\imgui_impl_dx11.cpp" />
+    <ClCompile Include="imgui-master\imgui_impl_win32.cpp" />
+    <ClCompile Include="imgui-master\imgui_tables.cpp" />
+    <ClCompile Include="imgui-master\imgui_widgets.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="LerpingCube.cpp" />
@@ -162,6 +169,7 @@
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="SwapChain.cpp" />
+    <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -186,6 +194,14 @@
     <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="imgui-master\imconfig.h" />
+    <ClInclude Include="imgui-master\imgui.h" />
+    <ClInclude Include="imgui-master\imgui_impl_dx11.h" />
+    <ClInclude Include="imgui-master\imgui_impl_win32.h" />
+    <ClInclude Include="imgui-master\imgui_internal.h" />
+    <ClInclude Include="imgui-master\imstb_rectpack.h" />
+    <ClInclude Include="imgui-master\imstb_textedit.h" />
+    <ClInclude Include="imgui-master\imstb_truetype.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputListener.h" />
     <ClInclude Include="InputSystem.h" />
@@ -209,6 +225,7 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UIManager.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
     <ClInclude Include="Vertex.h" />

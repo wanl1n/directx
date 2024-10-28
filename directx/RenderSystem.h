@@ -35,6 +35,8 @@ class RenderSystem
 	public:
 		SwapChainPtr createSwapChain(HWND hwnd, UINT width, UINT height);
 		DeviceContextPtr getImmediateDeviceContext();
+		ID3D11Device* getDevice();
+		ID3D11DeviceContext* getContext();
 
 		VertexBufferPtr createVertexBuffer(void* vertices, UINT vertexSize, UINT listSize, void* sbc, UINT bsSize);
 		VertexBufferPtr createVertexBuffer(std::vector<Vertex3D> vertices, UINT vertexSize, void* sbc, UINT bsSize);

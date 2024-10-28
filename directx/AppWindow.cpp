@@ -3,7 +3,6 @@
 #include "Windows.h"
 #include "InputSystem.h"
 #include "EngineTime.h"
-
 #include "Constants.h"
 #include "Vertex.h"
 
@@ -41,6 +40,9 @@ void AppWindow::initializeEngine()
 	catch (...) { throw std::exception("Graphics Engine Initialization failed."); }
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
 
+	try { UIManager::initialize(hwnd, graphicsEngine->getRenderSystem()); }
+	catch (...) { throw std::exception("UIManager Initialization failed."); }
+	
 	// Swap Chain
 	RECT windowRect = this->getClientWindowRect();
 	this->swapChain = graphicsEngine->getRenderSystem()->createSwapChain(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
@@ -77,6 +79,7 @@ void AppWindow::onUpdate()
 	CameraManager::getInstance()->update();
 
 	GameObjectManager::getInstance()->render();
+	UIManager::getInstance()->render();
 
 	this->swapChain->present(true);
 

@@ -16,6 +16,7 @@
 // Game Objects
 #include "GameObjectManager.h"
 #include "CameraManager.h"
+#include "UIManager.h"
 
 #include "InputListener.h"
 

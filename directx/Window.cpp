@@ -1,8 +1,15 @@
 #include "Window.h"
 #include <exception>
 #include "EngineTime.h"
+#include "imgui-master/imgui_impl_win32.h"
+
+IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
+	
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
+		return true;
+
 	switch (msg) {
 		// Event when Window Created.
 	case WM_CREATE:
