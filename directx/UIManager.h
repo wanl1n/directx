@@ -1,24 +1,29 @@
 #pragma once
-#include "Constants.h"
 #include "Windows.h"
+#include "UINames.h"
+#include "UIInclude.h"
+
+#include "Constants.h"
 #include "RenderSystem.h"
 
-#include "imgui-master/imgui.h"
-#include "imgui-master/imgui_impl_win32.h"
-#include "imgui-master/imgui_impl_dx11.h"
+class UIScreen;
 
 class UIManager
 {
 	public:
+		typedef std::string String;
+		typedef std::vector<UIScreen*> UIScreenList;
+		typedef std::unordered_map<String, UIScreen*> UIScreenTable;
+
 		static UIManager* getInstance();
-		static void initialize(HWND hwnd, RenderSystem* rs);
+		static void initialize(HWND hwnd);
 		static void destroy();
 
 	private:
-		bool creditsOpen = true;
-		bool demoOpen = true;
+		UIScreenList list;
+		UIScreenTable table;
 
-		UIManager();
+		UIManager(HWND hwnd);
 		~UIManager();
 		UIManager(UIManager const&) {};
 		UIManager& operator = (UIManager const&) {};
@@ -27,9 +32,6 @@ class UIManager
 	public:
 		void update();
 		void render();
-		void drawSampleUI();
-		void drawCreditsUI();
-		bool buttonCentered(std::string text);
 
 	private:
 		void setUIStyle();

@@ -136,6 +136,9 @@
     <Filter Include="GameEngine\UserInterface\ImGUI">
       <UniqueIdentifier>{3aa6c599-07c6-4f47-a703-2eea5f2953c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\UserInterface\Screens">
+      <UniqueIdentifier>{4cc2ce50-0c86-4747-b2f5-e59b4dadd622}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -244,7 +247,6 @@
     <ClCompile Include="LerpingCube.cpp">
       <Filter>GameEngine\GameObject\Primitives\3D\Cube\LerpingCube</Filter>
     </ClCompile>
-    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="imgui-master\imgui.cpp">
       <Filter>GameEngine\UserInterface\ImGUI</Filter>
     </ClCompile>
@@ -269,6 +271,16 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>GameEngine\UserInterface</Filter>
     </ClCompile>
+    <ClCompile Include="UIScreen.cpp">
+      <Filter>GameEngine\UserInterface\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>GameEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="ProfilerScreen.cpp">
+      <Filter>GameEngine\UserInterface\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditsScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -410,7 +422,6 @@
     <ClInclude Include="LerpingCube.h">
       <Filter>GameEngine\GameObject\Primitives\3D\Cube\LerpingCube</Filter>
     </ClInclude>
-    <ClInclude Include="Collider.h" />
     <ClInclude Include="imgui-master\imconfig.h">
       <Filter>GameEngine\UserInterface\ImGUI</Filter>
     </ClInclude>
@@ -436,6 +447,25 @@
       <Filter>GameEngine\UserInterface\ImGUI</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
+      <Filter>GameEngine\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="UIScreen.h">
+      <Filter>GameEngine\UserInterface\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>GameEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="ProfilerScreen.h">
+      <Filter>GameEngine\UserInterface\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="UINames.h">
+      <Filter>GameEngine\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditsScreen.h" />
+    <ClInclude Include="UIInclude.h">
+      <Filter>GameEngine\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiInclude.h">
       <Filter>GameEngine\UserInterface</Filter>
     </ClInclude>
   </ItemGroup>

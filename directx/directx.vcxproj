@@ -138,6 +138,7 @@
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
+    <ClCompile Include="CreditsScreen.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Cylinder.cpp" />
     <ClCompile Include="DeviceContext.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Primitive.cpp" />
+    <ClCompile Include="ProfilerScreen.cpp" />
     <ClCompile Include="PulsingQuad.cpp" />
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
@@ -170,6 +172,7 @@
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="UIScreen.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -185,6 +188,7 @@
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="DeviceContext.h" />
@@ -202,6 +206,7 @@
     <ClInclude Include="imgui-master\imstb_rectpack.h" />
     <ClInclude Include="imgui-master\imstb_textedit.h" />
     <ClInclude Include="imgui-master\imstb_truetype.h" />
+    <ClInclude Include="ImGuiInclude.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputListener.h" />
     <ClInclude Include="InputSystem.h" />
@@ -215,6 +220,7 @@
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="PrimitivesInclude.h" />
     <ClInclude Include="PrimitivesList.h" />
+    <ClInclude Include="ProfilerScreen.h" />
     <ClInclude Include="PulsingQuad.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="RenderSystem.h" />
@@ -225,7 +231,10 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UIInclude.h" />
     <ClInclude Include="UIManager.h" />
+    <ClInclude Include="UINames.h" />
+    <ClInclude Include="UIScreen.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
     <ClInclude Include="Vertex.h" />

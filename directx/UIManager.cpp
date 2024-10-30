@@ -1,4 +1,5 @@
 #include "UIManager.h"
+#include "GraphicsEngine.h"
 
 UIManager* UIManager::sharedInstance = nullptr;
 UIManager* UIManager::getInstance()
@@ -6,25 +7,9 @@ UIManager* UIManager::getInstance()
 	return sharedInstance;
 }
 
-void UIManager::initialize(HWND hwnd, RenderSystem* rs)
+void UIManager::initialize(HWND hwnd)
 {
-	sharedInstance = new UIManager();
-
-	// Setup Dear ImGui context
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-
-	// Setup Dear ImGui style
-	//ImGui::StyleColorsDark();
-	ImGui::StyleColorsLight();
-	sharedInstance->setUIStyle();
-
-	// Setup Platform/Renderer backends
-	ImGui_ImplWin32_Init(hwnd);
-	ImGui_ImplDX11_Init(rs->getDevice(), rs->getContext());
+	sharedInstance = new UIManager(hwnd);
 }
 
 void UIManager::destroy()
@@ -34,7 +19,33 @@ void UIManager::destroy()
 	delete sharedInstance;
 }
 
-UIManager::UIManager() {}
+UIManager::UIManager(HWND hwnd) 
+{
+	RenderSystem* rs = GraphicsEngine::get()->getRenderSystem();
+
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+	// Setup Dear ImGui style
+	sharedInstance->setUIStyle();
+
+	// Setup Platform/Renderer backends
+	ImGui_ImplWin32_Init(hwnd);
+	ImGui_ImplDX11_Init(rs->getDevice(), rs->getContext());
+
+	UINames names;
+	ProfilerScreen* profilerScreen = new ProfilerScreen();
+	this->table[names.PROFILER_SCREEN] = profilerScreen;
+	this->list.push_back(profilerScreen);
+
+	CreditsScreen* credsScreen = new CreditsScreen();
+	this->table[names.CREDITS_SCREEN] = credsScreen;
+	this->list.push_back(credsScreen);
+}
 UIManager::~UIManager() {}
 
 void UIManager::update()
@@ -47,92 +58,13 @@ void UIManager::render()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	if (creditsOpen)
-		this->drawCreditsUI();
-
-	if (demoOpen)
-		this->drawSampleUI();
+	for (UIScreen* screen : list) {
+		if (screen->getActive())
+			screen->drawUI();
+	}
 	
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-}
-
-void UIManager::drawSampleUI()
-{
-	this->demoOpen = true;
-	// Create a window called "My First Tool", with a menu bar.
-	ImGui::Begin("Sample", &demoOpen, ImGuiWindowFlags_MenuBar);
-	if (ImGui::BeginMenuBar())
-	{
-		if (ImGui::BeginMenu("File"))
-		{
-			if (ImGui::MenuItem("Open Credits", "Ctrl+O")) { this->drawCreditsUI(); }
-			if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
-			if (ImGui::MenuItem("Close", "Ctrl+W")) { demoOpen = false; }
-			ImGui::EndMenu();
-		}
-		ImGui::EndMenuBar();
-	}
-
-	// Edit a color stored as 4 floats
-	float pink[] = { 0.957f, 0.761f, 0.761f, 1.0f };
-	ImGui::ColorEdit4("Color", pink);
-
-	// Generate samples and plot them
-	float samples[100];
-	for (int n = 0; n < 100; n++)
-		samples[n] = sinf(n * 0.2f + ImGui::GetTime() * 1.5f);
-	ImGui::PlotLines("Samples", samples, 100);
-
-	// Display contents in a scrolling region
-	ImGui::TextColored(ImVec4(1, 150.0f/255.0f, 200.0f/255.0f, 1), "Important Stuff");
-	ImGui::BeginChild("Scrolling");
-	for (int n = 0; n < 50; n++)
-		ImGui::Text("%04d: Some text", n);
-	ImGui::EndChild();
-	ImGui::End();
-}
-
-void UIManager::drawCreditsUI()
-{
-	this->creditsOpen = true;
-
-	// Create a window called "My First Tool", with a menu bar.
-	ImGui::Begin("About", &creditsOpen, ImGuiWindowFlags_MenuBar);
-	if (ImGui::BeginMenuBar())
-	{
-		if (ImGui::BeginMenu("File"))
-		{
-			if (ImGui::MenuItem("Open Sample", "Ctrl+O")) { this->drawSampleUI(); }
-			if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
-			if (ImGui::MenuItem("Close", "Ctrl+W")) { creditsOpen = false; }
-			ImGui::EndMenu();
-		}
-		ImGui::EndMenuBar();
-	}
-
-	ImGui::Text("Scene Editor v0.01");
-	ImGui::Text("Developed by: Kate Nicole Young");
-	ImGui::Text("");
-	ImGui::Text("Acknowledgements");
-	ImGui::Text("Doc Neil Del Gallego as Professor");
-	ImGui::Text("Omar Cornut as Dear ImGui Developer");
-	ImGui::Text("Patitotective as ImThemes Developer");
-	ImGui::Text("");
-	ImGui::Text("Special Thanks");
-	ImGui::Text("My Parents as Financial Support");
-
-	if (this->buttonCentered("Close")) creditsOpen = false;
-
-	ImGui::End();
-}
-
-bool UIManager::buttonCentered(std::string text) {
-	auto windowWidth = ImGui::GetWindowSize().x;
-	auto textWidth = ImGui::CalcTextSize(text.c_str()).x;
-
-	ImGui::SetCursorPosX((windowWidth - textWidth) * 0.5f);
-	return ImGui::Button(text.c_str());
 }
 
 void UIManager::setUIStyle()

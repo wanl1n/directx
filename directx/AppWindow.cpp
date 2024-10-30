@@ -40,7 +40,7 @@ void AppWindow::initializeEngine()
 	catch (...) { throw std::exception("Graphics Engine Initialization failed."); }
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
 
-	try { UIManager::initialize(hwnd, graphicsEngine->getRenderSystem()); }
+	try { UIManager::initialize(hwnd); }
 	catch (...) { throw std::exception("UIManager Initialization failed."); }
 	
 	// Swap Chain
