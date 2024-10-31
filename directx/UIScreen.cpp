@@ -1,5 +1,8 @@
 #include "UIScreen.h"
 
+#include "Constants.h"
+#include "TextureManager.h"
+
 UIScreen::UIScreen(String name) : isActive(true), name(name){}
 UIScreen::~UIScreen() {}
 
@@ -17,6 +20,20 @@ bool UIScreen::buttonCentered(std::string text) {
 
 	ImGui::SetCursorPosX((windowWidth - textWidth) * 0.5f);
 	return ImGui::Button(text.c_str());
+}
+
+void UIScreen::imageCentered(std::string name, float sizeMult)
+{
+	// Get Texture
+	TextureData texture = TextureManager::getInstance()->getTexture(name);
+
+	// Calculate left padding
+	ImVec2 imageSize = ImVec2(texture.width * sizeMult, texture.height * sizeMult);
+	ImVec2 windowSize = ImGui::GetWindowSize();
+	ImVec2 padding = { (windowSize.x - imageSize.x) * 0.5f, ImGui::GetCursorPosY() };
+	ImGui::SetCursorPos(padding);
+
+	ImGui::Image((ImTextureID)(intptr_t)texture.texture, imageSize);
 }
 
 String UIScreen::getName()
