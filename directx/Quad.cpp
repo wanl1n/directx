@@ -30,9 +30,6 @@ Quad::Quad(std::string name, QuadProps props, bool blending) : GameObject(name, 
 	this->ps = renderSystem->createPixelShader(shaderByteCode, sizeShader);
 	renderSystem->releaseCompiledShader();
 
-	// Create Constant Buffer and load.
-	this->cb = renderSystem->createConstantBuffer(&cc, sizeof(Constant));
-
 	// Blend state.
 	this->bs = renderSystem->createBlendState(blending);
 

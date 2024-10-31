@@ -4,6 +4,8 @@
 // ---- ENGINE CONFIG ---- //
 const int ORTHOGRAPHIC = 0;
 const int PERSPECTIVE = 1;
+const int TOPDOWN = 2;
+const int SIDESCROLLER = 3;
 const float GRID_INTERVAL = 0.1f;
 const int GRIDPOINTS_COUNT = (int)(((2 / 0.1f)) * 4);
 static const int NUM_SAMPLES = 10;
@@ -81,4 +83,11 @@ enum OBJECT_TYPE {
 
 	// Tools
 	TOOLS_GRID
+};
+
+enum SCREENS {
+	HIERARCHY = 0,
+	INSPECTOR,
+	PROFILER,
+	CREDITS
 };

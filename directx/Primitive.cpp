@@ -1,5 +1,4 @@
 #include "Primitive.h"
-#include "CameraManager.h"
 #include "InputSystem.h"
 
 Primitive::Primitive(std::string name, OBJECT_TYPE type, bool blending) : 
@@ -57,67 +56,9 @@ void Primitive::createBlendState(bool blending)
 	this->bs = GraphicsEngine::get()->getRenderSystem()->createBlendState(blending);
 }
 
-void Primitive::calculateBounds()
-{
-}
-
-void Primitive::calculateWorldMatrix()
-{
-	this->cc.world.setIdentity();
-
-	// Scale
-	Matrix4x4 scale;
-	scale.setIdentity();
-	scale.setScale(this->transform.scale);
-
-	// Rotation
-	Matrix4x4 rotation;
-	Matrix4x4 temp;
-
-	rotation.setIdentity();
-	temp.setIdentity();
-	temp.setRotationX(this->transform.rotation.x);
-	rotation *= temp;
-
-	temp.setIdentity();
-	temp.setRotationY(this->transform.rotation.y);
-	rotation *= temp;
-
-	temp.setIdentity();
-	temp.setRotationZ(this->transform.rotation.z);
-	rotation *= temp;
-
-	// Translate
-	Matrix4x4 translate;
-	translate.setIdentity();
-	translate.setTranslation(transform.position);
-
-	this->cc.world *= scale;
-	this->cc.world *= rotation;
-	this->cc.world *= translate;
-}
-
 void Primitive::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
-
-	/*float speed = 1.0f * deltaTime;
-	if (InputSystem::getInstance()->isKeyDown('W'))
-		this->translate(Vector3(0, 0, 1), speed);
-	if (InputSystem::getInstance()->isKeyDown('A'))
-		this->translate(Vector3(-1, 0, 0), speed);
-	if (InputSystem::getInstance()->isKeyDown('S'))
-		this->translate(Vector3(0, 0, -1), speed);
-	if (InputSystem::getInstance()->isKeyDown('D'))
-		this->translate(Vector3(1, 0, 0), speed);*/
-	
-	this->calculateWorldMatrix();
-	this->cc.view = CameraManager::getInstance()->getActiveCameraView();
-	this->cc.proj = CameraManager::getInstance()->getActiveProjection();
-
-	this->cb->update(GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext(), &this->cc);
-	
-	this->calculateBounds();
 }
 
 void Primitive::draw()

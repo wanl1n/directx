@@ -3,6 +3,9 @@
 #include <string>
 
 #include "Windows.h"
+#include "GraphicsEngine.h"
+#include "ConstantBuffer.h"
+
 #include "Constants.h"
 #include "Vertex.h"
 #include "Math.h"
@@ -14,6 +17,8 @@ class GameObjectManager;
 class GameObject
 {
 	protected:
+		ConstantBufferPtr cb;
+
 		std::string name;
 		bool isActive;
 		bool isSelected;
@@ -31,6 +36,7 @@ class GameObject
 		GameObject(std::string name, OBJECT_TYPE type);
 		~GameObject();
 		virtual void calculateBounds();
+		virtual void calculateWorldMatrix();
 
 		virtual void update(float deltaTime, RECT viewport);
 		virtual void draw();
@@ -47,7 +53,14 @@ class GameObject
 		virtual void resetView();
 
 		// Getters/Setters
+		virtual std::string getName();
+		virtual bool getActive();
 		virtual Vector3 getPosition();
+		virtual Vector3 getRotation();
+		virtual Vector3 getScale();
+
+		virtual void setName(std::string name);
+		virtual void setActive(bool active);
 		virtual bool isWithinBounds(Vector3 ray);
 		virtual void setPosition(Vector3 newPos);
 		virtual void setPosition(float x, float y, float z);

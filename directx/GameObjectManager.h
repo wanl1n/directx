@@ -52,6 +52,10 @@ class GameObjectManager
 	public:
 		GameObject* findGameObject(std::string name);
 		GameObject* getGameObject(int index);
+		GameObject* getSelectedGameObject();
+		std::vector<GameObject*> getGameObjects();
 		GameObject* checkCollision(Vector3 rayEndPoint);
+		void setSelectedGameObject(GameObject* obj);
+		void resetSelection();
 };
 

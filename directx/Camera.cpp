@@ -5,17 +5,13 @@
 #include "EngineTime.h"
 #include "GameObjectManager.h"
 
-Camera::Camera(std::string name, RECT viewport, OBJECT_TYPE type) : 
-	GameObject(name, type), viewport(viewport), lastSelectedGO(NULL)
+Camera::Camera(std::string name, RECT viewport, OBJECT_TYPE type) :
+	GameObject(name, type), viewport(viewport), lastSelectedGO(NULL), updatedCameraProjPos(false)
 {
 	if (type == ORTHO_CAMERA)
 		this->type = ORTHOGRAPHIC;
 	else if (type == PERSPECTIVE_CAMERA)
 		this->type = PERSPECTIVE;
-
-	// Test Case 6
-	/*this->transform.position = Vector3(5.88311f, 2.36871f, -5.28797f);
-	this->transform.rotation = Vector3(0.221113f, -0.802211f, 0);*/
 
 	this->transform.position = Vector3(0, 0, -5);
 	this->prevCamMat.setIdentity();
@@ -27,11 +23,25 @@ Camera::~Camera() {}
 
 void Camera::update()
 {
-	this->checkForInput();
-	this->updateProjectionMatrix();
+	this->checkForInput(); // View
+	this->updateProjectionMatrix(); // Projection
 
-	//std::cout << "Camera Position: " << transform.position.x << ", " << this->transform.position.y << ", " << this->transform.position.z << std::endl;
-	//std::cout << "Camera Rotation: " << this->transform.rotation.x << ", " << this->transform.rotation.y << std::endl;
+	if (!updatedCameraProjPos) {
+		if (this->type == TOPDOWN) {
+			this->transform.position.y = 15.0f;
+			this->transform.rotation.x = 1.57f;
+		}
+
+		if (this->type == SIDESCROLLER) {
+			this->transform.position.y = 1.0f;
+			this->transform.rotation = Vector3(0);
+		}
+
+		this->updatedCameraProjPos = true;
+		this->updateViewMatrix();
+	}
+
+	GameObject::update(EngineTime::getDeltaTime(), viewport);
 }
 
 void Camera::checkForInput()
@@ -51,11 +61,6 @@ void Camera::checkForInput()
 	if (InputSystem::getInstance()->isKeyUp('D') ||
 		InputSystem::getInstance()->isKeyUp('A'))
 		this->rightward = 0.0f;
-
-	if (InputSystem::getInstance()->isKeyDown('O'))
-		this->setProjectionType(ORTHOGRAPHIC);
-	if (InputSystem::getInstance()->isKeyDown('P'))
-		this->setProjectionType(PERSPECTIVE);
 
 	// Update if the camera is moving.
 	if (moving)
@@ -78,7 +83,10 @@ void Camera::updateViewMatrix()
 	worldCam *= temp;
 
 	// Translation
-	this->transform.position = prevCamMat.getTranslation() + worldCam.getZDir() * (this->forward * moveSpeed);
+	if (this->type < 2)
+		this->transform.position = prevCamMat.getTranslation() + worldCam.getZDir() * (this->forward * moveSpeed);
+	else
+		this->transform.position = prevCamMat.getTranslation() + worldCam.getYDir() * (this->forward * moveSpeed);
 	this->transform.position += worldCam.getXDir() * (this->rightward * moveSpeed);
 
 	// Update Camera Rot and Translation
@@ -107,6 +115,20 @@ void Camera::updateProjectionMatrix()
 				(float)width / (float)height, // aspect
 				0.1f, // near
 				100.0f // far
+			);
+			break;
+		case TOPDOWN:
+			this->cc.proj.setOrthoLH(
+				width / 100.0f,
+				height / 100.0f,
+				-100.0f, 100.0f
+			);
+			break;
+		case SIDESCROLLER:
+			this->cc.proj.setOrthoLH(
+				width / 100.0f,
+				height / 100.0f,
+				-100.0f, 100.0f
 			);
 			break;
 		default:
@@ -147,6 +169,7 @@ void Camera::setRightward(float dir)
 void Camera::setProjectionType(int type)
 {
 	this->type = type;
+	this->updatedCameraProjPos = false;
 }
 
 void Camera::onMouseMove(const Point& mousePos)
@@ -155,7 +178,7 @@ void Camera::onMouseMove(const Point& mousePos)
 	int height = (viewport.bottom - viewport.top);
 	float deltaTime = EngineTime::getDeltaTime();
 
-	if (moving) {
+	if (moving && this->type < 2) {
 		this->transform.rotation.x += (mousePos.y - (height / 2.0f)) * deltaTime * panSpeed;
 		this->transform.rotation.y += (mousePos.x - (width / 2.0f)) * deltaTime * panSpeed;
 		InputSystem::getInstance()->setCursorPosition(Point(width / 2.0f, height / 2.0f));
@@ -177,13 +200,10 @@ void Camera::onLeftMouseDown(const Point& mousePos)
 	GameObject* selectedGO = GameObjectManager::getInstance()->checkCollision(collPoint);
 	if (selectedGO != NULL)
 		selectedGO->setSelected(true);
-	else {
-		if (lastSelectedGO != NULL) {
-			lastSelectedGO->setSelected(false);
-			lastSelectedGO = NULL;
-		}
-	}
-	std::cout << "Ray Point: " << collPoint.x << ", " << collPoint.y << ", " << collPoint.z << std::endl;
+	else 
+		GameObjectManager::getInstance()->resetSelection();
+	
+	//std::cout << "Ray Point: " << collPoint.x << ", " << collPoint.y << ", " << collPoint.z << std::endl;
 }
 
 void Camera::onRightMouseDown(const Point& mousePos)

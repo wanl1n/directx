@@ -32,6 +32,7 @@ class UIManager
 	public:
 		void update();
 		void render();
+		void openWindow(SCREENS screenName);
 
 	private:
 		void setUIStyle();

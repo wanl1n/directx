@@ -44,7 +44,10 @@ void GameObjectManager::update(float deltaTime, RECT viewport)
 void GameObjectManager::render()
 {
 	for (GameObject* obj : this->GOList)
-		obj->draw();
+	{
+		if (obj->isActive)
+			obj->draw();
+	}
 }
 
 void GameObjectManager::addGameObject(OBJECT_TYPE type, int count)
@@ -86,11 +89,9 @@ void GameObjectManager::addGameObject(OBJECT_TYPE type, int count)
 
 void GameObjectManager::removeGameObject(GameObject* go)
 {
-	std::vector<GameObject*>::iterator it;
-
-	for (it = this->GOList.begin(); it != this->GOList.end(); ++it) {
-		if (*it == go)
-			this->GOList.erase(it);
+	for (int i = 0; i < this->GOList.size(); i++) {
+		if (this->GOList[i] == go)
+			this->GOList.erase(GOList.begin() + i);
 	}
 }
 
@@ -270,6 +271,21 @@ GameObject* GameObjectManager::getGameObject(int index)
 	return this->GOList[index];
 }
 
+GameObject* GameObjectManager::getSelectedGameObject()
+{
+	for (GameObject* obj : this->GOList) {
+		if (obj->isSelected)
+			return obj;
+	}
+
+	return NULL;
+}
+
+std::vector<GameObject*> GameObjectManager::getGameObjects()
+{
+	return this->GOList;
+}
+
 GameObject* GameObjectManager::checkCollision(Vector3 rayEndPoint)
 {
 	for (GameObject* obj : this->GOList) {
@@ -278,4 +294,20 @@ GameObject* GameObjectManager::checkCollision(Vector3 rayEndPoint)
 	}
 
 	return NULL;
+}
+
+void GameObjectManager::setSelectedGameObject(GameObject* obj)
+{
+	for (GameObject* go : this->GOList) {
+		go->isSelected = false;
+	}
+
+	obj->isSelected = true;
+}
+
+void GameObjectManager::resetSelection()
+{
+	for (GameObject* go : this->GOList) {
+		go->isSelected = false;
+	}
 }

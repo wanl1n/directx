@@ -38,13 +38,26 @@ UIManager::UIManager(HWND hwnd)
 	ImGui_ImplDX11_Init(rs->getDevice(), rs->getContext());
 
 	UINames names;
+	CreditsScreen* credsScreen = new CreditsScreen();
+	this->table[names.CREDITS_SCREEN] = credsScreen;
+	this->list.push_back(credsScreen);
+
+	HierarchyScreen* hierarchyScreen = new HierarchyScreen();
+	this->table[names.HIERARCHY_SCREEN] = hierarchyScreen;
+	this->list.push_back(hierarchyScreen);
+
+	InspectorScreen* inspectorScreen = new InspectorScreen();
+	this->table[names.INSPECTOR_SCREEN] = inspectorScreen;
+	this->list.push_back(inspectorScreen);
+
+	MenuScreen* menuScreen = new MenuScreen();
+	this->table[names.MENU_SCREEN] = menuScreen;
+	this->list.push_back(menuScreen);
+
 	ProfilerScreen* profilerScreen = new ProfilerScreen();
 	this->table[names.PROFILER_SCREEN] = profilerScreen;
 	this->list.push_back(profilerScreen);
 
-	CreditsScreen* credsScreen = new CreditsScreen();
-	this->table[names.CREDITS_SCREEN] = credsScreen;
-	this->list.push_back(credsScreen);
 }
 UIManager::~UIManager() {}
 
@@ -65,6 +78,27 @@ void UIManager::render()
 	
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+}
+
+void UIManager::openWindow(SCREENS screenName)
+{
+	UINames names;
+	switch (screenName) {
+		case HIERARCHY:
+			this->table[names.HIERARCHY_SCREEN]->setActive(true);
+			break;
+		case INSPECTOR:
+			this->table[names.INSPECTOR_SCREEN]->setActive(true);
+			break;
+		case PROFILER:
+			this->table[names.PROFILER_SCREEN]->setActive(true);
+			break;
+		case CREDITS:
+			this->table[names.CREDITS_SCREEN]->setActive(true);
+			break;
+		default:
+			break;
+	}
 }
 
 void UIManager::setUIStyle()

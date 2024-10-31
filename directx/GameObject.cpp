@@ -1,9 +1,11 @@
 #include "GameObject.h"
 #include "EngineTime.h"
 #include "InputSystem.h"
+#include "CameraManager.h"
 
 GameObject::GameObject(std::string name, OBJECT_TYPE type) :
 	name(name), type(type) {
+	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 	this->isActive = true;
 
 	cc.time = 0;
@@ -18,6 +20,9 @@ GameObject::GameObject(std::string name, OBJECT_TYPE type) :
 	cc.world.setTranslation(transform.position);
 	
 	this->calculateBounds();
+
+	// Create Constant Buffer and load.
+	this->cb = renderSystem->createConstantBuffer(&cc, sizeof(Constant));
 }
 
 GameObject::~GameObject() {}
@@ -30,12 +35,57 @@ void GameObject::calculateBounds()
 		-1 * transform.scale.z + transform.position.z, 1 * transform.scale.z + transform.position.z };
 }
 
+void GameObject::calculateWorldMatrix()
+{
+	this->cc.world.setIdentity();
+
+	// Scale
+	Matrix4x4 scale;
+	scale.setIdentity();
+	scale.setScale(this->transform.scale);
+
+	// Rotation
+	Matrix4x4 rotation;
+	Matrix4x4 temp;
+
+	rotation.setIdentity();
+	temp.setIdentity();
+	temp.setRotationX(this->transform.rotation.x);
+	rotation *= temp;
+
+	temp.setIdentity();
+	temp.setRotationY(this->transform.rotation.y);
+	rotation *= temp;
+
+	temp.setIdentity();
+	temp.setRotationZ(this->transform.rotation.z);
+	rotation *= temp;
+
+	// Translate
+	Matrix4x4 translate;
+	translate.setIdentity();
+	translate.setTranslation(transform.position);
+
+	this->cc.world *= scale;
+	this->cc.world *= rotation;
+	this->cc.world *= translate;
+}
+
 void GameObject::update(float deltaTime, RECT viewport)
 {
 	this->cc.time = deltaTime;
 
 	if (isSelected)
 		this->edit(deltaTime);
+
+	this->calculateWorldMatrix();
+
+	this->cc.view = CameraManager::getInstance()->getActiveCameraView();
+	this->cc.proj = CameraManager::getInstance()->getActiveProjection();
+
+	this->cb->update(GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext(), &this->cc);
+
+	this->calculateBounds();
 }
 
 void GameObject::draw() {}
@@ -57,7 +107,7 @@ void GameObject::edit(float deltaTime)
 	if (InputSystem::getInstance()->isKeyDown('E'))
 		this->transform.position.y += step;
 
-	std::cout << "Editing " << name << std::endl;
+	//std::cout << "Editing " << name << std::endl;
 }
 
 void GameObject::translate(Vector3 offset, float speed)
@@ -103,10 +153,40 @@ void GameObject::resetView()
 	this->cc.view.setIdentity();
 }
 
+std::string GameObject::getName()
+{
+	return this->name;
+}
+
+bool GameObject::getActive()
+{
+	return this->isActive;
+}
+
 // GETTERS AND SETTERS
 Vector3 GameObject::getPosition()
 {
 	return this->transform.position;
+}
+
+Vector3 GameObject::getRotation()
+{
+	return this->transform.rotation;
+}
+
+Vector3 GameObject::getScale()
+{
+	return this->transform.scale;
+}
+
+void GameObject::setName(std::string name)
+{
+	this->name = name;
+}
+
+void GameObject::setActive(bool active)
+{
+	this->isActive = active;
 }
 
 bool GameObject::isWithinBounds(Vector3 ray)
@@ -124,18 +204,11 @@ bool GameObject::isWithinBounds(Vector3 ray)
 void GameObject::setPosition(Vector3 newPos)
 {
 	this->transform.position = newPos;
-	Matrix4x4 newPosMat;
-	newPosMat.setIdentity();
-	newPosMat.setTranslation(this->transform.position);
-
-	this->cc.world *= newPosMat;
 }
 
 void GameObject::setPosition(float x, float y, float z)
 {
 	this->transform.position = Vector3(x, y, z);
-	this->cc.world.setIdentity();
-	this->cc.world.setTranslation(this->transform.position);
 }
 
 void GameObject::setRotation(Vector3 newRot)
@@ -143,64 +216,26 @@ void GameObject::setRotation(Vector3 newRot)
 	this->transform.rotation.x = newRot.x;
 	this->transform.rotation.y = newRot.y;
 	this->transform.rotation.z = newRot.z;
-
-	Matrix4x4 newRotMat;
-	Matrix4x4 temp;
-
-	// Rotation
-	newRotMat.setIdentity();
-	temp.setIdentity();
-	temp.setRotationX(this->transform.rotation.x);
-	newRotMat *= temp;
-
-	temp.setIdentity();
-	temp.setRotationY(this->transform.rotation.y);
-	newRotMat *= temp;
-
-	temp.setIdentity();
-	temp.setRotationZ(this->transform.rotation.z);
-	newRotMat *= temp;
-
-	this->cc.world *= newRotMat;
 }
 
 void GameObject::setRotationX(float radians)
 {
-	Matrix4x4 rotation;
-	rotation.setIdentity();
-	rotation.setRotationX(radians);
-
-	this->cc.world *= rotation;
+	this->transform.rotation.x = radians;
 }
 
 void GameObject::setRotationY(float radians)
 {
-	Matrix4x4 rotation;
-	rotation.setIdentity();
-	rotation.setRotationY(radians);
-
-	this->cc.world *= rotation;
+	this->transform.rotation.y = radians;
 }
 
 void GameObject::setRotationZ(float radians)
 {
-	Matrix4x4 rotation;
-	rotation.setIdentity();
-	rotation.setRotationZ(radians);
-
-	this->cc.world *= rotation;
+	this->transform.rotation.z = radians;
 }
 
 void GameObject::setScale(Vector3 newScale)
 {
 	this->transform.scale = newScale;
-
-	this->cc.world.setScale(this->transform.scale);
-	/*Matrix4x4 scale;
-	scale.setIdentity();
-	scale.setScale(this->transform.scale);
-
-	this->cc.world *= scale;*/
 }
 
 void GameObject::setSelected(bool selected)

@@ -82,8 +82,10 @@ void Window::initialize()
 		throw std::exception("Window creation failed.");
 
 	hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, "MyWindowClass",
-		"Kate's Game Engine", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT,
-		CW_USEDEFAULT, width, height, NULL, NULL, NULL, NULL);
+		"Kate's Game Engine", WS_OVERLAPPEDWINDOW, 
+		0, 0,			// Window Launch position
+		width, height,  // Window Dimensions
+		NULL, NULL, NULL, NULL);
 
 	if (!hwnd) throw std::exception("Window creation failed.");
 

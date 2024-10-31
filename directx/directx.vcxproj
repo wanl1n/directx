@@ -147,6 +147,7 @@
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="HierarchyScreen.cpp" />
     <ClCompile Include="imgui-master\imgui.cpp" />
     <ClCompile Include="imgui-master\imgui_demo.cpp" />
     <ClCompile Include="imgui-master\imgui_draw.cpp" />
@@ -154,10 +155,13 @@
     <ClCompile Include="imgui-master\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui-master\imgui_tables.cpp" />
     <ClCompile Include="imgui-master\imgui_widgets.cpp" />
+    <ClCompile Include="imgui-master\imgui_stdlib.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="InspectorScreen.cpp" />
     <ClCompile Include="LerpingCube.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Primitive.cpp" />
@@ -198,6 +202,7 @@
     <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="HierarchyScreen.h" />
     <ClInclude Include="imgui-master\imconfig.h" />
     <ClInclude Include="imgui-master\imgui.h" />
     <ClInclude Include="imgui-master\imgui_impl_dx11.h" />
@@ -206,13 +211,16 @@
     <ClInclude Include="imgui-master\imstb_rectpack.h" />
     <ClInclude Include="imgui-master\imstb_textedit.h" />
     <ClInclude Include="imgui-master\imstb_truetype.h" />
+    <ClInclude Include="imgui-master\imgui_stdlib.h" />
     <ClInclude Include="ImGuiInclude.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputListener.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="InspectorScreen.h" />
     <ClInclude Include="LerpingCube.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Matrix4x4.h" />
+    <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Point.h" />

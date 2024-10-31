@@ -19,6 +19,7 @@ class Camera : public GameObject, public InputListener
 		float moveSpeed = 0.3f;
 
 		bool moving = false;
+		bool updatedCameraProjPos = false;
 		RECT viewport;
 
 		GameObject* lastSelectedGO;

@@ -280,7 +280,21 @@
     <ClCompile Include="ProfilerScreen.cpp">
       <Filter>GameEngine\UserInterface\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="CreditsScreen.cpp" />
+    <ClCompile Include="CreditsScreen.cpp">
+      <Filter>GameEngine\UserInterface\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScreen.cpp">
+      <Filter>GameEngine\UserInterface\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="HierarchyScreen.cpp">
+      <Filter>GameEngine\UserInterface\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="InspectorScreen.cpp">
+      <Filter>GameEngine\UserInterface\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui-master\imgui_stdlib.cpp">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -461,12 +475,26 @@
     <ClInclude Include="UINames.h">
       <Filter>GameEngine\UserInterface</Filter>
     </ClInclude>
-    <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="UIInclude.h">
       <Filter>GameEngine\UserInterface</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiInclude.h">
       <Filter>GameEngine\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditsScreen.h">
+      <Filter>GameEngine\UserInterface\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScreen.h">
+      <Filter>GameEngine\UserInterface\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="HierarchyScreen.h">
+      <Filter>GameEngine\UserInterface\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectorScreen.h">
+      <Filter>GameEngine\UserInterface\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui-master\imgui_stdlib.h">
+      <Filter>GameEngine\UserInterface\ImGUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

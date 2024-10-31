@@ -2,6 +2,8 @@
 #include <string>
 #include "ImGuiInclude.h"
 
+#include "UINames.h"
+
 typedef std::string String;
 
 class UIManager;

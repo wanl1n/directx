@@ -17,7 +17,7 @@ void AppWindow::initialize()
 	sharedInstance = new AppWindow();
 }
 
-AppWindow::AppWindow() : Window(1024, 1024) {}
+AppWindow::AppWindow() : Window(1440, 980) {}
 AppWindow::~AppWindow() {}
 
 void AppWindow::initializeEngine()
@@ -31,15 +31,14 @@ void AppWindow::initializeEngine()
 	InputSystem::getInstance()->addListener(AppWindow::getInstance());
 	//InputSystem::getInstance()->toggleCursor(false);
 
-	// Game Object Manager
-	GameObjectManager::initialize();
-	CameraManager::initialize(this->getClientWindowRect());
-
 	// Graphics Engine
 	try { GraphicsEngine::initialize(); }
 	catch (...) { throw std::exception("Graphics Engine Initialization failed."); }
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
 
+	// Game Object Manager
+	GameObjectManager::initialize();
+	CameraManager::initialize(this->getClientWindowRect());
 	try { UIManager::initialize(hwnd); }
 	catch (...) { throw std::exception("UIManager Initialization failed."); }
 	
