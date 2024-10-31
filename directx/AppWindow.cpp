@@ -3,6 +3,7 @@
 #include "Windows.h"
 #include "InputSystem.h"
 #include "EngineTime.h"
+#include "TextureManager.h"
 #include "Constants.h"
 #include "Vertex.h"
 
@@ -17,7 +18,7 @@ void AppWindow::initialize()
 	sharedInstance = new AppWindow();
 }
 
-AppWindow::AppWindow() : Window(1440, 980) {}
+AppWindow::AppWindow() : Window() {}
 AppWindow::~AppWindow() {}
 
 void AppWindow::initializeEngine()
@@ -41,7 +42,8 @@ void AppWindow::initializeEngine()
 	CameraManager::initialize(this->getClientWindowRect());
 	try { UIManager::initialize(hwnd); }
 	catch (...) { throw std::exception("UIManager Initialization failed."); }
-	
+
+	TextureManager::initialize();
 	// Swap Chain
 	RECT windowRect = this->getClientWindowRect();
 	this->swapChain = graphicsEngine->getRenderSystem()->createSwapChain(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);

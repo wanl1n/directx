@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include "vector"
+#include "Constants.h"
 
 class EngineTime;
 
@@ -20,11 +21,8 @@ class Window {
 		float fpsTimer = 0;
 		float fpsCounter = 0;
 
-		float width, height;
-
 	public:
 		Window();
-		Window(float width, float height);
 		~Window();
 		void initialize();
 

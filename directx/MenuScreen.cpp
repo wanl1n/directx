@@ -45,7 +45,6 @@ void MenuScreen::drawUI()
 			if (ImGui::MenuItem("Hierarchy", "")) { UIManager::getInstance()->openWindow(HIERARCHY); }
 			if (ImGui::MenuItem("Inspector", "")) { UIManager::getInstance()->openWindow(INSPECTOR); }
 			if (ImGui::MenuItem("Profiler", "")) { UIManager::getInstance()->openWindow(PROFILER); }
-			if (ImGui::MenuItem("Credits", "")) { UIManager::getInstance()->openWindow(CREDITS); }
 
 			ImGui::EndMenu();
 		}
@@ -57,6 +56,14 @@ void MenuScreen::drawUI()
 			if (ImGui::MenuItem("Perspective", "")) { CameraManager::getInstance()->getActiveCamera()->setProjectionType(PERSPECTIVE); }
 			if (ImGui::MenuItem("Top-down", "")) { CameraManager::getInstance()->getActiveCamera()->setProjectionType(TOPDOWN); }
 			if (ImGui::MenuItem("Side-scroller", "")) { CameraManager::getInstance()->getActiveCamera()->setProjectionType(SIDESCROLLER); }
+
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("About"))
+		{
+			UINames uiNames;
+			if (ImGui::MenuItem("Credits", "")) { UIManager::getInstance()->openWindow(CREDITS); }
 
 			ImGui::EndMenu();
 		}

@@ -1,7 +1,10 @@
 #pragma once
 #include "Vector4.h"
+#include "d3d11.h"
 
 // ---- ENGINE CONFIG ---- //
+const float WINDOW_WIDTH = 1440.0f;
+const float WINDOW_HEIGHT = 980.0f;
 const int ORTHOGRAPHIC = 0;
 const int PERSPECTIVE = 1;
 const int TOPDOWN = 2;
@@ -90,4 +93,9 @@ enum SCREENS {
 	INSPECTOR,
 	PROFILER,
 	CREDITS
+};
+
+struct TextureData {
+	ID3D11ShaderResourceView* texture;
+	float width, height;
 };

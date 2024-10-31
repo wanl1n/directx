@@ -17,7 +17,7 @@ void SceneWindow::initialize()
 	sharedInstance = new SceneWindow();
 }
 
-SceneWindow::SceneWindow() : Window(720, 720) {}
+SceneWindow::SceneWindow() {}
 SceneWindow::~SceneWindow() {}
 
 void SceneWindow::initializeEngine()

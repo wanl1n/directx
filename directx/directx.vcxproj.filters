@@ -19,9 +19,6 @@
     <Filter Include="GameEngine\Structs">
       <UniqueIdentifier>{88b0a6cd-24f5-4dd1-8809-fc71dd4d026a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\Math">
-      <UniqueIdentifier>{a7938454-77d5-4553-80e6-fa7b425a2c2b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="App\Shaders">
       <UniqueIdentifier>{5294991e-0cfd-4ac1-a9d8-5357ab13c006}</UniqueIdentifier>
     </Filter>
@@ -138,6 +135,12 @@
     </Filter>
     <Filter Include="GameEngine\UserInterface\Screens">
       <UniqueIdentifier>{4cc2ce50-0c86-4747-b2f5-e59b4dadd622}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Textures">
+      <UniqueIdentifier>{34b5909b-316d-4e03-94b4-5347a8f73c0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Physics\Math">
+      <UniqueIdentifier>{a7938454-77d5-4553-80e6-fa7b425a2c2b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +298,9 @@
     <ClCompile Include="imgui-master\imgui_stdlib.cpp">
       <Filter>GameEngine\UserInterface\ImGUI</Filter>
     </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>GameEngine\Textures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -340,7 +346,7 @@
       <Filter>GameEngine\GraphicsEngine\RenderSystem\Buffers\ConstantBuffer</Filter>
     </ClInclude>
     <ClInclude Include="Math.h">
-      <Filter>GameEngine\Math</Filter>
+      <Filter>GameEngine\Physics\Math</Filter>
     </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>GameEngine\Structs</Filter>
@@ -355,10 +361,10 @@
       <Filter>GameEngine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Point.h">
-      <Filter>GameEngine\Math</Filter>
+      <Filter>GameEngine\Physics\Math</Filter>
     </ClInclude>
     <ClInclude Include="Matrix4x4.h">
-      <Filter>GameEngine\Math</Filter>
+      <Filter>GameEngine\Physics\Math</Filter>
     </ClInclude>
     <ClInclude Include="PulsingQuad.h">
       <Filter>GameEngine\GameObject\Primitives\2D\Quad\PresetQuads</Filter>
@@ -379,10 +385,10 @@
       <Filter>GameEngine\GameObject\Primitives\3D\Cube\RotatingCube</Filter>
     </ClInclude>
     <ClInclude Include="Vector3.h">
-      <Filter>GameEngine\Math</Filter>
+      <Filter>GameEngine\Physics\Math</Filter>
     </ClInclude>
     <ClInclude Include="Vector4.h">
-      <Filter>GameEngine\Math</Filter>
+      <Filter>GameEngine\Physics\Math</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>GameEngine\Structs</Filter>
@@ -472,9 +478,6 @@
     <ClInclude Include="ProfilerScreen.h">
       <Filter>GameEngine\UserInterface\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="UINames.h">
-      <Filter>GameEngine\UserInterface</Filter>
-    </ClInclude>
     <ClInclude Include="UIInclude.h">
       <Filter>GameEngine\UserInterface</Filter>
     </ClInclude>
@@ -495,6 +498,12 @@
     </ClInclude>
     <ClInclude Include="imgui-master\imgui_stdlib.h">
       <Filter>GameEngine\UserInterface\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>GameEngine\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>GameEngine\Textures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -175,6 +175,7 @@
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="SwapChain.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="UIScreen.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -237,11 +238,12 @@
     <ClInclude Include="SceneWindow.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="SwapChain.h" />
+    <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UIInclude.h" />
     <ClInclude Include="UIManager.h" />
-    <ClInclude Include="UINames.h" />
     <ClInclude Include="UIScreen.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
