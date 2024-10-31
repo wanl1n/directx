@@ -45,6 +45,7 @@ void MenuScreen::drawUI()
 			if (ImGui::MenuItem("Hierarchy", "")) { UIManager::getInstance()->openWindow(HIERARCHY); }
 			if (ImGui::MenuItem("Inspector", "")) { UIManager::getInstance()->openWindow(INSPECTOR); }
 			if (ImGui::MenuItem("Profiler", "")) { UIManager::getInstance()->openWindow(PROFILER); }
+			if (ImGui::MenuItem("Color Picker", "")) { UIManager::getInstance()->openWindow(COLOR_PICKER); }
 
 			ImGui::EndMenu();
 		}

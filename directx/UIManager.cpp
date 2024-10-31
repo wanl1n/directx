@@ -58,6 +58,10 @@ UIManager::UIManager(HWND hwnd)
 	this->table[names.PROFILER_SCREEN] = profilerScreen;
 	this->list.push_back(profilerScreen);
 
+	ColorPickerScreen* cpScreen = new ColorPickerScreen();
+	this->table[names.COLOR_PICKER_SCREEN] = cpScreen;
+	this->list.push_back(cpScreen);
+
 }
 UIManager::~UIManager() {}
 
@@ -92,6 +96,9 @@ void UIManager::openWindow(SCREENS screenName)
 			break;
 		case PROFILER:
 			this->table[names.PROFILER_SCREEN]->setActive(true);
+			break;
+		case COLOR_PICKER:
+			this->table[names.COLOR_PICKER_SCREEN]->setActive(true);
 			break;
 		case CREDITS:
 			this->table[names.CREDITS_SCREEN]->setActive(true);

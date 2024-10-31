@@ -16,6 +16,7 @@ public:
 	const String INSPECTOR_SCREEN = "INSPECTOR SCREEN";
 	const String HIERARCHY_SCREEN = "HIERARCHY SCREEN";
 	const String CREDITS_SCREEN = "CREDITS SCREEN";
+	const String COLOR_PICKER_SCREEN = "COLOR PICKER SCREEN";
 };
 
 class UIScreen;

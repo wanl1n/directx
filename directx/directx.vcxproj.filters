@@ -301,6 +301,7 @@
     <ClCompile Include="TextureManager.cpp">
       <Filter>GameEngine\Textures</Filter>
     </ClCompile>
+    <ClCompile Include="ColorPickerScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -505,6 +506,7 @@
     <ClInclude Include="TextureManager.h">
       <Filter>GameEngine\Textures</Filter>
     </ClInclude>
+    <ClInclude Include="ColorPickerScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">

@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 
+#include "ColorPickerScreen.h"
 #include "CreditsScreen.h"
 #include "HierarchyScreen.h"
 #include "InspectorScreen.h"

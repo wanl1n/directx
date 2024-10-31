@@ -137,6 +137,7 @@
     <ClCompile Include="Capsule.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="ColorPickerScreen.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="CreditsScreen.cpp" />
     <ClCompile Include="Cube.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Capsule.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="ColorPickerScreen.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="Cube.h" />
