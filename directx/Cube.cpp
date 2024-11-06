@@ -5,6 +5,7 @@ Cube::Cube(std::string name, bool blending, OBJECT_TYPE type) :
 {
 	// Default Values
 	this->side = 0.5f;
+	this->size = Vector3(side * 2);
 	this->frontColor = WHITE;
 	this->backColor = WHITE;
 

@@ -1,6 +1,9 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <d3d11.h>
+#include "DirectXMath.h"
+#include "SimpleMath/SimpleMath.h"
 
 #include "Windows.h"
 #include "GraphicsEngine.h"
@@ -25,9 +28,11 @@ class GameObject
 		OBJECT_TYPE type;
 
 		Bounds bounds;
+		DirectX::BoundingBox boundingBox;
 
 		Constant cc;
 		Transform transform;
+		Vector3 size;
 
 	private:
 		friend class GameObjectManager;
@@ -58,6 +63,8 @@ class GameObject
 		virtual Vector3 getPosition();
 		virtual Vector3 getRotation();
 		virtual Vector3 getScale();
+		virtual DirectX::BoundingBox getBounds();
+		virtual Matrix4x4 getWorldMat();
 
 		virtual void setName(std::string name);
 		virtual void setActive(bool active);

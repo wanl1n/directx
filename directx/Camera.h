@@ -1,5 +1,9 @@
 #pragma once
 #include <string>
+#include <d3d11.h>
+#include "DirectXMath.h"
+#include "SimpleMath/SimpleMath.h"
+
 #include "Windows.h"
 #include "GameObject.h"
 #include "InputListener.h"

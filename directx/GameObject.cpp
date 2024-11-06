@@ -16,6 +16,7 @@ GameObject::GameObject(std::string name, OBJECT_TYPE type) :
 	transform.position = Vector3(0);
 	transform.rotation = Vector3(0);
 	transform.scale = Vector3(1);
+	size = Vector3(1);
 
 	cc.world.setTranslation(transform.position);
 	
@@ -33,6 +34,10 @@ void GameObject::calculateBounds()
 		-1 * transform.scale.x + transform.position.x, 1 * transform.scale.x + transform.position.x,
 		-1 * transform.scale.y + transform.position.y, 1 * transform.scale.y + transform.position.y,
 		-1 * transform.scale.z + transform.position.z, 1 * transform.scale.z + transform.position.z };
+
+	DirectX::XMFLOAT3 center = DirectX::XMFLOAT3(transform.position.x, transform.position.y, transform.position.z);
+	DirectX::XMFLOAT3 sizeVec = DirectX::XMFLOAT3(size.x, size.y, size.z);
+	this->boundingBox = { center, sizeVec };
 }
 
 void GameObject::calculateWorldMatrix()
@@ -179,6 +184,16 @@ Vector3 GameObject::getScale()
 	return this->transform.scale;
 }
 
+DirectX::BoundingBox GameObject::getBounds()
+{
+	return this->boundingBox;
+}
+
+Matrix4x4 GameObject::getWorldMat()
+{
+	return cc.world;
+}
+
 void GameObject::setName(std::string name)
 {
 	this->name = name;
@@ -195,9 +210,9 @@ bool GameObject::isWithinBounds(Vector3 ray)
 		ray.x >= bounds.minX &&
 		ray.x <= bounds.maxX &&
 		ray.y >= bounds.minY &&
-		ray.y <= bounds.maxY &&
+		ray.y <= bounds.maxY /* &&
 		ray.z >= bounds.minZ &&
-		ray.z <= bounds.maxZ
+		ray.z <= bounds.maxZ*/
 		);
 }
 

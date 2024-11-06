@@ -173,6 +173,7 @@
     <ClCompile Include="RotatingCube.cpp" />
     <ClCompile Include="RotatingPlane.cpp" />
     <ClCompile Include="SceneWindow.cpp" />
+    <ClCompile Include="SimpleMath\SimpleMath.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="SwapChain.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="RotatingCube.h" />
     <ClInclude Include="RotatingPlane.h" />
     <ClInclude Include="SceneWindow.h" />
+    <ClInclude Include="SimpleMath\SimpleMath.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="stb_image.h" />
@@ -283,6 +285,9 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SimpleMath\SimpleMath.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -192,18 +192,20 @@ void Camera::onLeftMouseDown(const Point& mousePos)
 	int height = (viewport.bottom - viewport.top);
 	Vector3 screenPoint = Vector3(mousePos.x, mousePos.y, 1.0f);
 
-	// 2. Convert screen point to world space.
-	Vector4 worldPos = Matrix4x4::unproject(screenPoint, cc.view, cc.proj, width, height);
-	Vector3 collPoint = Vector3(worldPos.x, worldPos.y, worldPos.z);
-	
-	// 3. Check if point collides with a GameObject.
-	GameObject* selectedGO = GameObjectManager::getInstance()->checkCollision(collPoint);
-	if (selectedGO != NULL)
-		selectedGO->setSelected(true);
-	else 
-		GameObjectManager::getInstance()->resetSelection();
-	
+	//// 2. Convert screen point to world space.
+	//Vector4 worldPos = Matrix4x4::unproject(screenPoint, cc.view, cc.proj, width, height);
+	//Vector3 collPoint = Vector3(worldPos.x, worldPos.y, worldPos.z);
+	//
+	//// 3. Check if point collides with a GameObject.
+	//GameObject* selectedGO = GameObjectManager::getInstance()->checkCollision(collPoint);
+	//if (selectedGO != NULL)
+	//	selectedGO->setSelected(true);
+	//else 
+	//	GameObjectManager::getInstance()->resetSelection();
+	//
 	//std::cout << "Ray Point: " << collPoint.x << ", " << collPoint.y << ", " << collPoint.z << std::endl;
+
+	GameObjectManager::getInstance()->pick(mousePos, width, height);
 }
 
 void Camera::onRightMouseDown(const Point& mousePos)

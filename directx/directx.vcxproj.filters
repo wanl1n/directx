@@ -302,6 +302,7 @@
       <Filter>GameEngine\Textures</Filter>
     </ClCompile>
     <ClCompile Include="ColorPickerScreen.cpp" />
+    <ClCompile Include="SimpleMath\SimpleMath.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -507,6 +508,7 @@
       <Filter>GameEngine\Textures</Filter>
     </ClInclude>
     <ClInclude Include="ColorPickerScreen.h" />
+    <ClInclude Include="SimpleMath\SimpleMath.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
@@ -521,5 +523,8 @@
     <FxCompile Include="SolidVertexShader.hlsl">
       <Filter>App\Shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SimpleMath\SimpleMath.inl" />
   </ItemGroup>
 </Project>

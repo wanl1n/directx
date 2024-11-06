@@ -1,4 +1,8 @@
 #pragma once
+#include <d3d11.h>
+#include "DirectXMath.h"
+#include "SimpleMath/SimpleMath.h"
+
 #include "vector"
 #include "PrimitivesList.h"
 #include "Constants.h"
@@ -50,6 +54,7 @@ class GameObjectManager
 		Capsule* createCapsule(OBJECT_TYPE type);
 
 	public:
+		bool pick(Point mousePos, float width, float height);
 		GameObject* findGameObject(std::string name);
 		GameObject* getGameObject(int index);
 		GameObject* getSelectedGameObject();
