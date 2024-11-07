@@ -51,8 +51,7 @@ void AppWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	GameObjectManager::getInstance()->addGameObject(ROTATING_CUBE);
-	GameObjectManager::getInstance()->addGameObject(PLANE);
+	GameObjectManager::getInstance()->addGameObject(CUBE);
 }
 
 void AppWindow::onCreate() 

@@ -13,7 +13,7 @@ Camera::Camera(std::string name, RECT viewport, OBJECT_TYPE type) :
 	else if (type == PERSPECTIVE_CAMERA)
 		this->type = PERSPECTIVE;
 
-	this->transform.position = Vector3(0, 0, -5);
+	this->transform.position = Vector3(0, 0, -3);
 	this->prevCamMat.setIdentity();
 	this->prevCamMat.setTranslation(this->transform.position);
 	this->updateViewMatrix();
@@ -183,27 +183,21 @@ void Camera::onMouseMove(const Point& mousePos)
 		this->transform.rotation.y += (mousePos.x - (width / 2.0f)) * deltaTime * panSpeed;
 		InputSystem::getInstance()->setCursorPosition(Point(width / 2.0f, height / 2.0f));
 	}
+
+	if (leftMouseDown)
+	{
+		GameObjectManager::getInstance()->pick(mousePos, width, height);
+	}
 }
 
 void Camera::onLeftMouseDown(const Point& mousePos)
 {
+
+	leftMouseDown = true; 
 	// 1. Get Screen point.
 	int width = (viewport.right - viewport.left);
 	int height = (viewport.bottom - viewport.top);
 	Vector3 screenPoint = Vector3(mousePos.x, mousePos.y, 1.0f);
-
-	//// 2. Convert screen point to world space.
-	//Vector4 worldPos = Matrix4x4::unproject(screenPoint, cc.view, cc.proj, width, height);
-	//Vector3 collPoint = Vector3(worldPos.x, worldPos.y, worldPos.z);
-	//
-	//// 3. Check if point collides with a GameObject.
-	//GameObject* selectedGO = GameObjectManager::getInstance()->checkCollision(collPoint);
-	//if (selectedGO != NULL)
-	//	selectedGO->setSelected(true);
-	//else 
-	//	GameObjectManager::getInstance()->resetSelection();
-	//
-	//std::cout << "Ray Point: " << collPoint.x << ", " << collPoint.y << ", " << collPoint.z << std::endl;
 
 	GameObjectManager::getInstance()->pick(mousePos, width, height);
 }
@@ -215,6 +209,7 @@ void Camera::onRightMouseDown(const Point& mousePos)
 
 void Camera::onLeftMouseUp(const Point& mousePos)
 {
+	leftMouseDown = false;
 }
 
 void Camera::onRightMouseUp(const Point& mousePos)

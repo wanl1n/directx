@@ -16,7 +16,7 @@ GameObject::GameObject(std::string name, OBJECT_TYPE type) :
 	transform.position = Vector3(0);
 	transform.rotation = Vector3(0);
 	transform.scale = Vector3(1);
-	size = Vector3(1);
+	size = Vector3(0.5f);
 
 	cc.world.setTranslation(transform.position);
 	
@@ -31,9 +31,9 @@ GameObject::~GameObject() {}
 void GameObject::calculateBounds()
 {
 	this->bounds = {
-		-1 * transform.scale.x + transform.position.x, 1 * transform.scale.x + transform.position.x,
-		-1 * transform.scale.y + transform.position.y, 1 * transform.scale.y + transform.position.y,
-		-1 * transform.scale.z + transform.position.z, 1 * transform.scale.z + transform.position.z };
+		-0.5f * transform.scale.x + transform.position.x, 0.5f * transform.scale.x + transform.position.x,
+		-0.5f * transform.scale.y + transform.position.y, 0.5f * transform.scale.y + transform.position.y,
+		-0.5f * transform.scale.z + transform.position.z, 0.5f * transform.scale.z + transform.position.z };
 
 	DirectX::XMFLOAT3 center = DirectX::XMFLOAT3(transform.position.x, transform.position.y, transform.position.z);
 	DirectX::XMFLOAT3 sizeVec = DirectX::XMFLOAT3(size.x, size.y, size.z);
@@ -99,7 +99,7 @@ void GameObject::edit(float deltaTime)
 {
 	float step = 1.0f * deltaTime;
 	if (InputSystem::getInstance()->isKeyDown('W'))
-		this->transform.position.z += step;
+		this->transform.position.z += step; 
 	if (InputSystem::getInstance()->isKeyDown('A'))
 		this->transform.position.x -= step;
 	if (InputSystem::getInstance()->isKeyDown('S'))

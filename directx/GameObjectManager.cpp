@@ -308,12 +308,22 @@ bool GameObjectManager::pick(Point mousePos, float width, float height)
 			rayHit = ray.Intersects(bounds, dist);
 
 			GameObjectManager::getInstance()->resetSelection();
-			if (rayHit) {
+			if (rayHit)
+			{
 				object->setSelected(true);
+
+				DirectX::XMVECTOR hitPoint = DirectX::XMVectorAdd(ro, DirectX::XMVectorScale(rd, dist));
+
+				DirectX::XMFLOAT3 hitPosition;
+				DirectX::XMStoreFloat3(&hitPosition, hitPoint);
+
+				object->transform.position = Vector3(hitPosition.x, hitPosition.y, obj->getPosition().z);
+
 				break;
 			}
 		}
 	}
+
 
 	return rayHit;
 }

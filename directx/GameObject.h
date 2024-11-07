@@ -24,20 +24,23 @@ class GameObject
 
 		std::string name;
 		bool isActive;
-		bool isSelected;
 		OBJECT_TYPE type;
 
 		Bounds bounds;
 		DirectX::BoundingBox boundingBox;
 
 		Constant cc;
-		Transform transform;
 		Vector3 size;
 
 	private:
 		friend class GameObjectManager;
 
 	public:
+		bool isSelected;
+
+		Transform transform;
+
+
 		GameObject(std::string name, OBJECT_TYPE type);
 		~GameObject();
 		virtual void calculateBounds();

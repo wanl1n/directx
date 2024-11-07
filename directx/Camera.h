@@ -30,6 +30,12 @@ class Camera : public GameObject, public InputListener
 
 		friend class CameraManager;
 
+		bool leftMouseDown = false;
+
+		bool firstRecord = true;
+
+		Point oldMousePos;
+
 	public:
 		Camera(std::string name, RECT viewport, OBJECT_TYPE type = CAMERA);
 		~Camera();
