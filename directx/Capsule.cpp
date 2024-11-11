@@ -15,6 +15,7 @@ Capsule::Capsule(std::string name, bool blending, OBJECT_TYPE type) :
     this->init();
 
 	this->setPosition(Vector3(-1, -1, 0));
+	this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\Logo.jpg");
 }
 
 Capsule::~Capsule() {}
@@ -49,6 +50,13 @@ void Capsule::initializeBuffers()
 
 std::vector<Vertex3D> Capsule::createVertices()
 {
+	Point uvs[] = {
+		Point(0, 0),
+		Point(0, 1),
+		Point(1, 0),
+		Point(1, 1)
+	};
+
 	std::vector<Vertex3D> vertices;
 	// Precomputed values to optimize calculations
 	float ringStep = 1.0f / (float)(rings - 1);    // Step size for the rings
@@ -74,10 +82,17 @@ std::vector<Vertex3D> Capsule::createVertices()
 			else
 				color = LIGHTMAUVE;
 
+			Point uv = Point(0, 0);
+			if (sector % 2 == 0)
+				uv = Point(0, 0);
+			else
+				uv = Point(1, 1);
+
 			// Create the vertex with position, normal, and texture coordinate
 			Vertex3D vertex = {
 				Vector3(x * radius, y * radius, z * radius),
-				color
+				color,
+				uv
 			};
 
 			// Store the vertex in the vertex buffer

@@ -14,6 +14,7 @@ Plane::Plane(std::string name, bool blending, OBJECT_TYPE type) :
 	this->setScale(Vector3(5));
 	this->rotateX(1.57f);
 	this->setPosition(Vector3(0, -1.5f, 0));
+	this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\Logo.jpg");
 }
 
 Plane::~Plane() {}
@@ -37,19 +38,26 @@ std::vector<Vertex3D> Plane::createVertices()
 {
 	std::vector<Vertex3D> vecVerts;
 
+	Point uvs[] = {
+		Point(0, 0),
+		Point(0, 1),
+		Point(1, 0),
+		Point(1, 1)
+	};
+
 	//Set up the Vertex buffer.
 	if (COLOR_SETTINGS == WHITE_COLORED) {
 		Vertex3D vertices[] = { // Cube Vertices
 			// FRONT FACE
-			{ Vector3(-width, -height, 0),	this->color },
-			{ Vector3(-width, height, 0),	this->color },
-			{ Vector3(width, height, 0),	this->color },
-			{ Vector3(width, -height, 0),	this->color },
+			{ Vector3(-width, -height, 0),	this->color , uvs[1]},
+			{ Vector3(-width, height, 0),	this->color , uvs[0]},
+			{ Vector3(width, height, 0),	this->color , uvs[2]},
+			{ Vector3(width, -height, 0),	this->color , uvs[3]},
 			// BACK FACE
-			{ Vector3(width, -height, 0),	this->color },
-			{ Vector3(width, height, 0),	this->color },
-			{ Vector3(-width, height, 0),	this->color },
-			{ Vector3(-width, -height, 0),	this->color }
+			{ Vector3(width, -height, 0),	this->color , uvs[1]},
+			{ Vector3(width, height, 0),	this->color , uvs[0]},
+			{ Vector3(-width, height, 0),	this->color , uvs[2]},
+			{ Vector3(-width, -height, 0),	this->color , uvs[3]}
 		};
 		UINT size_list = ARRAYSIZE(vertices);
 
@@ -61,15 +69,15 @@ std::vector<Vertex3D> Plane::createVertices()
 
 		Vertex3D vertices[] = { // Cube Vertices
 			// FRONT FACE
-			{ Vector3(-width, -height, 0),	PALEDOGWOOD },
-			{ Vector3(-width, height, 0),	ROSYBROWN },
-			{ Vector3(width, height, 0),	PUCE },
-			{ Vector3(width, -height, 0),	ROSETAUPE },
+			{ Vector3(-width, -height, 0),	PALEDOGWOOD, uvs[1] },
+			{ Vector3(-width, height, 0),	ROSYBROWN, uvs[0] },
+			{ Vector3(width, height, 0),	PUCE, uvs[2] },
+			{ Vector3(width, -height, 0),	ROSETAUPE, uvs[3] },
 			// BACK FACE
-			{ Vector3(width, -height, 0),	this->color },
-			{ Vector3(width, height, 0),	PINK },
-			{ Vector3(-width, height, 0),	this->color },
-			{ Vector3(-width, -height, 0),	PINK }
+			{ Vector3(width, -height, 0),	this->color, uvs[1] },
+			{ Vector3(width, height, 0),	PINK, uvs[0] },
+			{ Vector3(-width, height, 0),	this->color, uvs[2] },
+			{ Vector3(-width, -height, 0),	PINK, uvs[3] }
 		};
 		UINT size_list = ARRAYSIZE(vertices);
 

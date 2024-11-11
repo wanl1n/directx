@@ -3,11 +3,13 @@
 
 #include "Prerequisites.h"
 #include "RenderSystem.h"
+#include "TextureManager.h"
 
 class GraphicsEngine
 {
 	private:
 		RenderSystem* renderSystem = nullptr;
+		TextureManager* texManager = nullptr;
 
 	private:
 		static GraphicsEngine* sharedInstance;
@@ -22,6 +24,7 @@ class GraphicsEngine
 		static void destroy();
 
 		RenderSystem* getRenderSystem();
+		TextureManager* getTextureManager();
 		static GraphicsEngine* get();
 };
 

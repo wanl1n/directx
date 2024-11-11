@@ -12,5 +12,9 @@ void Singleton::initialize()
 	//sharedInstance->init();
 }
 
+void Singleton::destroy()
+{
+}
+
 Singleton::Singleton() {}
 Singleton::~Singleton() {}

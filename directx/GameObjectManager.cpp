@@ -1,5 +1,6 @@
 #include "GameObjectManager.h"
 #include "CameraManager.h"
+#include "EngineTime.h"
 
 GameObjectManager* GameObjectManager::sharedInstance = nullptr;
 GameObjectManager* GameObjectManager::getInstance()
@@ -258,9 +259,10 @@ Capsule* GameObjectManager::createCapsule(OBJECT_TYPE type)
 	return newCapsule;
 }
 
-bool GameObjectManager::pick(Point mousePos, float width, float height)
+DirectX::XMVECTOR GameObjectManager::pick(Point mousePos, float width, float height)
 {
 	bool rayHit = false;
+	DirectX::XMVECTOR hitPoint = DirectX::XMVectorSet(0, 0, 0, 0);
 
 	for (GameObject* obj : this->GOList) {
 		Primitive* object = (Primitive*)obj;
@@ -311,21 +313,30 @@ bool GameObjectManager::pick(Point mousePos, float width, float height)
 			if (rayHit)
 			{
 				object->setSelected(true);
-
-				DirectX::XMVECTOR hitPoint = DirectX::XMVectorAdd(ro, DirectX::XMVectorScale(rd, dist));
-
-				DirectX::XMFLOAT3 hitPosition;
-				DirectX::XMStoreFloat3(&hitPosition, hitPoint);
-
-				object->transform.position = Vector3(hitPosition.x, hitPosition.y, obj->getPosition().z);
-
+				hitPoint = DirectX::XMVectorAdd(ro, DirectX::XMVectorScale(rd, dist));
 				break;
 			}
 		}
 	}
 
+	return hitPoint;
+}
 
-	return rayHit;
+void GameObjectManager::transformSelectedGameObject(DirectX::XMVECTOR deltaHitPoint)
+{
+	GameObject* obj = this->getSelectedGameObject();
+
+	if (obj != NULL) {
+		DirectX::XMVECTOR deltaPos = DirectX::XMVector4Normalize(deltaHitPoint);
+		float deltaTime = EngineTime::getDeltaTime();
+
+		Vector3 pos = obj->getPosition();
+		pos.x += DirectX::XMVectorGetX(deltaPos) * deltaTime;
+		pos.y += DirectX::XMVectorGetY(deltaPos) * deltaTime;
+		pos.z += DirectX::XMVectorGetZ(deltaPos) * deltaTime;
+
+		obj->setPosition(pos);
+	}
 }
 
 GameObject* GameObjectManager::findGameObject(std::string name)

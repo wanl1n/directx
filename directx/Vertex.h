@@ -85,4 +85,5 @@ struct PlaneProps {
 struct Vertex3D {
 	Vector3 position;
 	Vector4 color;
+	Point texcoord;
 };

@@ -75,6 +75,7 @@ void Primitive::draw()
 	// Set Shaders.
 	device->setVertexShader(vs);
 	device->setPixelShader(ps);
+	device->setTexture(ps, texture);
 
 	// Draw Object.
 	device->setVertexBuffer(this->vb);

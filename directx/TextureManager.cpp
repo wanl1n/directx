@@ -1,22 +1,12 @@
 #include "TextureManager.h"
+#include "Texture.h"
 #include "stb_image.h"
 
 #include "GraphicsEngine.h"
 
-TextureManager* TextureManager::sharedInstance = nullptr;
-TextureManager* TextureManager::getInstance()
+TextureManager::TextureManager() : ResourceManager()
 {
-    return sharedInstance;
-}
-
-void TextureManager::initialize()
-{
-    sharedInstance = new TextureManager();
-}
-
-TextureManager::TextureManager() 
-{
-    int txtWidth = 0;
+    /*int txtWidth = 0;
     int txtHeight = 0;
     ID3D11ShaderResourceView* texture = NULL;
     bool ret = LoadTextureFromFile("Textures/Logo.jpg", &texture, &txtWidth, &txtHeight);
@@ -27,7 +17,7 @@ TextureManager::TextureManager()
         TextureNames txtNames;
         TextureData txt = { texture, txtWidth, txtHeight };
         this->txtTable[txtNames.LOGO] = txt;
-    }
+    }*/
 }
 
 TextureManager::~TextureManager() {}
@@ -100,7 +90,18 @@ bool TextureManager::LoadTextureFromFile(const char* file_name, ID3D11ShaderReso
     return ret;
 }
 
-TextureData TextureManager::getTexture(String name)
+Resource* TextureManager::createResourceFromFileConcrete(const wchar_t* path)
 {
-    return this->txtTable[name];
+    Texture* tex = nullptr; 
+
+    try {
+        tex = new Texture(path);
+    } catch(...) {}
+
+    return tex;
+}
+
+TexturePtr TextureManager::createTextureFromFile(const wchar_t* path)
+{
+    return std::static_pointer_cast<Texture>(createResourceFromFile(path));
 }

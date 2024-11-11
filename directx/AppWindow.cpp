@@ -43,7 +43,6 @@ void AppWindow::initializeEngine()
 	try { UIManager::initialize(hwnd); }
 	catch (...) { throw std::exception("UIManager Initialization failed."); }
 
-	TextureManager::initialize();
 	// Swap Chain
 	RECT windowRect = this->getClientWindowRect();
 	this->swapChain = graphicsEngine->getRenderSystem()->createSwapChain(this->hwnd, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
@@ -51,7 +50,7 @@ void AppWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	GameObjectManager::getInstance()->addGameObject(CUBE);
+	GameObjectManager::getInstance()->addGameObject(CAPSULE);
 }
 
 void AppWindow::onCreate() 

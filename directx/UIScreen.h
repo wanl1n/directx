@@ -19,7 +19,7 @@ class UIScreen
 
 		void textCentered(std::string text);
 		bool buttonCentered(std::string text);
-		void imageCentered(std::string name, float sizeMult = 1.0f);
+		void imageCentered(const wchar_t* path, float sizeMult = 1.0f);
 
 		String getName();
 		bool getActive();

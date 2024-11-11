@@ -124,9 +124,6 @@
     <Filter Include="GameEngine\GameObject\Primitives\3D\Cube\LerpingCube">
       <UniqueIdentifier>{8d13d3b3-ef8d-4daf-be27-b54fae82d0cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\Physics">
-      <UniqueIdentifier>{bb9d460e-6b53-473c-9ea2-769ea25e3a6d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameEngine\UserInterface">
       <UniqueIdentifier>{eb9a6805-65f3-442f-8151-ca9a65289fc3}</UniqueIdentifier>
     </Filter>
@@ -136,11 +133,23 @@
     <Filter Include="GameEngine\UserInterface\Screens">
       <UniqueIdentifier>{4cc2ce50-0c86-4747-b2f5-e59b4dadd622}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\Textures">
+    <Filter Include="GameEngine\Math">
+      <UniqueIdentifier>{a7938454-77d5-4553-80e6-fa7b425a2c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Math\Physics">
+      <UniqueIdentifier>{bb9d460e-6b53-473c-9ea2-769ea25e3a6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Math\SimpleMath">
+      <UniqueIdentifier>{9f300303-a5ff-4164-900b-3987b37b2c35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Resources">
+      <UniqueIdentifier>{e34fb32e-310a-4842-baf8-0ac56e595aae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Resources\Textures">
       <UniqueIdentifier>{34b5909b-316d-4e03-94b4-5347a8f73c0e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine\Physics\Math">
-      <UniqueIdentifier>{a7938454-77d5-4553-80e6-fa7b425a2c2b}</UniqueIdentifier>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{d1196afa-ed95-4800-a91b-fb09b7c2e52f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -278,7 +287,7 @@
       <Filter>GameEngine\UserInterface\Screens</Filter>
     </ClCompile>
     <ClCompile Include="Collider.cpp">
-      <Filter>GameEngine\Physics</Filter>
+      <Filter>GameEngine\Math\Physics</Filter>
     </ClCompile>
     <ClCompile Include="ProfilerScreen.cpp">
       <Filter>GameEngine\UserInterface\Screens</Filter>
@@ -299,10 +308,23 @@
       <Filter>GameEngine\UserInterface\ImGUI</Filter>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
-      <Filter>GameEngine\Textures</Filter>
+      <Filter>GameEngine\Resources\Textures</Filter>
     </ClCompile>
-    <ClCompile Include="ColorPickerScreen.cpp" />
-    <ClCompile Include="SimpleMath\SimpleMath.cpp" />
+    <ClCompile Include="SimpleMath\SimpleMath.cpp">
+      <Filter>GameEngine\Math\SimpleMath</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>GameEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorPickerScreen.cpp">
+      <Filter>GameEngine\UserInterface\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>GameEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>GameEngine\Resources\Textures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -348,7 +370,7 @@
       <Filter>GameEngine\GraphicsEngine\RenderSystem\Buffers\ConstantBuffer</Filter>
     </ClInclude>
     <ClInclude Include="Math.h">
-      <Filter>GameEngine\Physics\Math</Filter>
+      <Filter>GameEngine\Math</Filter>
     </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>GameEngine\Structs</Filter>
@@ -363,10 +385,10 @@
       <Filter>GameEngine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Point.h">
-      <Filter>GameEngine\Physics\Math</Filter>
+      <Filter>GameEngine\Math</Filter>
     </ClInclude>
     <ClInclude Include="Matrix4x4.h">
-      <Filter>GameEngine\Physics\Math</Filter>
+      <Filter>GameEngine\Math</Filter>
     </ClInclude>
     <ClInclude Include="PulsingQuad.h">
       <Filter>GameEngine\GameObject\Primitives\2D\Quad\PresetQuads</Filter>
@@ -387,10 +409,10 @@
       <Filter>GameEngine\GameObject\Primitives\3D\Cube\RotatingCube</Filter>
     </ClInclude>
     <ClInclude Include="Vector3.h">
-      <Filter>GameEngine\Physics\Math</Filter>
+      <Filter>GameEngine\Math</Filter>
     </ClInclude>
     <ClInclude Include="Vector4.h">
-      <Filter>GameEngine\Physics\Math</Filter>
+      <Filter>GameEngine\Math</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>GameEngine\Structs</Filter>
@@ -475,7 +497,7 @@
       <Filter>GameEngine\UserInterface\Screens</Filter>
     </ClInclude>
     <ClInclude Include="Collider.h">
-      <Filter>GameEngine\Physics</Filter>
+      <Filter>GameEngine\Math\Physics</Filter>
     </ClInclude>
     <ClInclude Include="ProfilerScreen.h">
       <Filter>GameEngine\UserInterface\Screens</Filter>
@@ -502,13 +524,41 @@
       <Filter>GameEngine\UserInterface\ImGUI</Filter>
     </ClInclude>
     <ClInclude Include="stb_image.h">
-      <Filter>GameEngine\Textures</Filter>
+      <Filter>GameEngine\Resources\Textures</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
-      <Filter>GameEngine\Textures</Filter>
+      <Filter>GameEngine\Resources\Textures</Filter>
     </ClInclude>
-    <ClInclude Include="ColorPickerScreen.h" />
-    <ClInclude Include="SimpleMath\SimpleMath.h" />
+    <ClInclude Include="SimpleMath\SimpleMath.h">
+      <Filter>GameEngine\Math\SimpleMath</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>GameEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorPickerScreen.h">
+      <Filter>GameEngine\UserInterface\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>GameEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>GameEngine\Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\DirectXTex\include\DirectXTex.h">
+      <Filter>Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\DirectXTK\include\SimpleMath.h">
+      <Filter>Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\DirectXTK\include\SpriteBatch.h">
+      <Filter>Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\DirectXTK\include\SpriteFont.h">
+      <Filter>Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\tinyobjloader\include\tiny_obj_loader.h">
+      <Filter>Libraries</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
@@ -525,6 +575,43 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SimpleMath\SimpleMath.inl" />
+    <None Include="SimpleMath\SimpleMath.inl">
+      <Filter>GameEngine\Math\SimpleMath</Filter>
+    </None>
+    <None Include="Libs\DirectXTex\include\DirectXTex.inl">
+      <Filter>Libraries</Filter>
+    </None>
+    <None Include="Libs\DirectXTex\bin\DirectXTex.pdb">
+      <Filter>Libraries</Filter>
+    </None>
+    <None Include="Libs\DirectXTK\bin\DirectXTKD.pdb">
+      <Filter>Libraries</Filter>
+    </None>
+    <None Include="Libs\DirectXTK\bin\MakeSpriteFont.exe">
+      <Filter>Libraries</Filter>
+    </None>
+    <None Include="Libs\DirectXTK\include\SimpleMath.inl">
+      <Filter>Libraries</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Libs\DirectXTex\bin\DirectXTex.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="Libs\DirectXTex\bin\DirectXTex_x86.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="Libs\DirectXTex\bin\DirectXTexD.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="Libs\DirectXTex\bin\DirectXTexD_x86.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="Libs\DirectXTK\bin\DirectXTK.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="Libs\DirectXTK\bin\DirectXTKD.lib">
+      <Filter>Libraries</Filter>
+    </Library>
   </ItemGroup>
 </Project>

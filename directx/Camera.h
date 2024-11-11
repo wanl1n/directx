@@ -30,7 +30,10 @@ class Camera : public GameObject, public InputListener
 
 		friend class CameraManager;
 
+		bool firstMouseDown = true;
 		bool leftMouseDown = false;
+		DirectX::XMVECTOR lastHitPos;
+		DirectX::XMVECTOR deltaHitPos;
 
 		bool firstRecord = true;
 

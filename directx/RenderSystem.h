@@ -27,6 +27,7 @@ class RenderSystem
 		friend class BlendState;
 		friend class VertexShader;
 		friend class PixelShader;
+		friend class Texture;
 
 	public:
 		RenderSystem();

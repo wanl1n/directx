@@ -8,6 +8,7 @@
 
 #include "VertexShader.h"
 #include "PixelShader.h"
+#include "Texture.h"
 #include <exception>
 
 DeviceContext::DeviceContext(ID3D11DeviceContext* device_context, RenderSystem* system) : 
@@ -18,7 +19,7 @@ DeviceContext::~DeviceContext()
 	this->devContext->Release();
 }
 
-void DeviceContext::clearRenderTargetColor(SwapChainPtr swap_chain, float red, float green, float blue, float alpha)
+void DeviceContext::clearRenderTargetColor(const SwapChainPtr& swap_chain, float red, float green, float blue, float alpha)
 {
 	FLOAT clearColor[] = { red, green, blue, alpha };
 
@@ -28,7 +29,7 @@ void DeviceContext::clearRenderTargetColor(SwapChainPtr swap_chain, float red, f
 	this->devContext->OMSetRenderTargets(1, &swap_chain->renderView, swap_chain->depthView);
 }
 
-void DeviceContext::clearRenderTargetColor(SwapChainPtr swap_chain, Vector4 color)
+void DeviceContext::clearRenderTargetColor(const SwapChainPtr& swap_chain, Vector4 color)
 {
 	FLOAT clearColor[] = { color.x, color.y, color.z, color.w };
 
@@ -38,7 +39,7 @@ void DeviceContext::clearRenderTargetColor(SwapChainPtr swap_chain, Vector4 colo
 	this->devContext->OMSetRenderTargets(1, &swap_chain->renderView, swap_chain->depthView);
 }
 
-void DeviceContext::setVertexBuffer(VertexBufferPtr vertex_buffer)
+void DeviceContext::setVertexBuffer(const VertexBufferPtr& vertex_buffer)
 {
 	UINT stride = vertex_buffer->m_size_vertex;
 	UINT offset = 0;
@@ -46,7 +47,7 @@ void DeviceContext::setVertexBuffer(VertexBufferPtr vertex_buffer)
 	this->devContext->IASetInputLayout(vertex_buffer->m_layout);
 }
 
-void DeviceContext::setIndexBuffer(IndexBufferPtr indexBuffer)
+void DeviceContext::setIndexBuffer(const IndexBufferPtr& indexBuffer)
 {
 	this->devContext->IASetIndexBuffer(indexBuffer->m_buffer, DXGI_FORMAT_R32_UINT, 0);
 }
@@ -85,27 +86,37 @@ void DeviceContext::setViewportSize(UINT width, UINT height)
 	this->devContext->RSSetViewports(1, &vp);
 }
 
-void DeviceContext::setBlendState(BlendStatePtr blender)
+void DeviceContext::setBlendState(const BlendStatePtr& blender)
 {
 	this->devContext->OMSetBlendState(blender->bs, nullptr, 0xFFFFFFFFu);
 }
 
-void DeviceContext::setVertexShader(VertexShaderPtr vertex_shader)
+void DeviceContext::setVertexShader(const VertexShaderPtr& vertex_shader)
 {
 	this->devContext->VSSetShader(vertex_shader->m_vs, nullptr, 0);
 }
 
-void DeviceContext::setPixelShader(PixelShaderPtr pixel_shader)
+void DeviceContext::setPixelShader(const PixelShaderPtr& pixel_shader)
 {
 	this->devContext->PSSetShader(pixel_shader->m_ps, nullptr, 0);
 }
 
-void DeviceContext::setConstantBuffer(VertexShaderPtr vertex_shader, ConstantBufferPtr buffer)
+void DeviceContext::setTexture(const VertexShaderPtr& vertex_shader, const TexturePtr& texture)
+{
+	this->devContext->VSSetShaderResources(0, 1, &texture->shaderResView);
+}
+
+void DeviceContext::setTexture(const PixelShaderPtr& pixel_shader, const TexturePtr& texture)
+{
+	this->devContext->PSSetShaderResources(0, 1, &texture->shaderResView);
+}
+
+void DeviceContext::setConstantBuffer(const VertexShaderPtr& vertex_shader, const ConstantBufferPtr& buffer)
 {
 	this->devContext->VSSetConstantBuffers(0, 1, &buffer->m_buffer);
 }
 
-void DeviceContext::setConstantBuffer(PixelShaderPtr pixel_shader, ConstantBufferPtr buffer)
+void DeviceContext::setConstantBuffer(const PixelShaderPtr& pixel_shader, const ConstantBufferPtr& buffer)
 {
 	this->devContext->PSSetConstantBuffers(0, 1, &buffer->m_buffer);
 }

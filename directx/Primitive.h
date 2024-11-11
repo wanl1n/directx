@@ -11,6 +11,7 @@ class Primitive : public GameObject
 		PixelShaderPtr ps;
 
 		BlendStatePtr bs;
+		TexturePtr texture;
 
 		bool alphaOn;
 

@@ -56,8 +56,9 @@ VertexBuffer::VertexBuffer(std::vector<Vertex3D> vertices, UINT vertexSize, void
 
 	D3D11_INPUT_ELEMENT_DESC layout[] = {
 		// Semantic Name, Semantic Index, Format, Input Slot, Aligned Byte Offset, Input Slot Class, Instance Data
-		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}, //xyz
+		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},//rgba
+		{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 28, D3D11_INPUT_PER_VERTEX_DATA, 0}	//uv
 	};
 	UINT size_layout = ARRAYSIZE(layout);
 

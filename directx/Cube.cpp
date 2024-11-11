@@ -14,9 +14,11 @@ Cube::Cube(std::string name, bool blending, OBJECT_TYPE type) :
 	this->cc.world.setScale(Vector3(1));
 	this->setPosition(Vector3(0, 0, 0));
 
-	std::cout << "Bounds X: " << bounds.minX << ", " << bounds.maxX << std::endl;
+	/*std::cout << "Bounds X: " << bounds.minX << ", " << bounds.maxX << std::endl;
 	std::cout << "Bounds Y: " << bounds.minY << ", " << bounds.maxY << std::endl;
-	std::cout << "Bounds Z: " << bounds.minZ << ", " << bounds.maxZ << std::endl;
+	std::cout << "Bounds Z: " << bounds.minZ << ", " << bounds.maxZ << std::endl;*/
+
+	this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\grass.jpg");
 }
 
 Cube::~Cube() {}
@@ -24,6 +26,27 @@ Cube::~Cube() {}
 void Cube::initializeBuffers()
 {
 	// Set up the Index buffer.
+	//unsigned int indices[] = {
+	//	//FRONT SIDE
+	//	0,1,2,  //FIRST TRIANGLE
+	//	2,3,0,  //SECOND TRIANGLE
+	//	//BACK SIDE
+	//	4,5,6,
+	//	6,7,4,
+	//	//TOP SIDE
+	//	1,6,5,
+	//	5,2,1,
+	//	//BOTTOM SIDE
+	//	7,0,3,
+	//	3,4,7,
+	//	//RIGHT SIDE
+	//	3,2,5,
+	//	5,4,3,
+	//	//LEFT SIDE
+	//	7,6,1,
+	//	1,0,7
+	//};
+
 	unsigned int indices[] = {
 		//FRONT SIDE
 		0,1,2,  //FIRST TRIANGLE
@@ -32,17 +55,17 @@ void Cube::initializeBuffers()
 		4,5,6,
 		6,7,4,
 		//TOP SIDE
-		1,6,5,
-		5,2,1,
+		8,9,10,
+		10,11,8,
 		//BOTTOM SIDE
-		7,0,3,
-		3,4,7,
+		12,13,14,
+		14,15,12,
 		//RIGHT SIDE
-		3,2,5,
-		5,4,3,
+		16,17,18,
+		18,19,16,
 		//LEFT SIDE
-		7,6,1,
-		1,0,7
+		20,21,22,
+		22,23,20
 	};
 	UINT size_indices = ARRAYSIZE(indices);
 	this->ib = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer(indices, size_indices);
@@ -52,19 +75,63 @@ std::vector<Vertex3D> Cube::createVertices()
 {
 	std::vector<Vertex3D> vecVerts;
 
+	Vector3 xyzs[] = {
+		// FRONT FACE
+		Vector3(-side, -side, -side),
+		Vector3(-side, side, -side),
+		Vector3(side, side, -side),
+		Vector3(side, -side, -side),
+		// BACK FACE
+		Vector3(side, -side, side),
+		Vector3(side, side, side),	
+		Vector3(-side, side, side),	
+		Vector3(-side, -side, side)
+	};
+
+	Point uvs[] = {
+		Point(0, 0),
+		Point(0, 1),
+		Point(1, 0),
+		Point(1, 1)
+	};
+
+	/*Vector4 rgbas_rb[] = { RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET, PINK };
+	Vector4 rgbas_wh[] = { frontColor, frontColor, frontColor, frontColor, 
+						   backColor, backColor, backColor, backColor };*/
+
 	if (COLOR_SETTINGS == RAINBOW_COLORED) {
 		// 1. Set up the Vertex buffer.
 		Vertex3D vertices[] = { // Cube Vertices
 			// FRONT FACE
-			{ Vector3(-side, -side, -side), RED },
-			{ Vector3(-side, side, -side),	ORANGE },
-			{ Vector3(side, side, -side),	YELLOW },
-			{ Vector3(side, -side, -side),	GREEN },
+			{ xyzs[0], RED, uvs[1] },
+			{ xyzs[1], ORANGE, uvs[0] },
+			{ xyzs[2], YELLOW, uvs[2] },
+			{ xyzs[3], GREEN, uvs[3] },
 			// BACK FACE
-			{ Vector3(side, -side, side),	BLUE },
-			{ Vector3(side, side, side),	INDIGO },
-			{ Vector3(-side, side, side),	VIOLET },
-			{ Vector3(-side, -side, side),	PINK }
+			{ xyzs[4], BLUE, uvs[1] },
+			{ xyzs[5], INDIGO, uvs[0] },
+			{ xyzs[6], VIOLET, uvs[2] },
+			{ xyzs[7], PINK, uvs[3] },
+
+			{ xyzs[1], BLUE, uvs[1] },
+			{ xyzs[6], INDIGO, uvs[0] },
+			{ xyzs[5], VIOLET, uvs[2] },
+			{ xyzs[2], PINK, uvs[3] },
+
+			{ xyzs[7], BLUE, uvs[1] },
+			{ xyzs[0], INDIGO, uvs[0] },
+			{ xyzs[3], VIOLET, uvs[2] },
+			{ xyzs[4], PINK, uvs[3] },
+
+			{ xyzs[3], BLUE, uvs[1] },
+			{ xyzs[2], INDIGO, uvs[0] },
+			{ xyzs[5], VIOLET, uvs[2] },
+			{ xyzs[4], PINK, uvs[3] },
+
+			{ xyzs[7], BLUE, uvs[1] },
+			{ xyzs[6], INDIGO, uvs[0] },
+			{ xyzs[1], VIOLET, uvs[2] },
+			{ xyzs[0], PINK, uvs[3] }
 		};
 		UINT size_list = ARRAYSIZE(vertices);
 
@@ -76,15 +143,35 @@ std::vector<Vertex3D> Cube::createVertices()
 		// 1. Set up the Vertex buffer.
 		Vertex3D vertices[] = { // Cube Vertices
 			// FRONT FACE
-			{ Vector3(-side, -side, -side), frontColor },
-			{ Vector3(-side, side, -side),	frontColor },
-			{ Vector3(side, side, -side),	frontColor },
-			{ Vector3(side, -side, -side),	frontColor },
+			{ xyzs[0], WHITE, uvs[1] },
+			{ xyzs[1], WHITE, uvs[0] },
+			{ xyzs[2], WHITE, uvs[2] },
+			{ xyzs[3], WHITE, uvs[3] },
 			// BACK FACE
-			{ Vector3(side, -side, side),	backColor },
-			{ Vector3(side, side, side),	backColor },
-			{ Vector3(-side, side, side),	backColor },
-			{ Vector3(-side, -side, side),	backColor }
+			{ xyzs[4], WHITE, uvs[1] },
+			{ xyzs[5], WHITE, uvs[0] },
+			{ xyzs[6], WHITE, uvs[2] },
+			{ xyzs[7], WHITE, uvs[3] },
+
+			{ xyzs[1], WHITE, uvs[1] },
+			{ xyzs[6], WHITE, uvs[0] },
+			{ xyzs[5], WHITE, uvs[2] },
+			{ xyzs[2], WHITE, uvs[3] },
+
+			{ xyzs[7], WHITE, uvs[1] },
+			{ xyzs[0], WHITE, uvs[0] },
+			{ xyzs[3], WHITE, uvs[2] },
+			{ xyzs[4], WHITE, uvs[3] },
+
+			{ xyzs[3], WHITE, uvs[1] },
+			{ xyzs[2], WHITE, uvs[0] },
+			{ xyzs[5], WHITE, uvs[2] },
+			{ xyzs[4], WHITE, uvs[3] },
+
+			{ xyzs[7], WHITE, uvs[1] },
+			{ xyzs[6], WHITE, uvs[0] },
+			{ xyzs[1], WHITE, uvs[2] },
+			{ xyzs[0], WHITE, uvs[3] }
 		};
 		UINT size_list = ARRAYSIZE(vertices);
 

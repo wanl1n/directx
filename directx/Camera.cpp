@@ -185,21 +185,26 @@ void Camera::onMouseMove(const Point& mousePos)
 	}
 
 	if (leftMouseDown)
-	{
-		GameObjectManager::getInstance()->pick(mousePos, width, height);
-	}
+		GameObjectManager::getInstance()->transformSelectedGameObject(deltaHitPos);
 }
 
 void Camera::onLeftMouseDown(const Point& mousePos)
 {
-
 	leftMouseDown = true; 
-	// 1. Get Screen point.
+
 	int width = (viewport.right - viewport.left);
 	int height = (viewport.bottom - viewport.top);
-	Vector3 screenPoint = Vector3(mousePos.x, mousePos.y, 1.0f);
 
-	GameObjectManager::getInstance()->pick(mousePos, width, height);
+	/*DirectX::XMVECTOR newHitPos = GameObjectManager::getInstance()->pick(mousePos, width, height);
+	if (firstMouseDown) {
+		firstMouseDown = false;
+		this->lastHitPos = newHitPos;
+		this->deltaHitPos = DirectX::XMVectorSet(0, 0, 0, 0);
+	}
+	else {
+		this->deltaHitPos = DirectX::XMVectorSubtract(newHitPos, lastHitPos);
+		this->lastHitPos = newHitPos;
+	}*/
 }
 
 void Camera::onRightMouseDown(const Point& mousePos)
