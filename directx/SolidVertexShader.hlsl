@@ -1,7 +1,7 @@
 struct VS_INPUT
 {
     float4 position : POSITION0;
-    float2 texcoord : TEXCOORD0;    
+    float2 texcoord : TEXCOORD0;
 };
 
 struct VS_OUTPUT
@@ -9,6 +9,7 @@ struct VS_OUTPUT
     float4 position : SV_POSITION;
     float2 texcoord : TEXCOORD0;
 };
+
 
 cbuffer constant : register(b0)
 {
@@ -18,18 +19,21 @@ cbuffer constant : register(b0)
     unsigned int m_time;
 };
 
+
+
 VS_OUTPUT vsmain(VS_INPUT input)
 {
     VS_OUTPUT output = (VS_OUTPUT) 0;
-    
-    // Vertex in world space coordinates.
+	
+	
+	//WORLD SPACE
     output.position = mul(input.position, m_world);
-    // View Space coordinates.
+	//VIEW SPACE
     output.position = mul(output.position, m_view);
-    // Screen Space coordinates.
+	//SCREEN SPACE
     output.position = mul(output.position, m_proj);
-    
+
+
     output.texcoord = input.texcoord;
-    
     return output;
 }

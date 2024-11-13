@@ -1,14 +1,14 @@
 #pragma once
-#include "d3d11.h"
-#include <string>
-#include <cstdio>
-#include <unordered_map>
-
-#include "imgui-master/imgui.h"
+//#include "d3d11.h"
+//#include <string>
+//#include <cstdio>
+//#include <unordered_map>
+//
+//#include "imgui-master/imgui.h"
 
 #include "ResourceManager.h"
 
-#include "Constants.h"
+//#include "Constants.h"
 
 //class TextureNames {
 //	public:
