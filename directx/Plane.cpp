@@ -14,7 +14,7 @@ Plane::Plane(std::string name, bool blending, OBJECT_TYPE type) :
 	this->setScale(Vector3(5));
 	this->rotateX(1.57f);
 	this->setPosition(Vector3(0, -1.5f, 0));
-	this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\Logo.jpg");
+	//this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\Logo.jpg");
 }
 
 Plane::~Plane() {}

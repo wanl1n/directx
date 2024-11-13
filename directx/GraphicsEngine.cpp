@@ -14,21 +14,31 @@ GraphicsEngine::GraphicsEngine()
 	try {
 		this->renderSystem = new RenderSystem();
 	}
-	catch (...) {
-		throw std::exception("Render System not created successfully.");
-	}
+	catch (...) { throw std::exception("Render System not created successfully."); }
 
 	try {
 		this->texManager = new TextureManager();
 	}
-	catch (...) {
-		throw std::exception("Texture Manager not created successfully.");
+	catch (...) { throw std::exception("Texture Manager not created successfully."); }
+
+	try {
+		this->meshManager = new MeshManager();
 	}
+	catch (...) { throw std::exception("Mesh Manager not created successfully."); }
+
+	// Shader Attributes
+	void* shaderByteCode = nullptr;
+	size_t sizeShader = 0;
+	this->renderSystem->compileVertexShader(L"VertexMeshLayoutShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
+	::memcpy(meshLayoutByteCode, shaderByteCode, sizeShader);
+	meshLayoutSize = sizeShader;
+	this->renderSystem->releaseCompiledShader();
 }
 
 GraphicsEngine::~GraphicsEngine() 
 {
 	GraphicsEngine::sharedInstance = nullptr;
+	delete meshManager;
 	delete texManager;
 	delete renderSystem;
 }
@@ -54,4 +64,15 @@ RenderSystem* GraphicsEngine::getRenderSystem()
 TextureManager* GraphicsEngine::getTextureManager()
 {
 	return this->texManager;
+}
+
+MeshManager* GraphicsEngine::getMeshManager()
+{
+	return this->meshManager;
+}
+
+void GraphicsEngine::getVertexMeshLayoutShaderByteCodeAndSize(void** byteCode, size_t* size)
+{
+	*byteCode = meshLayoutByteCode;
+	*size = meshLayoutSize;
 }

@@ -83,6 +83,9 @@ void GameObjectManager::addGameObject(OBJECT_TYPE type, int count)
 			case CAPSULE:
 				this->createCapsule(type);
 				break;
+			case MESH:
+				this->createMesh(type);
+				break;
 			default:
 				break;
 		}
@@ -257,6 +260,13 @@ Capsule* GameObjectManager::createCapsule(OBJECT_TYPE type)
 	this->CapsuleList.push_back(newCapsule);
 
 	return newCapsule;
+}
+
+MeshObject* GameObjectManager::createMesh(OBJECT_TYPE type)
+{
+	MeshObject* newMesh = new MeshObject("Mesh", type);
+	this->GOList.push_back((GameObject*)newMesh);
+	return newMesh;
 }
 
 DirectX::XMVECTOR GameObjectManager::pick(Vector2 mousePos, float width, float height)

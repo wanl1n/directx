@@ -14,6 +14,7 @@ void Singleton::initialize()
 
 void Singleton::destroy()
 {
+	delete sharedInstance;
 }
 
 Singleton::Singleton() {}

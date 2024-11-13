@@ -7,6 +7,8 @@
 #include "Constants.h"
 #include "Vertex.h"
 
+#include "Mesh.h"
+
 AppWindow* AppWindow::sharedInstance = nullptr;
 AppWindow* AppWindow::getInstance()
 {
@@ -50,10 +52,7 @@ void AppWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	GameObjectManager::getInstance()->addGameObject(CUBE);
-	/*GameObjectManager::getInstance()->addGameObject(SPHERE);
-	GameObjectManager::getInstance()->addGameObject(CAPSULE);
-	GameObjectManager::getInstance()->addGameObject(CYLINDER);*/
+	GameObjectManager::getInstance()->addGameObject(MESH);
 }
 
 void AppWindow::onCreate() 

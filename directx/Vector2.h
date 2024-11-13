@@ -7,6 +7,7 @@ class Vector2 {
 		float x = 0, y = 0;
 
 		Vector2() : x(0), y(0) {}
+		Vector2(float x) : x(x), y(x) {}
 		Vector2(float x, float y) : x(x), y(y) {}
 		Vector2(const Vector2& point) : x(point.x), y(point.y) {}
 		~Vector2() {}
@@ -32,8 +33,8 @@ class Vector2 {
 				y = 0;
 			}
 			else {
-				x = static_cast<int>(x / length);
-				y = static_cast<int>(y / length);
+				x = x / length;
+				y = y / length;
 			}
 		}
 

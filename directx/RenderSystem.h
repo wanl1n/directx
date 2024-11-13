@@ -41,6 +41,7 @@ class RenderSystem
 
 		VertexBufferPtr createVertexBuffer(void* vertices, UINT vertexSize, UINT listSize, void* sbc, UINT bsSize);
 		VertexBufferPtr createVertexBuffer(std::vector<Vertex3D> vertices, UINT vertexSize, void* sbc, UINT bsSize);
+		VertexBufferPtr createVertexBuffer(std::vector<VertexMesh> vertices, UINT vertexSize, void* sbc, UINT bsSize);
 		ConstantBufferPtr createConstantBuffer(void* buffer, UINT size_buffer);
 		IndexBufferPtr createIndexBuffer(void* list_indices, UINT size_list);
 		IndexBufferPtr createIndexBuffer(std::vector<unsigned int> indices);

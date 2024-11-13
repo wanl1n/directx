@@ -86,6 +86,12 @@ void DeviceContext::setViewportSize(UINT width, UINT height)
 	this->devContext->RSSetViewports(1, &vp);
 }
 
+void DeviceContext::setRenderConfig(VertexShader* vs, PixelShader* ps)
+{
+	this->devContext->VSSetShader(vs->m_vs, NULL, 0);
+	this->devContext->PSSetShader(ps->m_ps, NULL, 0);
+}
+
 void DeviceContext::setBlendState(const BlendStatePtr& blender)
 {
 	this->devContext->OMSetBlendState(blender->bs, nullptr, 0xFFFFFFFFu);
@@ -101,12 +107,7 @@ void DeviceContext::setPixelShader(const PixelShaderPtr& pixel_shader)
 	this->devContext->PSSetShader(pixel_shader->m_ps, nullptr, 0);
 }
 
-void DeviceContext::setTexture(const VertexShaderPtr& vertex_shader, const TexturePtr& texture)
-{
-	this->devContext->VSSetShaderResources(0, 1, &texture->shaderResView);
-}
-
-void DeviceContext::setTexture(const PixelShaderPtr& pixel_shader, const TexturePtr& texture)
+void DeviceContext::setTexture(const TexturePtr& texture)
 {
 	this->devContext->PSSetShaderResources(0, 1, &texture->shaderResView);
 }

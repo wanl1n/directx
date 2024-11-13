@@ -27,13 +27,12 @@ class DeviceContext
 		void drawLineList(UINT vertex_count, UINT start_vertex_index);
 		void setViewportSize(UINT width, UINT height);
 
+		void setRenderConfig(VertexShader* vs, PixelShader* ps);
 		void setBlendState(const BlendStatePtr& blender);
-
 		void setVertexShader(const VertexShaderPtr& vertex_shader);
 		void setPixelShader(const PixelShaderPtr& pixel_shader);
 
-		void setTexture(const VertexShaderPtr& vertex_shader, const TexturePtr& texture);
-		void setTexture(const PixelShaderPtr& pixel_shader, const TexturePtr& texture);
+		void setTexture(const TexturePtr& texture);
 
 		void setConstantBuffer(const VertexShaderPtr& vertex_shader, const ConstantBufferPtr& buffer);
 		void setConstantBuffer(const PixelShaderPtr& pixel_shader, const ConstantBufferPtr& buffer);

@@ -11,42 +11,14 @@ Cube::Cube(std::string name, bool blending, OBJECT_TYPE type) :
 
 	this->init();
 
-	this->cc.world.setScale(Vector3(1));
+	this->cc.world.setScale(transform.scale);
 	this->setPosition(Vector3(0, 0, 0));
-
-	/*std::cout << "Bounds X: " << bounds.minX << ", " << bounds.maxX << std::endl;
-	std::cout << "Bounds Y: " << bounds.minY << ", " << bounds.maxY << std::endl;
-	std::cout << "Bounds Z: " << bounds.minZ << ", " << bounds.maxZ << std::endl;*/
-
-	this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\wood.jpg");
 }
 
 Cube::~Cube() {}
 
 void Cube::initializeBuffers()
 {
-	// Set up the Index buffer.
-	//unsigned int indices[] = {
-	//	//FRONT SIDE
-	//	0,1,2,  //FIRST TRIANGLE
-	//	2,3,0,  //SECOND TRIANGLE
-	//	//BACK SIDE
-	//	4,5,6,
-	//	6,7,4,
-	//	//TOP SIDE
-	//	1,6,5,
-	//	5,2,1,
-	//	//BOTTOM SIDE
-	//	7,0,3,
-	//	3,4,7,
-	//	//RIGHT SIDE
-	//	3,2,5,
-	//	5,4,3,
-	//	//LEFT SIDE
-	//	7,6,1,
-	//	1,0,7
-	//};
-
 	unsigned int indices[] = {
 		//FRONT SIDE
 		0,1,2,  //FIRST TRIANGLE
@@ -75,39 +47,46 @@ std::vector<Vertex3D> Cube::createVertices()
 {
 	std::vector<Vertex3D> vecVerts;
 
-	//Vector3 xyzs[] = {
-	//	// FRONT FACE
-	//	Vector3(-side, -side, -side),
-	//	Vector3(-side, side, -side),
-	//	Vector3(side, side, -side),
-	//	Vector3(side, -side, -side),
-	//	// BACK FACE
-	//	Vector3(side, -side, side),
-	//	Vector3(side, side, side),	
-	//	Vector3(-side, side, side),	
-	//	Vector3(-side, -side, side)
-	//};
+	int size = 24;
 
-	//Vector2 uvs[] = {
-	//	Vector2(0, 0),
-	//	Vector2(0, 1),
-	//	Vector2(1, 0),
-	//	Vector2(1, 1)
-	//};
-
-	Vector3 xyzs[] =
-	{
-		{ Vector3(-0.5f,-0.5f,-0.5f)},
-		{ Vector3(-0.5f,0.5f,-0.5f) },
-		{ Vector3(0.5f,0.5f,-0.5f) },
-		{ Vector3(0.5f,-0.5f,-0.5f)},
-
-		//BACK FACE
-		{ Vector3(0.5f,-0.5f,0.5f) },
-		{ Vector3(0.5f,0.5f,0.5f) },
-		{ Vector3(-0.5f,0.5f,0.5f)},
-		{ Vector3(-0.5f,-0.5f,0.5f) }
+	Vector3 xyzs[] = {
+		// FRONT FACE
+		Vector3(-side, -side, -side),
+		Vector3(-side, side, -side),
+		Vector3(side, side, -side),
+		Vector3(side, -side, -side),
+		// BACK FACE
+		Vector3(side, -side, side),
+		Vector3(side, side, side),	
+		Vector3(-side, side, side),	
+		Vector3(-side, -side, side)
 	};
+	int posIndexList[] = { 0, 1, 2, 3,
+							4, 5, 6, 7,
+							1, 6, 5, 2,
+							7, 0, 3, 4,
+							3, 2, 5, 4,
+							7, 6, 1, 0 };
+
+	Vector4 rgbas_rb[] = { RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET, PINK,
+						   RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET, PINK,
+						   RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET, PINK };
+	Vector4 rgbas_wh[] = { frontColor, frontColor, frontColor, frontColor, 
+						   backColor, backColor, backColor, backColor,
+						   frontColor, frontColor, frontColor, frontColor,
+						   backColor, backColor, backColor, backColor,
+						   frontColor, frontColor, frontColor, frontColor,
+						   backColor, backColor, backColor, backColor };
+
+	std::vector<Vector4> rgbas;
+	for (int i = 0; i < size; i++) {
+		if (COLOR_SETTINGS == RAINBOW_COLORED)
+			rgbas.push_back(rgbas_rb[i]);
+		else if (COLOR_SETTINGS == WHITE_COLORED)
+			rgbas.push_back(WHITE);
+		else
+			rgbas.push_back(rgbas_wh[i]);
+	}
 
 	Vector2 uvs[] =
 	{
@@ -116,48 +95,11 @@ std::vector<Vertex3D> Cube::createVertices()
 		{ Vector2(1.0f,0.0f) },
 		{ Vector2(1.0f,1.0f) }
 	};
+	int texIndexList[] = { 1, 0, 2, 3 };
 
-	/*Vector4 rgbas_rb[] = { RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET, PINK };
-	Vector4 rgbas_wh[] = { frontColor, frontColor, frontColor, frontColor, 
-						   backColor, backColor, backColor, backColor };*/
-
-	// 1. Set up the Vertex buffer.
-	Vertex3D vertices[] = { // Cube Vertices
-		// FRONT FACE
-		{ xyzs[0], uvs[1] },
-		{ xyzs[1], uvs[0] },
-		{ xyzs[2], uvs[2] },
-		{ xyzs[3], uvs[3] },
-		// BACK FACE
-		{ xyzs[4], uvs[1] },
-		{ xyzs[5], uvs[0] },
-		{ xyzs[6], uvs[2] },
-		{ xyzs[7], uvs[3] },
-
-		{ xyzs[1], uvs[1] },
-		{ xyzs[6], uvs[0] },
-		{ xyzs[5], uvs[2] },
-		{ xyzs[2], uvs[3] },
-
-		{ xyzs[7], uvs[1] },
-		{ xyzs[0], uvs[0] },
-		{ xyzs[3], uvs[2] },
-		{ xyzs[4], uvs[3] },
-
-		{ xyzs[3], uvs[1] },
-		{ xyzs[2], uvs[0] },
-		{ xyzs[5], uvs[2] },
-		{ xyzs[4], uvs[3] },
-
-		{ xyzs[7], uvs[1] },
-		{ xyzs[6], uvs[0] },
-		{ xyzs[1], uvs[2] },
-		{ xyzs[0], uvs[3] }
-	};
-	UINT size_list = ARRAYSIZE(vertices);
-
-	for (int i = 0; i < size_list; i++) {
-		vecVerts.push_back(vertices[i]);
+	for (int i = 0; i < size; i++) {
+		Vertex3D vert = { xyzs[posIndexList[i]], uvs[texIndexList[i % 5]] };
+		vecVerts.push_back(vert);
 	}
 
 	return vecVerts;

@@ -13,7 +13,7 @@ Cylinder::Cylinder(std::string name, bool blending, OBJECT_TYPE type) :
 	this->init();
 
     this->setPosition(Vector3(-5, 1.1f, 5));
-    this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\Logo.jpg");
+    //this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\Logo.jpg");
 }
 
 Cylinder::~Cylinder() {}

@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>Libs\DirectXTex\include;$(IncludePath)</IncludePath>
+    <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;$(IncludePath)</IncludePath>
     <LibraryPath>Libs\DirectXTex\bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -168,6 +168,9 @@
     <ClCompile Include="LerpingCube.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshManager.cpp" />
+    <ClCompile Include="MeshObject.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Primitive.cpp" />
@@ -180,10 +183,12 @@
     <ClCompile Include="RotatingCube.cpp" />
     <ClCompile Include="RotatingPlane.cpp" />
     <ClCompile Include="SceneWindow.cpp" />
+    <ClCompile Include="ShaderLibrary.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TexturedCube.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="UIScreen.cpp" />
@@ -237,8 +242,13 @@
     <ClInclude Include="Math.h" />
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="MenuScreen.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshManager.h" />
+    <ClInclude Include="MeshObject.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Plane.h" />
+    <ClInclude Include="ShaderLibrary.h" />
+    <ClInclude Include="TexturedCube.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Prerequisites.h" />
     <ClInclude Include="Primitive.h" />
@@ -267,6 +277,7 @@
     <ClInclude Include="Vector4.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="VertexMesh.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
@@ -290,6 +301,19 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="TexturedPixelShader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="TexturedVertexShader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="VertexMeshLayoutShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="VertexShader.hlsl">

@@ -99,6 +99,17 @@ VertexBufferPtr RenderSystem::createVertexBuffer(std::vector<Vertex3D> vertices,
 	return vb;
 }
 
+VertexBufferPtr RenderSystem::createVertexBuffer(std::vector<VertexMesh> vertices, UINT vertexSize, void* sbc, UINT bsSize)
+{
+	VertexBufferPtr vb = nullptr;
+
+	try {
+		vb = std::make_shared<VertexBuffer>(vertices, sbc, bsSize, this);
+	}
+	catch (...) {}
+	return vb;
+}
+
 ConstantBufferPtr RenderSystem::createConstantBuffer(void* buffer, UINT size_buffer)
 {
 	ConstantBufferPtr cb = nullptr;

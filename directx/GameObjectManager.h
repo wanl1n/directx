@@ -8,6 +8,8 @@
 #include "Constants.h"
 #include "Math.h"
 
+#include "MeshObject.h"
+
 class GameObject;
 
 class GameObjectManager
@@ -52,6 +54,7 @@ class GameObjectManager
 		Sphere* createSphere(OBJECT_TYPE type);
 		Cylinder* createCylinder(OBJECT_TYPE type);
 		Capsule* createCapsule(OBJECT_TYPE type);
+		MeshObject* createMesh(OBJECT_TYPE type);
 
 	public:
 		DirectX::XMVECTOR pick(Vector2 mousePos, float width, float height);

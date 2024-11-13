@@ -15,7 +15,7 @@ Capsule::Capsule(std::string name, bool blending, OBJECT_TYPE type) :
     this->init();
 
 	this->setPosition(Vector3(-1, -1, 0));
-	this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\Logo.jpg");
+	//this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\Logo.jpg");
 }
 
 Capsule::~Capsule() {}

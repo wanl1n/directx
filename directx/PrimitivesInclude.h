@@ -17,6 +17,7 @@
 #include "BlendState.h"
 
 // Shaders
+#include "ShaderLibrary.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
 
