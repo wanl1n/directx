@@ -259,7 +259,7 @@ Capsule* GameObjectManager::createCapsule(OBJECT_TYPE type)
 	return newCapsule;
 }
 
-DirectX::XMVECTOR GameObjectManager::pick(Point mousePos, float width, float height)
+DirectX::XMVECTOR GameObjectManager::pick(Vector2 mousePos, float width, float height)
 {
 	bool rayHit = false;
 	DirectX::XMVECTOR hitPoint = DirectX::XMVectorSet(0, 0, 0, 0);

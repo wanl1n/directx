@@ -37,53 +37,50 @@ void Plane::initializeBuffers()
 std::vector<Vertex3D> Plane::createVertices()
 {
 	std::vector<Vertex3D> vecVerts;
+	int size = 8;
 
-	Point uvs[] = {
-		Point(0, 0),
-		Point(0, 1),
-		Point(1, 0),
-		Point(1, 1)
+	Vector3 xyzs[] = { // Cube Vertices
+		// FRONT FACE
+		Vector3(-width, -height, 0),
+		Vector3(-width, height, 0),	
+		Vector3(width, height, 0),	
+		Vector3(width, -height, 0),	
+		// BACK FACE
+		Vector3(width, -height, 0),	
+		Vector3(width, height, 0),	
+		Vector3(-width, height, 0),	
+		Vector3(-width, -height, 0)
+	};
+
+	Vector2 uvs[] = {
+		Vector2(0, 1),
+		Vector2(0, 0),
+		Vector2(1, 0),
+		Vector2(1, 1)
+	};
+
+	Vector4 multicolor[] = {
+		PALEDOGWOOD,
+		ROSYBROWN,
+		PUCE,
+		ROSETAUPE,
+		WHITE,
+		PINK,
+		WHITE,
+		PINK
 	};
 
 	//Set up the Vertex buffer.
-	if (COLOR_SETTINGS == WHITE_COLORED) {
-		Vertex3D vertices[] = { // Cube Vertices
-			// FRONT FACE
-			{ Vector3(-width, -height, 0),	this->color , uvs[1]},
-			{ Vector3(-width, height, 0),	this->color , uvs[0]},
-			{ Vector3(width, height, 0),	this->color , uvs[2]},
-			{ Vector3(width, -height, 0),	this->color , uvs[3]},
-			// BACK FACE
-			{ Vector3(width, -height, 0),	this->color , uvs[1]},
-			{ Vector3(width, height, 0),	this->color , uvs[0]},
-			{ Vector3(-width, height, 0),	this->color , uvs[2]},
-			{ Vector3(-width, -height, 0),	this->color , uvs[3]}
-		};
-		UINT size_list = ARRAYSIZE(vertices);
+	/*if (COLOR_SETTINGS == WHITE_COLORED) {
 
-		for (int i = 0; i < size_list; i++) {
-			vecVerts.push_back(vertices[i]);
-		}
 	}
 	else if (COLOR_SETTINGS == RAINBOW_COLORED) {
 
-		Vertex3D vertices[] = { // Cube Vertices
-			// FRONT FACE
-			{ Vector3(-width, -height, 0),	PALEDOGWOOD, uvs[1] },
-			{ Vector3(-width, height, 0),	ROSYBROWN, uvs[0] },
-			{ Vector3(width, height, 0),	PUCE, uvs[2] },
-			{ Vector3(width, -height, 0),	ROSETAUPE, uvs[3] },
-			// BACK FACE
-			{ Vector3(width, -height, 0),	this->color, uvs[1] },
-			{ Vector3(width, height, 0),	PINK, uvs[0] },
-			{ Vector3(-width, height, 0),	this->color, uvs[2] },
-			{ Vector3(-width, -height, 0),	PINK, uvs[3] }
-		};
-		UINT size_list = ARRAYSIZE(vertices);
+	}*/
 
-		for (int i = 0; i < size_list; i++) {
-			vecVerts.push_back(vertices[i]);
-		}
+	for (int i = 0; i < size; i++) {
+		Vertex3D vertex = { xyzs[i], uvs[i] };
+		vecVerts.push_back(vertex);
 	}
 
 	return vecVerts;

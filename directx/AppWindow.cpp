@@ -50,7 +50,10 @@ void AppWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
+	GameObjectManager::getInstance()->addGameObject(CUBE);
+	GameObjectManager::getInstance()->addGameObject(SPHERE);
 	GameObjectManager::getInstance()->addGameObject(CAPSULE);
+	GameObjectManager::getInstance()->addGameObject(CYLINDER);
 }
 
 void AppWindow::onCreate() 
@@ -111,22 +114,22 @@ void AppWindow::onKillFocus()
 	InputSystem::getInstance()->removeListener(AppWindow::getInstance());
 }
 
-void AppWindow::onMouseMove(const Point& mousePos)
+void AppWindow::onMouseMove(const Vector2& mousePos)
 {
 }
 
-void AppWindow::onLeftMouseDown(const Point& mousePos)
+void AppWindow::onLeftMouseDown(const Vector2& mousePos)
 {
 }
 
-void AppWindow::onRightMouseDown(const Point& mousePos)
+void AppWindow::onRightMouseDown(const Vector2& mousePos)
 {
 }
 
-void AppWindow::onLeftMouseUp(const Point& mousePos)
+void AppWindow::onLeftMouseUp(const Vector2& mousePos)
 {
 }
 
-void AppWindow::onRightMouseUp(const Point& mousePos)
+void AppWindow::onRightMouseUp(const Vector2& mousePos)
 {
 }

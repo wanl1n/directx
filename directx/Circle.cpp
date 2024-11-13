@@ -20,9 +20,9 @@ Circle::Circle(std::string name, CircleProps props, bool blending) : GameObject(
 	std::vector<Vertex3D> vertices;
 	for (int i = 0; i < verticesGenerated.size(); i++) {
 		if (verticesGenerated[i].x == 0 && verticesGenerated[i].y == 0)
-			vertices.push_back({ verticesGenerated[i], props.colorCenter, Point(0,0) });
+			vertices.push_back({ verticesGenerated[i], Vector2(0,0) });
 		else
-			vertices.push_back( { verticesGenerated[i], props.color, Point(0,0) } );
+			vertices.push_back( { verticesGenerated[i], Vector2(0,0) } );
 	}
 
 	this->vb = renderSystem->createVertexBuffer(vertices, sizeof(Vertex3D), shaderByteCode, sizeShader);

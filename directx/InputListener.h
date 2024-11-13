@@ -1,5 +1,5 @@
 #pragma once
-#include "Point.h"
+#include "Vector2.h"
 
 class InputListener {
 	public:
@@ -7,9 +7,9 @@ class InputListener {
 		~InputListener() {}
 
 		// Mouse pure virtual callback functions
-		virtual void onMouseMove(const Point& mousePos) = 0;
-		virtual void onLeftMouseDown(const Point& mousePos) = 0;
-		virtual void onRightMouseDown(const Point& mousePos) = 0;
-		virtual void onLeftMouseUp(const Point& mousePos) = 0;
-		virtual void onRightMouseUp(const Point& mousePos) = 0;
+		virtual void onMouseMove(const Vector2& mousePos) = 0;
+		virtual void onLeftMouseDown(const Vector2& mousePos) = 0;
+		virtual void onRightMouseDown(const Vector2& mousePos) = 0;
+		virtual void onLeftMouseUp(const Vector2& mousePos) = 0;
+		virtual void onRightMouseUp(const Vector2& mousePos) = 0;
 };

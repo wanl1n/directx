@@ -54,7 +54,7 @@ class GameObjectManager
 		Capsule* createCapsule(OBJECT_TYPE type);
 
 	public:
-		DirectX::XMVECTOR pick(Point mousePos, float width, float height);
+		DirectX::XMVECTOR pick(Vector2 mousePos, float width, float height);
 		void transformSelectedGameObject(DirectX::XMVECTOR deltaHitPoint);
 		GameObject* findGameObject(std::string name);
 		GameObject* getGameObject(int index);

@@ -109,11 +109,11 @@ void SceneWindow::onKillFocus()
 	InputSystem::getInstance()->removeListener(SceneWindow::getInstance());
 }
 
-void SceneWindow::onMouseMove(const Point& mousePos) {} 
-void SceneWindow::onLeftMouseDown(const Point& mousePos) {}
-void SceneWindow::onRightMouseDown(const Point& mousePos) {}
-void SceneWindow::onLeftMouseUp(const Point& mousePos) {}
-void SceneWindow::onRightMouseUp(const Point& mousePos) {}
+void SceneWindow::onMouseMove(const Vector2& mousePos) {} 
+void SceneWindow::onLeftMouseDown(const Vector2& mousePos) {}
+void SceneWindow::onRightMouseDown(const Vector2& mousePos) {}
+void SceneWindow::onLeftMouseUp(const Vector2& mousePos) {}
+void SceneWindow::onRightMouseUp(const Vector2& mousePos) {}
 
 void SceneWindow::testCase6()
 {

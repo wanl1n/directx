@@ -50,11 +50,11 @@ void Capsule::initializeBuffers()
 
 std::vector<Vertex3D> Capsule::createVertices()
 {
-	Point uvs[] = {
-		Point(0, 0),
-		Point(0, 1),
-		Point(1, 0),
-		Point(1, 1)
+	Vector2 uvs[] = {
+		Vector2(0, 0),
+		Vector2(0, 1),
+		Vector2(1, 0),
+		Vector2(1, 1)
 	};
 
 	std::vector<Vertex3D> vertices;
@@ -82,16 +82,16 @@ std::vector<Vertex3D> Capsule::createVertices()
 			else
 				color = LIGHTMAUVE;
 
-			Point uv = Point(0, 0);
+			Vector2 uv = Vector2(0, 0);
 			if (sector % 2 == 0)
-				uv = Point(0, 0);
+				uv = Vector2(0, 0);
 			else
-				uv = Point(1, 1);
+				uv = Vector2(1, 1);
 
 			// Create the vertex with position, normal, and texture coordinate
 			Vertex3D vertex = {
 				Vector3(x * radius, y * radius, z * radius),
-				color,
+				//color,
 				uv
 			};
 

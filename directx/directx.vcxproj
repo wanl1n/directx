@@ -180,7 +180,6 @@
     <ClCompile Include="RotatingCube.cpp" />
     <ClCompile Include="RotatingPlane.cpp" />
     <ClCompile Include="SceneWindow.cpp" />
-    <ClCompile Include="SimpleMath\SimpleMath.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="SwapChain.cpp" />
@@ -240,7 +239,7 @@
     <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Plane.h" />
-    <ClInclude Include="Point.h" />
+    <ClInclude Include="Vector2.h" />
     <ClInclude Include="Prerequisites.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="PrimitivesInclude.h" />
@@ -254,7 +253,6 @@
     <ClInclude Include="RotatingCube.h" />
     <ClInclude Include="RotatingPlane.h" />
     <ClInclude Include="SceneWindow.h" />
-    <ClInclude Include="SimpleMath\SimpleMath.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="stb_image.h" />
@@ -308,7 +306,6 @@
     <None Include="Libs\DirectXTK\bin\DirectXTKD.pdb" />
     <None Include="Libs\DirectXTK\bin\MakeSpriteFont.exe" />
     <None Include="Libs\DirectXTK\include\SimpleMath.inl" />
-    <None Include="SimpleMath\SimpleMath.inl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libs\DirectXTex\bin\DirectXTex.lib" />

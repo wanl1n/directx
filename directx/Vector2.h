@@ -2,17 +2,17 @@
 
 #include <cmath>
 
-class Point {
+class Vector2 {
 	public:
 		int x = 0, y = 0; 
 
-		Point() : x(0), y(0) {}
-		Point(int x, int y) : x(x), y(y) {}
-		Point(const Point& point) : x(point.x), y(point.y) {}
-		~Point() {}
+		Vector2() : x(0), y(0) {}
+		Vector2(int x, int y) : x(x), y(y) {}
+		Vector2(const Vector2& point) : x(point.x), y(point.y) {}
+		~Vector2() {}
 		
-		static Point lerp(const Point& start, const Point& end, float delta) {
-			Point v;
+		static Vector2 lerp(const Vector2& start, const Vector2& end, float delta) {
+			Vector2 v;
 
 			v.x = start.x * (1.0f - delta) + end.x * delta;
 			v.y = start.y * (1.0f - delta) + end.y * delta;
@@ -37,17 +37,17 @@ class Point {
 			}
 		}
 
-		Point operator-(const Point& other) const
+		Vector2 operator-(const Vector2& other) const
 		{
-			return Point(x - other.x, y - other.y);
+			return Vector2(x - other.x, y - other.y);
 		}
 		
-		void operator +=(const Point& other) {
+		void operator +=(const Vector2& other) {
 			this->x += other.x;
 			this->y += other.y;
 		}
 
-		void operator -=(const Point& other) {
+		void operator -=(const Vector2& other) {
 			this->x -= other.x;
 			this->y -= other.y;
 		}
@@ -57,8 +57,8 @@ class Point {
 			this->y += addend;
 		}
 
-		Point operator +(const Point& other) {
-			Point result;
+		Vector2 operator +(const Vector2& other) {
+			Vector2 result;
 
 			result.x = x + other.x;
 			result.y = y + other.y;
@@ -66,8 +66,8 @@ class Point {
 			return result;
 		}
 
-		Point operator *(const Point& other) {
-			Point result;
+		Vector2 operator *(const Vector2& other) {
+			Vector2 result;
 
 			result.x = x * other.x;
 			result.y = y * other.y;
@@ -75,8 +75,8 @@ class Point {
 			return result;
 		}
 
-		Point operator *(float mult) {
-			Point result;
+		Vector2 operator *(float mult) {
+			Vector2 result;
 
 			result.x = x * mult;
 			result.y = y * mult;
@@ -84,7 +84,7 @@ class Point {
 			return result;
 		}
 
-		bool operator !=(const Point& other) {
+		bool operator !=(const Vector2& other) {
 			if (other.x != this->x ||
 				other.y != this->y)
 				return true;

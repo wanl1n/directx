@@ -172,7 +172,7 @@ void Camera::setProjectionType(int type)
 	this->updatedCameraProjPos = false;
 }
 
-void Camera::onMouseMove(const Point& mousePos)
+void Camera::onMouseMove(const Vector2& mousePos)
 {
 	int width = (viewport.right - viewport.left);
 	int height = (viewport.bottom - viewport.top);
@@ -181,14 +181,14 @@ void Camera::onMouseMove(const Point& mousePos)
 	if (moving && this->type < 2) {
 		this->transform.rotation.x += (mousePos.y - (height / 2.0f)) * deltaTime * panSpeed;
 		this->transform.rotation.y += (mousePos.x - (width / 2.0f)) * deltaTime * panSpeed;
-		InputSystem::getInstance()->setCursorPosition(Point(width / 2.0f, height / 2.0f));
+		InputSystem::getInstance()->setCursorPosition(Vector2(width / 2.0f, height / 2.0f));
 	}
 
 	if (leftMouseDown)
 		GameObjectManager::getInstance()->transformSelectedGameObject(deltaHitPos);
 }
 
-void Camera::onLeftMouseDown(const Point& mousePos)
+void Camera::onLeftMouseDown(const Vector2& mousePos)
 {
 	leftMouseDown = true; 
 
@@ -207,17 +207,17 @@ void Camera::onLeftMouseDown(const Point& mousePos)
 	}*/
 }
 
-void Camera::onRightMouseDown(const Point& mousePos)
+void Camera::onRightMouseDown(const Vector2& mousePos)
 {
 	moving = true;
 }
 
-void Camera::onLeftMouseUp(const Point& mousePos)
+void Camera::onLeftMouseUp(const Vector2& mousePos)
 {
 	leftMouseDown = false;
 }
 
-void Camera::onRightMouseUp(const Point& mousePos)
+void Camera::onRightMouseUp(const Vector2& mousePos)
 {
 	moving = false;
 }

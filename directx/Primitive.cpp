@@ -12,7 +12,7 @@ void Primitive::init()
 	this->createVertexShader();
 	this->createPixelShader();
 	this->createConstantBuffer();
-	this->createBlendState(alphaOn);
+	//this->createBlendState(alphaOn);
 
 	this->calculateBounds();
 }
@@ -70,11 +70,12 @@ void Primitive::draw()
 	device->setConstantBuffer(ps, this->cb);
 
 	// Set Blend State.
-	if (this->bs) device->setBlendState(bs);
+	//if (this->bs) device->setBlendState(bs);
 
 	// Set Shaders.
 	device->setVertexShader(vs);
 	device->setPixelShader(ps);
+	//device->setTexture(vs, texture);
 	device->setTexture(ps, texture);
 
 	// Draw Object.

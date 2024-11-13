@@ -10,33 +10,33 @@
 
 #include "Constants.h"
 
-class TextureNames {
-	public:
-		typedef std::string String;
-		const String LOGO = "LOGO";
-};
+//class TextureNames {
+//	public:
+//		typedef std::string String;
+//		const String LOGO = "LOGO";
+//};
 
 class TextureManager : public ResourceManager
 {
-	public:
+	//public:
 		/*static TextureManager* getInstance();
-		static void initialize();*/
+		static void initialize();
 
 		typedef std::string String;
 		typedef std::unordered_map<String, TextureData> TextureTable;
 
 	private:
-		TextureTable txtTable;
+		TextureTable txtTable;*/
 
 	public:
 		TextureManager();
 		~TextureManager();
 		/*TextureManager(TextureManager const&) {};
 		TextureManager& operator = (TextureManager const&) {};
-		static TextureManager* sharedInstance;*/
+		static TextureManager* sharedInstance;
 
 		bool LoadTextureFromMemory(const void* data, size_t data_size, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height);
-		bool LoadTextureFromFile(const char* file_name, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height);
+		bool LoadTextureFromFile(const char* file_name, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height);*/
 	
 	protected:
 		virtual Resource* createResourceFromFileConcrete(const wchar_t* path);

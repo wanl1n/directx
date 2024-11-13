@@ -64,12 +64,12 @@ std::vector<Vertex3D> Sphere::createVertices()
 			float x = cosf(2 * DirectX::XM_PI * sector * sectorStep) * sinf(DirectX::XM_PI * ring * ringStep); // Horizontal (X) position
 			float z = sinf(2 * DirectX::XM_PI * sector * sectorStep) * sinf(DirectX::XM_PI * ring * ringStep); // Depth (Z) position
 
-			Point uv = Point(sector * sectorStep, ring * ringStep);
+			Vector2 uv = Vector2(sector * sectorStep, ring * ringStep);
 
 			// Create the vertex with position, normal, and texture coordinate
 			Vertex3D vertex = {
 				Vector3(x * radius, y * radius, z * radius),
-				color,
+				//color,
 				uv
 			};
 

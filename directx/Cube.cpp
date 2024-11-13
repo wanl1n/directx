@@ -18,7 +18,7 @@ Cube::Cube(std::string name, bool blending, OBJECT_TYPE type) :
 	std::cout << "Bounds Y: " << bounds.minY << ", " << bounds.maxY << std::endl;
 	std::cout << "Bounds Z: " << bounds.minZ << ", " << bounds.maxZ << std::endl;*/
 
-	this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\grass.jpg");
+	this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\wood.jpg");
 }
 
 Cube::~Cube() {}
@@ -75,109 +75,89 @@ std::vector<Vertex3D> Cube::createVertices()
 {
 	std::vector<Vertex3D> vecVerts;
 
-	Vector3 xyzs[] = {
-		// FRONT FACE
-		Vector3(-side, -side, -side),
-		Vector3(-side, side, -side),
-		Vector3(side, side, -side),
-		Vector3(side, -side, -side),
-		// BACK FACE
-		Vector3(side, -side, side),
-		Vector3(side, side, side),	
-		Vector3(-side, side, side),	
-		Vector3(-side, -side, side)
+	//Vector3 xyzs[] = {
+	//	// FRONT FACE
+	//	Vector3(-side, -side, -side),
+	//	Vector3(-side, side, -side),
+	//	Vector3(side, side, -side),
+	//	Vector3(side, -side, -side),
+	//	// BACK FACE
+	//	Vector3(side, -side, side),
+	//	Vector3(side, side, side),	
+	//	Vector3(-side, side, side),	
+	//	Vector3(-side, -side, side)
+	//};
+
+	//Vector2 uvs[] = {
+	//	Vector2(0, 0),
+	//	Vector2(0, 1),
+	//	Vector2(1, 0),
+	//	Vector2(1, 1)
+	//};
+
+	Vector3 xyzs[] =
+	{
+		{ Vector3(-0.5f,-0.5f,-0.5f)},
+		{ Vector3(-0.5f,0.5f,-0.5f) },
+		{ Vector3(0.5f,0.5f,-0.5f) },
+		{ Vector3(0.5f,-0.5f,-0.5f)},
+
+		//BACK FACE
+		{ Vector3(0.5f,-0.5f,0.5f) },
+		{ Vector3(0.5f,0.5f,0.5f) },
+		{ Vector3(-0.5f,0.5f,0.5f)},
+		{ Vector3(-0.5f,-0.5f,0.5f) }
 	};
 
-	Point uvs[] = {
-		Point(0, 0),
-		Point(0, 1),
-		Point(1, 0),
-		Point(1, 1)
+	Vector2 uvs[] =
+	{
+		{ Vector2(0.0f,0.0f) },
+		{ Vector2(0.0f,1.0f) },
+		{ Vector2(1.0f,0.0f) },
+		{ Vector2(1.0f,1.0f) }
 	};
 
 	/*Vector4 rgbas_rb[] = { RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET, PINK };
 	Vector4 rgbas_wh[] = { frontColor, frontColor, frontColor, frontColor, 
 						   backColor, backColor, backColor, backColor };*/
 
-	if (COLOR_SETTINGS == RAINBOW_COLORED) {
-		// 1. Set up the Vertex buffer.
-		Vertex3D vertices[] = { // Cube Vertices
-			// FRONT FACE
-			{ xyzs[0], RED, uvs[1] },
-			{ xyzs[1], ORANGE, uvs[0] },
-			{ xyzs[2], YELLOW, uvs[2] },
-			{ xyzs[3], GREEN, uvs[3] },
-			// BACK FACE
-			{ xyzs[4], BLUE, uvs[1] },
-			{ xyzs[5], INDIGO, uvs[0] },
-			{ xyzs[6], VIOLET, uvs[2] },
-			{ xyzs[7], PINK, uvs[3] },
+	// 1. Set up the Vertex buffer.
+	Vertex3D vertices[] = { // Cube Vertices
+		// FRONT FACE
+		{ xyzs[0], uvs[1] },
+		{ xyzs[1], uvs[0] },
+		{ xyzs[2], uvs[2] },
+		{ xyzs[3], uvs[3] },
+		// BACK FACE
+		{ xyzs[4], uvs[1] },
+		{ xyzs[5], uvs[0] },
+		{ xyzs[6], uvs[2] },
+		{ xyzs[7], uvs[3] },
 
-			{ xyzs[1], BLUE, uvs[1] },
-			{ xyzs[6], INDIGO, uvs[0] },
-			{ xyzs[5], VIOLET, uvs[2] },
-			{ xyzs[2], PINK, uvs[3] },
+		{ xyzs[1], uvs[1] },
+		{ xyzs[6], uvs[0] },
+		{ xyzs[5], uvs[2] },
+		{ xyzs[2], uvs[3] },
 
-			{ xyzs[7], BLUE, uvs[1] },
-			{ xyzs[0], INDIGO, uvs[0] },
-			{ xyzs[3], VIOLET, uvs[2] },
-			{ xyzs[4], PINK, uvs[3] },
+		{ xyzs[7], uvs[1] },
+		{ xyzs[0], uvs[0] },
+		{ xyzs[3], uvs[2] },
+		{ xyzs[4], uvs[3] },
 
-			{ xyzs[3], BLUE, uvs[1] },
-			{ xyzs[2], INDIGO, uvs[0] },
-			{ xyzs[5], VIOLET, uvs[2] },
-			{ xyzs[4], PINK, uvs[3] },
+		{ xyzs[3], uvs[1] },
+		{ xyzs[2], uvs[0] },
+		{ xyzs[5], uvs[2] },
+		{ xyzs[4], uvs[3] },
 
-			{ xyzs[7], BLUE, uvs[1] },
-			{ xyzs[6], INDIGO, uvs[0] },
-			{ xyzs[1], VIOLET, uvs[2] },
-			{ xyzs[0], PINK, uvs[3] }
-		};
-		UINT size_list = ARRAYSIZE(vertices);
+		{ xyzs[7], uvs[1] },
+		{ xyzs[6], uvs[0] },
+		{ xyzs[1], uvs[2] },
+		{ xyzs[0], uvs[3] }
+	};
+	UINT size_list = ARRAYSIZE(vertices);
 
-		for (int i = 0; i < size_list; i++) {
-			vecVerts.push_back(vertices[i]);
-		}
-	}
-	else if (COLOR_SETTINGS == WHITE_COLORED) {
-		// 1. Set up the Vertex buffer.
-		Vertex3D vertices[] = { // Cube Vertices
-			// FRONT FACE
-			{ xyzs[0], WHITE, uvs[1] },
-			{ xyzs[1], WHITE, uvs[0] },
-			{ xyzs[2], WHITE, uvs[2] },
-			{ xyzs[3], WHITE, uvs[3] },
-			// BACK FACE
-			{ xyzs[4], WHITE, uvs[1] },
-			{ xyzs[5], WHITE, uvs[0] },
-			{ xyzs[6], WHITE, uvs[2] },
-			{ xyzs[7], WHITE, uvs[3] },
-
-			{ xyzs[1], WHITE, uvs[1] },
-			{ xyzs[6], WHITE, uvs[0] },
-			{ xyzs[5], WHITE, uvs[2] },
-			{ xyzs[2], WHITE, uvs[3] },
-
-			{ xyzs[7], WHITE, uvs[1] },
-			{ xyzs[0], WHITE, uvs[0] },
-			{ xyzs[3], WHITE, uvs[2] },
-			{ xyzs[4], WHITE, uvs[3] },
-
-			{ xyzs[3], WHITE, uvs[1] },
-			{ xyzs[2], WHITE, uvs[0] },
-			{ xyzs[5], WHITE, uvs[2] },
-			{ xyzs[4], WHITE, uvs[3] },
-
-			{ xyzs[7], WHITE, uvs[1] },
-			{ xyzs[6], WHITE, uvs[0] },
-			{ xyzs[1], WHITE, uvs[2] },
-			{ xyzs[0], WHITE, uvs[3] }
-		};
-		UINT size_list = ARRAYSIZE(vertices);
-
-		for (int i = 0; i < size_list; i++) {
-			vecVerts.push_back(vertices[i]);
-		}
+	for (int i = 0; i < size_list; i++) {
+		vecVerts.push_back(vertices[i]);
 	}
 
 	return vecVerts;
