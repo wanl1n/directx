@@ -2,6 +2,7 @@
 #include "PrimitivesInclude.h"
 #include "Mesh.h"
 
+
 class MeshObject : public GameObject
 {
 	protected:
@@ -15,7 +16,7 @@ class MeshObject : public GameObject
 		PixelShaderPtr ps;
 
 	public:
-		MeshObject(std::string name, OBJECT_TYPE type);
+		MeshObject(OBJECT_TYPE type);
 		~MeshObject();
 
 		virtual void init();

@@ -39,6 +39,8 @@ void AppWindow::initializeEngine()
 	catch (...) { throw std::exception("Graphics Engine Initialization failed."); }
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
 
+	ShaderLibrary::initialize();
+
 	// Game Object Manager
 	GameObjectManager::initialize();
 	CameraManager::initialize(this->getClientWindowRect());
@@ -52,7 +54,9 @@ void AppWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	GameObjectManager::getInstance()->addGameObject(MESH);
+	GameObjectManager::getInstance()->addGameObject(MESH_TEAPOT);
+	GameObjectManager::getInstance()->addGameObject(MESH_BUNNY);
+	GameObjectManager::getInstance()->addGameObject(MESH_ARMADILLO);
 }
 
 void AppWindow::onCreate() 

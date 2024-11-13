@@ -1,12 +1,15 @@
 #include "Mesh.h"
 
+#include "GraphicsEngine.h"
+#include "VertexMesh.h"
+
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
 
 #include <filesystem> 
 
-#include "GraphicsEngine.h"
-#include "VertexMesh.h"
+void getCoordinates(tinyobj::attrib_t attribs, std::vector<tinyobj::shape_t> shapes, VertexBufferPtr* vb, IndexBufferPtr* ib);
+void getCoordinatesWithTex(tinyobj::attrib_t attribs, std::vector<tinyobj::shape_t> shapes, VertexBufferPtr* vb, IndexBufferPtr* ib);
 
 Mesh::Mesh(const wchar_t* path) : Resource(path)
 {
@@ -25,6 +28,48 @@ Mesh::Mesh(const wchar_t* path) : Resource(path)
 	if (!loaded) throw std::exception("Mesh not created successfully.");
 	if (shapes.size() > 1) throw std::exception("More than 1 shape.");
 
+	if (attribs.texcoords.size() > 0)
+		getCoordinatesWithTex(attribs, shapes, &vb, &ib);
+	else
+		getCoordinates(attribs, shapes, &vb, &ib);
+}
+
+Mesh::~Mesh()
+{
+}
+
+void getCoordinates(tinyobj::attrib_t attribs, std::vector<tinyobj::shape_t> shapes, VertexBufferPtr* vb, IndexBufferPtr* ib)
+{
+	std::vector<VertexMesh> vertices;
+	std::vector<unsigned int> indices;
+
+	/*for (int i = 0; i < shapes[0].mesh.indices.size(); i++) {
+		indices.push_back(shapes[0].mesh.indices[i].vertex_index);
+	}*/
+
+	for (size_t s = 0; s < shapes.size(); s++) {
+		for (size_t f = 0; f < shapes[s].mesh.indices.size(); f++) {
+			tinyobj::index_t index = shapes[s].mesh.indices[f];
+
+			tinyobj::real_t vx = attribs.vertices[index.vertex_index * 3 + 0];
+			tinyobj::real_t vy = attribs.vertices[index.vertex_index * 3 + 1];
+			tinyobj::real_t vz = attribs.vertices[index.vertex_index * 3 + 2];
+
+			vertices.push_back({ Vector3(vx, vy, vz), Vector2(0) });
+			indices.push_back(indices.size());
+		}
+	}
+
+	void* shaderByteCode = nullptr;
+	size_t sizeShader = 0;
+	GraphicsEngine::get()->getVertexMeshLayoutShaderByteCodeAndSize(&shaderByteCode, &sizeShader);
+	*vb = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(vertices, sizeof(VertexMesh), shaderByteCode, sizeShader);
+
+	*ib = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer(&indices[0], (UINT)indices.size());
+}
+
+void getCoordinatesWithTex(tinyobj::attrib_t attribs, std::vector<tinyobj::shape_t> shapes, VertexBufferPtr* vb, IndexBufferPtr* ib)
+{
 	std::vector<VertexMesh> vertices;
 	std::vector<unsigned int> indices;
 
@@ -48,7 +93,7 @@ Mesh::Mesh(const wchar_t* path) : Resource(path)
 
 				Vector3 pos = Vector3(vx, vy, vz);
 				Vector2 tex = Vector2(tu, tv);
-				vertices.push_back({pos, tex});
+				vertices.push_back({ pos, tex });
 				indices.push_back(v + indexOffset);
 			}
 			indexOffset += faceVerts;
@@ -58,13 +103,9 @@ Mesh::Mesh(const wchar_t* path) : Resource(path)
 	void* shaderByteCode = nullptr;
 	size_t sizeShader = 0;
 	GraphicsEngine::get()->getVertexMeshLayoutShaderByteCodeAndSize(&shaderByteCode, &sizeShader);
-	vb = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(vertices, sizeof(VertexMesh), shaderByteCode, sizeShader);
-	
-	ib = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer(&indices[0], (UINT)indices.size());
-}
+	*vb = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(vertices, sizeof(VertexMesh), shaderByteCode, sizeShader);
 
-Mesh::~Mesh()
-{
+	*ib = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer(&indices[0], (UINT)indices.size());
 }
 
 const VertexBufferPtr& Mesh::getVertexBuffer()

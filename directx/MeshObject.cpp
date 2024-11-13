@@ -2,12 +2,38 @@
 
 #include "GraphicsEngine.h"
 
-MeshObject::MeshObject(std::string name, OBJECT_TYPE type) :
+MeshObject::MeshObject(OBJECT_TYPE type) :
 	GameObject(name, type) {
 
 	texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
-	mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj");
-	name = "Teapot";
+
+	switch (type) {
+		case MESH_TEAPOT:
+			mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj");
+			name = "Teapot";
+			break;
+
+		case MESH_BUNNY:
+			mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\bunny.obj");
+			name = "Bunny";
+			break;
+
+		case MESH_ARMADILLO:
+			mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\armadillo.obj");
+			name = "Armadillo";
+			break;
+
+		case MESH_STATUE:
+			mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\statue.obj");
+			name = "Statue";
+			break;
+
+		default:
+			mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\statue.obj");
+			name = "Teapot";
+			break;
+	}
+
 	this->init();
 
 	this->vb = mesh->getVertexBuffer();
@@ -70,7 +96,6 @@ void MeshObject::draw()
 	DeviceContextPtr device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 	/*device->setRenderConfig(shaderLib->getVertexShader(shaderNames.BASE_VERTEX_SHADER_NAME),
 		shaderLib->getPixelShader(shaderNames.BASE_PIXEL_SHADER_NAME));*/
-
 	// Bind to Shaders.
 	device->setConstantBuffer(vs, this->cb);
 	device->setConstantBuffer(ps, this->cb);

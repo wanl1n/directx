@@ -18,6 +18,7 @@ class Mesh : public Resource
 		Mesh(const wchar_t* path);
 		~Mesh();
 
+	public:
 		const VertexBufferPtr& getVertexBuffer();
 		const IndexBufferPtr& getIndexBuffer();
 };

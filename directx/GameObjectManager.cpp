@@ -83,7 +83,10 @@ void GameObjectManager::addGameObject(OBJECT_TYPE type, int count)
 			case CAPSULE:
 				this->createCapsule(type);
 				break;
-			case MESH:
+			case MESH_TEAPOT:
+			case MESH_BUNNY:
+			case MESH_ARMADILLO:
+			case MESH_STATUE:
 				this->createMesh(type);
 				break;
 			default:
@@ -264,7 +267,8 @@ Capsule* GameObjectManager::createCapsule(OBJECT_TYPE type)
 
 MeshObject* GameObjectManager::createMesh(OBJECT_TYPE type)
 {
-	MeshObject* newMesh = new MeshObject("Mesh", type);
+	MeshObject* newMesh = new MeshObject(type);
+
 	this->GOList.push_back((GameObject*)newMesh);
 	return newMesh;
 }

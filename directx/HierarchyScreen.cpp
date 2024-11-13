@@ -23,7 +23,6 @@ void HierarchyScreen::drawUI()
 		String name = obj->getName();
 		bool searchFound = name.find(query) != String::npos;
 		searchFound = this->contains(name, query);
-		//std::cout << name << ".Contains() " << query << " = " << searchFound << std::endl;
 
 		if (searchFound)
 		{
