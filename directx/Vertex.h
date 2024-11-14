@@ -85,10 +85,10 @@ struct PlaneProps {
 struct Vertex3D {
 	Vector3 position;
 	Vector2 texcoord;
-	//Vector4 color;
+	Vector4 color;
 };
 
-struct TexturedVertex {
+struct BaseVertex {
 	Vector3 position;
 	Vector2 texcoord;
 };

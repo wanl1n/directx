@@ -86,7 +86,7 @@ void DeviceContext::setViewportSize(UINT width, UINT height)
 	this->devContext->RSSetViewports(1, &vp);
 }
 
-void DeviceContext::setRenderConfig(VertexShader* vs, PixelShader* ps)
+void DeviceContext::setRenderConfig(const VertexShaderPtr& vs, const PixelShaderPtr& ps)
 {
 	this->devContext->VSSetShader(vs->m_vs, NULL, 0);
 	this->devContext->PSSetShader(ps->m_ps, NULL, 0);
@@ -110,6 +110,12 @@ void DeviceContext::setPixelShader(const PixelShaderPtr& pixel_shader)
 void DeviceContext::setTexture(const TexturePtr& texture)
 {
 	this->devContext->PSSetShaderResources(0, 1, &texture->shaderResView);
+}
+
+void DeviceContext::resetTexture()
+{
+	ID3D11ShaderResourceView* nullSRV[1] = { nullptr };
+	this->devContext->PSSetShaderResources(0, 1, nullSRV);
 }
 
 void DeviceContext::setConstantBuffer(const VertexShaderPtr& vertex_shader, const ConstantBufferPtr& buffer)

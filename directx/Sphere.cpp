@@ -69,8 +69,8 @@ std::vector<Vertex3D> Sphere::createVertices()
 			// Create the vertex with position, normal, and texture coordinate
 			Vertex3D vertex = {
 				Vector3(x * radius, y * radius, z * radius),
-				//color,
-				uv
+				uv,
+				color
 			};
 
 			if (ring % 2 == 0)

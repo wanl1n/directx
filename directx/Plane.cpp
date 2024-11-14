@@ -79,7 +79,7 @@ std::vector<Vertex3D> Plane::createVertices()
 	}*/
 
 	for (int i = 0; i < size; i++) {
-		Vertex3D vertex = { xyzs[i], uvs[i] };
+		Vertex3D vertex = { xyzs[i], uvs[i], multicolor[i]};
 		vecVerts.push_back(vertex);
 	}
 

@@ -24,19 +24,44 @@ void ShaderLibrary::requestVertexShaderData(String vertexShaderName, void** shad
 	graphicsEngine->getRenderSystem()->compileVertexShader(vertexShaderName.c_str(), "vsmain", shaderByteCode, sizeShader);
 }
 
-VertexShader* ShaderLibrary::getVertexShader(String vertexShaderName)
+VertexShaderPtr ShaderLibrary::getVertexShader(String vertexShaderName)
 {
 	if (this->activeVertexShaders[vertexShaderName] == NULL)
 		std::cout << "Vertex Shader " << vertexShaderName.c_str() << " not found. Have you initialized it?" << std::endl;
 	return this->activeVertexShaders[vertexShaderName];
 }
 
-PixelShader* ShaderLibrary::getPixelShader(String pixelShaderName)
+PixelShaderPtr ShaderLibrary::getPixelShader(String pixelShaderName)
 {
 	if (this->activePixelShaders[pixelShaderName] == NULL)
 		std::cout << "Pixel Shader " << pixelShaderName.c_str() << " not found. Have you initialized it?" << std::endl;
 	return this->activePixelShaders[pixelShaderName];
 }
 
-ShaderLibrary::ShaderLibrary() {}
-ShaderLibrary::~ShaderLibrary() {}
+ShaderLibrary::ShaderLibrary() 
+{
+	//initialize and load all shaders for use
+	RenderSystem* renderSys = GraphicsEngine::get()->getRenderSystem();
+
+	ShaderNames shaderNames;
+	ShaderData shaderData;
+	renderSys->compileVertexShader(shaderNames.BASE_VERTEX_SHADER_NAME.c_str(), "vsmain", &shaderData.shaderByteCode, &shaderData.shaderSize);
+	this->activeVertexShaders[shaderNames.BASE_VERTEX_SHADER_NAME] = renderSys->createVertexShader(shaderData.shaderByteCode, shaderData.shaderSize);
+
+	renderSys->compilePixelShader(shaderNames.BASE_PIXEL_SHADER_NAME.c_str(), "psmain", &shaderData.shaderByteCode, &shaderData.shaderSize);
+	this->activePixelShaders[shaderNames.BASE_PIXEL_SHADER_NAME] = renderSys->createPixelShader(shaderData.shaderByteCode, shaderData.shaderSize);
+
+	renderSys->compileVertexShader(shaderNames.TEXTURED_VERTEX_SHADER_NAME.c_str(), "vsmain", &shaderData.shaderByteCode, &shaderData.shaderSize);
+	this->activeVertexShaders[shaderNames.TEXTURED_VERTEX_SHADER_NAME] = renderSys->createVertexShader(shaderData.shaderByteCode, shaderData.shaderSize);
+
+	renderSys->compilePixelShader(shaderNames.TEXTURED_PIXEL_SHADER_NAME.c_str(), "psmain", &shaderData.shaderByteCode, &shaderData.shaderSize);
+	this->activePixelShaders[shaderNames.TEXTURED_PIXEL_SHADER_NAME] = renderSys->createPixelShader(shaderData.shaderByteCode, shaderData.shaderSize);
+
+	std::cout << "Shader library initialized. \n";
+}
+
+ShaderLibrary::~ShaderLibrary()
+{
+	this->activeVertexShaders.clear();
+	this->activePixelShaders.clear();
+}

@@ -2,6 +2,8 @@
 #include <string>
 #include <unordered_map>
 
+#include "Prerequisites.h"
+
 class VertexShader;
 class PixelShader;
 
@@ -28,8 +30,8 @@ class ShaderLibrary
 		};
 
 		typedef std::wstring String;
-		typedef std::unordered_map<String, VertexShader*> VertexShaderTable;
-		typedef std::unordered_map<String, PixelShader*> PixelShaderTable;
+		typedef std::unordered_map<String, VertexShaderPtr> VertexShaderTable;
+		typedef std::unordered_map<String, PixelShaderPtr> PixelShaderTable;
 
 	private:
 		VertexShaderTable activeVertexShaders;
@@ -43,8 +45,8 @@ class ShaderLibrary
 		// Shader byte code gets dereferenced if stored in a hash table.
 		// Request manually.
 		void requestVertexShaderData(String vertexShaderName, void** shaderByteCode, size_t* sizeShader);
-		VertexShader* getVertexShader(String vertexShaderName);
-		PixelShader* getPixelShader(String pixelShaderName);
+		VertexShaderPtr getVertexShader(String vertexShaderName);
+		PixelShaderPtr getPixelShader(String pixelShaderName);
 
 	private:
 		ShaderLibrary();

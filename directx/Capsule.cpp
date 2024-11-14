@@ -91,8 +91,8 @@ std::vector<Vertex3D> Capsule::createVertices()
 			// Create the vertex with position, normal, and texture coordinate
 			Vertex3D vertex = {
 				Vector3(x * radius, y * radius, z * radius),
-				//color,
-				uv
+				uv,
+				color
 			};
 
 			// Store the vertex in the vertex buffer

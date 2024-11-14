@@ -10,8 +10,6 @@ class TexturedCube : public Cube
 		TexturedCube(std::string name, bool blending, OBJECT_TYPE type = TEXTURED_CUBE);
 		~TexturedCube();	
 
-		virtual void initializeBuffers();
-		virtual std::vector<Vertex3D> createVertices();
 		virtual void draw() override;
 };
 

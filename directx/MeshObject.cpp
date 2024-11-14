@@ -56,12 +56,12 @@ void MeshObject::createVertexShader()
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
 	// Shader Attributes
-	//ShaderNames shaderNames;
+	ShaderNames shaderNames;
 	void* shaderByteCode = nullptr;
 	size_t sizeShader = 0;
 
-	//ShaderLibrary::getInstance()->requestVertexShaderData(shaderNames.BASE_VERTEX_SHADER_NAME, &shaderByteCode, &sizeShader);
-	renderSystem->compileVertexShader(L"TexturedVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
+	ShaderLibrary::getInstance()->requestVertexShaderData(shaderNames.TEXTURED_VERTEX_SHADER_NAME, &shaderByteCode, &sizeShader);
+	//renderSystem->compileVertexShader(L"TexturedVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
 	this->vs = renderSystem->createVertexShader(shaderByteCode, sizeShader);
 	renderSystem->releaseCompiledShader();
 }
@@ -91,18 +91,18 @@ void MeshObject::update(float deltaTime, RECT viewport)
 
 void MeshObject::draw()
 {
-	//ShaderNames shaderNames;
-	//ShaderLibrary* shaderLib = ShaderLibrary::getInstance();
+	ShaderNames shaderNames;
+	ShaderLibrary* shaderLib = ShaderLibrary::getInstance();
 	DeviceContextPtr device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
-	/*device->setRenderConfig(shaderLib->getVertexShader(shaderNames.BASE_VERTEX_SHADER_NAME),
-		shaderLib->getPixelShader(shaderNames.BASE_PIXEL_SHADER_NAME));*/
+	device->setRenderConfig(shaderLib->getVertexShader(shaderNames.TEXTURED_VERTEX_SHADER_NAME),
+							shaderLib->getPixelShader(shaderNames.TEXTURED_PIXEL_SHADER_NAME));
 	// Bind to Shaders.
 	device->setConstantBuffer(vs, this->cb);
 	device->setConstantBuffer(ps, this->cb);
 
 	//// Set Shaders.
-	device->setVertexShader(vs);
-	device->setPixelShader(ps);
+	/*device->setVertexShader(vs);
+	device->setPixelShader(ps);*/
 	device->setTexture(texture);
 
 	// Draw Object.

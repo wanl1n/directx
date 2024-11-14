@@ -43,7 +43,7 @@ void Primitive::createPixelShader()
 	void* shaderByteCode = nullptr;
 	size_t sizeShader = 0;
 
-	renderSystem->compilePixelShader(L"TexturedPixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
+	renderSystem->compilePixelShader(L"SolidPixelShader.hlsl", "psmain", &shaderByteCode, &sizeShader);
 	this->ps = renderSystem->createPixelShader(shaderByteCode, sizeShader);
 	renderSystem->releaseCompiledShader();
 }
@@ -70,6 +70,7 @@ void Primitive::draw()
 	DeviceContextPtr device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 	device->setRenderConfig(shaderLib->getVertexShader(shaderNames.BASE_VERTEX_SHADER_NAME),
 							shaderLib->getPixelShader(shaderNames.BASE_PIXEL_SHADER_NAME));
+	device->resetTexture();
 
 	// Bind to Shaders.
 	device->setConstantBuffer(vs, this->cb);

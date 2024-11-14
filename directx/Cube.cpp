@@ -97,8 +97,9 @@ std::vector<Vertex3D> Cube::createVertices()
 	};
 	int texIndexList[] = { 1, 0, 2, 3 };
 
+	int indexCounter = 0;
 	for (int i = 0; i < size; i++) {
-		Vertex3D vert = { xyzs[posIndexList[i]], uvs[texIndexList[i % 5]] };
+		Vertex3D vert = { xyzs[posIndexList[i]], uvs[texIndexList[i % 4]], rgbas[i] };
 		vecVerts.push_back(vert);
 	}
 
