@@ -1,12 +1,13 @@
 #include "MeshObject.h"
 
 #include "GraphicsEngine.h"
+#include "CameraManager.h"
 
 MeshObject::MeshObject(OBJECT_TYPE type) :
 	GameObject(name, type) {
 
 	texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\brick.png");
-
+	
 	switch (type) {
 		case MESH_TEAPOT:
 			mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\teapot.obj");
@@ -28,11 +29,24 @@ MeshObject::MeshObject(OBJECT_TYPE type) :
 			name = "Statue";
 			break;
 
+		case MESH_SUZANNE:
+			mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\suzanne.obj");
+			name = "Suzanne";
+			break;
+
+		case MESH_SKY:
+			texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\sky.jpg");
+			mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\sphere.obj");
+			name = "Sky";
+			break;
+
 		default:
-			mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\statue.obj");
-			name = "Teapot";
+			mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\suzanne.obj");
+			name = "Suzanne";
 			break;
 	}
+
+	//std::cout << name << " mesh created with type " << type << "." << std::endl;
 
 	this->init();
 
@@ -86,6 +100,17 @@ void MeshObject::createConstantBuffer()
 
 void MeshObject::update(float deltaTime, RECT viewport)
 {
+	std::cout << "Mesh Object " << name << " update()." << std::endl;
+	// Lighting
+	Matrix4x4 lightRot;
+	lightRot.setIdentity();
+	lightRot.setRotationY(lightRotY);
+
+	lightRotY += 0.707f * deltaTime;
+
+	this->cc.lightDir = lightRot.getZDir();
+	this->cc.cameraPos = CameraManager::getInstance()->getActiveCamera()->getPosition();
+
 	GameObject::update(deltaTime, viewport);
 }
 

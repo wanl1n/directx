@@ -163,6 +163,9 @@
     <Filter Include="GameEngine\GameObject\Meshes">
       <UniqueIdentifier>{409cf028-399a-4884-8cc8-ac6279574495}</UniqueIdentifier>
     </Filter>
+    <Filter Include="App\Shaders\SkyboxShader">
+      <UniqueIdentifier>{7af5cc8b-9ca2-4a86-8fa1-28c455f33aea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -620,6 +623,12 @@
     </FxCompile>
     <FxCompile Include="VertexMeshLayoutShader.hlsl">
       <Filter>App\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="SkyboxPixelShader.hlsl">
+      <Filter>App\Shaders\SkyboxShader</Filter>
+    </FxCompile>
+    <FxCompile Include="SkyboxVertexShader.hlsl">
+      <Filter>App\Shaders\SkyboxShader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

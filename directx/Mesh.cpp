@@ -55,7 +55,11 @@ void getCoordinates(tinyobj::attrib_t attribs, std::vector<tinyobj::shape_t> sha
 			tinyobj::real_t vy = attribs.vertices[index.vertex_index * 3 + 1];
 			tinyobj::real_t vz = attribs.vertices[index.vertex_index * 3 + 2];
 
-			vertices.push_back({ Vector3(vx, vy, vz), Vector2(0) });
+			tinyobj::real_t nx = attribs.normals[index.normal_index * 3 + 0];
+			tinyobj::real_t ny = attribs.normals[index.normal_index * 3 + 1];
+			tinyobj::real_t nz = attribs.normals[index.normal_index * 3 + 2];
+
+			vertices.push_back({ Vector3(vx, vy, vz), Vector2(0), Vector3(nx, ny, nz) });
 			indices.push_back(indices.size());
 		}
 	}
@@ -91,9 +95,15 @@ void getCoordinatesWithTex(tinyobj::attrib_t attribs, std::vector<tinyobj::shape
 				tinyobj::real_t tu = attribs.texcoords[index.texcoord_index * 2 + 0];
 				tinyobj::real_t tv = attribs.texcoords[index.texcoord_index * 2 + 1];
 
+				tinyobj::real_t nx = attribs.normals[index.normal_index * 3 + 0];
+				tinyobj::real_t ny = attribs.normals[index.normal_index * 3 + 1];
+				tinyobj::real_t nz = attribs.normals[index.normal_index * 3 + 2];
+
 				Vector3 pos = Vector3(vx, vy, vz);
 				Vector2 tex = Vector2(tu, tv);
-				vertices.push_back({ pos, tex });
+				Vector3 normals = Vector3(nx, ny, nz);
+
+				vertices.push_back({ pos, tex, normals });
 				indices.push_back(v + indexOffset);
 			}
 			indexOffset += faceVerts;

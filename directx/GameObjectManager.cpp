@@ -87,6 +87,8 @@ void GameObjectManager::addGameObject(OBJECT_TYPE type, int count)
 			case MESH_BUNNY:
 			case MESH_ARMADILLO:
 			case MESH_STATUE:
+			case MESH_SUZANNE:
+			case MESH_SKY:
 				this->createMesh(type);
 				break;
 			default:

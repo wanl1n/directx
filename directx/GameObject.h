@@ -32,15 +32,15 @@ class GameObject
 		Constant cc;
 		Vector3 size;
 
+		bool isSelected;
+		Transform transform;
+
+		float deltaTime;
+
 	private:
 		friend class GameObjectManager;
 
 	public:
-		bool isSelected;
-
-		Transform transform;
-
-
 		GameObject(std::string name, OBJECT_TYPE type);
 		~GameObject();
 		virtual void calculateBounds();

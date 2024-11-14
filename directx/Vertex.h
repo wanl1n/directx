@@ -7,7 +7,8 @@ struct Constant {
 	Matrix4x4 world;
 	Matrix4x4 view;
 	Matrix4x4 proj;
-	unsigned int time;
+	Vector4 lightDir;
+	Vector4 cameraPos;
 };
 
 // Rect

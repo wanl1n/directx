@@ -13,7 +13,7 @@ Camera::Camera(std::string name, RECT viewport, OBJECT_TYPE type) :
 	else if (type == PERSPECTIVE_CAMERA)
 		this->type = PERSPECTIVE;
 
-	this->transform.position = Vector3(0, 0, -3);
+	this->transform.position = Vector3(0, 0, -1);
 	this->prevCamMat.setIdentity();
 	this->prevCamMat.setTranslation(this->transform.position);
 	this->updateViewMatrix();

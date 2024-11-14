@@ -30,7 +30,7 @@ void Primitive::createVertexShader()
 
 	ShaderLibrary::getInstance()->requestVertexShaderData(shaderNames.BASE_VERTEX_SHADER_NAME, &shaderByteCode, &sizeShader);
 	//renderSystem->compileVertexShader(L"TexturedVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
-	this->vs = renderSystem->createVertexShader(shaderByteCode, sizeShader);
+	this->vs = renderSystem->createVertexShader(shaderByteCode, (UINT)sizeShader);
 	this->vb = renderSystem->createVertexBuffer(vertices, sizeof(Vertex3D), shaderByteCode, sizeShader);
 	renderSystem->releaseCompiledShader();
 }

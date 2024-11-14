@@ -54,17 +54,13 @@ void AppWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	GameObjectManager::getInstance()->addGameObject(CUBE);
-	GameObjectManager::getInstance()->addGameObject(TEXTURED_CUBE);
-	GameObjectManager::getInstance()->addGameObject(MESH_TEAPOT);
-	GameObjectManager::getInstance()->addGameObject(MESH_BUNNY);
-	GameObjectManager::getInstance()->addGameObject(MESH_ARMADILLO);
+	GameObjectManager::getInstance()->addGameObject(MESH_STATUE);
 }
 
 void AppWindow::onCreate() 
 {
 	Window::onCreate();
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 }
 
 void AppWindow::onUpdate()

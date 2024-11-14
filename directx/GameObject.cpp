@@ -8,7 +8,6 @@ GameObject::GameObject(std::string name, OBJECT_TYPE type) :
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 	this->isActive = true;
 
-	cc.time = 0;
 	cc.world.setIdentity();
 	cc.view.setIdentity();
 	cc.proj.setIdentity();
@@ -78,11 +77,11 @@ void GameObject::calculateWorldMatrix()
 
 void GameObject::update(float deltaTime, RECT viewport)
 {
-	this->cc.time = deltaTime;
-
-	if (isSelected)
-		this->edit(deltaTime);
-
+	this->cc.cameraPos = CameraManager::getInstance()->getActiveCamera()->getPosition();
+	
+	/*if (isSelected)
+		this->edit(deltaTime);*/
+	
 	this->calculateWorldMatrix();
 
 	this->cc.view = CameraManager::getInstance()->getActiveCameraView();
@@ -149,7 +148,7 @@ void GameObject::scale(Vector3 offset)
 	Matrix4x4 scale;
 	this->transform.scale += offset;
 	scale.setIdentity();
-	scale.setScale(transform.scale = Vector3::lerp(transform.scale, transform.scale + offset, (sin(this->cc.time) + 1.0f) / 2.0f));
+	scale.setScale(transform.scale = Vector3::lerp(transform.scale, transform.scale + offset, (sin(EngineTime::getDeltaTime()) + 1.0f) / 2.0f));
 	this->cc.world *= scale;
 }
 

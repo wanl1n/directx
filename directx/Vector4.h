@@ -1,6 +1,8 @@
 #pragma once
 #include <cmath>
 
+#include "Vector3.h"
+
 class Vector4
 {
 	public:
@@ -11,6 +13,7 @@ class Vector4
 		Vector4(float x) : x(x), y(x), z(x), w(x) {}
 		Vector4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 		Vector4(const Vector4& vec) : x(vec.x), y(vec.y), z(vec.z), w(vec.w) {}
+		Vector4(const Vector3& vec) : x(vec.x), y(vec.y), z(vec.z), w(1.0f) {}
 		~Vector4() {}
 
 		static Vector4 lerp(const Vector4& start, const Vector4& end, float delta) {

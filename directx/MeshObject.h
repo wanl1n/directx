@@ -15,6 +15,8 @@ class MeshObject : public GameObject
 		VertexShaderPtr vs;
 		PixelShaderPtr ps;
 
+		float lightRotY = 0.0f;
+
 	public:
 		MeshObject(OBJECT_TYPE type);
 		~MeshObject();
