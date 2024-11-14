@@ -40,6 +40,8 @@ RenderSystem::RenderSystem()
 	this->d3dDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)&dxgiDevice);
 	this->dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&dxgiAdapter);
 	this->dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&dxgiFactory);
+
+	this->initRasterizerState();
 }
 
 RenderSystem::~RenderSystem() 
@@ -205,4 +207,24 @@ bool RenderSystem::compilePixelShader(const wchar_t* file_name, const char* entr
 void RenderSystem::releaseCompiledShader()
 {
 	if (blob) blob->Release();
+}
+
+void RenderSystem::setRasterizerState(bool cullFront)
+{
+	if (cullFront)
+		this->immContext->RSSetState(cullFrontState);
+	else
+		this->immContext->RSSetState(cullBackState);
+}
+
+void RenderSystem::initRasterizerState()
+{
+	D3D11_RASTERIZER_DESC desc = {};
+	desc.CullMode = D3D11_CULL_FRONT;
+	desc.DepthClipEnable = true;
+	desc.FillMode = D3D11_FILL_SOLID;
+	d3dDevice->CreateRasterizerState(&desc, &cullFrontState);
+
+	desc.CullMode = D3D11_CULL_BACK;
+	d3dDevice->CreateRasterizerState(&desc, &cullBackState);
 }

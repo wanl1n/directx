@@ -20,7 +20,7 @@ class Camera : public GameObject, public InputListener
 		float forward = 0;
 		float rightward = 0;
 		float panSpeed = 0.1f;
-		float moveSpeed = 0.01f;
+		float moveSpeed = 0.05f;
 
 		bool moving = false;
 		bool updatedCameraProjPos = false;

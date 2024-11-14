@@ -41,7 +41,7 @@ void Camera::update()
 		this->updateViewMatrix();
 	}
 
-	GameObject::update(EngineTime::getDeltaTime(), viewport);
+	GameObject::update((float)EngineTime::getDeltaTime(), viewport);
 }
 
 void Camera::checkForInput()
@@ -103,39 +103,29 @@ void Camera::updateProjectionMatrix()
 
 	switch (type) {
 		case ORTHOGRAPHIC:
-			this->cc.proj.setOrthoLH(
-				width / 100.0f,
-				height / 100.0f,
-				-100.0f, 100.0f
-			);
-			break;
-		case PERSPECTIVE:
-			this->cc.proj.setPerspectiveFovLH(
-				1.57f, // fov
-				(float)width / (float)height, // aspect
-				0.1f, // near
-				100.0f // far
-			);
-			break;
 		case TOPDOWN:
-			this->cc.proj.setOrthoLH(
-				width / 100.0f,
-				height / 100.0f,
-				-100.0f, 100.0f
-			);
-			break;
 		case SIDESCROLLER:
 			this->cc.proj.setOrthoLH(
 				width / 100.0f,
 				height / 100.0f,
-				-100.0f, 100.0f
+				NEAR_PLANE, FAR_PLANE
 			);
 			break;
+
+		case PERSPECTIVE:
+			this->cc.proj.setPerspectiveFovLH(
+				1.57f, // fov
+				(float)width / (float)height, // aspect
+				NEAR_PLANE, // near
+				FAR_PLANE // far
+			);
+			break;
+			
 		default:
 			this->cc.proj.setOrthoLH(
 				width / 100.0f,
 				height / 100.0f,
-				-100.0f, 100.0f
+				NEAR_PLANE, FAR_PLANE
 			);
 			break;
 	}
@@ -176,7 +166,7 @@ void Camera::onMouseMove(const Vector2& mousePos)
 {
 	int width = (viewport.right - viewport.left);
 	int height = (viewport.bottom - viewport.top);
-	float deltaTime = EngineTime::getDeltaTime();
+	float deltaTime = (float)EngineTime::getDeltaTime();
 
 	if (moving && this->type < 2) {
 		this->transform.rotation.x += (mousePos.y - (height / 2.0f)) * deltaTime * panSpeed;

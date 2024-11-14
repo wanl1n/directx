@@ -18,6 +18,7 @@ class ShaderNames {
 		// Pixel Shader Names
 		const String BASE_PIXEL_SHADER_NAME = L"SolidPixelShader.hlsl";
 		const String TEXTURED_PIXEL_SHADER_NAME = L"TexturedPixelShader.hlsl";
+		const String SKYBOX_SHADER_NAME = L"SkyboxShader.hlsl";
 };
 
 class ShaderLibrary
@@ -45,6 +46,7 @@ class ShaderLibrary
 		// Shader byte code gets dereferenced if stored in a hash table.
 		// Request manually.
 		void requestVertexShaderData(String vertexShaderName, void** shaderByteCode, size_t* sizeShader);
+		void requestPixelShaderData(String pixelShaderName, void** shaderByteCode, size_t* sizeShader);
 		VertexShaderPtr getVertexShader(String vertexShaderName);
 		PixelShaderPtr getPixelShader(String pixelShaderName);
 

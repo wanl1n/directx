@@ -19,6 +19,9 @@ class RenderSystem
 
 		ID3DBlob* blob = nullptr;
 
+		ID3D11RasterizerState* cullFrontState = nullptr;
+		ID3D11RasterizerState* cullBackState = nullptr;
+
 	private:
 		friend class SwapChain;
 		friend class VertexBuffer;
@@ -56,5 +59,9 @@ class RenderSystem
 		bool compilePixelShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size);
 
 		void releaseCompiledShader();
+		void setRasterizerState(bool cullFront);
+
+	private:
+		void initRasterizerState();
 };
 

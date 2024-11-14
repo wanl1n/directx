@@ -352,6 +352,9 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>GameEngine\Resources\Meshes</Filter>
     </ClCompile>
+    <ClCompile Include="SkyboxMeshObject.cpp">
+      <Filter>GameEngine\GameObject\Meshes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -601,6 +604,9 @@
     <ClInclude Include="Mesh.h">
       <Filter>GameEngine\Resources\Meshes</Filter>
     </ClInclude>
+    <ClInclude Include="SkyboxMeshObject.h">
+      <Filter>GameEngine\GameObject\Meshes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="TexturedVertexShader.hlsl">
@@ -624,10 +630,7 @@
     <FxCompile Include="VertexMeshLayoutShader.hlsl">
       <Filter>App\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="SkyboxPixelShader.hlsl">
-      <Filter>App\Shaders\SkyboxShader</Filter>
-    </FxCompile>
-    <FxCompile Include="SkyboxVertexShader.hlsl">
+    <FxCompile Include="SkyboxShader.hlsl">
       <Filter>App\Shaders\SkyboxShader</Filter>
     </FxCompile>
   </ItemGroup>

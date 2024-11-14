@@ -226,10 +226,10 @@ Sphere* GameObjectManager::createSphere(OBJECT_TYPE type)
 {
 	Sphere* newSphere = new Sphere("Sphere " + std::to_string(this->SphereList.size() + 1), true);
 
-	switch (type) {
+	/*switch (type) {
 		default:
 			break;
-	}
+	}*/
 
 	this->GOList.push_back((GameObject*)newSphere);
 	this->SphereList.push_back(newSphere);
@@ -241,10 +241,10 @@ Cylinder* GameObjectManager::createCylinder(OBJECT_TYPE type)
 {
 	Cylinder* newCylinder = new Cylinder("Cylinder " + std::to_string(this->CylinderList.size() + 1), true);
 
-	switch (type) {
+	/*switch (type) {
 	default:
 		break;
-	}
+	}*/
 
 	this->GOList.push_back((GameObject*)newCylinder);
 	this->CylinderList.push_back(newCylinder);
@@ -256,10 +256,10 @@ Capsule* GameObjectManager::createCapsule(OBJECT_TYPE type)
 {
 	Capsule* newCapsule = new Capsule("Capsule " + std::to_string(this->CapsuleList.size() + 1), true);
 
-	switch (type) {
+	/*switch (type) {
 	default:
 		break;
-	}
+	}*/
 
 	this->GOList.push_back((GameObject*)newCapsule);
 	this->CapsuleList.push_back(newCapsule);
@@ -270,6 +270,15 @@ Capsule* GameObjectManager::createCapsule(OBJECT_TYPE type)
 MeshObject* GameObjectManager::createMesh(OBJECT_TYPE type)
 {
 	MeshObject* newMesh = new MeshObject(type);
+
+	switch (type) {
+		case MESH_SKY:
+			free(newMesh);
+			newMesh = new SkyboxMeshObject();
+			break;
+		default:
+			break;
+	}
 
 	this->GOList.push_back((GameObject*)newMesh);
 	return newMesh;

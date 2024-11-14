@@ -54,7 +54,8 @@ void AppWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	GameObjectManager::getInstance()->addGameObject(MESH_STATUE);
+	GameObjectManager::getInstance()->addGameObject(MESH_SUZANNE);
+	GameObjectManager::getInstance()->addGameObject(MESH_SKY);
 }
 
 void AppWindow::onCreate() 

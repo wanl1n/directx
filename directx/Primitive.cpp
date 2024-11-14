@@ -65,6 +65,8 @@ void Primitive::update(float deltaTime, RECT viewport)
 
 void Primitive::draw()
 {
+	GraphicsEngine::get()->getRenderSystem()->setRasterizerState(false);
+
 	ShaderNames shaderNames;
 	ShaderLibrary* shaderLib = ShaderLibrary::getInstance();
 	DeviceContextPtr device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();

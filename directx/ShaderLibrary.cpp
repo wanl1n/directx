@@ -24,6 +24,12 @@ void ShaderLibrary::requestVertexShaderData(String vertexShaderName, void** shad
 	graphicsEngine->getRenderSystem()->compileVertexShader(vertexShaderName.c_str(), "vsmain", shaderByteCode, sizeShader);
 }
 
+void ShaderLibrary::requestPixelShaderData(String pixelShaderName, void** shaderByteCode, size_t* sizeShader)
+{
+	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
+	graphicsEngine->getRenderSystem()->compilePixelShader(pixelShaderName.c_str(), "psmain", shaderByteCode, sizeShader);
+}
+
 VertexShaderPtr ShaderLibrary::getVertexShader(String vertexShaderName)
 {
 	if (this->activeVertexShaders[vertexShaderName] == NULL)
@@ -56,6 +62,9 @@ ShaderLibrary::ShaderLibrary()
 
 	renderSys->compilePixelShader(shaderNames.TEXTURED_PIXEL_SHADER_NAME.c_str(), "psmain", &shaderData.shaderByteCode, &shaderData.shaderSize);
 	this->activePixelShaders[shaderNames.TEXTURED_PIXEL_SHADER_NAME] = renderSys->createPixelShader(shaderData.shaderByteCode, shaderData.shaderSize);
+
+	renderSys->compilePixelShader(shaderNames.SKYBOX_SHADER_NAME.c_str(), "psmain", &shaderData.shaderByteCode, &shaderData.shaderSize);
+	this->activePixelShaders[shaderNames.SKYBOX_SHADER_NAME] = renderSys->createPixelShader(shaderData.shaderByteCode, shaderData.shaderSize);
 
 	std::cout << "Shader library initialized. \n";
 }

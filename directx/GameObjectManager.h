@@ -9,6 +9,7 @@
 #include "Math.h"
 
 #include "MeshObject.h"
+#include "SkyboxMeshObject.h"
 
 class GameObject;
 

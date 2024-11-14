@@ -35,9 +35,8 @@ MeshObject::MeshObject(OBJECT_TYPE type) :
 			break;
 
 		case MESH_SKY:
-			texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\sky.jpg");
-			mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\sphere.obj");
-			name = "Sky";
+			this->mesh = GraphicsEngine::get()->getMeshManager()->createMeshFromFile(L"Assets\\Meshes\\sphere.obj");
+			this->name = "Sky";
 			break;
 
 		default:
@@ -100,7 +99,7 @@ void MeshObject::createConstantBuffer()
 
 void MeshObject::update(float deltaTime, RECT viewport)
 {
-	std::cout << "Mesh Object " << name << " update()." << std::endl;
+	//std::cout << "Mesh Object " << name << " update()." << std::endl;
 	// Lighting
 	Matrix4x4 lightRot;
 	lightRot.setIdentity();
@@ -116,11 +115,15 @@ void MeshObject::update(float deltaTime, RECT viewport)
 
 void MeshObject::draw()
 {
+	//std::cout << "Mesh Object" << name << " draw()." << std::endl;
+	GraphicsEngine::get()->getRenderSystem()->setRasterizerState(false);
+
 	ShaderNames shaderNames;
 	ShaderLibrary* shaderLib = ShaderLibrary::getInstance();
 	DeviceContextPtr device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 	device->setRenderConfig(shaderLib->getVertexShader(shaderNames.TEXTURED_VERTEX_SHADER_NAME),
 							shaderLib->getPixelShader(shaderNames.TEXTURED_PIXEL_SHADER_NAME));
+
 	// Bind to Shaders.
 	device->setConstantBuffer(vs, this->cb);
 	device->setConstantBuffer(ps, this->cb);
