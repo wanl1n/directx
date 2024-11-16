@@ -1,13 +1,13 @@
 #include "Cube.h"
 
 Cube::Cube(std::string name, bool blending, OBJECT_TYPE type) :
-	Primitive(name, type, blending), side(1), frontColor(WHITE), backColor(WHITE)
+	Primitive(name, type, blending), side(1)
 {
 	// Default Values
-	this->side = 0.5f;
+	this->side = 1.0f;
 	this->size = Math::Vector3(side * 2);
-	this->frontColor = WHITE;
-	this->backColor = WHITE;
+	this->frontColor = CREAM;
+	this->backColor = PINK;
 
 	this->init();
 
@@ -84,7 +84,7 @@ std::vector<Vertex3D> Cube::createVertices()
 		if (COLOR_SETTINGS == RAINBOW_COLORED)
 			rgbas.push_back(rgbas_rb[i]);
 		else if (COLOR_SETTINGS == WHITE_COLORED)
-			rgbas.push_back(WHITE);
+			rgbas.push_back(rgbas_wh[i]);
 		else
 			rgbas.push_back(rgbas_wh[i]);
 	}

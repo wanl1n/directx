@@ -5,13 +5,14 @@
 PhysicsPlane::PhysicsPlane(std::string name, bool blending) :
 	Cube(name, blending, PHYSICS_PLANE)
 {
-	this->side = 50.0f;
+	this->frontColor = CORALROSE;
+	this->backColor = ROSETAUPE;
 
 	this->init();
 
 	this->setPosition(Math::Vector3(0, -2.0f, 0));
 	cc.world.setTranslation(transform.position);
-	this->transform.scale = Math::Vector3(50.0f, 0.1f, 50.0f);
+	this->transform.scale = Math::Vector3(30.0f, 0.3f, 30.0f);
 
 	PhysicsComponent* rb = new PhysicsComponent(name + " Rigidbody", this);
 	this->attachComponent(rb);
@@ -26,19 +27,18 @@ std::vector<Vertex3D> PhysicsPlane::createVertices()
 	std::vector<Vertex3D> vecVerts;
 
 	int size = 24;
-	std::cout << "Physics Plane createVertices()." << std::endl;
 
 	Math::Vector3 xyzs[] = {
 		// FRONT FACE
-		Math::Vector3(-side, -0, -side),
-		Math::Vector3(-side, 0, -side),
-		Math::Vector3(side, 0, -side),
-		Math::Vector3(side, -0, -side),
+		Math::Vector3(-side, -side, -side),
+		Math::Vector3(-side, side, -side),
+		Math::Vector3(side, side, -side),
+		Math::Vector3(side, -side, -side),
 		// BACK FACE
-		Math::Vector3(side, -0, side),
-		Math::Vector3(side, 0, side),
-		Math::Vector3(-side, 0, side),
-		Math::Vector3(-side, -0, side)
+		Math::Vector3(side, -side, side),
+		Math::Vector3(side, side, side),
+		Math::Vector3(-side, side, side),
+		Math::Vector3(-side, -side, side)
 	};
 	int posIndexList[] = { 0, 1, 2, 3,
 							4, 5, 6, 7,
@@ -62,8 +62,6 @@ std::vector<Vertex3D> PhysicsPlane::createVertices()
 		if (COLOR_SETTINGS == RAINBOW_COLORED)
 			rgbas.push_back(rgbas_rb[i]);
 		else if (COLOR_SETTINGS == WHITE_COLORED)
-			rgbas.push_back(WHITE);
-		else
 			rgbas.push_back(rgbas_wh[i]);
 	}
 

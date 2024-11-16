@@ -21,7 +21,7 @@ const int GRIDPOINTS_COUNT = (int)(((2 / 0.1f)) * 4);
 static const int NUM_SAMPLES = 10;
 
 // HO - Render System
-const int COLOR_SETTINGS = 0; // 0 - Rainbow, 1 - White
+const int COLOR_SETTINGS = 1; // 0 - Rainbow, 1 - White
 const int RAINBOW_COLORED = 0;
 const int WHITE_COLORED = 1;
 

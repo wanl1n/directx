@@ -24,5 +24,5 @@ float4 psmain(PS_INPUT input) : SV_TARGET
 
     float3 ambient_light = ka * ia;
     
-    return Texture.Sample(TextureSampler, input.texcoord) + input.color + float4(ambient_light, 1.0f);
+    return Texture.Sample(TextureSampler, input.texcoord) + input.color;
 }

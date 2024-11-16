@@ -26,6 +26,7 @@ PhysicsComponent::PhysicsComponent(String name, GameObject* owner)
     this->rb->updateMassPropertiesFromColliders();
     this->rb->setMass(this->mass);
     this->rb->setType(BodyType::DYNAMIC);
+
     this->rb->setIsDebugEnabled(true);
 
     transform = this->rb->getTransform();

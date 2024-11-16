@@ -13,7 +13,7 @@ PhysicsSystem::PhysicsSystem()
 	settings.gravity = reactphysics3d::Vector3(0, -9.81f, 0);
 
 	this->physicsWorld = this->physicsCommon->createPhysicsWorld(settings);
-	std::cout << "Successfully created physics world." << std::endl;
+	//std::cout << "Successfully created physics world." << std::endl;
 }
 
 PhysicsSystem::~PhysicsSystem()
@@ -59,19 +59,8 @@ PhysicsSystem::ComponentList PhysicsSystem::getAllComponents()
 
 void PhysicsSystem::updateAllComponents()
 {
-	this->physicsWorld->setIsDebugRenderingEnabled(true);
-
-	// Get a reference to the debug renderer
-	DebugRenderer& debugRenderer = physicsWorld->getDebugRenderer();
-
-	// Select the contact points and contact normals to be displayed
-	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::COLLISION_SHAPE, true);
-	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::CONTACT_NORMAL, true);
-
-	std::cout << "Physics System updateAllComponents()." << std::endl;
 	if (EngineTime::getDeltaTime() > 0) {
 		this->physicsWorld->update(EngineTime::getDeltaTime());
-		std::cout << "Physics World update()." << std::endl;
 
 		for (Component* comp : this->componentList) {
 			PhysicsComponent* phyComp = (PhysicsComponent*)comp;

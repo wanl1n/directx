@@ -315,8 +315,6 @@ void GameObject::setWorldMat(float matrix[16])
 
 	cc.world = physMat;
 
-	/**/std::cout << name << " setWorldMat(), Physics: " << physOn << std::endl;
-
 	Matrix4x4 newMatrix; 
 	newMatrix.setMatrix(physMat);
 

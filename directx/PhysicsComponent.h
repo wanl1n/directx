@@ -16,7 +16,6 @@ class PhysicsComponent : public Component
 		~PhysicsComponent();
 
 		void perform(float deltaTime) override;
-		void updateOwnerTransform();
 		RigidBody* getRigidBody();
 
 		Math::Vector3 getRBPosition();

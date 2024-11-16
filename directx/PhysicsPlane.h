@@ -4,6 +4,8 @@
 
 class PhysicsPlane : public Cube
 {
+private:
+	float height = 0.2f;
 	public:
 		PhysicsPlane(std::string name, bool blending);
 		~PhysicsPlane();
