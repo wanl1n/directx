@@ -1,9 +1,12 @@
 #include "AppWindow.h"
 #include <exception>
-#include "Windows.h"
+
 #include "InputSystem.h"
 #include "EngineTime.h"
 #include "TextureManager.h"
+#include "BaseComponentSystem.h"
+#include "PhysicsSystem.h"
+
 #include "Constants.h"
 #include "Vertex.h"
 
@@ -40,6 +43,7 @@ void AppWindow::initializeEngine()
 	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
 
 	ShaderLibrary::initialize();
+	BaseComponentSystem::initialize();
 
 	// Game Object Manager
 	GameObjectManager::initialize();
@@ -54,8 +58,8 @@ void AppWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	GameObjectManager::getInstance()->addGameObject(MESH_SUZANNE);
-	GameObjectManager::getInstance()->addGameObject(MESH_SKY);
+	GameObjectManager::getInstance()->addGameObject(PHYSICS_CUBE);
+	GameObjectManager::getInstance()->addGameObject(PHYSICS_PLANE);
 }
 
 void AppWindow::onCreate() 
@@ -79,8 +83,11 @@ void AppWindow::onUpdate()
 
 	// Update.
 	InputSystem::getInstance()->update();
-	GameObjectManager::getInstance()->update(deltaTime, rc);
 	CameraManager::getInstance()->update();
+	GameObjectManager::getInstance()->update(deltaTime, rc);
+
+	if (this->isPlaying) 
+		BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
 
 	GameObjectManager::getInstance()->render();
 	UIManager::getInstance()->render();
@@ -116,22 +123,32 @@ void AppWindow::onKillFocus()
 	InputSystem::getInstance()->removeListener(AppWindow::getInstance());
 }
 
-void AppWindow::onMouseMove(const Vector2& mousePos)
+void AppWindow::onMouseMove(const Math::Vector2& mousePos)
 {
 }
 
-void AppWindow::onLeftMouseDown(const Vector2& mousePos)
+void AppWindow::onLeftMouseDown(const Math::Vector2& mousePos)
 {
 }
 
-void AppWindow::onRightMouseDown(const Vector2& mousePos)
+void AppWindow::onRightMouseDown(const Math::Vector2& mousePos)
 {
 }
 
-void AppWindow::onLeftMouseUp(const Vector2& mousePos)
+void AppWindow::onLeftMouseUp(const Math::Vector2& mousePos)
 {
 }
 
-void AppWindow::onRightMouseUp(const Vector2& mousePos)
+void AppWindow::onRightMouseUp(const Math::Vector2& mousePos)
 {
+}
+
+bool AppWindow::getPlaying()
+{
+	return isPlaying;
+}
+
+void AppWindow::setPlaying(bool playing)
+{
+	isPlaying = playing;
 }

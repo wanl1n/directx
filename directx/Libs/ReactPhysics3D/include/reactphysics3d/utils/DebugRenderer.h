@@ -1,6 +1,6 @@
 /********************************************************************************
 * ReactPhysics3D physics library, http://www.reactphysics3d.com                 *
-* Copyright (c) 2010-2020 Daniel Chappuis                                       *
+* Copyright (c) 2010-2024 Daniel Chappuis                                       *
 *********************************************************************************
 *                                                                               *
 * This software is provided 'as-is', without any express or implied warranty.   *
@@ -27,11 +27,10 @@
 #define REACTPHYSICS3D_DEBUG_RENDERER_H
 
 // Libraries
-#include <reactphysics3d/containers/List.h>
+#include <reactphysics3d/containers/Array.h>
 #include <reactphysics3d/containers/Map.h>
 #include <reactphysics3d/mathematics/mathematics.h>
 #include <reactphysics3d/engine/EventListener.h>
-#include <string>
 
 /// ReactPhysics3D namespace
 namespace reactphysics3d {
@@ -40,6 +39,7 @@ namespace reactphysics3d {
 class ConcaveMeshShape;
 class ConvexMeshShape;
 class HeightFieldShape;
+class BoxShape;
 class Collider;
 class PhysicsWorld;
 
@@ -47,7 +47,7 @@ class PhysicsWorld;
 /**
  * This class is used to display physics debug information directly into the user application view.
  * For instance, it is possible to display AABBs of colliders, colliders or contact points. This class
- * can be used to get the debug information as lists of basic primitives (points, linges, triangles, ...).
+ * can be used to get the debug information as arrays of basic primitives (points, linges, triangles, ...).
  * You can use this to render physics debug information in your simulation on top of your object. Note that
  * you should use this only for debugging purpose and you should disable it when you compile the final release
  * version of your application because computing/rendering phyiscs debug information can be expensive.
@@ -86,6 +86,9 @@ class DebugRenderer : public EventListener {
 
             /// Display the contact normals
             CONTACT_NORMAL				= 1 << 4,
+
+            /// Display the face normals of the collision shapes
+            COLLISION_SHAPE_NORMAL		= 1 << 5,
         };
 
 		/// Struture that represents a line of the DebugRenderer
@@ -151,19 +154,22 @@ class DebugRenderer : public EventListener {
         /// Default radius of the sphere displayed to represent contact points
         static constexpr decimal DEFAULT_CONTACT_POINT_SPHERE_RADIUS = decimal(0.1);
 
-        /// Default radius of the sphere displayed to represent contact points
+        /// Default length for the displayed contacts normals
         static constexpr decimal DEFAULT_CONTACT_NORMAL_LENGTH = decimal(1.0);
 
-		// -------------------- Attributes -------------------- //
+        /// Default length for the displayed faces normals of the collision shapes
+        static constexpr decimal DEFAULT_COLLISION_SHAPE_NORMAL_LENGTH = decimal(1.0);
+
+        // -------------------- Attributes -------------------- //
 
 		/// Memory allocator
 		MemoryAllocator& mAllocator;
 
-		/// List with all the debug lines
-		List<DebugLine> mLines;
+        /// Array with all the debug lines
+		Array<DebugLine> mLines;
 
-		/// List with all the debug triangles
-		List<DebugTriangle> mTriangles;
+        /// Array with all the debug triangles
+		Array<DebugTriangle> mTriangles;
 
         /// 32-bits integer that contains all the flags of debug items to display
 		uint32 mDisplayedDebugItems;
@@ -174,8 +180,11 @@ class DebugRenderer : public EventListener {
         /// Radius of the sphere displayed to represent contact points
         decimal mContactPointSphereRadius;
 
-        /// Lenght of contact normal
+        /// Length of contact normal
         decimal mContactNormalLength;
+
+        /// Length of collision shape face normal
+        decimal mCollisionShapeNormalLength;
 
         // -------------------- Methods -------------------- //
 
@@ -183,7 +192,7 @@ class DebugRenderer : public EventListener {
 		void drawAABB(const AABB& aabb, uint32 color);
 
 		/// Draw a box
-		void drawBox(const Transform& transform, const Vector3& extents, uint32 color);
+        void drawBox(const Transform& transform, const BoxShape* boxShape, uint32 colorShape, uint32 colorShapeNormals);
 
 		/// Draw a sphere
 		void drawSphere(const Vector3& position, decimal radius, uint32 color);
@@ -192,16 +201,18 @@ class DebugRenderer : public EventListener {
 		void drawCapsule(const Transform& transform, decimal radius, decimal height, uint32 color);
 
 		/// Draw a convex mesh
-		void drawConvexMesh(const Transform& transform, const ConvexMeshShape* convexMesh, uint32 color);
+        void drawConvexMesh(const Transform& transform, const ConvexMeshShape* convexMesh, uint32 colorShape, uint32 colorShapeNormals);
 
 		/// Draw a concave mesh shape
-		void drawConcaveMeshShape(const Transform& transform, const ConcaveMeshShape* concaveMeshShape, uint32 color);
+        void drawConcaveMeshShape(const Transform& transform, const ConcaveMeshShape* concaveMeshShape,
+                                  uint32 colorShape, uint32 colorShapeNormals);
 
 		/// Draw a height field shape
-		void drawHeightFieldShape(const Transform& transform, const HeightFieldShape* heightFieldShape, uint32 color);
+        void drawHeightFieldShape(const Transform& transform, const HeightFieldShape* heightFieldShape,
+                                  uint32 colorShape, uint32 colorShapeNormals);
 
 		/// Draw the collision shape of a collider
-		void drawCollisionShapeOfCollider(const Collider* collider, uint32 color);
+        void drawCollisionShapeOfCollider(const Collider* collider);
 
     public :
 
@@ -216,8 +227,8 @@ class DebugRenderer : public EventListener {
 		/// Return the number of lines
 		uint32 getNbLines() const;
 
-		/// Return a reference to the list of lines
-		const List<DebugLine>& getLines() const;
+        /// Return a reference to the array of lines
+		const Array<DebugLine>& getLines() const;
 
 		/// Return a pointer to the array of lines
 		const DebugLine* getLinesArray() const;
@@ -225,8 +236,8 @@ class DebugRenderer : public EventListener {
 		/// Return the number of triangles
 		uint32 getNbTriangles() const;
 
-		/// Return a reference to the list of triangles
-		const List<DebugTriangle>& getTriangles() const;
+        /// Return a reference to the array of triangles
+		const Array<DebugTriangle>& getTriangles() const;
 
 		/// Return a pointer to the array of triangles
 		const DebugTriangle* getTrianglesArray() const;
@@ -263,15 +274,15 @@ class DebugRenderer : public EventListener {
 /**
  * @return The number of lines in the array of lines to draw
  */
-inline uint32 DebugRenderer::getNbLines() const {
-	return mLines.size();
+RP3D_FORCE_INLINE uint32 DebugRenderer::getNbLines() const {
+    return static_cast<uint32>(mLines.size());
 }
 
-// Return a reference to the list of lines
+// Return a reference to the array of lines
 /**
- * @return The list of lines to draw
+ * @return The array of lines to draw
  */
-inline const List<DebugRenderer::DebugLine>& DebugRenderer::getLines() const {
+RP3D_FORCE_INLINE const Array<DebugRenderer::DebugLine>& DebugRenderer::getLines() const {
 	return mLines;
 }
 
@@ -279,7 +290,7 @@ inline const List<DebugRenderer::DebugLine>& DebugRenderer::getLines() const {
 /**
  * @return A pointer to the first element of the lines array to draw
  */
-inline const DebugRenderer::DebugLine* DebugRenderer::getLinesArray() const {
+RP3D_FORCE_INLINE const DebugRenderer::DebugLine* DebugRenderer::getLinesArray() const {
 	return &(mLines[0]);
 }
 
@@ -287,15 +298,15 @@ inline const DebugRenderer::DebugLine* DebugRenderer::getLinesArray() const {
 /**
  * @return The number of triangles in the array of triangles to draw
  */
-inline uint32 DebugRenderer::getNbTriangles() const {
-	return mTriangles.size();
+RP3D_FORCE_INLINE uint32 DebugRenderer::getNbTriangles() const {
+    return static_cast<uint32>(mTriangles.size());
 }
 
-// Return a reference to the list of triangles
+// Return a reference to the array of triangles
 /**
- * @return The list of triangles to draw
+ * @return The array of triangles to draw
  */
-inline const List<DebugRenderer::DebugTriangle>& DebugRenderer::getTriangles() const {
+RP3D_FORCE_INLINE const Array<DebugRenderer::DebugTriangle>& DebugRenderer::getTriangles() const {
 	return mTriangles;
 }
 
@@ -303,7 +314,7 @@ inline const List<DebugRenderer::DebugTriangle>& DebugRenderer::getTriangles() c
 /**
  * @return A pointer to the first element of the triangles array to draw
  */
-inline const DebugRenderer::DebugTriangle* DebugRenderer::getTrianglesArray() const {
+RP3D_FORCE_INLINE const DebugRenderer::DebugTriangle* DebugRenderer::getTrianglesArray() const {
 	return &(mTriangles[0]);
 }
 
@@ -312,7 +323,7 @@ inline const DebugRenderer::DebugTriangle* DebugRenderer::getTrianglesArray() co
  * @param item A debug item
  * @return True if the given debug item is being displayed and false otherwise
  */
-inline bool DebugRenderer::getIsDebugItemDisplayed(DebugItem item) const {
+RP3D_FORCE_INLINE bool DebugRenderer::getIsDebugItemDisplayed(DebugItem item) const {
 	return mDisplayedDebugItems & static_cast<uint32>(item);
 }
 
@@ -321,7 +332,7 @@ inline bool DebugRenderer::getIsDebugItemDisplayed(DebugItem item) const {
  * @param item A debug item to draw
  * @param isDisplayed True if the given debug item has to be displayed and false otherwise
  */
-inline void DebugRenderer::setIsDebugItemDisplayed(DebugItem item, bool isDisplayed) {
+RP3D_FORCE_INLINE void DebugRenderer::setIsDebugItemDisplayed(DebugItem item, bool isDisplayed) {
 	const uint32 itemFlag = static_cast<uint32>(item);
 	uint32 resetBit = ~(itemFlag);
 	mDisplayedDebugItems &= resetBit;
@@ -334,7 +345,7 @@ inline void DebugRenderer::setIsDebugItemDisplayed(DebugItem item, bool isDispla
 /**
  * @return The radius of the sphere used to display a contact point
  */
-inline decimal DebugRenderer::getContactPointSphereRadius() const {
+RP3D_FORCE_INLINE decimal DebugRenderer::getContactPointSphereRadius() const {
     return mContactPointSphereRadius;
 }
 
@@ -342,7 +353,7 @@ inline decimal DebugRenderer::getContactPointSphereRadius() const {
 /**
  * @param radius The radius of the sphere used to display a contact point
  */
-inline void DebugRenderer::setContactPointSphereRadius(decimal radius) {
+RP3D_FORCE_INLINE void DebugRenderer::setContactPointSphereRadius(decimal radius) {
     assert(radius > decimal(0.0));
     mContactPointSphereRadius = radius;
 }
@@ -352,7 +363,7 @@ inline void DebugRenderer::setContactPointSphereRadius(decimal radius) {
 /**
  * @return The length of the contact normal to display
  */
-inline decimal DebugRenderer::getContactNormalLength() const {
+RP3D_FORCE_INLINE decimal DebugRenderer::getContactNormalLength() const {
     return mContactNormalLength;
 }
 
@@ -360,15 +371,15 @@ inline decimal DebugRenderer::getContactNormalLength() const {
 /**
  * @param contactNormalLength The length of the contact normal to display
  */
-inline void DebugRenderer::setContactNormalLength(decimal contactNormalLength) {
+RP3D_FORCE_INLINE void DebugRenderer::setContactNormalLength(decimal contactNormalLength) {
     mContactNormalLength = contactNormalLength;
 }
 
 }
 
-// Hash function for a DebugItem
 namespace std {
 
+  // Hash function for a DebugItem
   template <> struct hash<reactphysics3d::DebugRenderer::DebugItem> {
 
     size_t operator()(const reactphysics3d::DebugRenderer::DebugItem& debugItem) const {

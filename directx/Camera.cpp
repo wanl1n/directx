@@ -13,7 +13,7 @@ Camera::Camera(std::string name, RECT viewport, OBJECT_TYPE type) :
 	else if (type == PERSPECTIVE_CAMERA)
 		this->type = PERSPECTIVE;
 
-	this->transform.position = Vector3(0, 0, -1);
+	this->transform.position = Math::Vector3(0, 3, -20);
 	this->prevCamMat.setIdentity();
 	this->prevCamMat.setTranslation(this->transform.position);
 	this->updateViewMatrix();
@@ -34,7 +34,7 @@ void Camera::update()
 
 		if (this->type == SIDESCROLLER) {
 			this->transform.position.y = 1.0f;
-			this->transform.rotation = Vector3(0);
+			this->transform.rotation = Math::Vector3(0);
 		}
 
 		this->updatedCameraProjPos = true;
@@ -162,7 +162,7 @@ void Camera::setProjectionType(int type)
 	this->updatedCameraProjPos = false;
 }
 
-void Camera::onMouseMove(const Vector2& mousePos)
+void Camera::onMouseMove(const Math::Vector2& mousePos)
 {
 	int width = (viewport.right - viewport.left);
 	int height = (viewport.bottom - viewport.top);
@@ -171,14 +171,14 @@ void Camera::onMouseMove(const Vector2& mousePos)
 	if (moving && this->type < 2) {
 		this->transform.rotation.x += (mousePos.y - (height / 2.0f)) * deltaTime * panSpeed;
 		this->transform.rotation.y += (mousePos.x - (width / 2.0f)) * deltaTime * panSpeed;
-		InputSystem::getInstance()->setCursorPosition(Vector2(width / 2.0f, height / 2.0f));
+		InputSystem::getInstance()->setCursorPosition(Math::Vector2(width / 2.0f, height / 2.0f));
 	}
 
 	if (leftMouseDown)
 		GameObjectManager::getInstance()->transformSelectedGameObject(deltaHitPos);
 }
 
-void Camera::onLeftMouseDown(const Vector2& mousePos)
+void Camera::onLeftMouseDown(const Math::Vector2& mousePos)
 {
 	leftMouseDown = true; 
 
@@ -197,17 +197,17 @@ void Camera::onLeftMouseDown(const Vector2& mousePos)
 	}*/
 }
 
-void Camera::onRightMouseDown(const Vector2& mousePos)
+void Camera::onRightMouseDown(const Math::Vector2& mousePos)
 {
 	moving = true;
 }
 
-void Camera::onLeftMouseUp(const Vector2& mousePos)
+void Camera::onLeftMouseUp(const Math::Vector2& mousePos)
 {
 	leftMouseDown = false;
 }
 
-void Camera::onRightMouseUp(const Vector2& mousePos)
+void Camera::onRightMouseUp(const Math::Vector2& mousePos)
 {
 	moving = false;
 }

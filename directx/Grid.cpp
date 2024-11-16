@@ -8,19 +8,19 @@ Grid::Grid(std::string name, bool showGrid) : GameObject("Grid", TOOLS_GRID)
 	// Gridlines
 	std::vector<Vertex3D> lines;
 
-	Vector2 uvs[] = {
-		Vector2(0, 0),
-		Vector2(0, 1),
-		Vector2(1, 0),
-		Vector2(1, 1)
+	Math::Vector2 uvs[] = {
+		Math::Vector2(0, 0),
+		Math::Vector2(0, 1),
+		Math::Vector2(1, 0),
+		Math::Vector2(1, 1)
 	};
 
 	float i = -1;
 	for (int j = 0; j < GRIDPOINTS_COUNT; j += 4) {
-		lines.push_back({ Vector3(i, 1, 0), uvs[1] });
-		lines.push_back({ Vector3(i, -1, 0), uvs[0] });
-		lines.push_back({ Vector3(-1, i, 0), uvs[2] });
-		lines.push_back({ Vector3(1, i, 0), uvs[3] });
+		lines.push_back({ Math::Vector3(i, 1, 0), uvs[1] });
+		lines.push_back({ Math::Vector3(i, -1, 0), uvs[0] });
+		lines.push_back({ Math::Vector3(-1, i, 0), uvs[2] });
+		lines.push_back({ Math::Vector3(1, i, 0), uvs[3] });
 
 		i += GRID_INTERVAL;
 	}

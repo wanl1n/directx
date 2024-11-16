@@ -4,10 +4,11 @@
 #include "DirectXMath.h"
 #include "SimpleMath/SimpleMath.h"
 
-#include "Windows.h"
 #include "GameObject.h"
 #include "InputListener.h"
 #include "Constants.h"
+
+using namespace Math;
 
 class CameraManager;
 
@@ -37,7 +38,7 @@ class Camera : public GameObject, public InputListener
 
 		bool firstRecord = true;
 
-		Vector2 oldMousePos;
+		Math::Vector2 oldMousePos;
 
 	public:
 		Camera(std::string name, RECT viewport, OBJECT_TYPE type = CAMERA);
@@ -56,10 +57,10 @@ class Camera : public GameObject, public InputListener
 		void setProjectionType(int type);
 
 		// Inherited from InputListener.
-		void onMouseMove(const Vector2& mousePos) override;
-		void onLeftMouseDown(const Vector2& mousePos) override;
-		void onRightMouseDown(const Vector2& mousePos) override;
-		void onLeftMouseUp(const Vector2& mousePos) override;
-		void onRightMouseUp(const Vector2& mousePos) override;
+		void onMouseMove(const Math::Vector2& mousePos) override;
+		void onLeftMouseDown(const Math::Vector2& mousePos) override;
+		void onRightMouseDown(const Math::Vector2& mousePos) override;
+		void onLeftMouseUp(const Math::Vector2& mousePos) override;
+		void onRightMouseUp(const Math::Vector2& mousePos) override;
 };
 

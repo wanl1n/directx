@@ -3,8 +3,9 @@
 
 #include "Vector3.h"
 
-class Vector4
-{
+namespace Math {
+	class Vector4
+	{
 	public:
 		float x, y, z, w;
 
@@ -80,4 +81,5 @@ class Vector4
 
 			return v;
 		}
-};
+	};
+}

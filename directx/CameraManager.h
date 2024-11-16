@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include "Windows.h"
 #include "Constants.h"
 #include "Camera.h"
 #include "Math.h"

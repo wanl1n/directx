@@ -5,14 +5,14 @@ Cube::Cube(std::string name, bool blending, OBJECT_TYPE type) :
 {
 	// Default Values
 	this->side = 0.5f;
-	this->size = Vector3(side * 2);
+	this->size = Math::Vector3(side * 2);
 	this->frontColor = WHITE;
 	this->backColor = WHITE;
 
 	this->init();
 
 	this->cc.world.setScale(transform.scale);
-	this->setPosition(Vector3(0, 0, 0));
+	this->setPosition(Math::Vector3(0, 0, 0));
 }
 
 Cube::~Cube() {}
@@ -46,20 +46,21 @@ void Cube::initializeBuffers()
 std::vector<Vertex3D> Cube::createVertices()
 {
 	std::vector<Vertex3D> vecVerts;
+	std::cout << "cube vertices" << std::endl;
 
 	int size = 24;
 
-	Vector3 xyzs[] = {
+	Math::Vector3 xyzs[] = {
 		// FRONT FACE
-		Vector3(-side, -side, -side),
-		Vector3(-side, side, -side),
-		Vector3(side, side, -side),
-		Vector3(side, -side, -side),
+		Math::Vector3(-side, -side, -side),
+		Math::Vector3(-side, side, -side),
+		Math::Vector3(side, side, -side),
+		Math::Vector3(side, -side, -side),
 		// BACK FACE
-		Vector3(side, -side, side),
-		Vector3(side, side, side),	
-		Vector3(-side, side, side),	
-		Vector3(-side, -side, side)
+		Math::Vector3(side, -side, side),
+		Math::Vector3(side, side, side),
+		Math::Vector3(-side, side, side),
+		Math::Vector3(-side, -side, side)
 	};
 	int posIndexList[] = { 0, 1, 2, 3,
 							4, 5, 6, 7,
@@ -88,12 +89,12 @@ std::vector<Vertex3D> Cube::createVertices()
 			rgbas.push_back(rgbas_wh[i]);
 	}
 
-	Vector2 uvs[] =
+	Math::Vector2 uvs[] =
 	{
-		{ Vector2(0.0f,0.0f) },
-		{ Vector2(0.0f,1.0f) },
-		{ Vector2(1.0f,0.0f) },
-		{ Vector2(1.0f,1.0f) }
+		{ Math::Vector2(0.0f,0.0f) },
+		{ Math::Vector2(0.0f,1.0f) },
+		{ Math::Vector2(1.0f,0.0f) },
+		{ Math::Vector2(1.0f,1.0f) }
 	};
 	int texIndexList[] = { 1, 0, 2, 3 };
 

@@ -1,6 +1,6 @@
 /********************************************************************************
 * ReactPhysics3D physics library, http://www.reactphysics3d.com                 *
-* Copyright (c) 2010-2020 Daniel Chappuis                                       *
+* Copyright (c) 2010-2024 Daniel Chappuis                                       *
 *********************************************************************************
 *                                                                               *
 * This software is provided 'as-is', without any express or implied warranty.   *
@@ -40,7 +40,7 @@ namespace reactphysics3d {
 /// Enumeration for the type of narrow-phase
 /// collision detection algorithm
 enum class NarrowPhaseAlgorithmType {
-    None,
+    NoCollisionTest,
     SphereVsSphere,
     SphereVsCapsule,
     CapsuleVsCapsule,
@@ -61,6 +61,14 @@ class CollisionDispatch {
 
         /// Memory allocator
         MemoryAllocator& mAllocator;
+
+        /// Allocation sizes
+        size_t mSphereVsSphereAllocatedSize;
+        size_t mSphereVsCapsuleAllocatedSize;
+        size_t mCapsuleVsCapsuleAllocatedSize;
+        size_t mSphereVsConvexPolyAllocatedSize;
+        size_t mCapsuleVsConvexPolyAllocatedSize;
+        size_t mConvexPolyVsConvexPolyAllocatedSize;
 
         /// True if the sphere vs sphere algorithm is the default one
         bool mIsSphereVsSphereDefault = true;
@@ -173,39 +181,39 @@ class CollisionDispatch {
 };
 
 // Get the Sphere vs Sphere narrow-phase collision detection algorithm
-inline SphereVsSphereAlgorithm* CollisionDispatch::getSphereVsSphereAlgorithm() {
+RP3D_FORCE_INLINE SphereVsSphereAlgorithm* CollisionDispatch::getSphereVsSphereAlgorithm() {
     return mSphereVsSphereAlgorithm;
 }
 
 // Get the Sphere vs Capsule narrow-phase collision detection algorithm
-inline SphereVsCapsuleAlgorithm* CollisionDispatch::getSphereVsCapsuleAlgorithm() {
+RP3D_FORCE_INLINE SphereVsCapsuleAlgorithm* CollisionDispatch::getSphereVsCapsuleAlgorithm() {
     return mSphereVsCapsuleAlgorithm;
 }
 
 // Get the Capsule vs Capsule narrow-phase collision detection algorithm
-inline CapsuleVsCapsuleAlgorithm* CollisionDispatch::getCapsuleVsCapsuleAlgorithm() {
+RP3D_FORCE_INLINE CapsuleVsCapsuleAlgorithm* CollisionDispatch::getCapsuleVsCapsuleAlgorithm() {
     return mCapsuleVsCapsuleAlgorithm;
 }
 
 // Get the Sphere vs Convex Polyhedron narrow-phase collision detection algorithm
-inline SphereVsConvexPolyhedronAlgorithm* CollisionDispatch::getSphereVsConvexPolyhedronAlgorithm() {
+RP3D_FORCE_INLINE SphereVsConvexPolyhedronAlgorithm* CollisionDispatch::getSphereVsConvexPolyhedronAlgorithm() {
     return mSphereVsConvexPolyhedronAlgorithm;
 }
 
 // Get the Capsule vs Convex Polyhedron narrow-phase collision detection algorithm
-inline CapsuleVsConvexPolyhedronAlgorithm* CollisionDispatch::getCapsuleVsConvexPolyhedronAlgorithm() {
+RP3D_FORCE_INLINE CapsuleVsConvexPolyhedronAlgorithm* CollisionDispatch::getCapsuleVsConvexPolyhedronAlgorithm() {
    return mCapsuleVsConvexPolyhedronAlgorithm;
 }
 
 // Get the Convex Polyhedron vs Convex Polyhedron narrow-phase collision detection algorithm
-inline ConvexPolyhedronVsConvexPolyhedronAlgorithm* CollisionDispatch::getConvexPolyhedronVsConvexPolyhedronAlgorithm() {
+RP3D_FORCE_INLINE ConvexPolyhedronVsConvexPolyhedronAlgorithm* CollisionDispatch::getConvexPolyhedronVsConvexPolyhedronAlgorithm() {
     return mConvexPolyhedronVsConvexPolyhedronAlgorithm;
 }
 
 #ifdef IS_RP3D_PROFILING_ENABLED
 
 // Set the profiler
-inline void CollisionDispatch::setProfiler(Profiler* profiler) {
+RP3D_FORCE_INLINE void CollisionDispatch::setProfiler(Profiler* profiler) {
 
     mProfiler = profiler;
     mSphereVsSphereAlgorithm->setProfiler(profiler);

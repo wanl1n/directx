@@ -1,19 +1,28 @@
 #include "Plane.h"
 #include "Vertex.h"
+#include "PhysicsComponent.h"
 
 Plane::Plane(std::string name, bool blending, OBJECT_TYPE type) :
-	Primitive(name, PLANE, blending), color(WHITE), height(1), width(1)
+	Primitive(name, PLANE, blending)
 {
 	this->color = WHITE;
-	this->height = 1.0f;
-	this->width = 1.0f;
+	this->height = 50.0f;
+	this->width = 50.0f;
 
 	this->init();
 
 	// Side Standing
-	this->setScale(Vector3(5));
-	this->rotateX(1.57f);
-	this->setPosition(Vector3(0, -1.5f, 0));
+	//this->setScale(Math::Vector3(50));
+	this->setPosition(Math::Vector3(0, -2.0f, 0));
+	this->setRotationX(1.57f);
+	cc.world.setTranslation(transform.position);
+	cc.world.setRotationX(transform.rotation.x);
+
+	PhysicsComponent* rb = new PhysicsComponent(name + " Rigidbody", this);
+	this->attachComponent(rb);
+	rb->getRigidBody()->setType(BodyType::KINEMATIC);
+	this->physOn = true;
+
 	//this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\Logo.jpg");
 }
 
@@ -39,27 +48,27 @@ std::vector<Vertex3D> Plane::createVertices()
 	std::vector<Vertex3D> vecVerts;
 	int size = 8;
 
-	Vector3 xyzs[] = { // Cube Vertices
+	Math::Vector3 xyzs[] = { // Cube Vertices
 		// FRONT FACE
-		Vector3(-width, -height, 0),
-		Vector3(-width, height, 0),	
-		Vector3(width, height, 0),	
-		Vector3(width, -height, 0),	
+		Math::Vector3(-width, -height, 0),
+		Math::Vector3(-width, height, 0),	
+		Math::Vector3(width, height, 0),	
+		Math::Vector3(width, -height, 0),	
 		// BACK FACE
-		Vector3(width, -height, 0),	
-		Vector3(width, height, 0),	
-		Vector3(-width, height, 0),	
-		Vector3(-width, -height, 0)
+		Math::Vector3(width, -height, 0),	
+		Math::Vector3(width, height, 0),	
+		Math::Vector3(-width, height, 0),	
+		Math::Vector3(-width, -height, 0)
 	};
 
-	Vector2 uvs[] = {
-		Vector2(0, 1),
-		Vector2(0, 0),
-		Vector2(1, 0),
-		Vector2(1, 1)
+	Math::Vector2 uvs[] = {
+		Math::Vector2(0, 1),
+		Math::Vector2(0, 0),
+		Math::Vector2(1, 0),
+		Math::Vector2(1, 1)
 	};
 
-	Vector4 multicolor[] = {
+	Math::Vector4 multicolor[] = {
 		PALEDOGWOOD,
 		ROSYBROWN,
 		PUCE,
@@ -84,4 +93,9 @@ std::vector<Vertex3D> Plane::createVertices()
 	}
 
 	return vecVerts;
+}
+
+Math::Vector3 Plane::getScale()
+{
+	return Math::Vector3(50.0f, 50.0f, 1.0f);
 }

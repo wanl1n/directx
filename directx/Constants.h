@@ -1,6 +1,8 @@
 #pragma once
-#include "Vector4.h"
 #include "d3d11.h"
+#include "Vector4.h"
+
+using namespace Math;
 
 // ---- ENGINE CONFIG ---- //
 const float WINDOW_WIDTH = 1440.0f;
@@ -19,7 +21,7 @@ const int GRIDPOINTS_COUNT = (int)(((2 / 0.1f)) * 4);
 static const int NUM_SAMPLES = 10;
 
 // HO - Render System
-const int COLOR_SETTINGS = 1; // 0 - Rainbow, 1 - White
+const int COLOR_SETTINGS = 0; // 0 - Rainbow, 1 - White
 const int RAINBOW_COLORED = 0;
 const int WHITE_COLORED = 1;
 
@@ -65,15 +67,11 @@ const Vector4 VIOLET = Vector4(0.5f, 0, 1, 1);
 enum OBJECT_TYPE {
 	// Primitives
 	QUAD = 0,
-	PULSING_QUAD,
-	AREA51_QUAD,
-
 	CIRCLE,
-	BOUNCING_CIRCLE,
 
 	CUBE,
-	ROTATING_CUBE,
-	LERPING_CUBE,
+	PHYSICS_CUBE,
+	PHYSICS_PLANE,
 	TEXTURED_CUBE,
 
 	PLANE,
@@ -105,10 +103,6 @@ enum SCREENS {
 	INSPECTOR,
 	PROFILER,
 	COLOR_PICKER,
-	CREDITS
-};
-
-struct TextureData {
-	ID3D11ShaderResourceView* texture;
-	float width, height;
+	CREDITS,
+	SCENE_TOOLS
 };

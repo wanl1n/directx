@@ -3,8 +3,6 @@
 #include <string>
 
 #include "GameObject.h"
-
-#include "Windows.h"
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"

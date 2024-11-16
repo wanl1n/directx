@@ -58,13 +58,13 @@ class GameObjectManager
 		MeshObject* createMesh(OBJECT_TYPE type);
 
 	public:
-		DirectX::XMVECTOR pick(Vector2 mousePos, float width, float height);
+		DirectX::XMVECTOR pick(Math::Vector2 mousePos, float width, float height);
 		void transformSelectedGameObject(DirectX::XMVECTOR deltaHitPoint);
 		GameObject* findGameObject(std::string name);
 		GameObject* getGameObject(int index);
 		GameObject* getSelectedGameObject();
 		std::vector<GameObject*> getGameObjects();
-		GameObject* checkCollision(Vector3 rayEndPoint);
+		GameObject* checkCollision(Math::Vector3 rayEndPoint);
 		void setSelectedGameObject(GameObject* obj);
 		void resetSelection();
 };

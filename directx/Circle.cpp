@@ -16,13 +16,13 @@ Circle::Circle(std::string name, CircleProps props, bool blending) : GameObject(
 	renderSystem->compileVertexShader(L"SolidVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
 	this->vs = renderSystem->createVertexShader(shaderByteCode, sizeShader);
 
-	std::vector<Vector3> verticesGenerated = this->generateCircleVertices(props.radius, props.segments);
+	std::vector<Math::Vector3> verticesGenerated = this->generateCircleVertices(props.radius, props.segments);
 	std::vector<Vertex3D> vertices;
 	for (int i = 0; i < verticesGenerated.size(); i++) {
 		if (verticesGenerated[i].x == 0 && verticesGenerated[i].y == 0)
-			vertices.push_back({ verticesGenerated[i], Vector2(0,0) });
+			vertices.push_back({ verticesGenerated[i], Math::Vector2(0,0) });
 		else
-			vertices.push_back( { verticesGenerated[i], Vector2(0,0) } );
+			vertices.push_back( { verticesGenerated[i], Math::Vector2(0,0) } );
 	}
 
 	this->vb = renderSystem->createVertexBuffer(vertices, sizeof(Vertex3D), shaderByteCode, sizeShader);
@@ -44,12 +44,12 @@ Circle::Circle(std::string name, CircleProps props, bool blending) : GameObject(
 
 Circle::~Circle() {}
 
-std::vector<Vector3> Circle::generateCircleVertices(float radius, int segments)
+std::vector<Math::Vector3> Circle::generateCircleVertices(float radius, int segments)
 {
-	std::vector<Vector3> vertices;
+	std::vector<Math::Vector3> vertices;
 
 	// Center vertex
-	vertices.push_back(Vector3(0.0f, 0.0f, 0.0f));
+	vertices.push_back(Math::Vector3(0.0f, 0.0f, 0.0f));
 
 	// Outer circle vertices
 	float angleStep = DirectX::XM_2PI / segments;
@@ -58,12 +58,12 @@ std::vector<Vector3> Circle::generateCircleVertices(float radius, int segments)
 		float x = radius * cos(angle);
 		float y = radius * sin(angle);
 
-		vertices.push_back(Vector3(0.0f, 0.0f, 0.0f));
-		vertices.push_back(Vector3(x, y, 0.0f));
+		vertices.push_back(Math::Vector3(0.0f, 0.0f, 0.0f));
+		vertices.push_back(Math::Vector3(x, y, 0.0f));
 	}
 
-	vertices.push_back(Vector3(0.0f, 0.0f, 0.0f));
-	vertices.push_back(Vector3(0.1, 0, 0.0f));
+	vertices.push_back(Math::Vector3(0.0f, 0.0f, 0.0f));
+	vertices.push_back(Math::Vector3(0.1, 0, 0.0f));
 	return vertices;
 }
 

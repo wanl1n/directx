@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cmath>
-
-class Vector2 {
+namespace Math {
+	class Vector2 {
 	public:
 		float x = 0, y = 0;
 
@@ -11,7 +11,7 @@ class Vector2 {
 		Vector2(float x, float y) : x(x), y(y) {}
 		Vector2(const Vector2& point) : x(point.x), y(point.y) {}
 		~Vector2() {}
-		
+
 		static Vector2 lerp(const Vector2& start, const Vector2& end, float delta) {
 			Vector2 v;
 
@@ -42,7 +42,7 @@ class Vector2 {
 		{
 			return Vector2(x - other.x, y - other.y);
 		}
-		
+
 		void operator +=(const Vector2& other) {
 			this->x += other.x;
 			this->y += other.y;
@@ -92,4 +92,5 @@ class Vector2 {
 			else
 				return false;
 		}
-};
+	};
+}

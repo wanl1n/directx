@@ -1,6 +1,6 @@
 /********************************************************************************
 * ReactPhysics3D physics library, http://www.reactphysics3d.com                 *
-* Copyright (c) 2010-2020 Daniel Chappuis                                       *
+* Copyright (c) 2010-2024 Daniel Chappuis                                       *
 *********************************************************************************
 *                                                                               *
 * This software is provided 'as-is', without any express or implied warranty.   *
@@ -93,7 +93,7 @@ class TransformComponents : public Components {
         virtual ~TransformComponents() override = default;
 
         /// Add a component
-        void addComponent(Entity bodyEntity, bool isSleeping, const TransformComponent& component);
+        void addComponent(Entity bodyEntity, bool isDisabled, const TransformComponent& component);
 
         /// Return the transform of an entity
         Transform& getTransform(Entity bodyEntity) const;
@@ -107,13 +107,13 @@ class TransformComponents : public Components {
 };
 
 // Return the transform of an entity
-inline Transform& TransformComponents::getTransform(Entity bodyEntity) const {
+RP3D_FORCE_INLINE Transform& TransformComponents::getTransform(Entity bodyEntity) const {
     assert(mMapEntityToComponentIndex.containsKey(bodyEntity));
     return mTransforms[mMapEntityToComponentIndex[bodyEntity]];
 }
 
 // Set the transform of an entity
-inline void TransformComponents::setTransform(Entity bodyEntity, const Transform& transform) {
+RP3D_FORCE_INLINE void TransformComponents::setTransform(Entity bodyEntity, const Transform& transform) {
     assert(mMapEntityToComponentIndex.containsKey(bodyEntity));
     mTransforms[mMapEntityToComponentIndex[bodyEntity]] = transform;
 }

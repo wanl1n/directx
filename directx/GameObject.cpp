@@ -4,28 +4,36 @@
 #include "CameraManager.h"
 
 GameObject::GameObject(std::string name, OBJECT_TYPE type) :
-	name(name), type(type) {
-	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
+	name(name), type(type) 
+{
 	this->isActive = true;
+	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
 	cc.world.setIdentity();
 	cc.view.setIdentity();
 	cc.proj.setIdentity();
 
-	transform.position = Vector3(0);
-	transform.rotation = Vector3(0);
-	transform.scale = Vector3(1);
-	size = Vector3(0.5f);
+	transform.position = Math::Vector3(0);
+	transform.rotation = Math::Vector3(0);
+	transform.scale = Math::Vector3(1);
+	transform.orientation = { 0, 0, 0, 0 };
+	size = Math::Vector3(0.5f);
 
 	cc.world.setTranslation(transform.position);
 	
 	this->calculateBounds();
 
-	// Create Constant Buffer and load.
 	this->cb = renderSystem->createConstantBuffer(&cc, sizeof(Constant));
 }
 
-GameObject::~GameObject() {}
+GameObject::~GameObject() 
+{
+	for (Component* comp : components) {
+		comp->detachOwner();
+	}
+
+	this->components.clear();
+}
 
 void GameObject::calculateBounds()
 {
@@ -41,6 +49,7 @@ void GameObject::calculateBounds()
 
 void GameObject::calculateWorldMatrix()
 {
+	//std::cout << name << " calcWorldMatrix(): Begin." << std::endl;
 	this->cc.world.setIdentity();
 
 	// Scale
@@ -70,9 +79,16 @@ void GameObject::calculateWorldMatrix()
 	translate.setIdentity();
 	translate.setTranslation(transform.position);
 
+	//std::cout << name << " calcWorldMatrix(): Scaling." << std::endl;
 	this->cc.world *= scale;
+	//std::cout << name << " calcWorldMatrix(): Rotating." << std::endl;
 	this->cc.world *= rotation;
+	//std::cout << name << " calcWorldMatrix(): Translating." << std::endl;
 	this->cc.world *= translate;
+}
+
+void GameObject::awake()
+{
 }
 
 void GameObject::update(float deltaTime, RECT viewport)
@@ -82,7 +98,8 @@ void GameObject::update(float deltaTime, RECT viewport)
 	/*if (isSelected)
 		this->edit(deltaTime);*/
 	
-	this->calculateWorldMatrix();
+	if (!physOn)
+		this->calculateWorldMatrix();
 
 	this->cc.view = CameraManager::getInstance()->getActiveCameraView();
 	this->cc.proj = CameraManager::getInstance()->getActiveProjection();
@@ -114,7 +131,7 @@ void GameObject::edit(float deltaTime)
 	//std::cout << "Editing " << name << std::endl;
 }
 
-void GameObject::translate(Vector3 offset, float speed)
+void GameObject::translate(Math::Vector3 offset, float speed)
 {
 	this->transform.position += offset * speed * (float)EngineTime::getDeltaTime();
 	Matrix4x4 newPos;
@@ -143,18 +160,75 @@ void GameObject::rotateZ(float zOffset)
 	this->setRotationZ(this->transform.rotation.z);
 }
 
-void GameObject::scale(Vector3 offset)
+void GameObject::scale(Math::Vector3 offset)
 {
 	Matrix4x4 scale;
 	this->transform.scale += offset;
 	scale.setIdentity();
-	scale.setScale(transform.scale = Vector3::lerp(transform.scale, transform.scale + offset, (sin(EngineTime::getDeltaTime()) + 1.0f) / 2.0f));
+	scale.setScale(transform.scale = Math::Vector3::lerp(transform.scale, transform.scale + offset, (sin(EngineTime::getDeltaTime()) + 1.0f) / 2.0f));
 	this->cc.world *= scale;
 }
 
-void GameObject::resetView()
+void GameObject::attachComponent(Component* comp)
 {
-	this->cc.view.setIdentity();
+	this->components.push_back(comp);
+	comp->attachOwner(this);
+}
+
+void GameObject::detachComponent(Component* comp)
+{
+	for (int i = 0; i < components.size(); i++) {
+		if (comp == components[i])
+			components.erase(components.begin() + i);
+	}
+}
+
+Component* GameObject::findComponentByName(GameObject::String name)
+{
+	Component* comp = nullptr;
+
+	for (Component* component : components) {
+		if (component->getName() == name)
+			comp = component;
+	}
+
+	return comp;
+}
+
+Component* GameObject::findComponentByType(Component::ComponentType type, GameObject::String name)
+{
+	Component* comp = nullptr;
+
+	for (Component* component : components) {
+		if (component->getName() == name && component->getType() == type)
+			comp = component;
+	}
+
+	return comp;
+}
+
+GameObject::ComponentList GameObject::getAllComponents()
+{
+	return this->components;
+}
+
+GameObject::ComponentList GameObject::getComponentsOfType(Component::ComponentType type)
+{
+	GameObject::ComponentList objects;
+
+	for (Component* component : components) {
+		if (component->getType() == type)
+			objects.push_back(component);
+	}
+
+	return objects;
+}
+
+float* GameObject::getPhysicsLocalMatrix()
+{
+	Matrix4x4 openGLMat;
+	openGLMat.setMatrix(cc.world);
+	return openGLMat.getMatrixPointer();
 }
 
 std::string GameObject::getName()
@@ -168,17 +242,18 @@ bool GameObject::getActive()
 }
 
 // GETTERS AND SETTERS
-Vector3 GameObject::getPosition()
+Math::Vector3 GameObject::getPosition()
 {
 	return this->transform.position;
 }
 
-Vector3 GameObject::getRotation()
+Math::Vector3 GameObject::getRotation()
 {
+	//return Math::Vector3(this->orientation.x, this->orientation.y, this->orientation.z);
 	return this->transform.rotation;
 }
 
-Vector3 GameObject::getScale()
+Math::Vector3 GameObject::getScale()
 {
 	return this->transform.scale;
 }
@@ -203,7 +278,7 @@ void GameObject::setActive(bool active)
 	this->isActive = active;
 }
 
-bool GameObject::isWithinBounds(Vector3 ray)
+bool GameObject::isWithinBounds(Math::Vector3 ray)
 {
 	return (
 		ray.x >= bounds.minX &&
@@ -215,39 +290,93 @@ bool GameObject::isWithinBounds(Vector3 ray)
 		);
 }
 
-void GameObject::setPosition(Vector3 newPos)
+void GameObject::setWorldMat(float matrix[16])
+{
+	Matrix4x4 physMat;
+	physMat.setIdentity();
+
+	int index = 0;
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			physMat.mat[i][j] = matrix[index];
+			index++;
+		}
+	}
+
+	cc.world = physMat;
+
+	/**/std::cout << name << " setWorldMat(), Physics: " << physOn << std::endl;
+
+	Matrix4x4 newMatrix; 
+	newMatrix.setMatrix(physMat);
+
+	Matrix4x4 scaleMatrix; 
+	scaleMatrix.setIdentity();
+	scaleMatrix.setScale(transform.scale);
+
+	Matrix4x4 transMatrix; 
+	transMatrix.setIdentity();
+	transMatrix.setTranslation(transform.position);
+
+	transMatrix *= newMatrix;
+	scaleMatrix *= transMatrix;
+	cc.world.setMatrix(scaleMatrix);
+}
+
+void GameObject::setPosition(Math::Vector3 newPos)
 {
 	this->transform.position = newPos;
 }
 
 void GameObject::setPosition(float x, float y, float z)
 {
-	this->transform.position = Vector3(x, y, z);
+	this->transform.position = Math::Vector3(x, y, z);
 }
 
-void GameObject::setRotation(Vector3 newRot)
+void GameObject::setRotation(Math::Vector3 newRot)
 {
 	this->transform.rotation.x = newRot.x;
 	this->transform.rotation.y = newRot.y;
 	this->transform.rotation.z = newRot.z;
+
+	this->orientation = {};
+	this->orientation.x = newRot.x;
+	this->orientation.y = newRot.y;
+	this->orientation.z = newRot.z;
+}
+
+void GameObject::setRotation(Math::Vector4 newRot)
+{
+	this->transform.rotation.x = newRot.x;
+	this->transform.rotation.y = newRot.y;
+	this->transform.rotation.z = newRot.z;
+
+	this->orientation = {};
+	this->orientation.x = newRot.x;
+	this->orientation.y = newRot.y;
+	this->orientation.z = newRot.z;
+	this->orientation.w = newRot.w;
 }
 
 void GameObject::setRotationX(float radians)
 {
 	this->transform.rotation.x = radians;
+	this->orientation.x = radians;
 }
 
 void GameObject::setRotationY(float radians)
 {
 	this->transform.rotation.y = radians;
+	this->orientation.y = radians;
 }
 
 void GameObject::setRotationZ(float radians)
 {
 	this->transform.rotation.z = radians;
+	this->orientation.z = radians;
 }
 
-void GameObject::setScale(Vector3 newScale)
+void GameObject::setScale(Math::Vector3 newScale)
 {
 	this->transform.scale = newScale;
 }

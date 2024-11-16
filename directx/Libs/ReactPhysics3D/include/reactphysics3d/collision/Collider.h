@@ -1,6 +1,6 @@
 /********************************************************************************
 * ReactPhysics3D physics library, http://www.reactphysics3d.com                 *
-* Copyright (c) 2010-2020 Daniel Chappuis                                       *
+* Copyright (c) 2010-2024 Daniel Chappuis                                       *
 *********************************************************************************
 *                                                                               *
 * This software is provided 'as-is', without any express or implied warranty.   *
@@ -27,7 +27,7 @@
 #define REACTPHYSICS3D_COLLIDER_H
 
 // Libraries
-#include <reactphysics3d/body/CollisionBody.h>
+#include <reactphysics3d/body/Body.h>
 #include <reactphysics3d/collision/shapes/CollisionShape.h>
 #include <reactphysics3d/engine/Material.h>
 #include <reactphysics3d/utils/Logger.h>
@@ -39,7 +39,7 @@ class MemoryManager;
 
 // Class Collider
 /**
- * A collider has a collision shape (box, sphere, capsule, ...) and is attached to a CollisionBody or
+ * A collider has a collision shape (box, sphere, capsule, ...) and is attached to a
  * RigidBody. A body can have multiple colliders. The collider also have a mass value and a Material
  * with many physics parameters like friction or bounciness. When you create a body, you need to attach
  * at least one collider to it if you want that body to be able to collide in the physics world.
@@ -57,10 +57,7 @@ class Collider {
         Entity mEntity;
 
         /// Pointer to the parent body
-        CollisionBody* mBody;
-
-        /// Material properties of the rigid body
-        Material mMaterial;
+        Body* mBody;
 
         /// Pointer to user data
         void* mUserData;
@@ -83,7 +80,7 @@ class Collider {
         // -------------------- Methods -------------------- //
 
         /// Constructor
-        Collider(Entity entity, CollisionBody* body, MemoryManager& memoryManager);
+        Collider(Entity entity, Body* body, MemoryManager& memoryManager);
 
         /// Destructor
         virtual ~Collider();
@@ -104,7 +101,7 @@ class Collider {
         const CollisionShape* getCollisionShape() const;
 
         /// Return the parent body
-        CollisionBody* getBody() const;
+        Body* getBody() const;
 
         /// Return a pointer to the user data attached to this body
         void* getUserData() const;
@@ -160,6 +157,18 @@ class Collider {
         /// Set whether the collider is a trigger
         void setIsTrigger(bool isTrigger) const;
 
+        /// Return true if the collider can generate contacts for the simulation of the associated body
+        bool getIsSimulationCollider() const;
+
+        /// Set whether the collider can generate contacts for the simulation of the associated body
+        void setIsSimulationCollider(bool isSimulationCollider) const;
+
+        /// Return true if the collider will be part of results of queries on the PhysicsWorld
+        bool getIsWorldQueryCollider() const;
+
+        /// Set whether the collider will be part of results of queries on the PhysicsWorld
+        void setIsWorldQueryCollider(bool isWorldQueryCollider) const;
+
 #ifdef IS_RP3D_PROFILING_ENABLED
 
 		/// Set the profiler
@@ -170,7 +179,7 @@ class Collider {
         // -------------------- Friendship -------------------- //
 
         friend class OverlappingPair;
-        friend class CollisionBody;
+        friend class Body;
         friend class RigidBody;
         friend class BroadPhaseAlgorithm;
         friend class DynamicAABBTree;
@@ -188,7 +197,7 @@ class Collider {
 /**
  * @return The entity of the collider
  */
-inline Entity Collider::getEntity() const {
+RP3D_FORCE_INLINE Entity Collider::getEntity() const {
     return mEntity;
 }
 
@@ -196,7 +205,7 @@ inline Entity Collider::getEntity() const {
 /**
  * @return Pointer to the parent body
  */
-inline CollisionBody* Collider::getBody() const {
+RP3D_FORCE_INLINE Body* Collider::getBody() const {
     return mBody;
 }
 
@@ -204,7 +213,7 @@ inline CollisionBody* Collider::getBody() const {
 /**
  * @return A pointer to the user data stored into the collider
  */
-inline void* Collider::getUserData() const {
+RP3D_FORCE_INLINE void* Collider::getUserData() const {
     return mUserData;
 }
 
@@ -212,7 +221,7 @@ inline void* Collider::getUserData() const {
 /**
  * @param userData Pointer to the user data you want to store within the collider
  */
-inline void Collider::setUserData(void* userData) {
+RP3D_FORCE_INLINE void Collider::setUserData(void* userData) {
     mUserData = userData;
 }
 
@@ -221,16 +230,8 @@ inline void Collider::setUserData(void* userData) {
 * @param worldAABB The AABB (in world-space coordinates) that will be used to test overlap
 * @return True if the given AABB overlaps with the AABB of the collision body
 */
-inline bool Collider::testAABBOverlap(const AABB& worldAABB) const {
+RP3D_FORCE_INLINE bool Collider::testAABBOverlap(const AABB& worldAABB) const {
     return worldAABB.testCollision(getWorldAABB());
-}
-
-// Return a reference to the material properties of the collider
-/**
- * @return A reference to the material of the body
- */
-inline Material& Collider::getMaterial() {
-    return mMaterial;
 }
 
 }

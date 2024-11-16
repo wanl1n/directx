@@ -1,6 +1,6 @@
 /********************************************************************************
 * ReactPhysics3D physics library, http://www.reactphysics3d.com                 *
-* Copyright (c) 2010-2020 Daniel Chappuis                                       *
+* Copyright (c) 2010-2024 Daniel Chappuis                                       *
 *********************************************************************************
 *                                                                               *
 * This software is provided 'as-is', without any express or implied warranty.   *
@@ -29,12 +29,13 @@
 // Libraries
 #include <reactphysics3d/collision/shapes/ConvexShape.h>
 #include <reactphysics3d/mathematics/mathematics.h>
+#include <reactphysics3d/collision/shapes/AABB.h>
 
 // ReactPhysics3D namespace
 namespace reactphysics3d {
 
 // Declarations
-class CollisionBody;
+class Body;
 
 // Class SphereShape
 /**
@@ -88,7 +89,7 @@ class SphereShape : public ConvexShape {
         virtual bool isPolyhedron() const override;
 
         /// Return the local bounds of the shape in x, y and z directions.
-        virtual void getLocalBounds(Vector3& min, Vector3& max) const override;
+        virtual AABB getLocalBounds() const override;
 
         /// Return the local inertia tensor of the collision shape
         virtual Vector3 getLocalInertiaTensor(decimal mass) const override;
@@ -96,8 +97,8 @@ class SphereShape : public ConvexShape {
         /// Compute and return the volume of the collision shape
         virtual decimal getVolume() const override;
 
-        /// Update the AABB of a body using its collision shape
-        virtual void computeAABB(AABB& aabb, const Transform& transform) const override;
+        /// Compute the transformed AABB
+        virtual AABB computeTransformedAABB(const Transform& transform) const override;
 
         /// Return the string representation of the shape
         virtual std::string to_string() const override;
@@ -111,7 +112,7 @@ class SphereShape : public ConvexShape {
 /**
  * @return Radius of the sphere
  */
-inline decimal SphereShape::getRadius() const {
+RP3D_FORCE_INLINE decimal SphereShape::getRadius() const {
     return mMargin;
 }
 
@@ -121,7 +122,7 @@ inline decimal SphereShape::getRadius() const {
 /**
  * @param radius Radius of the sphere
  */
-inline void SphereShape::setRadius(decimal radius) {
+RP3D_FORCE_INLINE void SphereShape::setRadius(decimal radius) {
    assert(radius > decimal(0.0));
    mMargin = radius;
 
@@ -132,7 +133,7 @@ inline void SphereShape::setRadius(decimal radius) {
 /**
  * @return False because the sphere shape is not a polyhedron
  */
-inline bool SphereShape::isPolyhedron() const {
+RP3D_FORCE_INLINE bool SphereShape::isPolyhedron() const {
     return false;
 }
 
@@ -140,12 +141,12 @@ inline bool SphereShape::isPolyhedron() const {
 /**
  * @return The size (in bytes) of the sphere shape
  */
-inline size_t SphereShape::getSizeInBytes() const {
+RP3D_FORCE_INLINE size_t SphereShape::getSizeInBytes() const {
     return sizeof(SphereShape);
 }
 
 // Return a local support point in a given direction without the object margin
-inline Vector3 SphereShape::getLocalSupportPointWithoutMargin(const Vector3& direction) const {
+RP3D_FORCE_INLINE Vector3 SphereShape::getLocalSupportPointWithoutMargin(const Vector3& /*direction*/) const {
 
     // Return the center of the sphere (the radius is taken into account in the object margin)
     return Vector3(0.0, 0.0, 0.0);
@@ -154,43 +155,35 @@ inline Vector3 SphereShape::getLocalSupportPointWithoutMargin(const Vector3& dir
 // Return the local bounds of the shape in x, y and z directions.
 // This method is used to compute the AABB of the box
 /**
- * @param min The minimum bounds of the shape in local-space coordinates
- * @param max The maximum bounds of the shape in local-space coordinates
+ * @return The AABB with the min/max bounds of the shape
  */
-inline void SphereShape::getLocalBounds(Vector3& min, Vector3& max) const {
+RP3D_FORCE_INLINE AABB SphereShape::getLocalBounds() const {
 
-    // Maximum bounds
-    max.x = mMargin;
-    max.y = mMargin;
-    max.z = mMargin;
-
-    // Minimum bounds
-    min.x = -mMargin;
-    min.y = min.x;
-    min.z = min.x;
+    return AABB(Vector3(-mMargin, -mMargin, -mMargin),
+                Vector3(mMargin, mMargin, mMargin));
 }
 
 // Return the local inertia tensor of the sphere
 /**
  * @param mass Mass to use to compute the inertia tensor of the collision shape
  */
-inline Vector3 SphereShape::getLocalInertiaTensor(decimal mass) const {
+RP3D_FORCE_INLINE Vector3 SphereShape::getLocalInertiaTensor(decimal mass) const {
     decimal diag = decimal(0.4) * mass * mMargin * mMargin;
     return Vector3(diag, diag, diag);
 }
 
 // Compute and return the volume of the collision shape
-inline decimal SphereShape::getVolume() const {
-    return decimal(4.0) / decimal(3.0) * reactphysics3d::PI * mMargin * mMargin * mMargin;
+RP3D_FORCE_INLINE decimal SphereShape::getVolume() const {
+    return decimal(4.0) / decimal(3.0) * reactphysics3d::PI_RP3D * mMargin * mMargin * mMargin;
 }
 
 // Return true if a point is inside the collision shape
-inline bool SphereShape::testPointInside(const Vector3& localPoint, Collider* collider) const {
+RP3D_FORCE_INLINE bool SphereShape::testPointInside(const Vector3& localPoint, Collider* /*collider*/) const {
     return (localPoint.lengthSquare() < mMargin * mMargin);
 }
 
 // Return the string representation of the shape
-inline std::string SphereShape::to_string() const {
+RP3D_FORCE_INLINE std::string SphereShape::to_string() const {
     return "SphereShape{radius=" + std::to_string(getRadius()) + "}";
 }
 

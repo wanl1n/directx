@@ -1,6 +1,6 @@
 /********************************************************************************
 * ReactPhysics3D physics library, http://www.reactphysics3d.com                 *
-* Copyright (c) 2010-2020 Daniel Chappuis                                       *
+* Copyright (c) 2010-2024 Daniel Chappuis                                       *
 *********************************************************************************
 *                                                                               *
 * This software is provided 'as-is', without any express or implied warranty.   *
@@ -63,6 +63,9 @@ class Components {
         /// Size (in bytes) of a single component
         size_t mComponentDataSize;
 
+        /// Size (in bytes) to allocate to make sure we can offset the components array to keep alignment
+        size_t mAlignmentMarginSize;
+
         /// Number of allocated components
         uint32 mNbAllocatedComponents;
 
@@ -77,7 +80,7 @@ class Components {
         uint32 mDisabledStartIndex;
 
         /// Compute the index where we need to insert the new component
-        uint32 prepareAddComponent(bool isSleeping);
+        uint32 prepareAddComponent(bool isDisabled);
 
         /// Allocate memory for a given number of components
         virtual void allocate(uint32 nbComponentsToAllocate)=0;
@@ -96,10 +99,13 @@ class Components {
         // -------------------- Methods -------------------- //
 
         /// Constructor
-        Components(MemoryAllocator& allocator, size_t componentDataSize);
+        Components(MemoryAllocator& allocator, size_t componentDataSize, size_t alignmentMarginSize);
 
         /// Destructor
         virtual ~Components();
+
+        /// Initialize the components:
+        void init();
 
         /// Remove a component
         void removeComponent(Entity entity);
@@ -113,6 +119,9 @@ class Components {
         /// Return true if there is a component for a given entity
         bool hasComponent(Entity entity) const;
 
+        /// Return true if there is a component for a given entiy and if so set the entity index
+        bool hasComponentGetIndex(Entity entity, uint32& entityIndex) const;
+
         /// Return the number of components
         uint32 getNbComponents() const;
 
@@ -124,28 +133,41 @@ class Components {
 };
 
 // Return true if an entity is sleeping
-inline bool Components::getIsEntityDisabled(Entity entity) const {
+RP3D_FORCE_INLINE bool Components::getIsEntityDisabled(Entity entity) const {
     assert(hasComponent(entity));
     return mMapEntityToComponentIndex[entity] >= mDisabledStartIndex;
 }
 
 // Return true if there is a component for a given entity
-inline bool Components::hasComponent(Entity entity) const {
+RP3D_FORCE_INLINE bool Components::hasComponent(Entity entity) const {
     return mMapEntityToComponentIndex.containsKey(entity);
 }
 
+// Return true if there is a component for a given entity and if so set the entity index
+RP3D_FORCE_INLINE bool Components::hasComponentGetIndex(Entity entity, uint32& entityIndex) const {
+
+    auto it = mMapEntityToComponentIndex.find(entity);
+
+    if (it != mMapEntityToComponentIndex.end()) {
+        entityIndex = it->second;
+        return true;
+    }
+
+    return false;
+}
+
 // Return the number of components
-inline uint32 Components::getNbComponents() const {
+RP3D_FORCE_INLINE uint32 Components::getNbComponents() const {
     return mNbComponents;
 }
 
 // Return the number of enabled components
-inline uint32 Components::getNbEnabledComponents() const {
+RP3D_FORCE_INLINE uint32 Components::getNbEnabledComponents() const {
     return mDisabledStartIndex;
 }
 
 // Return the index in the arrays for a given entity
-inline uint32 Components::getEntityIndex(Entity entity) const {
+RP3D_FORCE_INLINE uint32 Components::getEntityIndex(Entity entity) const {
     assert(hasComponent(entity));
     return mMapEntityToComponentIndex[entity];
 }

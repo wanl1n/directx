@@ -6,7 +6,6 @@
 #include "GameObject.h"
 
 // Engine
-#include "Windows.h"
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"

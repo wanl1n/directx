@@ -1,6 +1,6 @@
 /********************************************************************************
 * ReactPhysics3D physics library, http://www.reactphysics3d.com                 *
-* Copyright (c) 2010-2020 Daniel Chappuis                                       *
+* Copyright (c) 2010-2024 Daniel Chappuis                                       *
 *********************************************************************************
 *                                                                               *
 * This software is provided 'as-is', without any express or implied warranty.   *
@@ -91,9 +91,6 @@ struct Entity {
         /// Return the generation number of the entity
         uint32 getGeneration() const;
 
-        /// Assignment operator
-        Entity& operator=(const Entity& entity);
-
         /// Equality operator
         bool operator==(const Entity& entity) const;
 
@@ -103,35 +100,34 @@ struct Entity {
         // -------------------- Friendship -------------------- //
 
         friend class EntityManager;
-
 };
 
 // Return the lookup index of the entity in a array
-inline uint32 Entity::getIndex() const {
+RP3D_FORCE_INLINE uint32 Entity::getIndex() const {
     return id & ENTITY_INDEX_MASK;
 }
 
 // Return the generation number of the entity
-inline uint32 Entity::getGeneration() const {
+RP3D_FORCE_INLINE uint32 Entity::getGeneration() const {
     return (id >> ENTITY_INDEX_BITS) & ENTITY_GENERATION_MASK;
 }
 
 // Equality operator
-inline bool Entity::operator==(const Entity& entity) const {
+RP3D_FORCE_INLINE bool Entity::operator==(const Entity& entity) const {
 
     return entity.id == id;
 }
 
 // Inequality operator
-inline bool Entity::operator!=(const Entity& entity) const {
+RP3D_FORCE_INLINE bool Entity::operator!=(const Entity& entity) const {
     return entity.id != id;
 }
 
 }
 
-// Hash function for a reactphysics3d Entity
 namespace std {
 
+  // Hash function for a reactphysics3d Entity
   template <> struct hash<reactphysics3d::Entity> {
 
     size_t operator()(const reactphysics3d::Entity& entity) const {

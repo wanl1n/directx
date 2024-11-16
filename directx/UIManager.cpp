@@ -62,6 +62,10 @@ UIManager::UIManager(HWND hwnd)
 	this->table[names.COLOR_PICKER_SCREEN] = cpScreen;
 	this->list.push_back(cpScreen);
 
+	SceneToolsScreen* stScreen = new SceneToolsScreen();
+	this->table[names.SCENE_TOOLS_SCREEN] = stScreen;
+	this->list.push_back(stScreen);
+
 }
 UIManager::~UIManager() {}
 
@@ -102,6 +106,9 @@ void UIManager::openWindow(SCREENS screenName)
 			break;
 		case CREDITS:
 			this->table[names.CREDITS_SCREEN]->setActive(true);
+			break;
+		case SCENE_TOOLS:
+			this->table[names.SCENE_TOOLS_SCREEN]->setActive(true);
 			break;
 		default:
 			break;

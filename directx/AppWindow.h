@@ -28,7 +28,7 @@ class AppWindow : public Window, public InputListener
 
 	protected:
 		SwapChainPtr swapChain;
-
+		bool isPlaying = false;
 		float deltaTime = 0;
 
 	private:
@@ -48,10 +48,13 @@ class AppWindow : public Window, public InputListener
 		virtual void onKillFocus() override;
 
 		// Inherited from InputListener.
-		void onMouseMove(const Vector2& mousePos) override;
-		void onLeftMouseDown(const Vector2& mousePos) override;
-		void onRightMouseDown(const Vector2& mousePos) override;
-		void onLeftMouseUp(const Vector2& mousePos) override;
-		void onRightMouseUp(const Vector2& mousePos) override;
+		void onMouseMove(const Math::Vector2& mousePos) override;
+		void onLeftMouseDown(const Math::Vector2& mousePos) override;
+		void onRightMouseDown(const Math::Vector2& mousePos) override;
+		void onLeftMouseUp(const Math::Vector2& mousePos) override;
+		void onRightMouseUp(const Math::Vector2& mousePos) override;
+
+		bool getPlaying();
+		void setPlaying(bool playing);
 };
 

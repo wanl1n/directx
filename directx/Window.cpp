@@ -89,37 +89,6 @@ void Window::initialize()
 	this->running = true;
 }
 
-bool Window::createChildWindow() {
-	WNDCLASSEX wc;
-	wc.cbClsExtra = NULL;
-	wc.cbSize = sizeof(WNDCLASSEX);
-	wc.cbWndExtra = NULL;
-	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
-	wc.hInstance = NULL;
-	wc.lpszClassName = "InspectorWindow";
-	wc.lpszMenuName = "";
-	wc.style = NULL;
-	wc.lpfnWndProc = &WndProc;
-
-	if (!::RegisterClassEx(&wc))
-		return false;
-
-	HWND window = ::CreateWindowEx(WS_EX_PALETTEWINDOW, "InspectorWindow", "Inspector", WS_CHILD, CW_USEDEFAULT, CW_USEDEFAULT, 300, 720, this->hwnd, NULL, NULL, this);
-
-	if (!window) return false;
-
-	::ShowWindow(window, SW_SHOW);
-	::UpdateWindow(window);
-
-	this->childWindows.push_back(window);
-	this->windowRunning.push_back(true);
-
-	return true;
-}
-
 bool Window::broadcast()
 {
 	if (this->initializing) {
@@ -196,13 +165,6 @@ RECT Window::getClientWindowRect()
 {
 	RECT rc;
 	::GetClientRect(this->hwnd, &rc);
-	return rc;
-}
-
-RECT Window::getChildWindowRect(int index)
-{
-	RECT rc;
-	::GetClientRect(this->childWindows[index], &rc);
 	return rc;
 }
 

@@ -1,6 +1,6 @@
 /********************************************************************************
 * ReactPhysics3D physics library, http://www.reactphysics3d.com                 *
-* Copyright (c) 2010-2020 Daniel Chappuis                                       *
+* Copyright (c) 2010-2024 Daniel Chappuis                                       *
 *********************************************************************************
 *                                                                               *
 * This software is provided 'as-is', without any express or implied warranty.   *
@@ -36,10 +36,16 @@
 #include <reactphysics3d/collision/shapes/ConvexMeshShape.h>
 #include <reactphysics3d/collision/shapes/ConcaveMeshShape.h>
 #include <reactphysics3d/collision/TriangleMesh.h>
+#include <reactphysics3d/collision/ConvexMesh.h>
+#include <reactphysics3d/collision/HeightField.h>
 #include <reactphysics3d/utils/DefaultLogger.h>
+#include <reactphysics3d/collision/PolygonVertexArray.h>
+#include <reactphysics3d/collision/VertexArray.h>
 
 /// ReactPhysics3D namespace
 namespace reactphysics3d {
+
+class VertexArray;
 
 // Class PhysicsCommon
 /**
@@ -77,11 +83,14 @@ class PhysicsCommon {
         /// Set of height field shapes
         Set<HeightFieldShape*> mHeightFieldShapes;
 
-        /// Set of polyhedron meshes
-        Set<PolyhedronMesh*> mPolyhedronMeshes;
+        /// Set of convex meshes
+        Set<ConvexMesh*> mConvexMeshes;
 
         /// Set of triangle meshes
         Set<TriangleMesh*> mTriangleMeshes;
+
+        /// Set of height-fields
+        Set<HeightField*> mHeightFields;
 
         /// Pointer to the current logger
         static Logger* mLogger;
@@ -92,10 +101,58 @@ class PhysicsCommon {
         /// Set of default loggers
         Set<DefaultLogger*> mDefaultLoggers;
 
+        /// Half-edge structure of a box polyhedron
+        HalfEdgeStructure mBoxShapeHalfEdgeStructure;
+
+        /// Half-edge structure of a triangle shape
+        HalfEdgeStructure mTriangleShapeHalfEdgeStructure;
+
         // -------------------- Methods -------------------- //
+
+        /// Initialization
+        void init();
 
         /// Destroy and release everything that has been allocated
         void release();
+
+        /// Delete an instance of PhysicsWorld
+        void deletePhysicsWorld(PhysicsWorld* world);
+
+        /// Delete a sphere collision shape
+        void deleteSphereShape(SphereShape* sphereShape);
+
+        /// Delete a box collision shape
+        void deleteBoxShape(BoxShape* boxShape);
+
+        /// Delete a capsule collision shape
+        void deleteCapsuleShape(CapsuleShape* capsuleShape);
+
+        /// Delete a convex mesh shape
+        void deleteConvexMeshShape(ConvexMeshShape* convexMeshShape);
+
+        /// Delete a height-field shape
+        void deleteHeightFieldShape(HeightFieldShape* heightFieldShape);
+
+        /// Delete a concave mesh shape
+        void deleteConcaveMeshShape(ConcaveMeshShape* concaveMeshShape);
+
+        /// Delete a convex mesh
+        void deleteConvexMesh(ConvexMesh* convexMesh);
+
+        /// Delete a triangle mesh
+        void deleteTriangleMesh(TriangleMesh* triangleMesh);
+
+        /// Delete a height-field
+        void deleteHeightField(HeightField* heightField);
+
+        /// Delete a default logger
+        void deleteDefaultLogger(DefaultLogger* logger);
+
+        /// Initialize the half-edge structure of a BoxShape
+        void initBoxShapeHalfEdgeStructure();
+
+        /// Initialize the static half-edge structure of a TriangleShape
+        void initTriangleShapeHalfEdgeStructure();
 
 // If profiling is enabled
 #ifdef IS_RP3D_PROFILING_ENABLED
@@ -105,6 +162,9 @@ class PhysicsCommon {
 
         /// Destroy a profiler
         void destroyProfiler(Profiler* profiler);
+
+        /// Delete a profiler
+        void deleteProfiler(Profiler* profiler);
 
 #endif
 
@@ -143,16 +203,19 @@ class PhysicsCommon {
         void destroyCapsuleShape(CapsuleShape* capsuleShape);
 
         /// Create and return a convex mesh shape
-        ConvexMeshShape* createConvexMeshShape(PolyhedronMesh* polyhedronMesh, const Vector3& scaling = Vector3(1,1,1));
+        ConvexMeshShape* createConvexMeshShape(ConvexMesh* convexMesh, const Vector3& scaling = Vector3(1,1,1));
 
         /// Destroy a convex mesh shape
         void destroyConvexMeshShape(ConvexMeshShape* convexMeshShape);
 
+        /// Create and return a height-field
+        HeightField* createHeightField(int nbGridColumns, int nbGridRows, const void* heightFieldData,
+                                       HeightField::HeightDataType dataType, std::vector<Message>& messages,
+                                       decimal integerHeightScale = 1.0f);
+
         /// Create and return a height-field shape
-        HeightFieldShape* createHeightFieldShape(int nbGridColumns, int nbGridRows, decimal minHeight, decimal maxHeight,
-                                                 const void* heightFieldData, HeightFieldShape::HeightDataType dataType,
-                                                 int upAxis = 1, decimal integerHeightScale = 1.0f,
-                                                  const Vector3& scaling = Vector3(1,1,1));
+        HeightFieldShape* createHeightFieldShape(HeightField* heightField,
+                                                 const Vector3& scaling = Vector3(1,1,1));
 
         /// Destroy a height-field shape
         void destroyHeightFieldShape(HeightFieldShape* heightFieldShape);
@@ -163,17 +226,23 @@ class PhysicsCommon {
         /// Destroy a concave mesh shape
         void destroyConcaveMeshShape(ConcaveMeshShape* concaveMeshShape);
 
-        /// Create a polyhedron mesh
-        PolyhedronMesh* createPolyhedronMesh(PolygonVertexArray* polygonVertexArray);
+        /// Create a convex mesh from a PolygonVertexArray describing vertices and faces
+        ConvexMesh* createConvexMesh(const PolygonVertexArray& polygonVertexArray, std::vector<Message>& messages);
 
-        /// Destroy a polyhedron mesh
-        void destroyPolyhedronMesh(PolyhedronMesh* polyhedronMesh);
+        /// Create a convex mesh from an array of vertices (automatically computing the convex hull using QuickHull)
+        ConvexMesh* createConvexMesh(const VertexArray& vertexArray, std::vector<Message>& messages);
+
+        /// Destroy a convex mesh
+        void destroyConvexMesh(ConvexMesh* convexMesh);
 
         /// Create a triangle mesh
-        TriangleMesh* createTriangleMesh();
+        TriangleMesh* createTriangleMesh(const TriangleVertexArray& triangleVertexArray, std::vector<Message>& messages);
 
         /// Destroy a triangle mesh
         void destroyTriangleMesh(TriangleMesh* triangleMesh);
+
+        /// Destroy a height-field
+        void destroyHeightField(HeightField* heightField);
 
         /// Create and return a new default logger
         DefaultLogger* createDefaultLogger();
@@ -187,13 +256,19 @@ class PhysicsCommon {
         /// Set the logger
         static void setLogger(Logger* logger);
 
+
+        // ---------- Friendship ---------- //
+
+        friend class BoxShape;
+        friend class TriangleShape;
+        friend class PhysicsWorld;
 };
 
 // Return the current logger
 /**
  * @return A pointer to the current logger
  */
-inline Logger* PhysicsCommon::getLogger() {
+RP3D_FORCE_INLINE Logger* PhysicsCommon::getLogger() {
     return mLogger;
 }
 
@@ -201,7 +276,7 @@ inline Logger* PhysicsCommon::getLogger() {
 /**
  * @param logger A pointer to the logger to use
  */
-inline void PhysicsCommon::setLogger(Logger* logger) {
+RP3D_FORCE_INLINE void PhysicsCommon::setLogger(Logger* logger) {
     mLogger = logger;
 }
 

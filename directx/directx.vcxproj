@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;$(IncludePath)</IncludePath>
-    <LibraryPath>Libs\DirectXTex\bin;$(LibraryPath)</LibraryPath>
+    <LibraryPath>Libs\DirectXTex\bin;$(ProjectDir)Libs\ReactPhysics3D\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -106,14 +106,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)Libs\ReactPhysics3D\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTexD.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTexD.lib;reactphysics3d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,15 +135,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AppWindow.cpp" />
-    <ClCompile Include="Area51.cpp" />
+    <ClCompile Include="BaseComponentSystem.cpp" />
     <ClCompile Include="BlendState.cpp" />
-    <ClCompile Include="BouncingCircle.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Capsule.cpp" />
     <ClCompile Include="Circle.cpp" />
-    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColorPickerScreen.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="CreditsScreen.cpp" />
     <ClCompile Include="Cube.cpp" />
@@ -165,24 +165,25 @@
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="InspectorScreen.cpp" />
-    <ClCompile Include="LerpingCube.cpp" />
+    <ClCompile Include="PhysicsPlane.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshManager.cpp" />
     <ClCompile Include="MeshObject.cpp" />
+    <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="ProfilerScreen.cpp" />
-    <ClCompile Include="PulsingQuad.cpp" />
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="RotatingCube.cpp" />
+    <ClCompile Include="PhysicsCube.cpp" />
     <ClCompile Include="RotatingPlane.cpp" />
-    <ClCompile Include="SceneWindow.cpp" />
+    <ClCompile Include="SceneToolsScreen.cpp" />
     <ClCompile Include="ShaderLibrary.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="SkyboxMeshObject.cpp" />
@@ -199,15 +200,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h" />
-    <ClInclude Include="Area51.h" />
+    <ClInclude Include="BaseComponentSystem.h" />
     <ClInclude Include="BlendState.h" />
-    <ClInclude Include="BouncingCircle.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Capsule.h" />
     <ClInclude Include="Circle.h" />
-    <ClInclude Include="Collider.h" />
     <ClInclude Include="ColorPickerScreen.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="Cube.h" />
@@ -234,7 +234,7 @@
     <ClInclude Include="InputListener.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="InspectorScreen.h" />
-    <ClInclude Include="LerpingCube.h" />
+    <ClInclude Include="PhysicsPlane.h" />
     <ClInclude Include="Libs\DirectXTex\include\DirectXTex.h" />
     <ClInclude Include="Libs\DirectXTK\include\SimpleMath.h" />
     <ClInclude Include="Libs\DirectXTK\include\SpriteBatch.h" />
@@ -246,8 +246,11 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshManager.h" />
     <ClInclude Include="MeshObject.h" />
+    <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Plane.h" />
+    <ClInclude Include="SceneToolsScreen.h" />
     <ClInclude Include="ShaderLibrary.h" />
     <ClInclude Include="SkyboxMeshObject.h" />
     <ClInclude Include="TexturedCube.h" />
@@ -257,17 +260,14 @@
     <ClInclude Include="PrimitivesInclude.h" />
     <ClInclude Include="PrimitivesList.h" />
     <ClInclude Include="ProfilerScreen.h" />
-    <ClInclude Include="PulsingQuad.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="RotatingCube.h" />
+    <ClInclude Include="PhysicsCube.h" />
     <ClInclude Include="RotatingPlane.h" />
-    <ClInclude Include="SceneWindow.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Sphere.h" />
-    <ClInclude Include="stb_image.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />

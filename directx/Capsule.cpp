@@ -10,11 +10,11 @@ Capsule::Capsule(std::string name, bool blending, OBJECT_TYPE type) :
 	this->sectors = 32;
 	this->radius = 0.5f;
 	this->height = 1.0f;
-	this->color = ASHGRAY;
+	this->color = WHITE;
 
     this->init();
 
-	this->setPosition(Vector3(-1, -1, 0));
+	this->setPosition(Math::Vector3(-1, -1, 0));
 	//this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\Logo.jpg");
 }
 
@@ -50,11 +50,11 @@ void Capsule::initializeBuffers()
 
 std::vector<Vertex3D> Capsule::createVertices()
 {
-	Vector2 uvs[] = {
-		Vector2(0, 0),
-		Vector2(0, 1),
-		Vector2(1, 0),
-		Vector2(1, 1)
+	Math::Vector2 uvs[] = {
+		Math::Vector2(0, 0),
+		Math::Vector2(0, 1),
+		Math::Vector2(1, 0),
+		Math::Vector2(1, 1)
 	};
 
 	std::vector<Vertex3D> vertices;
@@ -82,15 +82,15 @@ std::vector<Vertex3D> Capsule::createVertices()
 			else
 				color = LIGHTMAUVE;
 
-			Vector2 uv = Vector2(0, 0);
+			Math::Vector2 uv = Math::Vector2(0, 0);
 			if (sector % 2 == 0)
-				uv = Vector2(0, 0);
+				uv = Math::Vector2(0, 0);
 			else
-				uv = Vector2(1, 1);
+				uv = Math::Vector2(1, 1);
 
 			// Create the vertex with position, normal, and texture coordinate
 			Vertex3D vertex = {
-				Vector3(x * radius, y * radius, z * radius),
+				Math::Vector3(x * radius, y * radius, z * radius),
 				uv,
 				color
 			};

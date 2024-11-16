@@ -5,7 +5,6 @@
 
 #include "GameObject.h"
 
-#include "Windows.h"
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
@@ -39,7 +38,7 @@ public:
 	Circle(std::string name, CircleProps props, bool blending);
 	~Circle();
 
-	std::vector<Vector3> generateCircleVertices(float radius, int segments);
+	std::vector<Math::Vector3> generateCircleVertices(float radius, int segments);
 
 	virtual void update(float deltaTime, RECT viewport);
 	void draw();

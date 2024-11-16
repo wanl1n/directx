@@ -16,7 +16,7 @@ class InputSystem
 		unsigned char oldKeysState[256] = {};
 
 		// Mouse
-		Vector2 oldMousePos;
+		Math::Vector2 oldMousePos;
 		bool firstPass = true;
 
 	// CENTRAL FUNCTIONS
@@ -45,13 +45,13 @@ class InputSystem
 		// Inherited from InputListener.
 		void callOnKeyDown(int key);
 		void callOnKeyUp(int key);
-		void callOnMouseMove(Vector2 mousePos);
-		void callOnLeftMouseDown(Vector2 mousePos);
-		void callOnRightMouseDown(Vector2 mousePos);
-		void callOnLeftMouseUp(Vector2 mousePos);
-		void callOnRightMouseUp(Vector2 mousePos);
+		void callOnMouseMove(Math::Vector2 mousePos);
+		void callOnLeftMouseDown(Math::Vector2 mousePos);
+		void callOnRightMouseDown(Math::Vector2 mousePos);
+		void callOnLeftMouseUp(Math::Vector2 mousePos);
+		void callOnRightMouseUp(Math::Vector2 mousePos);
 
-		void setCursorPosition(const Vector2& pos);
+		void setCursorPosition(const Math::Vector2& pos);
 		void toggleCursor(bool enabled);
 };
 

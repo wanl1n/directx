@@ -9,11 +9,14 @@ TexturedCube::~TexturedCube() {}
 
 void TexturedCube::draw()
 {
+	GraphicsEngine::get()->getRenderSystem()->setRasterizerState(false);
+
 	ShaderNames shaderNames;
 	ShaderLibrary* shaderLib = ShaderLibrary::getInstance();
 	DeviceContextPtr device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
-	device->setRenderConfig(shaderLib->getVertexShader(shaderNames.TEXTURED_VERTEX_SHADER_NAME),
-							shaderLib->getPixelShader(shaderNames.TEXTURED_PIXEL_SHADER_NAME));
+	device->setRenderConfig(shaderLib->getVertexShader(shaderNames.BASE_VERTEX_SHADER_NAME),
+							shaderLib->getPixelShader(shaderNames.BASE_PIXEL_SHADER_NAME));
+	device->resetTexture();
 
 	// Bind to Shaders.
 	device->setConstantBuffer(vs, this->cb);

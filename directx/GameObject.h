@@ -4,8 +4,8 @@
 #include <d3d11.h>
 #include "DirectXMath.h"
 #include "SimpleMath/SimpleMath.h"
+#include "reactphysics3d/reactphysics3d.h"
 
-#include "Windows.h"
 #include "GraphicsEngine.h"
 #include "ConstantBuffer.h"
 
@@ -15,10 +15,19 @@
 #include "Transform.h"
 #include "Constants.h"
 
+#include "Component.h"
+
+using namespace Math;
+using namespace reactphysics3d;
+
 class GameObjectManager;
 
 class GameObject
 {
+	public:
+		typedef std::string String;
+		typedef std::vector<Component*> ComponentList;
+
 	protected:
 		ConstantBufferPtr cb;
 
@@ -30,12 +39,17 @@ class GameObject
 		DirectX::BoundingBox boundingBox;
 
 		Constant cc;
-		Vector3 size;
+		Math::Vector3 size;
 
 		bool isSelected;
-		Transform transform;
+		Struct::Transform transform;
+		Quaternion orientation;
 
 		float deltaTime;
+
+		ComponentList components;
+	public:
+		bool physOn;
 
 	private:
 		friend class GameObjectManager;
@@ -46,6 +60,7 @@ class GameObject
 		virtual void calculateBounds();
 		virtual void calculateWorldMatrix();
 
+		virtual void awake();
 		virtual void update(float deltaTime, RECT viewport);
 		virtual void draw();
 
@@ -53,32 +68,43 @@ class GameObject
 		virtual void edit(float deltaTime);
 
 		// Transform Functions
-		virtual void translate(Vector3 offset, float speed);
+		virtual void translate(Math::Vector3 offset, float speed);
 		virtual void rotateX(float radians);
 		virtual void rotateY(float radians);
 		virtual void rotateZ(float radians);
-		virtual void scale(Vector3 offset);
-		virtual void resetView();
+		virtual void scale(Math::Vector3 offset);
+
+		// Entity Component System
+		void attachComponent(Component* comp);
+		void detachComponent(Component* comp);
 
 		// Getters/Setters
 		virtual std::string getName();
 		virtual bool getActive();
-		virtual Vector3 getPosition();
-		virtual Vector3 getRotation();
-		virtual Vector3 getScale();
+		virtual Math::Vector3 getPosition();
+		virtual Math::Vector3 getRotation();
+		virtual Math::Vector3 getScale();
 		virtual DirectX::BoundingBox getBounds();
+		virtual bool isWithinBounds(Math::Vector3 ray);
+		float* getPhysicsLocalMatrix();
 		virtual Matrix4x4 getWorldMat();
+
+		Component* findComponentByName(String name);
+		Component* findComponentByType(Component::ComponentType type, String name);
+		ComponentList getAllComponents();
+		ComponentList getComponentsOfType(Component::ComponentType type);
 
 		virtual void setName(std::string name);
 		virtual void setActive(bool active);
-		virtual bool isWithinBounds(Vector3 ray);
-		virtual void setPosition(Vector3 newPos);
+		virtual void setWorldMat(float matrix[16]);
+		virtual void setPosition(Math::Vector3 newPos);
 		virtual void setPosition(float x, float y, float z);
-		virtual void setRotation(Vector3 newRot);
+		virtual void setRotation(Math::Vector3 newRot);
+		virtual void setRotation(Math::Vector4 newRot);
 		virtual void setRotationX(float xOffset);
 		virtual void setRotationY(float yOffset);
 		virtual void setRotationZ(float zOffset);
-		virtual void setScale(Vector3 newScale);
+		virtual void setScale(Math::Vector3 newScale);
 		virtual void setSelected(bool selected);
 };
 

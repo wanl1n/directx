@@ -12,7 +12,7 @@ Cylinder::Cylinder(std::string name, bool blending, OBJECT_TYPE type) :
 
 	this->init();
 
-    this->setPosition(Vector3(-5, 1.1f, 5));
+    this->setPosition(Math::Vector3(-5, 1.1f, 5));
     //this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\Logo.jpg");
 }
 
@@ -74,8 +74,8 @@ std::vector<Vertex3D> Cylinder::createVertices()
     float sliceStep = 2 * DirectX::XM_PI / static_cast<float>(slices);
 
     // Generate vertices for the top cap
-    Vertex3D topCenter = { Vector3(0.0f, halfHeight, 0.0f), Vector2(0.5f, 0.5f), this->color };
-    //Vertex3D topCenter = { Vector3(0.0f, halfHeight, 0.0f), Vector3(0.0f, 1.0f, 0.0f), DirectX::XMFLOAT2(0.5f, 0.5f) };
+    Vertex3D topCenter = { Math::Vector3(0.0f, halfHeight, 0.0f), Math::Vector2(0.5f, 0.5f), this->color };
+    //Vertex3D topCenter = { Math::Vector3(0.0f, halfHeight, 0.0f), Math::Vector3(0.0f, 1.0f, 0.0f), DirectX::XMFLOAT2(0.5f, 0.5f) };
     vertices.push_back(topCenter);
 
     for (unsigned int i = 0; i < slices; ++i)
@@ -83,15 +83,15 @@ std::vector<Vertex3D> Cylinder::createVertices()
         float theta = i * sliceStep;
         float x = radius * cosf(theta);
         float z = radius * sinf(theta);
-        Vector2 uv = Vector2((x / radius + 1) * 0.5f, (z / radius + 1) * 0.5f);
-        Vertex3D topVertex = { Vector3(x, halfHeight, z), uv, this->color };
-        //Vertex3D topVertex = { Vector3(x, halfHeight, z), Vector3(0.0f, 1.0f, 0.0f), DirectX::XMFLOAT2((x / radius + 1) * 0.5f, (z / radius + 1) * 0.5f) };
+        Math::Vector2 uv = Math::Vector2((x / radius + 1) * 0.5f, (z / radius + 1) * 0.5f);
+        Vertex3D topVertex = { Math::Vector3(x, halfHeight, z), uv, this->color };
+        //Vertex3D topVertex = { Math::Vector3(x, halfHeight, z), Math::Vector3(0.0f, 1.0f, 0.0f), DirectX::XMFLOAT2((x / radius + 1) * 0.5f, (z / radius + 1) * 0.5f) };
         vertices.push_back(topVertex);
     }
 
     // Generate vertices for the bottom cap
-    Vertex3D bottomCenter = { Vector3(0.0f, -halfHeight, 0.0f), Vector2(0.5f, 0.5f) };
-    //Vertex bottomCenter = { Vector3(0.0f, -halfHeight, 0.0f), Vector3(0.0f, -1.0f, 0.0f), DirectX::XMFLOAT2(0.5f, 0.5f) };
+    Vertex3D bottomCenter = { Math::Vector3(0.0f, -halfHeight, 0.0f), Math::Vector2(0.5f, 0.5f) };
+    //Vertex bottomCenter = { Math::Vector3(0.0f, -halfHeight, 0.0f), Math::Vector3(0.0f, -1.0f, 0.0f), DirectX::XMFLOAT2(0.5f, 0.5f) };
     vertices.push_back(bottomCenter);
 
     for (unsigned int i = 0; i < slices; ++i)
@@ -99,9 +99,9 @@ std::vector<Vertex3D> Cylinder::createVertices()
         float theta = i * sliceStep;
         float x = radius * cosf(theta);
         float z = radius * sinf(theta);
-        Vector2 uv = Vector2((x / radius + 1) * 0.5f, (z / radius + 1) * 0.5f);
-        Vertex3D bottomVertex = { Vector3(x, -halfHeight, z), uv, this->color };
-        //Vertex bottomVertex = { Vector3(x, -halfHeight, z), Vector3(0.0f, -1.0f, 0.0f), DirectX::XMFLOAT2((x / radius + 1) * 0.5f, (z / radius + 1) * 0.5f) };
+        Math::Vector2 uv = Math::Vector2((x / radius + 1) * 0.5f, (z / radius + 1) * 0.5f);
+        Vertex3D bottomVertex = { Math::Vector3(x, -halfHeight, z), uv, this->color };
+        //Vertex bottomVertex = { Math::Vector3(x, -halfHeight, z), Math::Vector3(0.0f, -1.0f, 0.0f), DirectX::XMFLOAT2((x / radius + 1) * 0.5f, (z / radius + 1) * 0.5f) };
         vertices.push_back(bottomVertex);
     }
 
@@ -113,13 +113,13 @@ std::vector<Vertex3D> Cylinder::createVertices()
         float z = radius * sinf(theta);
 
         // Top vertex of the side
-        Vertex3D sideTopVertex = { Vector3(x, halfHeight, z), Vector2(i / static_cast<float>(slices), 0.0f), this->color };
-        //Vertex3D sideTopVertex = { Vector3(x, halfHeight, z), Vector3(x, 0.0f, z), DirectX::XMFLOAT2(i / static_cast<float>(slices), 0.0f) };
+        Vertex3D sideTopVertex = { Math::Vector3(x, halfHeight, z), Math::Vector2(i / static_cast<float>(slices), 0.0f), this->color };
+        //Vertex3D sideTopVertex = { Math::Vector3(x, halfHeight, z), Math::Vector3(x, 0.0f, z), DirectX::XMFLOAT2(i / static_cast<float>(slices), 0.0f) };
         vertices.push_back(sideTopVertex);
 
         // Bottom vertex of the side
-        Vertex3D sideBottomVertex = { Vector3(x, -halfHeight, z), Vector2(i / static_cast<float>(slices), 1.0f), this->color };
-        //Vertex3D sideBottomVertex = { Vector3(x, -halfHeight, z), Vector3(x, 0.0f, z), DirectX::XMFLOAT2(i / static_cast<float>(slices), 1.0f) };
+        Vertex3D sideBottomVertex = { Math::Vector3(x, -halfHeight, z), Math::Vector2(i / static_cast<float>(slices), 1.0f), this->color };
+        //Vertex3D sideBottomVertex = { Math::Vector3(x, -halfHeight, z), Math::Vector3(x, 0.0f, z), DirectX::XMFLOAT2(i / static_cast<float>(slices), 1.0f) };
         vertices.push_back(sideBottomVertex);
     }
 

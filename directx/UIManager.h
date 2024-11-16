@@ -1,5 +1,4 @@
 #pragma once
-#include "Windows.h"
 #include "UIInclude.h"
 #include "ImGuiInclude.h"
 
@@ -17,6 +16,7 @@ public:
 	const String HIERARCHY_SCREEN = "HIERARCHY SCREEN";
 	const String CREDITS_SCREEN = "CREDITS SCREEN";
 	const String COLOR_PICKER_SCREEN = "COLOR PICKER SCREEN";
+	const String SCENE_TOOLS_SCREEN = "SCENE TOOLS SCREEN";
 };
 
 class UIScreen;

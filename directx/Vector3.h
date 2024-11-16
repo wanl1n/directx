@@ -1,7 +1,10 @@
 #pragma once
 #include <cmath>
-class Vector3
-{
+#include <iostream>
+
+namespace Math {
+	class Vector3
+	{
 	public:
 		float x, y, z;
 
@@ -41,7 +44,11 @@ class Vector3
 			normal.y /= magnitude;
 			normal.z /= magnitude;
 
-			return normal; 
+			return normal;
+		}
+
+		void printVector3() {
+			std::cout << "Vector3: x = " << x << ", y = " << y << ", z = " << z << "." << std::endl;
 		}
 
 		void operator +=(const Vector3& other) {
@@ -100,4 +107,6 @@ class Vector3
 			else
 				return false;
 		}
-};
+	};
+}
+

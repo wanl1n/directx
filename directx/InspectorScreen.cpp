@@ -26,31 +26,40 @@ void InspectorScreen::drawUI()
 			obj->setActive(isActive);
 		}
 
-		Vector3 pos = obj->getPosition();
+		Math::Vector3 pos = obj->getPosition();
 		float finalPos[] = { pos.x, pos.y, pos.z };
 		if (ImGui::DragFloat3("Position", finalPos, 0.01f))
 		{
 			obj->setPosition(finalPos[0], finalPos[1], finalPos[2]);
 		}
 
-		Vector3 scale = obj->getScale();
+		Math::Vector3 scale = obj->getScale();
 		float finalScale[] = { scale.x, scale.y, scale.z };
 		if (ImGui::DragFloat3("Scale", finalScale, 0.01f))
 		{
-			obj->setScale(Vector3(finalScale[0], finalScale[1], finalScale[2]));
+			obj->setScale(Math::Vector3(finalScale[0], finalScale[1], finalScale[2]));
 		}
 
-		Vector3 rot = obj->getRotation();
+		Math::Vector3 rot = obj->getRotation();
 		float finalRot[] = { rot.x, rot.y, rot.z };
 		if (ImGui::DragFloat3("Rotation", finalRot, 0.01f))
 		{
-			obj->setRotation(Vector3(finalRot[0], finalRot[1], finalRot[2]));
+			obj->setRotation(Math::Vector3(finalRot[0], finalRot[1], finalRot[2]));
 		}
 
 		if (ImGui::Button("Delete", ImVec2(ImGui::GetWindowSize().x - 15, 20)))
 		{
 			GameObjectManager::getInstance()->resetSelection();
 			GameObjectManager::getInstance()->removeGameObject(obj);
+		}
+
+		ImGui::Separator();
+
+		std::vector<Component*> components = obj->getAllComponents();
+		for (Component* comp : components) {
+			if (ImGui::CollapsingHeader(comp->getName().c_str())) {
+				// Component Info
+			}
 		}
 	}
 	ImGui::End();

@@ -6,8 +6,9 @@
 #include "Vector3.h"
 #include "Vector4.h"
 
-class Matrix4x4
-{
+namespace Math {
+	class Matrix4x4
+	{
 	public:
 		float mat[4][4] = {};
 
@@ -109,6 +110,23 @@ class Matrix4x4
 			this->setMatrix(out);
 		}
 
+		Matrix4x4 transpose() {
+			Matrix4x4 out;
+
+			std::cout << "Original Matrix: " << std::endl;
+			this->printMatrix();
+
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 4; j++) {
+					out.mat[i][j] = mat[j][i];
+				}
+			}
+			std::cout << "Transposed Matrix: " << std::endl;
+			out.printMatrix();
+
+			return out;
+		}
+
 		static Vector4 transform(const Vector4& vec, Matrix4x4 mat) {
 			Vector4 out;
 
@@ -128,8 +146,8 @@ class Matrix4x4
 			return out;
 		}
 
-		static Vector4 unproject(Vector3 screenPoint, Matrix4x4 viewMat, 
-								Matrix4x4 projMat, float screenWidth, float screenHeight) {
+		static Vector4 unproject(Vector3 screenPoint, Matrix4x4 viewMat,
+			Matrix4x4 projMat, float screenWidth, float screenHeight) {
 			// Step 1: Normalize the screen coordinates to NDC
 			float ndcX = (2.0f * screenPoint.x) / screenWidth - 1.0f;
 			float ndcY = 1.0f - (2.0f * screenPoint.y) / screenHeight;
@@ -170,6 +188,11 @@ class Matrix4x4
 			::memcpy(mat, matrix.mat, sizeof(float) * 16);
 		}
 
+		void setMatrix(float matrix[4][4])
+		{
+			::memcpy(mat, matrix, sizeof(float) * 16);
+		}
+
 		Vector3 getZDir() {
 			return Vector3(mat[2][0], mat[2][1], mat[2][2]);
 		}
@@ -184,6 +207,10 @@ class Matrix4x4
 
 		Vector3 getTranslation() {
 			return Vector3(mat[3][0], mat[3][1], mat[3][2]);
+		}
+
+		float* getMatrixPointer() {
+			return *mat;
 		}
 
 		void setPerspectiveFovLH(float fov, float aspect, float znear, float zfar) {
@@ -214,4 +241,5 @@ class Matrix4x4
 				std::cout << "]" << std::endl;
 			}
 		}
-};
+	};
+}

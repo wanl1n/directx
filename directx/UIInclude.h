@@ -10,3 +10,4 @@
 #include "InspectorScreen.h"
 #include "MenuScreen.h"
 #include "ProfilerScreen.h"
+#include "SceneToolsScreen.h"

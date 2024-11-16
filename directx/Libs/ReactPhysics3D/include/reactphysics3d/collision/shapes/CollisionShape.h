@@ -1,6 +1,6 @@
 /********************************************************************************
 * ReactPhysics3D physics library, http://www.reactphysics3d.com                 *
-* Copyright (c) 2010-2020 Daniel Chappuis                                       *
+* Copyright (c) 2010-2024 Daniel Chappuis                                       *
 *********************************************************************************
 *                                                                               *
 * This software is provided 'as-is', without any express or implied warranty.   *
@@ -30,7 +30,7 @@
 #include <cassert>
 #include <reactphysics3d/configuration.h>
 #include <reactphysics3d/utils/Profiler.h>
-#include <reactphysics3d/containers/List.h>
+#include <reactphysics3d/containers/Array.h>
 
 /// ReactPhysics3D namespace
 namespace reactphysics3d {
@@ -54,7 +54,7 @@ enum class CollisionShapeName { TRIANGLE, SPHERE, CAPSULE, BOX, CONVEX_MESH, TRI
 
 // Declarations
 class Collider;
-class CollisionBody;
+class Body;
 
 // Class CollisionShape
 /**
@@ -76,8 +76,8 @@ class CollisionShape {
         /// Unique identifier of the shape inside an overlapping pair
         uint32 mId;
 
-        /// List of the colliders associated with this shape
-        List<Collider*> mColliders;
+        /// Array of the colliders associated with this shape
+        Array<Collider*> mColliders;
 
 #ifdef IS_RP3D_PROFILING_ENABLED
 
@@ -89,7 +89,7 @@ class CollisionShape {
         // -------------------- Methods -------------------- //
 
         /// Return true if a point is inside the collision shape
-        virtual bool testPointInside(const Vector3& worldPoint, Collider* collider) const=0;
+        virtual bool testPointInside(const Vector3& localPoint, Collider* collider) const=0;
 
         /// Raycast method with feedback information
         virtual bool raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* collider, MemoryAllocator& allocator) const=0;
@@ -135,7 +135,7 @@ class CollisionShape {
         virtual bool isPolyhedron() const=0;
 
         /// Return the local bounds of the shape in x, y and z directions
-        virtual void getLocalBounds(Vector3& min, Vector3& max) const=0;
+        virtual AABB getLocalBounds() const=0;
 
         /// Return the id of the shape
         uint32 getId() const;
@@ -146,8 +146,8 @@ class CollisionShape {
         /// Compute and return the volume of the collision shape
         virtual decimal getVolume() const=0;
 
-        /// Compute the world-space AABB of the collision shape given a transform
-        virtual void computeAABB(AABB& aabb, const Transform& transform) const;
+        /// Compute the transformed AABB of the collision shape given a transform
+        virtual AABB computeTransformedAABB(const Transform& transform) const;
 
         /// Return the string representation of the shape
         virtual std::string to_string() const=0;
@@ -162,9 +162,9 @@ class CollisionShape {
         // -------------------- Friendship -------------------- //
 
         friend class Collider;
-        friend class CollisionBody;
+        friend class Body;
         friend class RigidBody;
-        friend class PhyscisWorld;
+        friend class PhysicsWorld;
         friend class BroadPhaseSystem;
 };
 
@@ -172,7 +172,7 @@ class CollisionShape {
 /**
 * @return The name of the collision shape (box, sphere, triangle, ...)
 */
-inline CollisionShapeName CollisionShape::getName() const {
+RP3D_FORCE_INLINE CollisionShapeName CollisionShape::getName() const {
 	return mName;
 }
 
@@ -180,29 +180,29 @@ inline CollisionShapeName CollisionShape::getName() const {
 /**
  * @return The type of the collision shape (sphere, capsule, convex polyhedron, concave mesh)
  */
-inline CollisionShapeType CollisionShape::getType() const {
+RP3D_FORCE_INLINE CollisionShapeType CollisionShape::getType() const {
     return mType;
 }
 
 // Return the id of the shape
-inline uint32 CollisionShape::getId() const {
+RP3D_FORCE_INLINE uint32 CollisionShape::getId() const {
    return mId;
 }
 
 // Assign a new collider to the collision shape
-inline void CollisionShape::addCollider(Collider* collider) {
+RP3D_FORCE_INLINE void CollisionShape::addCollider(Collider* collider) {
     mColliders.add(collider);
 }
 
 // Remove an assigned collider from the collision shape
-inline void CollisionShape::removeCollider(Collider* collider) {
+RP3D_FORCE_INLINE void CollisionShape::removeCollider(Collider* collider) {
     mColliders.remove(collider);
 }
 
 #ifdef IS_RP3D_PROFILING_ENABLED
 
 // Set the profiler
-inline void CollisionShape::setProfiler(Profiler* profiler) {
+RP3D_FORCE_INLINE void CollisionShape::setProfiler(Profiler* profiler) {
 
 	mProfiler = profiler;
 }

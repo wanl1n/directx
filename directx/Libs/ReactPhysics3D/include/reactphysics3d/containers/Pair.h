@@ -1,6 +1,6 @@
 /********************************************************************************
 * ReactPhysics3D physics library, http://www.reactphysics3d.com                 *
-* Copyright (c) 2010-2020 Daniel Chappuis                                       *
+* Copyright (c) 2010-2024 Daniel Chappuis                                       *
 *********************************************************************************
 *                                                                               *
 * This software is provided 'as-is', without any express or implied warranty.   *
@@ -27,8 +27,6 @@
 #define REACTPHYSICS3D_PAIR_H
 
 // Libraries
-#include <reactphysics3d/configuration.h>
-#include <reactphysics3d/memory/MemoryAllocator.h>
 #include <reactphysics3d/containers/containers_common.h>
 #include <cstring>
 #include <iterator>
@@ -59,14 +57,6 @@ class Pair {
 
         }
 
-        /// Copy constructor
-        Pair(const Pair<T1, T2>& pair) : first(pair.first), second(pair.second) {
-
-        }
-
-        /// Destructor
-        ~Pair() = default;
-
         /// Overloaded equality operator
         bool operator==(const Pair<T1, T2>& pair) const {
             return first == pair.first && second == pair.second;
@@ -76,20 +66,13 @@ class Pair {
         bool operator!=(const Pair<T1, T2>& pair) const {
             return !((*this) == pair);
         }
-
-        /// Overloaded assignment operator
-        Pair<T1, T2>& operator=(const Pair<T1, T2>& pair) {
-            first = pair.first;
-            second = pair.second;
-            return *this;
-        }
 };
 
 }
 
-// Hash function for a reactphysics3d Pair
 namespace std {
 
+  // Hash function for a reactphysics3d Pair
   template <typename T1, typename T2> struct hash<reactphysics3d::Pair<T1, T2>> {
 
     size_t operator()(const reactphysics3d::Pair<T1, T2>& pair) const {

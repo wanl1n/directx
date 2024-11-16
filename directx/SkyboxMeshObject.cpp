@@ -4,8 +4,8 @@
 SkyboxMeshObject::SkyboxMeshObject() : MeshObject(MESH_SKY) 
 {
 	this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\sky.jpg");
-	this->setScale(Vector3(FAR_PLANE));
-	this->setPosition(Vector3(0));
+	this->setScale(Math::Vector3(FAR_PLANE));
+	this->setPosition(Math::Vector3(0));
 
 	//std::cout << "Skybox Mesh Object constructor." << std::endl;
 }

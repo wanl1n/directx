@@ -57,17 +57,14 @@ void GameObjectManager::addGameObject(OBJECT_TYPE type, int count)
 	for (int i = 0; i < count; i++) {
 		switch (type) {
 			case QUAD:
-			case PULSING_QUAD:
-			case AREA51_QUAD:
 				this->createQuad(type);
 				break;
 			case CIRCLE:
-			case BOUNCING_CIRCLE:
 				this->createCircle(type);
 				break;
 			case CUBE:
-			case ROTATING_CUBE:
-			case LERPING_CUBE:
+			case PHYSICS_CUBE:
+			case PHYSICS_PLANE:
 				this->createCube(type);
 				break;
 			case PLANE:
@@ -121,28 +118,15 @@ Quad* GameObjectManager::createQuad(OBJECT_TYPE type)
 {
 	//std::cout << "Creating Quad." << std::endl;
 	float sides = 0.1f;
-	QuadVertices pos = { Vector3(-sides, -sides, 0), 
-						 Vector3(-sides, sides, 0), 
-						 Vector3(sides, -sides, 0), 
-						 Vector3(sides, sides, 0) };
+	QuadVertices pos = { Math::Vector3(-sides, -sides, 0), 
+						 Math::Vector3(-sides, sides, 0), 
+						 Math::Vector3(sides, -sides, 0), 
+						 Math::Vector3(sides, sides, 0) };
 	QuadColors color1 = { CREAM, MATCHA, SPACE, LAVENDER };
 	QuadColors color2 = { LAVENDER, CREAM, MATCHA, SPACE };
 	QuadProps quadProps = { pos, pos, color1, color2 };
 
 	Quad* newQuad = new Quad("Quad " + std::to_string(this->QuadList.size() + 1), quadProps, false);
-
-	switch (type) {
-		case PULSING_QUAD:
-			free(newQuad);
-			newQuad = new PulsingQuad("Pulsing Quad " + std::to_string(this->QuadList.size() + 1), quadProps, false);
-			break;
-		case AREA51_QUAD:
-			free(newQuad);
-			newQuad = new Area51("Test Quad " + std::to_string(this->QuadList.size() + 1), quadProps, false);
-			break;
-		default:
-			break;
-	}
 
 	this->GOList.push_back((GameObject*)newQuad);
 	this->QuadList.push_back(newQuad);
@@ -154,7 +138,7 @@ Circle* GameObjectManager::createCircle(OBJECT_TYPE type)
 {
 	//std::cout << "Creating Circle." << std::endl;
 	CircleProps props = {
-		Vector3(0), // Starting pos
+		Math::Vector3(0), // Starting pos
 		0.1f,		// Radius
 		25,			// Segments
 		PINK,		// Outer color
@@ -162,15 +146,6 @@ Circle* GameObjectManager::createCircle(OBJECT_TYPE type)
 	};
 
 	Circle* newCircle = new Circle("Circle " + std::to_string(this->CircleList.size() + 1), props, true);
-
-	switch (type) {
-		case BOUNCING_CIRCLE:
-			free(newCircle); 
-			newCircle = new BouncingCircle("Bouncing Circle " + std::to_string(this->CircleList.size() + 1), props, true);
-			break;
-		default:
-			break;
-	}
 
 	this->GOList.push_back((GameObject*)newCircle);
 	this->CircleList.push_back(newCircle);
@@ -183,14 +158,14 @@ Cube* GameObjectManager::createCube(OBJECT_TYPE type)
 	Cube* newCube = new Cube("Cube " + std::to_string(this->CubeList.size() + 1), true);
 
 	switch (type) {
-		case ROTATING_CUBE:
+		case PHYSICS_CUBE:
 			//std::cout << "Creating Rotating Cube." << std::endl;
 			free(newCube);
-			newCube = new RotatingCube("Rotating Cube " + std::to_string(this->CubeList.size() + 1), true);
+			newCube = new PhysicsCube("Physics Cube " + std::to_string(this->CubeList.size() + 1), true);
 			break;
-		case LERPING_CUBE:
+		case PHYSICS_PLANE:
 			free(newCube);
-			newCube = new LerpingCube("Lerping Cube " + std::to_string(this->CubeList.size() + 1), true);
+			newCube = new PhysicsPlane("Physics Plane " + std::to_string(this->CubeList.size() + 1), true);
 			break;
 		default:
 			//std::cout << "Creating Cube." << std::endl;
@@ -209,7 +184,7 @@ Plane* GameObjectManager::createPlane(OBJECT_TYPE type)
 
 	switch (type) {
 		case ROTATING_PLANE:
-			free(newPlane);
+			delete newPlane;
 			newPlane = new RotatingPlane("Rotating Plane " + std::to_string(this->PlaneList.size() + 1), true);
 			break;
 		default:
@@ -284,7 +259,7 @@ MeshObject* GameObjectManager::createMesh(OBJECT_TYPE type)
 	return newMesh;
 }
 
-DirectX::XMVECTOR GameObjectManager::pick(Vector2 mousePos, float width, float height)
+DirectX::XMVECTOR GameObjectManager::pick(Math::Vector2 mousePos, float width, float height)
 {
 	bool rayHit = false;
 	DirectX::XMVECTOR hitPoint = DirectX::XMVectorSet(0, 0, 0, 0);
@@ -355,7 +330,7 @@ void GameObjectManager::transformSelectedGameObject(DirectX::XMVECTOR deltaHitPo
 		DirectX::XMVECTOR deltaPos = DirectX::XMVector4Normalize(deltaHitPoint);
 		float deltaTime = EngineTime::getDeltaTime();
 
-		Vector3 pos = obj->getPosition();
+		Math::Vector3 pos = obj->getPosition();
 		pos.x += DirectX::XMVectorGetX(deltaPos) * deltaTime;
 		pos.y += DirectX::XMVectorGetY(deltaPos) * deltaTime;
 		pos.z += DirectX::XMVectorGetZ(deltaPos) * deltaTime;
@@ -393,7 +368,7 @@ std::vector<GameObject*> GameObjectManager::getGameObjects()
 	return this->GOList;
 }
 
-GameObject* GameObjectManager::checkCollision(Vector3 rayEndPoint)
+GameObject* GameObjectManager::checkCollision(Math::Vector3 rayEndPoint)
 {
 	for (GameObject* obj : this->GOList) {
 		if (obj->isWithinBounds(rayEndPoint))

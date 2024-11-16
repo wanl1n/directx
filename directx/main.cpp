@@ -1,6 +1,4 @@
-
 #include "AppWindow.h"
-#include "SceneWindow.h"
 
 int main() {
 
