@@ -9,5 +9,7 @@ class PhysicsPlane : public Cube
 		~PhysicsPlane();
 		 
 		virtual std::vector<Vertex3D> createVertices() override;
+		virtual Math::Vector3 getPosition() override;
+		virtual Math::Vector3 getRotation() override;
 };
 

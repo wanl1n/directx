@@ -114,3 +114,13 @@ void Cube::calculateBounds()
 		-side * transform.scale.y + transform.position.y, side * transform.scale.y + transform.position.y,
 		-side * transform.scale.z + transform.position.z, side * transform.scale.z + transform.position.z };
 }
+
+Math::Vector3 Cube::getPosition()
+{
+	return transform.position;
+}
+
+Math::Vector3 Cube::getRotation()
+{
+	return transform.rotation;
+}

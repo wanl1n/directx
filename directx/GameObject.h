@@ -81,7 +81,9 @@ class GameObject
 		// Getters/Setters
 		virtual std::string getName();
 		virtual bool getActive();
+		virtual Math::Vector3 getLocalPosition();
 		virtual Math::Vector3 getPosition();
+		virtual Math::Vector3 getLocalRotation();
 		virtual Math::Vector3 getRotation();
 		virtual Math::Vector3 getScale();
 		virtual DirectX::BoundingBox getBounds();

@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Math.h"
 #include <reactphysics3d/reactphysics3d.h>
 
 using namespace reactphysics3d;
@@ -17,5 +18,8 @@ class PhysicsComponent : public Component
 		void perform(float deltaTime) override;
 		void updateOwnerTransform();
 		RigidBody* getRigidBody();
+
+		Math::Vector3 getRBPosition();
+		Math::Vector3 getRBRotation();
 };
 

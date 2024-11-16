@@ -14,7 +14,7 @@ PhysicsComponent::PhysicsComponent(String name, GameObject* owner)
     PhysicsWorld* world = BaseComponentSystem::getInstance()->getPhysicsSystem()->getPhysicsWorld();
 
     Math::Vector3 scale = this->owner->getScale();
-    Math::Vector3 pos = this->owner->getPosition();
+    Math::Vector3 pos = this->owner->getLocalPosition();
 
     reactphysics3d::Transform transform;
     transform.setFromOpenGL(this->owner->getPhysicsLocalMatrix());
@@ -48,7 +48,7 @@ void PhysicsComponent::perform(float deltaTime)
     transform.getOpenGLMatrix(matrix);
 
     this->owner->setWorldMat(matrix);
-    this->updateOwnerTransform();
+    //this->updateOwnerTransform();
 }
 
 void PhysicsComponent::updateOwnerTransform()
@@ -60,4 +60,17 @@ void PhysicsComponent::updateOwnerTransform()
 RigidBody* PhysicsComponent::getRigidBody()
 {
     return this->rb;
+}
+
+Math::Vector3 PhysicsComponent::getRBPosition()
+{
+    const reactphysics3d::Transform transform = this->rb->getTransform();
+    return Math::Vector3(transform.getPosition().x, transform.getPosition().y, transform.getPosition().z);
+}
+
+Math::Vector3 PhysicsComponent::getRBRotation()
+{
+    const reactphysics3d::Transform transform = this->rb->getTransform();
+    return Math::Vector3(transform.getOrientation().x, transform.getOrientation().y, transform.getOrientation().z);
+
 }

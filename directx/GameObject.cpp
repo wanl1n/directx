@@ -242,9 +242,19 @@ bool GameObject::getActive()
 }
 
 // GETTERS AND SETTERS
+Math::Vector3 GameObject::getLocalPosition()
+{
+	return this->transform.position;
+}
+
 Math::Vector3 GameObject::getPosition()
 {
 	return this->transform.position;
+}
+
+Math::Vector3 GameObject::getLocalRotation()
+{
+	return this->transform.rotation;
 }
 
 Math::Vector3 GameObject::getRotation()

@@ -14,3 +14,27 @@ PhysicsCube::PhysicsCube(std::string name, bool blending) :
 }
 
 PhysicsCube::~PhysicsCube() {}
+
+Math::Vector3 PhysicsCube::getPosition()
+{
+	ComponentList physComponents = this->getComponentsOfType(Component::ComponentType::Physics);
+
+	PhysicsComponent* physComp = (PhysicsComponent*)physComponents[0];
+	if (physComp != NULL) {
+		return physComp->getRBPosition();
+	}
+
+	return Math::Vector3(0);
+}
+
+Math::Vector3 PhysicsCube::getRotation()
+{
+	ComponentList physComponents = this->getComponentsOfType(Component::ComponentType::Physics);
+
+	PhysicsComponent* physComp = (PhysicsComponent*)physComponents[0];
+	if (physComp != NULL) {
+		return physComp->getRBRotation();
+	}
+
+	return Math::Vector3(0);
+}

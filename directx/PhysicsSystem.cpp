@@ -10,7 +10,7 @@ PhysicsSystem::PhysicsSystem()
 
 	PhysicsWorld::WorldSettings settings;
 	settings.defaultVelocitySolverNbIterations = 50;
-	settings.gravity = Vector3(0, -9.81f, 0);
+	settings.gravity = reactphysics3d::Vector3(0, -9.81f, 0);
 
 	this->physicsWorld = this->physicsCommon->createPhysicsWorld(settings);
 	std::cout << "Successfully created physics world." << std::endl;

@@ -83,3 +83,27 @@ std::vector<Vertex3D> PhysicsPlane::createVertices()
 
 	return vecVerts;
 }
+
+Math::Vector3 PhysicsPlane::getPosition()
+{
+	ComponentList physComponents = this->getComponentsOfType(Component::ComponentType::Physics);
+	
+	PhysicsComponent* physComp = (PhysicsComponent*)physComponents[0];
+	if (physComp != NULL) {
+		return physComp->getRBPosition();
+	}
+
+	return Math::Vector3(0);
+}
+
+Math::Vector3 PhysicsPlane::getRotation()
+{
+	ComponentList physComponents = this->getComponentsOfType(Component::ComponentType::Physics);
+
+	PhysicsComponent* physComp = (PhysicsComponent*)physComponents[0];
+	if (physComp != NULL) {
+		return physComp->getRBRotation();
+	}
+
+	return Math::Vector3(0);
+}
