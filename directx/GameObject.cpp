@@ -294,9 +294,9 @@ bool GameObject::isWithinBounds(Math::Vector3 ray)
 		ray.x >= bounds.minX &&
 		ray.x <= bounds.maxX &&
 		ray.y >= bounds.minY &&
-		ray.y <= bounds.maxY /* &&
+		ray.y <= bounds.maxY &&
 		ray.z >= bounds.minZ &&
-		ray.z <= bounds.maxZ*/
+		ray.z <= bounds.maxZ
 		);
 }
 

@@ -48,13 +48,6 @@ void PhysicsComponent::perform(float deltaTime)
     transform.getOpenGLMatrix(matrix);
 
     this->owner->setWorldMat(matrix);
-    //this->updateOwnerTransform();
-}
-
-void PhysicsComponent::updateOwnerTransform()
-{
-    const reactphysics3d::Transform transform = this->rb->getTransform();
-    this->owner->setPosition(Math::Vector3(transform.getPosition().x, transform.getPosition().y, transform.getPosition().z));
 }
 
 RigidBody* PhysicsComponent::getRigidBody()

@@ -11,6 +11,7 @@ PhysicsPlane::PhysicsPlane(std::string name, bool blending) :
 
 	this->setPosition(Math::Vector3(0, -2.0f, 0));
 	cc.world.setTranslation(transform.position);
+	this->transform.scale = Math::Vector3(50.0f, 0.1f, 50.0f);
 
 	PhysicsComponent* rb = new PhysicsComponent(name + " Rigidbody", this);
 	this->attachComponent(rb);
