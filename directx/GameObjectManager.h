@@ -1,7 +1,6 @@
 #pragma once
 #include <d3d11.h>
 #include "DirectXMath.h"
-#include "SimpleMath/SimpleMath.h"
 
 #include "vector"
 #include "PrimitivesList.h"
@@ -58,7 +57,6 @@ class GameObjectManager
 		MeshObject* createMesh(OBJECT_TYPE type);
 
 	public:
-		DirectX::XMVECTOR pick(Math::Vector2 mousePos, float width, float height);
 		void transformSelectedGameObject(DirectX::XMVECTOR deltaHitPoint);
 		GameObject* findGameObject(std::string name);
 		GameObject* getGameObject(int index);

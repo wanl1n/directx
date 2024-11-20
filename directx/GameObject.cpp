@@ -41,10 +41,6 @@ void GameObject::calculateBounds()
 		-0.5f * transform.scale.x + transform.position.x, 0.5f * transform.scale.x + transform.position.x,
 		-0.5f * transform.scale.y + transform.position.y, 0.5f * transform.scale.y + transform.position.y,
 		-0.5f * transform.scale.z + transform.position.z, 0.5f * transform.scale.z + transform.position.z };
-
-	DirectX::XMFLOAT3 center = DirectX::XMFLOAT3(transform.position.x, transform.position.y, transform.position.z);
-	DirectX::XMFLOAT3 sizeVec = DirectX::XMFLOAT3(size.x, size.y, size.z);
-	this->boundingBox = { center, sizeVec };
 }
 
 void GameObject::calculateWorldMatrix()
@@ -236,6 +232,30 @@ std::string GameObject::getName()
 	return this->name;
 }
 
+std::string GameObject::getTypeString()
+{
+	switch (this->type) {
+		case CUBE:
+		case PHYSICS_CUBE:
+		case PHYSICS_PLANE:
+			return "Cube";
+			break;
+		case PLANE:
+		case ROTATING_PLANE:
+			return "Plane";
+			break;
+		case SPHERE:
+			return "Sphere";
+			break;
+		case CYLINDER:
+			return "Cylinder";
+			break;
+		case CAPSULE:
+			return "Capsule";
+			break;
+	}
+}
+
 bool GameObject::getActive()
 {
 	return this->isActive;
@@ -266,11 +286,6 @@ Math::Vector3 GameObject::getRotation()
 Math::Vector3 GameObject::getScale()
 {
 	return this->transform.scale;
-}
-
-DirectX::BoundingBox GameObject::getBounds()
-{
-	return this->boundingBox;
 }
 
 Matrix4x4 GameObject::getWorldMat()

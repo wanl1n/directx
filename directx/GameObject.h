@@ -3,7 +3,6 @@
 #include <string>
 #include <d3d11.h>
 #include "DirectXMath.h"
-#include "SimpleMath/SimpleMath.h"
 #include "reactphysics3d/reactphysics3d.h"
 
 #include "GraphicsEngine.h"
@@ -36,7 +35,6 @@ class GameObject
 		OBJECT_TYPE type;
 
 		Bounds bounds;
-		DirectX::BoundingBox boundingBox;
 
 		Constant cc;
 		Math::Vector3 size;
@@ -80,13 +78,13 @@ class GameObject
 
 		// Getters/Setters
 		virtual std::string getName();
+		virtual std::string getTypeString();
 		virtual bool getActive();
 		virtual Math::Vector3 getLocalPosition();
 		virtual Math::Vector3 getPosition();
 		virtual Math::Vector3 getLocalRotation();
 		virtual Math::Vector3 getRotation();
 		virtual Math::Vector3 getScale();
-		virtual DirectX::BoundingBox getBounds();
 		virtual bool isWithinBounds(Math::Vector3 ray);
 		float* getPhysicsLocalMatrix();
 		virtual Matrix4x4 getWorldMat();

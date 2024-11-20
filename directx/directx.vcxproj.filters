@@ -160,6 +160,9 @@
     <Filter Include="GameEngine\GameObject\Primitives\3D\Cube\PhysicsPlane">
       <UniqueIdentifier>{8d13d3b3-ef8d-4daf-be27-b54fae82d0cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Parser">
+      <UniqueIdentifier>{2e9d7c73-c7ad-43e0-9325-0ea7c9f94cd7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -349,6 +352,7 @@
     <ClCompile Include="SceneToolsScreen.cpp">
       <Filter>GameEngine\UserInterface\Screens</Filter>
     </ClCompile>
+    <ClCompile Include="FileManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -550,15 +554,6 @@
     <ClInclude Include="Libs\DirectXTex\include\DirectXTex.h">
       <Filter>Libraries</Filter>
     </ClInclude>
-    <ClInclude Include="Libs\DirectXTK\include\SimpleMath.h">
-      <Filter>Libraries</Filter>
-    </ClInclude>
-    <ClInclude Include="Libs\DirectXTK\include\SpriteBatch.h">
-      <Filter>Libraries</Filter>
-    </ClInclude>
-    <ClInclude Include="Libs\DirectXTK\include\SpriteFont.h">
-      <Filter>Libraries</Filter>
-    </ClInclude>
     <ClInclude Include="Libs\tinyobjloader\include\tiny_obj_loader.h">
       <Filter>Libraries</Filter>
     </ClInclude>
@@ -598,6 +593,7 @@
     <ClInclude Include="SceneToolsScreen.h">
       <Filter>GameEngine\UserInterface\Screens</Filter>
     </ClInclude>
+    <ClInclude Include="FileManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="TexturedVertexShader.hlsl">
@@ -636,9 +632,6 @@
       <Filter>Libraries</Filter>
     </None>
     <None Include="Libs\DirectXTK\bin\MakeSpriteFont.exe">
-      <Filter>Libraries</Filter>
-    </None>
-    <None Include="Libs\DirectXTK\include\SimpleMath.inl">
       <Filter>Libraries</Filter>
     </None>
   </ItemGroup>

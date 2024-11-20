@@ -10,6 +10,8 @@ PhysicsSystem::PhysicsSystem()
 
 	PhysicsWorld::WorldSettings settings;
 	settings.defaultVelocitySolverNbIterations = 50;
+	settings.persistentContactDistanceThreshold = 0.01;
+	settings.defaultFrictionCoefficient = 0.5f;
 	settings.gravity = reactphysics3d::Vector3(0, -9.81f, 0);
 
 	this->physicsWorld = this->physicsCommon->createPhysicsWorld(settings);

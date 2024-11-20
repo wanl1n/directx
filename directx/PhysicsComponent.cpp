@@ -68,3 +68,22 @@ Math::Vector3 PhysicsComponent::getRBRotation()
     return Math::Vector3(transform.getOrientation().x, transform.getOrientation().y, transform.getOrientation().z);
 
 }
+
+std::string PhysicsComponent::getRBType()
+{
+    switch (this->rb->getType()) {
+        case BodyType::STATIC:
+            return "Static";
+            break;
+        case BodyType::DYNAMIC:
+            return "Dynamic";
+            break;
+        case BodyType::KINEMATIC:
+            return "Kinematic";
+            break;
+        default:
+            return "";
+            break;
+    }
+    return "";
+}

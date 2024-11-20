@@ -259,69 +259,6 @@ MeshObject* GameObjectManager::createMesh(OBJECT_TYPE type)
 	return newMesh;
 }
 
-DirectX::XMVECTOR GameObjectManager::pick(Math::Vector2 mousePos, float width, float height)
-{
-	bool rayHit = false;
-	DirectX::XMVECTOR hitPoint = DirectX::XMVectorSet(0, 0, 0, 0);
-
-	for (GameObject* obj : this->GOList) {
-		Primitive* object = (Primitive*)obj;
-		if (object != NULL) {
-			DirectX::XMMATRIX world, view, proj;
-
-			world = DirectX::XMMatrixSet(
-				obj->getWorldMat().mat[0][0], obj->getWorldMat().mat[0][1], obj->getWorldMat().mat[0][2], obj->getWorldMat().mat[0][3],
-				obj->getWorldMat().mat[1][0], obj->getWorldMat().mat[1][1], obj->getWorldMat().mat[1][2], obj->getWorldMat().mat[1][3],
-				obj->getWorldMat().mat[2][0], obj->getWorldMat().mat[2][1], obj->getWorldMat().mat[2][2], obj->getWorldMat().mat[2][3],
-				obj->getWorldMat().mat[3][0], obj->getWorldMat().mat[3][1], obj->getWorldMat().mat[3][2], obj->getWorldMat().mat[3][3]
-			);
-	
-			Constant cc;
-			cc.view = CameraManager::getInstance()->getActiveCameraView();
-			cc.proj = CameraManager::getInstance()->getActiveProjection();
-
-			view = DirectX::XMMatrixSet(
-				cc.view.mat[0][0], cc.view.mat[0][1], cc.view.mat[0][2], cc.view.mat[0][3],
-				cc.view.mat[1][0], cc.view.mat[1][1], cc.view.mat[1][2], cc.view.mat[1][3],
-				cc.view.mat[2][0], cc.view.mat[2][1], cc.view.mat[2][2], cc.view.mat[2][3],
-				cc.view.mat[3][0], cc.view.mat[3][1], cc.view.mat[3][2], cc.view.mat[3][3]
-			);
-			proj = DirectX::XMMatrixSet(
-				cc.proj.mat[0][0], cc.proj.mat[0][1], cc.proj.mat[0][2], cc.proj.mat[0][3],
-				cc.proj.mat[1][0], cc.proj.mat[1][1], cc.proj.mat[1][2], cc.proj.mat[1][3],
-				cc.proj.mat[2][0], cc.proj.mat[2][1], cc.proj.mat[2][2], cc.proj.mat[2][3],
-				cc.proj.mat[3][0], cc.proj.mat[3][1], cc.proj.mat[3][2], cc.proj.mat[3][3]
-			);
-
-			DirectX::XMVECTOR roScreen, rdScreen;
-			DirectX::XMVECTOR ro, rd;
-			roScreen = DirectX::XMVectorSet(mousePos.x, mousePos.y, 0.1f, 1.0f);
-			rdScreen = DirectX::XMVectorSet(mousePos.x, mousePos.y, 1.0f, 1.0f);
-
-			ro = DirectX::XMVector3Unproject(roScreen, 0, 0, width, height, 0, 1, proj, view, world);
-			rd = DirectX::XMVector3Unproject(rdScreen, 0, 0, width, height, 0, 1, proj, view, world);
-			rd = DirectX::XMVector3Normalize(DirectX::XMVectorSubtract(rd, ro));
-
-			DirectX::SimpleMath::Ray ray(ro, rd);
-
-			DirectX::BoundingBox bounds = object->getBounds();
-
-			float dist;
-			rayHit = ray.Intersects(bounds, dist);
-
-			GameObjectManager::getInstance()->resetSelection();
-			if (rayHit)
-			{
-				object->setSelected(true);
-				hitPoint = DirectX::XMVectorAdd(ro, DirectX::XMVectorScale(rd, dist));
-				break;
-			}
-		}
-	}
-
-	return hitPoint;
-}
-
 void GameObjectManager::transformSelectedGameObject(DirectX::XMVECTOR deltaHitPoint)
 {
 	GameObject* obj = this->getSelectedGameObject();

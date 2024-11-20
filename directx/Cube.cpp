@@ -46,7 +46,6 @@ void Cube::initializeBuffers()
 std::vector<Vertex3D> Cube::createVertices()
 {
 	std::vector<Vertex3D> vecVerts;
-	std::cout << "cube vertices" << std::endl;
 
 	int size = 24;
 

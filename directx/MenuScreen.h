@@ -4,6 +4,9 @@
 
 class MenuScreen : public UIScreen
 {
+	private:
+		bool showPopUp = false;
+
 	public:
 		MenuScreen();
 		~MenuScreen();

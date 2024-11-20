@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "Component.h"
 #include "Math.h"
 #include <reactphysics3d/reactphysics3d.h>
@@ -20,5 +21,6 @@ class PhysicsComponent : public Component
 
 		Math::Vector3 getRBPosition();
 		Math::Vector3 getRBRotation();
+		std::string getRBType();
 };
 

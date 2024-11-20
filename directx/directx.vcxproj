@@ -149,6 +149,7 @@
     <ClCompile Include="Cylinder.cpp" />
     <ClCompile Include="DeviceContext.cpp" />
     <ClCompile Include="EngineTime.cpp" />
+    <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="DeviceContext.h" />
     <ClInclude Include="EngineTime.h" />
+    <ClInclude Include="FileManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GraphicsEngine.h" />
@@ -236,9 +238,6 @@
     <ClInclude Include="InspectorScreen.h" />
     <ClInclude Include="PhysicsPlane.h" />
     <ClInclude Include="Libs\DirectXTex\include\DirectXTex.h" />
-    <ClInclude Include="Libs\DirectXTK\include\SimpleMath.h" />
-    <ClInclude Include="Libs\DirectXTK\include\SpriteBatch.h" />
-    <ClInclude Include="Libs\DirectXTK\include\SpriteFont.h" />
     <ClInclude Include="Libs\tinyobjloader\include\tiny_obj_loader.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Matrix4x4.h" />
@@ -338,7 +337,6 @@
     <None Include="Libs\DirectXTex\include\DirectXTex.inl" />
     <None Include="Libs\DirectXTK\bin\DirectXTKD.pdb" />
     <None Include="Libs\DirectXTK\bin\MakeSpriteFont.exe" />
-    <None Include="Libs\DirectXTK\include\SimpleMath.inl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libs\DirectXTex\bin\DirectXTex.lib" />
