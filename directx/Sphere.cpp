@@ -12,7 +12,8 @@ Sphere::Sphere(std::string name, bool blending, OBJECT_TYPE type) :
 
 	this->init();
 
-	this->setPosition(Vector3(1, 1, 0));
+	this->setPosition(Math::Vector3(1, 1, 0));
+	//this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\Logo.jpg");
 }
 
 Sphere::~Sphere() {}
@@ -63,9 +64,12 @@ std::vector<Vertex3D> Sphere::createVertices()
 			float x = cosf(2 * DirectX::XM_PI * sector * sectorStep) * sinf(DirectX::XM_PI * ring * ringStep); // Horizontal (X) position
 			float z = sinf(2 * DirectX::XM_PI * sector * sectorStep) * sinf(DirectX::XM_PI * ring * ringStep); // Depth (Z) position
 
+			Math::Vector2 uv = Math::Vector2(sector * sectorStep, ring * ringStep);
+
 			// Create the vertex with position, normal, and texture coordinate
 			Vertex3D vertex = {
-				Vector3(x * radius, y * radius, z * radius),
+				Math::Vector3(x * radius, y * radius, z * radius),
+				uv,
 				color
 			};
 

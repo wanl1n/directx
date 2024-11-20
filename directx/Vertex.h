@@ -7,7 +7,8 @@ struct Constant {
 	Matrix4x4 world;
 	Matrix4x4 view;
 	Matrix4x4 proj;
-	unsigned int time;
+	Vector4 lightDir;
+	Vector4 cameraPos;
 };
 
 // Rect
@@ -16,6 +17,10 @@ struct Rect {
 	float top;
 	float right;
 	float bottom;
+};
+
+struct Bounds {
+	float minX, maxX, minY, maxY, minZ, maxZ;
 };
 
 // Colors
@@ -33,17 +38,17 @@ struct DuoColors {
 
 // Quads
 struct QuadVertex {
-	Vector3 position;
-	Vector3 position1;
+	Math::Vector3 position;
+	Math::Vector3 position1;
 	Vector4 color;
 	Vector4 color1;
 };
 
 struct QuadVertices {
-	Vector3 point1;
-	Vector3 point2;
-	Vector3 point3;
-	Vector3 point4;
+	Math::Vector3 point1;
+	Math::Vector3 point2;
+	Math::Vector3 point3;
+	Math::Vector3 point4;
 };
 
 struct QuadProps {
@@ -55,7 +60,7 @@ struct QuadProps {
 
 // Circles
 struct CircleProps {
-	Vector3 center;
+	Math::Vector3 center;
 	float radius;
 	float segments;
 	Vector4 color;
@@ -64,7 +69,7 @@ struct CircleProps {
 
 // Cubes
 struct CubeProps {
-	Vector3 position;
+	Math::Vector3 position;
 	float side;
 	Vector4 color1;
 	Vector4 color2;
@@ -72,13 +77,19 @@ struct CubeProps {
 
 // Planes
 struct PlaneProps {
-	Vector3 position;
+	Math::Vector3 position;
 	Vector4 color;
 	float width;
 	float height;
 };
 
 struct Vertex3D {
-	Vector3 position;
+	Math::Vector3 position;
+	Math::Vector2 texcoord;
 	Vector4 color;
+};
+
+struct BaseVertex {
+	Math::Vector3 position;
+	Math::Vector2 texcoord;
 };

@@ -3,11 +3,18 @@
 
 #include "Prerequisites.h"
 #include "RenderSystem.h"
+#include "TextureManager.h"
+#include "MeshManager.h"
 
 class GraphicsEngine
 {
 	private:
 		RenderSystem* renderSystem = nullptr;
+		TextureManager* texManager = nullptr;
+		MeshManager* meshManager = nullptr;
+
+		unsigned char meshLayoutByteCode[1024];
+		size_t meshLayoutSize = 0;
 
 	private:
 		static GraphicsEngine* sharedInstance;
@@ -21,10 +28,10 @@ class GraphicsEngine
 		static void initialize();
 		static void destroy();
 
-		bool init();
-		bool release();
-
 		RenderSystem* getRenderSystem();
+		TextureManager* getTextureManager();
+		MeshManager* getMeshManager();
+		void getVertexMeshLayoutShaderByteCodeAndSize(void** byteCode, size_t* size);
 		static GraphicsEngine* get();
 };
 

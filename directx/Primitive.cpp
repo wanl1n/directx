@@ -1,19 +1,10 @@
 #include "Primitive.h"
-#include "CameraManager.h"
 #include "InputSystem.h"
 
 Primitive::Primitive(std::string name, OBJECT_TYPE type, bool blending) : 
 	GameObject(name, type), alphaOn(blending) {}
 
-Primitive::~Primitive() 
-{
-	delete vb;
-	delete cb;
-	delete ib;
-	delete vs;
-	delete ps;
-	delete bs;
-}
+Primitive::~Primitive() {}
 
 void Primitive::init()
 {
@@ -22,6 +13,8 @@ void Primitive::init()
 	this->createPixelShader();
 	this->createConstantBuffer();
 	this->createBlendState(alphaOn);
+
+	this->calculateBounds();
 }
 
 void Primitive::createVertexShader()
@@ -29,13 +22,15 @@ void Primitive::createVertexShader()
 	RenderSystem* renderSystem = GraphicsEngine::get()->getRenderSystem();
 
 	// Shader Attributes
+	ShaderNames shaderNames;
 	void* shaderByteCode = nullptr;
 	size_t sizeShader = 0;
 
 	std::vector<Vertex3D> vertices = this->createVertices();
 
-	renderSystem->compileVertexShader(L"SolidVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
-	this->vs = renderSystem->createVertexShader(shaderByteCode, sizeShader);
+	ShaderLibrary::getInstance()->requestVertexShaderData(shaderNames.BASE_VERTEX_SHADER_NAME, &shaderByteCode, &sizeShader);
+	//renderSystem->compileVertexShader(L"TexturedVertexShader.hlsl", "vsmain", &shaderByteCode, &sizeShader);
+	this->vs = renderSystem->createVertexShader(shaderByteCode, (UINT)sizeShader);
 	this->vb = renderSystem->createVertexBuffer(vertices, sizeof(Vertex3D), shaderByteCode, sizeShader);
 	renderSystem->releaseCompiledShader();
 }
@@ -66,26 +61,18 @@ void Primitive::createBlendState(bool blending)
 void Primitive::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
-
-	/*float speed = 1.0f * deltaTime;
-	if (InputSystem::getInstance()->isKeyDown('W'))
-		this->translate(Vector3(0, 0, 1), speed);
-	if (InputSystem::getInstance()->isKeyDown('A'))
-		this->translate(Vector3(-1, 0, 0), speed);
-	if (InputSystem::getInstance()->isKeyDown('S'))
-		this->translate(Vector3(0, 0, -1), speed);
-	if (InputSystem::getInstance()->isKeyDown('D'))
-		this->translate(Vector3(1, 0, 0), speed);*/
-
-	this->cc.view = CameraManager::getInstance()->getActiveCameraView();
-	this->cc.proj = CameraManager::getInstance()->getActiveProjection();
-
-	this->cb->update(GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext(), &this->cc);
 }
 
 void Primitive::draw()
 {
-	DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	GraphicsEngine::get()->getRenderSystem()->setRasterizerState(false);
+
+	ShaderNames shaderNames;
+	ShaderLibrary* shaderLib = ShaderLibrary::getInstance();
+	DeviceContextPtr device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	device->setRenderConfig(shaderLib->getVertexShader(shaderNames.BASE_VERTEX_SHADER_NAME),
+							shaderLib->getPixelShader(shaderNames.BASE_PIXEL_SHADER_NAME));
+	device->resetTexture();
 
 	// Bind to Shaders.
 	device->setConstantBuffer(vs, this->cb);
@@ -94,9 +81,9 @@ void Primitive::draw()
 	// Set Blend State.
 	if (this->bs) device->setBlendState(bs);
 
-	// Set Shaders.
-	device->setVertexShader(vs);
-	device->setPixelShader(ps);
+	//// Set Shaders.
+	//device->setVertexShader(vs);
+	//device->setPixelShader(ps);
 
 	// Draw Object.
 	device->setVertexBuffer(this->vb);

@@ -2,7 +2,7 @@
 #include "InputListener.h"
 #include <unordered_set>
 #include <vector>
-#include "Point.h"
+#include "Vector2.h"
 
 class InputSystem
 {
@@ -16,13 +16,14 @@ class InputSystem
 		unsigned char oldKeysState[256] = {};
 
 		// Mouse
-		Point oldMousePos;
+		Math::Vector2 oldMousePos;
 		bool firstPass = true;
 
 	// CENTRAL FUNCTIONS
 	public:
 		static InputSystem* getInstance();
 		static void initialize();
+		static void destroy();
 
 		void update();
 		void addListener(InputListener* listener);
@@ -44,13 +45,13 @@ class InputSystem
 		// Inherited from InputListener.
 		void callOnKeyDown(int key);
 		void callOnKeyUp(int key);
-		void callOnMouseMove(Point mousePos);
-		void callOnLeftMouseDown(Point mousePos);
-		void callOnRightMouseDown(Point mousePos);
-		void callOnLeftMouseUp(Point mousePos);
-		void callOnRightMouseUp(Point mousePos);
+		void callOnMouseMove(Math::Vector2 mousePos);
+		void callOnLeftMouseDown(Math::Vector2 mousePos);
+		void callOnRightMouseDown(Math::Vector2 mousePos);
+		void callOnLeftMouseUp(Math::Vector2 mousePos);
+		void callOnRightMouseUp(Math::Vector2 mousePos);
 
-		void setCursorPosition(const Point& pos);
+		void setCursorPosition(const Math::Vector2& pos);
 		void toggleCursor(bool enabled);
 };
 

@@ -1,18 +1,29 @@
 #include "Plane.h"
 #include "Vertex.h"
+#include "PhysicsComponent.h"
 
 Plane::Plane(std::string name, bool blending, OBJECT_TYPE type) :
-	Primitive(name, PLANE, blending), color(WHITE), height(1), width(1)
+	Primitive(name, PLANE, blending)
 {
 	this->color = WHITE;
-	this->height = 1.0f;
-	this->width = 1.0f;
+	this->height = 50.0f;
+	this->width = 50.0f;
 
 	this->init();
 
 	// Side Standing
-	this->setScale(Vector3(2));
-	this->rotateX(1.57f);
+	//this->setScale(Math::Vector3(50));
+	this->setPosition(Math::Vector3(0, -2.0f, 0));
+	this->setRotationX(1.57f);
+	cc.world.setTranslation(transform.position);
+	cc.world.setRotationX(transform.rotation.x);
+
+	PhysicsComponent* rb = new PhysicsComponent(name + " Rigidbody", this);
+	this->attachComponent(rb);
+	rb->getRigidBody()->setType(BodyType::KINEMATIC);
+	this->physOn = true;
+
+	//this->texture = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\Logo.jpg");
 }
 
 Plane::~Plane() {}
@@ -35,38 +46,56 @@ void Plane::initializeBuffers()
 std::vector<Vertex3D> Plane::createVertices()
 {
 	std::vector<Vertex3D> vecVerts;
+	int size = 8;
 
-	// Set up the Vertex buffer.
-	//Vertex3D vertices[] = { // Cube Vertices
-	//	// FRONT FACE
-	//	{ Vector3(-width, -height, 0),	this->color },
-	//	{ Vector3(-width, height, 0),	this->color },
-	//	{ Vector3(width, height, 0),	this->color },
-	//	{ Vector3(width, -height, 0),	this->color },
-	//	// BACK FACE
-	//	{ Vector3(width, -height, 0),	this->color },
-	//	{ Vector3(width, height, 0),	this->color },
-	//	{ Vector3(-width, height, 0),	this->color },
-	//	{ Vector3(-width, -height, 0),	this->color }
-	//};
-
-	Vertex3D vertices[] = { // Cube Vertices
+	Math::Vector3 xyzs[] = { // Cube Vertices
 		// FRONT FACE
-		{ Vector3(-width, -height, 0),	PALEDOGWOOD },
-		{ Vector3(-width, height, 0),	ROSYBROWN },
-		{ Vector3(width, height, 0),	PUCE },
-		{ Vector3(width, -height, 0),	ROSETAUPE },
+		Math::Vector3(-width, -height, 0),
+		Math::Vector3(-width, height, 0),	
+		Math::Vector3(width, height, 0),	
+		Math::Vector3(width, -height, 0),	
 		// BACK FACE
-		{ Vector3(width, -height, 0),	this->color },
-		{ Vector3(width, height, 0),	PINK },
-		{ Vector3(-width, height, 0),	this->color },
-		{ Vector3(-width, -height, 0),	PINK }
+		Math::Vector3(width, -height, 0),	
+		Math::Vector3(width, height, 0),	
+		Math::Vector3(-width, height, 0),	
+		Math::Vector3(-width, -height, 0)
 	};
-	UINT size_list = ARRAYSIZE(vertices);
 
-	for (int i = 0; i < size_list; i++) {
-		vecVerts.push_back(vertices[i]);
+	Math::Vector2 uvs[] = {
+		Math::Vector2(0, 1),
+		Math::Vector2(0, 0),
+		Math::Vector2(1, 0),
+		Math::Vector2(1, 1)
+	};
+
+	Math::Vector4 multicolor[] = {
+		PALEDOGWOOD,
+		ROSYBROWN,
+		PUCE,
+		ROSETAUPE,
+		WHITE,
+		PINK,
+		WHITE,
+		PINK
+	};
+
+	//Set up the Vertex buffer.
+	/*if (COLOR_SETTINGS == WHITE_COLORED) {
+
+	}
+	else if (COLOR_SETTINGS == RAINBOW_COLORED) {
+
+	}*/
+
+	for (int i = 0; i < size; i++) {
+		Vertex3D vertex = { xyzs[i], uvs[i], multicolor[i]};
+		vecVerts.push_back(vertex);
 	}
 
 	return vecVerts;
+}
+
+Math::Vector3 Plane::getScale()
+{
+	return Math::Vector3(50.0f, 50.0f, 1.0f);
 }

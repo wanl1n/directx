@@ -1,12 +1,16 @@
 #include "AppWindow.h"
-#include "Windows.h"
+#include <exception>
+
 #include "InputSystem.h"
 #include "EngineTime.h"
+#include "TextureManager.h"
+#include "BaseComponentSystem.h"
+#include "PhysicsSystem.h"
 
 #include "Constants.h"
 #include "Vertex.h"
-#include <cstdlib>
-#include <ctime>
+
+#include "Mesh.h"
 
 AppWindow* AppWindow::sharedInstance = nullptr;
 AppWindow* AppWindow::getInstance()
@@ -17,10 +21,9 @@ AppWindow* AppWindow::getInstance()
 void AppWindow::initialize()
 {
 	sharedInstance = new AppWindow();
-	sharedInstance->init(1024, 1024);
 }
 
-AppWindow::AppWindow() {}
+AppWindow::AppWindow() : Window() {}
 AppWindow::~AppWindow() {}
 
 void AppWindow::initializeEngine()
@@ -29,15 +32,24 @@ void AppWindow::initializeEngine()
 	EngineTime::initialize();
 
 	// Input System
-	InputSystem::initialize();
+	try { InputSystem::initialize(); }
+	catch (...) { throw std::exception("Input System Initialization failed."); }
 	InputSystem::getInstance()->addListener(AppWindow::getInstance());
+	//InputSystem::getInstance()->toggleCursor(false);
+
+	// Graphics Engine
+	try { GraphicsEngine::initialize(); }
+	catch (...) { throw std::exception("Graphics Engine Initialization failed."); }
+	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
+
+	ShaderLibrary::initialize();
+	BaseComponentSystem::initialize();
 
 	// Game Object Manager
 	GameObjectManager::initialize();
-
-	// Graphics Engine
-	GraphicsEngine::initialize();
-	GraphicsEngine* graphicsEngine = GraphicsEngine::get();
+	CameraManager::initialize(this->getClientWindowRect());
+	try { UIManager::initialize(hwnd); }
+	catch (...) { throw std::exception("UIManager Initialization failed."); }
 
 	// Swap Chain
 	RECT windowRect = this->getClientWindowRect();
@@ -46,48 +58,57 @@ void AppWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	GameObjectManager::getInstance()->addGameObject(ROTATING_CUBE, 100);
+	GameObjectManager::getInstance()->addGameObject(PHYSICS_CUBE);
+	GameObjectManager::getInstance()->addGameObject(PHYSICS_PLANE);
 }
 
 void AppWindow::onCreate() 
 {
 	Window::onCreate();
+	srand((unsigned int)time(NULL));
 }
 
 void AppWindow::onUpdate()
 {
 	Window::onUpdate();
 
-	// Input System Update.
-	InputSystem::getInstance()->update();
-
-	DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	DeviceContextPtr device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	// 1. Clear Render Target.
-	device->clearRenderTargetColor(this->swapChain, MATCHA);
+	device->clearRenderTargetColor(this->swapChain, PINK);
 
 	// 2. Set the target Viewport where we'll draw.
 	RECT rc = this->getClientWindowRect();
 	device->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	this->rotX += deltaTime;
-	this->rotY += deltaTime;
-
+	// Update.
+	InputSystem::getInstance()->update();
+	CameraManager::getInstance()->update();
 	GameObjectManager::getInstance()->update(deltaTime, rc);
+
+	if (this->isPlaying) 
+		BaseComponentSystem::getInstance()->getPhysicsSystem()->updateAllComponents();
+
 	GameObjectManager::getInstance()->render();
+	UIManager::getInstance()->render();
 
 	this->swapChain->present(true);
 
 	// Update Delta time.
 	deltaTime = (float)EngineTime::getDeltaTime();
+
+	// 6. Check for exit
+	if (InputSystem::getInstance()->isKeyDown(27))
+		exit(0);
 }
 
 void AppWindow::onDestroy()
 {
 	Window::onDestroy();
-
-	delete swapChain;
-	GraphicsEngine::get()->release();
+	GraphicsEngine::get()->destroy();
+	InputSystem::getInstance()->destroy();
+	GameObjectManager::getInstance()->destroy();
+	CameraManager::getInstance()->destroy();
 }
 
 void AppWindow::onFocus()
@@ -102,69 +123,32 @@ void AppWindow::onKillFocus()
 	InputSystem::getInstance()->removeListener(AppWindow::getInstance());
 }
 
-//void AppWindow::onKeyDown(int key)
-//{
-//	//std::cout << "Key down." << std::endl;
-//	switch (key) {
-//		case 'W':
-//			//this->rotX += 0.707f * deltaTime;
-//			break;
-//		case 'S':
-//			//this->rotX -= 0.707f * deltaTime;
-//			break;
-//		case 'A':
-//			//this->rotY += 0.707f * deltaTime;
-//			break;
-//		case 'D':
-//			//this->rotY -= 0.707f * deltaTime;
-//			break;
-//		case 27: // Escape
-//			exit(0);
-//			break;
-//
-//	}
-//	//std::cout << key << std::endl;
-//}
-//
-//void AppWindow::onKeyUp(int key)
-//{
-//	//switch (key) {
-//	//	case ' ': // Spacebar
-//	//		this->createCube();
-//	//		break;
-//	//	case 8: // Backspace
-//	//		if (this->CircleList.size() > 0)
-//	//			this->CircleList.pop_back();
-//	//		break;
-//	//	case 46: // Delete
-//	//		if (this->CircleList.size() > 0)
-//	//			this->CircleList.clear();
-//	//		break;
-//	//}
-//}
-
-void AppWindow::onMouseMove(const Point& mousePos)
+void AppWindow::onMouseMove(const Math::Vector2& mousePos)
 {
-	/*this->rotX -= deltaMousePos.y * deltaTime;
-	this->rotY -= deltaMousePos.x * deltaTime;*/
 }
 
-void AppWindow::onLeftMouseDown(const Point& mousePos)
+void AppWindow::onLeftMouseDown(const Math::Vector2& mousePos)
 {
-	//this->scaler = 0.5f;
 }
 
-void AppWindow::onRightMouseDown(const Point& mousePos)
+void AppWindow::onRightMouseDown(const Math::Vector2& mousePos)
 {
-	//this->scaler = 2.0f;
 }
 
-void AppWindow::onLeftMouseUp(const Point& mousePos)
+void AppWindow::onLeftMouseUp(const Math::Vector2& mousePos)
 {
-	//this->scaler = 1.0f;
 }
 
-void AppWindow::onRightMouseUp(const Point& mousePos)
+void AppWindow::onRightMouseUp(const Math::Vector2& mousePos)
 {
-	//this->scaler = 1.0f;
+}
+
+bool AppWindow::getPlaying()
+{
+	return isPlaying;
+}
+
+void AppWindow::setPlaying(bool playing)
+{
+	isPlaying = playing;
 }

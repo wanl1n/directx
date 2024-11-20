@@ -1,7 +1,14 @@
 #pragma once
+#include <d3d11.h>
+#include "DirectXMath.h"
+
 #include "vector"
 #include "PrimitivesList.h"
 #include "Constants.h"
+#include "Math.h"
+
+#include "MeshObject.h"
+#include "SkyboxMeshObject.h"
 
 class GameObject;
 
@@ -10,6 +17,7 @@ class GameObjectManager
 	public:
 		static GameObjectManager* getInstance();
 		static void initialize();
+		static void destroy();
 
 	private:
 		std::vector<GameObject*> GOList;
@@ -46,9 +54,16 @@ class GameObjectManager
 		Sphere* createSphere(OBJECT_TYPE type);
 		Cylinder* createCylinder(OBJECT_TYPE type);
 		Capsule* createCapsule(OBJECT_TYPE type);
+		MeshObject* createMesh(OBJECT_TYPE type);
 
 	public:
+		void transformSelectedGameObject(DirectX::XMVECTOR deltaHitPoint);
 		GameObject* findGameObject(std::string name);
 		GameObject* getGameObject(int index);
+		GameObject* getSelectedGameObject();
+		std::vector<GameObject*> getGameObjects();
+		GameObject* checkCollision(Math::Vector3 rayEndPoint);
+		void setSelectedGameObject(GameObject* obj);
+		void resetSelection();
 };
 

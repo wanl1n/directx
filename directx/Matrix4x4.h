@@ -2,10 +2,13 @@
 #include <memory>
 #include <iostream>
 #include <cmath>
+#include <vector>
 #include "Vector3.h"
+#include "Vector4.h"
 
-class Matrix4x4
-{
+namespace Math {
+	class Matrix4x4
+	{
 	public:
 		float mat[4][4] = {};
 
@@ -70,7 +73,7 @@ class Matrix4x4
 
 			minor.cross(v1, v2, v3);
 			det = -(this->mat[0][3] * minor.x + this->mat[1][3] * minor.y + this->mat[2][3] * minor.z +
-				this->mat[3][3] * minor.a);
+				this->mat[3][3] * minor.w);
 			return det;
 		}
 
@@ -93,7 +96,7 @@ class Matrix4x4
 						vec[a].x = (this->mat[j][0]);
 						vec[a].y = (this->mat[j][1]);
 						vec[a].z = (this->mat[j][2]);
-						vec[a].a = (this->mat[j][3]);
+						vec[a].w = (this->mat[j][3]);
 					}
 				}
 				v.cross(vec[0], vec[1], vec[2]);
@@ -101,10 +104,71 @@ class Matrix4x4
 				out.mat[0][i] = pow(-1.0f, (float)i) * v.x / det;
 				out.mat[1][i] = pow(-1.0f, (float)i) * v.y / det;
 				out.mat[2][i] = pow(-1.0f, (float)i) * v.z / det;
-				out.mat[3][i] = pow(-1.0f, (float)i) * v.a / det;
+				out.mat[3][i] = pow(-1.0f, (float)i) * v.w / det;
 			}
 
 			this->setMatrix(out);
+		}
+
+		Matrix4x4 transpose() {
+			Matrix4x4 out;
+
+			std::cout << "Original Matrix: " << std::endl;
+			this->printMatrix();
+
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 4; j++) {
+					out.mat[i][j] = mat[j][i];
+				}
+			}
+			std::cout << "Transposed Matrix: " << std::endl;
+			out.printMatrix();
+
+			return out;
+		}
+
+		static Vector4 transform(const Vector4& vec, Matrix4x4 mat) {
+			Vector4 out;
+
+			std::vector<float> vec4;
+			vec4.push_back(vec.x);
+			vec4.push_back(vec.y);
+			vec4.push_back(vec.z);
+			vec4.push_back(vec.w);
+
+			for (int i = 0; i < 4; i++) {
+				out.x += mat.mat[0][i] * vec4[i];
+				out.y += mat.mat[1][i] * vec4[i];
+				out.z += mat.mat[2][i] * vec4[i];
+				out.w += mat.mat[3][i] * vec4[i];
+			}
+
+			return out;
+		}
+
+		static Vector4 unproject(Vector3 screenPoint, Matrix4x4 viewMat,
+			Matrix4x4 projMat, float screenWidth, float screenHeight) {
+			// Step 1: Normalize the screen coordinates to NDC
+			float ndcX = (2.0f * screenPoint.x) / screenWidth - 1.0f;
+			float ndcY = 1.0f - (2.0f * screenPoint.y) / screenHeight;
+			float ndcZ = 2.0f * screenPoint.z - 1.0f; // Depth value is typically between 0 and 1
+
+			// Create a vector in clip space with the normalized coordinates
+			Vector4 clipSpaceVector = Vector4(ndcX, ndcY, ndcZ, 1.0f);
+
+			// Step 2: Calculate the inverse of the combined view-projection matrix
+			Matrix4x4 viewProjMatrix = viewMat;
+			viewProjMatrix *= projMat;
+			viewProjMatrix.inverse();
+			Matrix4x4 inverseViewProjMatrix;
+			inverseViewProjMatrix = viewProjMatrix;
+
+			// Step 3: Apply the inverse view-projection matrix to the clip space vector
+			Vector4 worldSpaceVector = Matrix4x4::transform(clipSpaceVector, inverseViewProjMatrix);
+			// Step 4: Convert from homogeneous coordinates (divide by w)
+			Vector4 worldSpacePoint = Vector4::splatW(worldSpaceVector) / worldSpaceVector;
+
+			return worldSpacePoint; // This is the unprojected point in world space
 		}
 
 		void operator *=(const Matrix4x4& matrix) {
@@ -124,8 +188,17 @@ class Matrix4x4
 			::memcpy(mat, matrix.mat, sizeof(float) * 16);
 		}
 
+		void setMatrix(float matrix[4][4])
+		{
+			::memcpy(mat, matrix, sizeof(float) * 16);
+		}
+
 		Vector3 getZDir() {
 			return Vector3(mat[2][0], mat[2][1], mat[2][2]);
+		}
+
+		Vector3 getYDir() {
+			return Vector3(mat[1][0], mat[1][1], mat[1][2]);
 		}
 
 		Vector3 getXDir() {
@@ -134,6 +207,10 @@ class Matrix4x4
 
 		Vector3 getTranslation() {
 			return Vector3(mat[3][0], mat[3][1], mat[3][2]);
+		}
+
+		float* getMatrixPointer() {
+			return *mat;
 		}
 
 		void setPerspectiveFovLH(float fov, float aspect, float znear, float zfar) {
@@ -164,4 +241,5 @@ class Matrix4x4
 				std::cout << "]" << std::endl;
 			}
 		}
-};
+	};
+}

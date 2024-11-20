@@ -1,9 +1,21 @@
 #pragma once
+#include "d3d11.h"
 #include "Vector4.h"
 
+using namespace Math;
+
 // ---- ENGINE CONFIG ---- //
+const float WINDOW_WIDTH = 1440.0f;
+const float WINDOW_HEIGHT = 980.0f;
+
+const float NEAR_PLANE = 0.1f;
+const float FAR_PLANE = 100.0f;
+
 const int ORTHOGRAPHIC = 0;
 const int PERSPECTIVE = 1;
+const int TOPDOWN = 2;
+const int SIDESCROLLER = 3;
+
 const float GRID_INTERVAL = 0.1f;
 const int GRIDPOINTS_COUNT = (int)(((2 / 0.1f)) * 4);
 static const int NUM_SAMPLES = 10;
@@ -55,15 +67,12 @@ const Vector4 VIOLET = Vector4(0.5f, 0, 1, 1);
 enum OBJECT_TYPE {
 	// Primitives
 	QUAD = 0,
-	PULSING_QUAD,
-	AREA51_QUAD,
-
 	CIRCLE,
-	BOUNCING_CIRCLE,
 
 	CUBE,
-	ROTATING_CUBE,
-	LERPING_CUBE,
+	PHYSICS_CUBE,
+	PHYSICS_PLANE,
+	TEXTURED_CUBE,
 
 	PLANE,
 	ROTATING_PLANE,
@@ -72,6 +81,12 @@ enum OBJECT_TYPE {
 	CYLINDER,
 	CAPSULE,
 
+	MESH_TEAPOT,
+	MESH_BUNNY,
+	MESH_ARMADILLO,
+	MESH_STATUE,
+	MESH_SUZANNE,
+	MESH_SKY,
 
 	// Camera
 	CAMERA,
@@ -81,4 +96,13 @@ enum OBJECT_TYPE {
 
 	// Tools
 	TOOLS_GRID
+};
+
+enum SCREENS {
+	HIERARCHY = 0,
+	INSPECTOR,
+	PROFILER,
+	COLOR_PICKER,
+	CREDITS,
+	SCENE_TOOLS
 };

@@ -13,10 +13,7 @@
 #include <d3dcompiler.h>
 #include <exception>
 
-RenderSystem::RenderSystem() {}
-RenderSystem::~RenderSystem() {}
-
-bool RenderSystem::init()
+RenderSystem::RenderSystem() 
 {
 	D3D_DRIVER_TYPE driver_types[] = { D3D_DRIVER_TYPE_HARDWARE,
 									   D3D_DRIVER_TYPE_WARP,
@@ -36,127 +33,144 @@ bool RenderSystem::init()
 	}
 
 	if (FAILED(res))
-		return false;
+		throw std::exception("RenderSystem failed to create device.");
 
-	this->immDeviceContext = new DeviceContext(immContext, this);
+	this->immDeviceContext = std::make_shared<DeviceContext>(immContext, this);
 
 	this->d3dDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)&dxgiDevice);
 	this->dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&dxgiAdapter);
 	this->dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&dxgiFactory);
 
-	return true;
+	this->initRasterizerState();
 }
 
-bool RenderSystem::release()
+RenderSystem::~RenderSystem() 
 {
 	this->dxgiDevice->Release();
 	this->dxgiAdapter->Release();
 	this->dxgiFactory->Release();
 	this->immContext->Release();
 	this->d3dDevice->Release();
-
-	delete this->immDeviceContext;
-
-	return true;
 }
 
-SwapChain* RenderSystem::createSwapChain(HWND hwnd, UINT width, UINT height)
+SwapChainPtr RenderSystem::createSwapChain(HWND hwnd, UINT width, UINT height)
 {
-	SwapChain* sc = nullptr;
+	SwapChainPtr sc = nullptr;
 
 	try {
-		sc = new SwapChain(hwnd, width, height, this);
+		sc = std::make_shared<SwapChain>(hwnd, width, height, this);
 	}
 	catch(...) {}
 	return sc;
 }
 
-DeviceContext* RenderSystem::getImmediateDeviceContext()
+DeviceContextPtr RenderSystem::getImmediateDeviceContext()
 {
 	return this->immDeviceContext;
 }
 
-VertexBuffer* RenderSystem::createVertexBuffer(void* vertices, UINT vertexSize, UINT listSize, void* sbc, UINT bsSize)
+ID3D11Device* RenderSystem::getDevice()
 {
-	VertexBuffer* vb = nullptr;
+	return this->d3dDevice;
+}
+
+ID3D11DeviceContext* RenderSystem::getContext()
+{
+	return this->immContext;
+}
+
+VertexBufferPtr RenderSystem::createVertexBuffer(void* vertices, UINT vertexSize, UINT listSize, void* sbc, UINT bsSize)
+{
+	VertexBufferPtr vb = nullptr;
 
 	try {
-		vb = new VertexBuffer(vertices, vertexSize, listSize, sbc, bsSize, this);
+		vb = std::make_shared<VertexBuffer>(vertices, vertexSize, listSize, sbc, bsSize, this);
 	}
 	catch (...) {}
 	return vb;
 }
 
-VertexBuffer* RenderSystem::createVertexBuffer(std::vector<Vertex3D> vertices, UINT vertexSize, void* sbc, UINT bsSize)
+VertexBufferPtr RenderSystem::createVertexBuffer(std::vector<Vertex3D> vertices, UINT vertexSize, void* sbc, UINT bsSize)
 {
-	VertexBuffer* vb = nullptr;
+	VertexBufferPtr vb = nullptr;
 
 	try {
-		vb = new VertexBuffer(vertices, vertexSize, sbc, bsSize, this);
+		vb = std::make_shared<VertexBuffer>(vertices, vertexSize, sbc, bsSize, this);
 	}
 	catch (...) {}
 	return vb;
 }
 
-ConstantBuffer* RenderSystem::createConstantBuffer(void* buffer, UINT size_buffer)
+VertexBufferPtr RenderSystem::createVertexBuffer(std::vector<VertexMesh> vertices, UINT vertexSize, void* sbc, UINT bsSize)
 {
-	ConstantBuffer* cb = nullptr;
+	VertexBufferPtr vb = nullptr;
 
 	try {
-		cb = new ConstantBuffer(buffer, size_buffer, this);
+		vb = std::make_shared<VertexBuffer>(vertices, sbc, bsSize, this);
+	}
+	catch (...) {}
+	return vb;
+}
+
+ConstantBufferPtr RenderSystem::createConstantBuffer(void* buffer, UINT size_buffer)
+{
+	ConstantBufferPtr cb = nullptr;
+
+	try {
+		cb = std::make_shared<ConstantBuffer>(buffer, size_buffer, this);
 	}
 	catch (...) {}
 	return cb;
 }
 
-IndexBuffer* RenderSystem::createIndexBuffer(void* list_indices, UINT size_list)
+IndexBufferPtr RenderSystem::createIndexBuffer(void* list_indices, UINT size_list)
 {
-	IndexBuffer* ib = nullptr;
+	IndexBufferPtr ib = nullptr;
 
 	try {
-		ib = new IndexBuffer(list_indices, size_list, this);
+		ib = std::make_shared<IndexBuffer>(list_indices, size_list, this);
 	}
 	catch (...) {}
 	return ib;
 }
 
-IndexBuffer* RenderSystem::createIndexBuffer(std::vector<unsigned int> indices)
+IndexBufferPtr RenderSystem::createIndexBuffer(std::vector<unsigned int> indices)
 {
-	IndexBuffer* ib = nullptr;
+	IndexBufferPtr ib = nullptr;
 
 	try {
-		ib = new IndexBuffer(indices, this);
+		ib = std::make_shared<IndexBuffer>(indices, this);
 	}
 	catch (...) {}
 	return ib;
 }
 
-BlendState* RenderSystem::createBlendState(bool blending)
+BlendStatePtr RenderSystem::createBlendState(bool blending)
 {
-	BlendState* bs = nullptr;
+	BlendStatePtr bs = nullptr;
 
 	try {
-		bs = new BlendState(blending, this);
+		bs = std::make_shared<BlendState>(blending, this);
 	}
 	catch (...) {}
 	return bs;
 }
 
-VertexShader* RenderSystem::createVertexShader(const void* shader_byte_code, size_t byte_code_size)
+VertexShaderPtr RenderSystem::createVertexShader(const void* shader_byte_code, size_t byte_code_size)
 {
-	VertexShader* vs = nullptr;
+	VertexShaderPtr vs = nullptr;
 	try {
-		vs = new VertexShader(shader_byte_code, byte_code_size, this);
+		vs = std::make_shared<VertexShader>(shader_byte_code, byte_code_size, this);
 	}
 	catch (...) {}
 	return vs;
 }
 
-PixelShader* RenderSystem::createPixelShader(const void* shader_byte_code, size_t byte_code_size)
+PixelShaderPtr RenderSystem::createPixelShader(const void* shader_byte_code, size_t byte_code_size)
 {
-	PixelShader* ps = nullptr;
+	PixelShaderPtr ps = nullptr;
 	try {
-		ps = new PixelShader(shader_byte_code, byte_code_size, this);
+		ps = std::make_shared<PixelShader>(shader_byte_code, byte_code_size, this);
 	}
 	catch (...) {}
 	return ps;
@@ -193,4 +207,24 @@ bool RenderSystem::compilePixelShader(const wchar_t* file_name, const char* entr
 void RenderSystem::releaseCompiledShader()
 {
 	if (blob) blob->Release();
+}
+
+void RenderSystem::setRasterizerState(bool cullFront)
+{
+	if (cullFront)
+		this->immContext->RSSetState(cullFrontState);
+	else
+		this->immContext->RSSetState(cullBackState);
+}
+
+void RenderSystem::initRasterizerState()
+{
+	D3D11_RASTERIZER_DESC desc = {};
+	desc.CullMode = D3D11_CULL_FRONT;
+	desc.DepthClipEnable = true;
+	desc.FillMode = D3D11_FILL_SOLID;
+	d3dDevice->CreateRasterizerState(&desc, &cullFrontState);
+
+	desc.CullMode = D3D11_CULL_BACK;
+	d3dDevice->CreateRasterizerState(&desc, &cullBackState);
 }

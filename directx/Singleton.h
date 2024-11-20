@@ -5,6 +5,7 @@ class Singleton
 	public:
 		static Singleton* getInstance();
 		static void initialize();
+		static void destroy();
 
 	private:
 		Singleton();

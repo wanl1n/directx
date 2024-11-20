@@ -8,12 +8,19 @@ Grid::Grid(std::string name, bool showGrid) : GameObject("Grid", TOOLS_GRID)
 	// Gridlines
 	std::vector<Vertex3D> lines;
 
+	Math::Vector2 uvs[] = {
+		Math::Vector2(0, 0),
+		Math::Vector2(0, 1),
+		Math::Vector2(1, 0),
+		Math::Vector2(1, 1)
+	};
+
 	float i = -1;
 	for (int j = 0; j < GRIDPOINTS_COUNT; j += 4) {
-		lines.push_back({ Vector3(i, 1, 0), GRAY });
-		lines.push_back({ Vector3(i, -1, 0), GRAY });
-		lines.push_back({ Vector3(-1, i, 0), GRAY });
-		lines.push_back({ Vector3(1, i, 0), GRAY });
+		lines.push_back({ Math::Vector3(i, 1, 0), uvs[1] });
+		lines.push_back({ Math::Vector3(i, -1, 0), uvs[0] });
+		lines.push_back({ Math::Vector3(-1, i, 0), uvs[2] });
+		lines.push_back({ Math::Vector3(1, i, 0), uvs[3] });
 
 		i += GRID_INTERVAL;
 	}
@@ -41,14 +48,7 @@ Grid::Grid(std::string name, bool showGrid) : GameObject("Grid", TOOLS_GRID)
 	this->showGrid = showGrid;
 }
 
-Grid::~Grid()
-{
-	delete vb;
-	delete cb;
-	delete vs;
-	delete ps;
-	delete bs;
-}
+Grid::~Grid() {}
 
 void Grid::update(float deltaTime, RECT viewport)
 {
@@ -60,7 +60,7 @@ void Grid::update(float deltaTime, RECT viewport)
 void Grid::draw()
 {
 	if (this->showGrid) {
-		DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+		DeviceContextPtr device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 		// Set Blend State.
 		if (this->bs) device->setBlendState(bs);

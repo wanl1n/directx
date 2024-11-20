@@ -15,9 +15,12 @@ class RenderSystem
 		IDXGIAdapter* dxgiAdapter;
 		IDXGIFactory* dxgiFactory;
 
-		DeviceContext* immDeviceContext;
+		DeviceContextPtr immDeviceContext;
 
 		ID3DBlob* blob = nullptr;
+
+		ID3D11RasterizerState* cullFrontState = nullptr;
+		ID3D11RasterizerState* cullBackState = nullptr;
 
 	private:
 		friend class SwapChain;
@@ -27,33 +30,38 @@ class RenderSystem
 		friend class BlendState;
 		friend class VertexShader;
 		friend class PixelShader;
+		friend class Texture;
 
 	public:
 		RenderSystem();
 		~RenderSystem();
 
-		bool init();
-		bool release();
-
 	public:
-		SwapChain* createSwapChain(HWND hwnd, UINT width, UINT height);
-		DeviceContext* getImmediateDeviceContext();
+		SwapChainPtr createSwapChain(HWND hwnd, UINT width, UINT height);
+		DeviceContextPtr getImmediateDeviceContext();
+		ID3D11Device* getDevice();
+		ID3D11DeviceContext* getContext();
 
-		VertexBuffer* createVertexBuffer(void* vertices, UINT vertexSize, UINT listSize, void* sbc, UINT bsSize);
-		VertexBuffer* createVertexBuffer(std::vector<Vertex3D> vertices, UINT vertexSize, void* sbc, UINT bsSize);
-		ConstantBuffer* createConstantBuffer(void* buffer, UINT size_buffer);
-		IndexBuffer* createIndexBuffer(void* list_indices, UINT size_list);
-		IndexBuffer* createIndexBuffer(std::vector<unsigned int> indices);
+		VertexBufferPtr createVertexBuffer(void* vertices, UINT vertexSize, UINT listSize, void* sbc, UINT bsSize);
+		VertexBufferPtr createVertexBuffer(std::vector<Vertex3D> vertices, UINT vertexSize, void* sbc, UINT bsSize);
+		VertexBufferPtr createVertexBuffer(std::vector<VertexMesh> vertices, UINT vertexSize, void* sbc, UINT bsSize);
+		ConstantBufferPtr createConstantBuffer(void* buffer, UINT size_buffer);
+		IndexBufferPtr createIndexBuffer(void* list_indices, UINT size_list);
+		IndexBufferPtr createIndexBuffer(std::vector<unsigned int> indices);
 
-		BlendState* createBlendState(bool blending);
+		BlendStatePtr createBlendState(bool blending);
 
 		// Shaders
-		VertexShader* createVertexShader(const void* shader_byte_code, size_t byte_code_size);
-		PixelShader* createPixelShader(const void* shader_byte_code, size_t byte_code_size);
+		VertexShaderPtr createVertexShader(const void* shader_byte_code, size_t byte_code_size);
+		PixelShaderPtr createPixelShader(const void* shader_byte_code, size_t byte_code_size);
 
 		bool compileVertexShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size);
 		bool compilePixelShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size);
 
 		void releaseCompiledShader();
+		void setRasterizerState(bool cullFront);
+
+	private:
+		void initRasterizerState();
 };
 

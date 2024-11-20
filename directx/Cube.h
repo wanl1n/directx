@@ -17,5 +17,9 @@ class Cube : public Primitive
 	protected:
 		virtual void initializeBuffers();
 		virtual std::vector<Vertex3D> createVertices();
+		virtual void calculateBounds();
+
+		virtual Math::Vector3 getPosition();
+		virtual Math::Vector3 getRotation();
 };
 

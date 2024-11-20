@@ -1,88 +1,63 @@
 #include "Window.h"
-
+#include <exception>
 #include "EngineTime.h"
+#include "imgui-master/imgui_impl_win32.h"
 
-Window::Window() {}
-Window::~Window() {}
+IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
+	
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
+		return true;
+
 	switch (msg) {
 		// Event when Window Created.
-		case WM_CREATE:
-		{
-			// collected here..
-			Window* window = (Window*)((LPCREATESTRUCT)lparam)->lpCreateParams;
-			// .. and then stored for later lookup
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)window);
-			window->setHWND(hwnd);
-			window->onCreate();
-			break;
-		}
+	case WM_CREATE:
+	{
+		break;
+	}
 
-		// Event when Window Focused.
-		case WM_SETFOCUS:
-		{
-			Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-			window->onFocus();
-			break;
-		}
+	// Event when Window Focused.
+	case WM_SETFOCUS:
+	{
+		Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		if (window) window->onFocus();
+		break;
+	}
 
-		// Event when Window Unfocused.
-		case WM_KILLFOCUS:
-		{
-			Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-			window->onKillFocus();
-			break;
-		}
+	// Event when Window Unfocused.
+	case WM_KILLFOCUS:
+	{
+		Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		if (window) window->onKillFocus();
+		break;
+	}
 
-		// Event when Window Destroyed.
-		case WM_DESTROY:
-		{
-			Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-			window->onDestroy();
-			::PostQuitMessage(0);
-			break;
-		}
+	// Event when Window Destroyed.
+	case WM_DESTROY:
+	{
+		Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		window->onDestroy();
+		::PostQuitMessage(0);
+		break;
+	}
 
-		default:
-			return ::DefWindowProc(hwnd, msg, wparam, lparam);
+	default:
+		return ::DefWindowProc(hwnd, msg, wparam, lparam);
 	}
 
 	return NULL;
 }
 
-bool Window::init(float width, float height)
+Window::Window() : initializing(true)
 {
-	WNDCLASSEX wc;
-	wc.cbClsExtra = NULL;
-	wc.cbSize = sizeof(WNDCLASSEX);
-	wc.cbWndExtra = NULL;
-	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
-	wc.hInstance = NULL; 
-	wc.lpszClassName = "MyWindowClass";
-	wc.lpszMenuName = "";
-	wc.style = NULL;
-	wc.lpfnWndProc = &WndProc;
-
-	if (!::RegisterClassEx(&wc))
-		return false;
-	
-	hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, "MyWindowClass", "Kate's Game Engine", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, width, height, NULL, NULL, NULL, this);
-	
-	if (!hwnd) return false;
-
-	::ShowWindow(hwnd, SW_SHOW);
-	::UpdateWindow(hwnd);
-
-	this->running = true;
-
-	return true;
+	this->initialize();
 }
 
-bool Window::createChildWindow() {
+Window::~Window() {}
+
+void Window::initialize()
+{
 	WNDCLASSEX wc;
 	wc.cbClsExtra = NULL;
 	wc.cbSize = sizeof(WNDCLASSEX);
@@ -92,29 +67,37 @@ bool Window::createChildWindow() {
 	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 	wc.hInstance = NULL;
-	wc.lpszClassName = "InspectorWindow";
+	wc.lpszClassName = "MyWindowClass";
 	wc.lpszMenuName = "";
 	wc.style = NULL;
 	wc.lpfnWndProc = &WndProc;
 
 	if (!::RegisterClassEx(&wc))
-		return false;
+		throw std::exception("Window creation failed.");
 
-	HWND window = ::CreateWindowEx(WS_EX_PALETTEWINDOW, "InspectorWindow", "Inspector", WS_CHILD, CW_USEDEFAULT, CW_USEDEFAULT, 300, 720, this->hwnd, NULL, NULL, this);
+	hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, "MyWindowClass",
+		"Kate's Game Engine", WS_OVERLAPPEDWINDOW, 
+		0, 0,			// Window Launch position
+		WINDOW_WIDTH, WINDOW_HEIGHT,  // Window Dimensions
+		NULL, NULL, NULL, NULL);
 
-	if (!window) return false;
+	if (!hwnd) throw std::exception("Window creation failed.");
 
-	::ShowWindow(window, SW_SHOW);
-	::UpdateWindow(window);
+	::ShowWindow(hwnd, SW_SHOW);
+	::UpdateWindow(hwnd);
 
-	this->childWindows.push_back(window);
-	this->windowRunning.push_back(true);
-
-	return true;
+	this->running = true;
 }
 
 bool Window::broadcast()
 {
+	if (this->initializing) {
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)this);
+		this->onCreate();
+
+		initializing = false;
+	}
+
 	EngineTime::LogFrameStart();
 	MSG msg;
 
@@ -149,16 +132,11 @@ bool Window::broadcast()
 	return true;
 }
 
-bool Window::release()
+bool Window::run()
 {
-	if (!::DestroyWindow(this->hwnd))
-		return false;
+	if (this->running)
+		this->broadcast();
 
-	return true;
-}
-
-bool Window::isRunning()
-{
 	return this->running;
 }
 
@@ -190,19 +168,7 @@ RECT Window::getClientWindowRect()
 	return rc;
 }
 
-RECT Window::getChildWindowRect(int index)
-{
-	RECT rc;
-	::GetClientRect(this->childWindows[index], &rc);
-	return rc;
-}
-
 HWND Window::getWindowHandle()
 {
 	return this->hwnd;
-}
-
-void Window::setHWND(HWND hwnd)
-{
-	this->hwnd = hwnd;
 }

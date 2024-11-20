@@ -76,8 +76,8 @@ void Area51::randomizeInit()
 {
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 	// Position
-	int min = (-1 + width * 2) * 100;
-	int max = (1 - width * 2) * 100;
+	int min = (int)((-1 + width * 2) * 100);
+	int max = (int)((1 - width * 2) * 100);
 
 	float posX = (float)(min + (std::rand() % (max - min + 1))) / 100;
 	float posY = (float)(min + (std::rand() % (max - min + 1))) / 100;

@@ -3,8 +3,6 @@
 #include <string>
 
 #include "GameObject.h"
-
-#include "Windows.h"
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
@@ -22,12 +20,12 @@
 class Quad : public GameObject
 {
 	protected:
-		VertexBuffer* vb;
-		ConstantBuffer* cb;
-		BlendState* bs;
+		VertexBufferPtr vb;
+		ConstantBufferPtr cb;
+		BlendStatePtr bs;
 
-		VertexShader* vs;
-		PixelShader* ps;
+		VertexShaderPtr vs;
+		PixelShaderPtr ps;
 		
 		QuadVertex initPoints;
 		QuadVertex targetPoints;

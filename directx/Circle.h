@@ -5,7 +5,6 @@
 
 #include "GameObject.h"
 
-#include "Windows.h"
 #include "GraphicsEngine.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
@@ -24,13 +23,13 @@
 class Circle : public GameObject
 {
 protected:
-	VertexBuffer* vb;
-	ConstantBuffer* cb;
-	IndexBuffer* ib;
-	BlendState* bs;
+	VertexBufferPtr vb;
+	ConstantBufferPtr cb;
+	IndexBufferPtr ib;
+	BlendStatePtr bs;
 
-	VertexShader* vs;
-	PixelShader* ps;
+	VertexShaderPtr vs;
+	PixelShaderPtr ps;
 
 	float center;
 	float radius;
@@ -39,7 +38,7 @@ public:
 	Circle(std::string name, CircleProps props, bool blending);
 	~Circle();
 
-	std::vector<Vector3> generateCircleVertices(float radius, int segments);
+	std::vector<Math::Vector3> generateCircleVertices(float radius, int segments);
 
 	virtual void update(float deltaTime, RECT viewport);
 	void draw();

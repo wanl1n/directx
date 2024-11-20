@@ -30,9 +30,6 @@ Quad::Quad(std::string name, QuadProps props, bool blending) : GameObject(name, 
 	this->ps = renderSystem->createPixelShader(shaderByteCode, sizeShader);
 	renderSystem->releaseCompiledShader();
 
-	// Create Constant Buffer and load.
-	this->cb = renderSystem->createConstantBuffer(&cc, sizeof(Constant));
-
 	// Blend state.
 	this->bs = renderSystem->createBlendState(blending);
 
@@ -43,14 +40,6 @@ Quad::Quad(std::string name, QuadProps props, bool blending) : GameObject(name, 
 Quad::~Quad()
 {}
 
-bool Quad::release()
-{
-	delete vb;
-	delete cb;
-	delete this;
-	return true;
-}
-
 void Quad::update(float deltaTime, RECT viewport)
 {
 	GameObject::update(deltaTime, viewport);
@@ -60,7 +49,7 @@ void Quad::update(float deltaTime, RECT viewport)
 
 void Quad::draw()
 {
-	DeviceContext* device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	DeviceContextPtr device = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	// Bind to Shaders.
 	device->setConstantBuffer(vs, this->cb);

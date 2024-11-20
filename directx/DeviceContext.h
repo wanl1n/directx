@@ -17,22 +17,25 @@ class DeviceContext
 		DeviceContext(ID3D11DeviceContext* device_context, RenderSystem* system);
 		~DeviceContext();
 		
-		void clearRenderTargetColor(SwapChain* swap_chain, float red, float green, float blue, float alpha);
-		void clearRenderTargetColor(SwapChain* swap_chain, Vector4 color);
-		void setVertexBuffer(VertexBuffer* vertex_buffer);
-		void setIndexBuffer(IndexBuffer* indexBuffer);
+		void clearRenderTargetColor(const SwapChainPtr& swap_chain, float red, float green, float blue, float alpha);
+		void clearRenderTargetColor(const SwapChainPtr& swap_chain, Vector4 color);
+		void setVertexBuffer(const VertexBufferPtr& vertex_buffer);
+		void setIndexBuffer(const IndexBufferPtr& indexBuffer);
 		void drawTriangleList(UINT vertex_count, UINT start_vertex_index);
 		void drawIndexedTriangleList(UINT index_count, UINT start_vertex_index, UINT start_index_location);
 		void drawTriangleStrip(UINT vertex_count, UINT start_vertex_index);
 		void drawLineList(UINT vertex_count, UINT start_vertex_index);
 		void setViewportSize(UINT width, UINT height);
 
-		void setBlendState(BlendState* blender);
+		void setRenderConfig(const VertexShaderPtr& vs, const PixelShaderPtr& ps);
+		void setBlendState(const BlendStatePtr& blender);
+		void setVertexShader(const VertexShaderPtr& vertex_shader);
+		void setPixelShader(const PixelShaderPtr& pixel_shader);
 
-		void setVertexShader(VertexShader* vertex_shader);
-		void setPixelShader(PixelShader* pixel_shader);
+		void setTexture(const TexturePtr& texture);
+		void resetTexture();
 
-		void setConstantBuffer(VertexShader* vertex_shader, ConstantBuffer* buffer);
-		void setConstantBuffer(PixelShader* pixel_shader, ConstantBuffer* buffer);
+		void setConstantBuffer(const VertexShaderPtr& vertex_shader, const ConstantBufferPtr& buffer);
+		void setConstantBuffer(const PixelShaderPtr& pixel_shader, const ConstantBufferPtr& buffer);
 };
 

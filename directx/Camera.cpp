@@ -1,36 +1,47 @@
 #include "Camera.h"
+
+// Singletons
 #include "InputSystem.h"
 #include "EngineTime.h"
+#include "GameObjectManager.h"
 
-Camera::Camera(std::string name, RECT viewport, OBJECT_TYPE type) : 
-	GameObject(name, type), viewport(viewport)
+Camera::Camera(std::string name, RECT viewport, OBJECT_TYPE type) :
+	GameObject(name, type), viewport(viewport), lastSelectedGO(NULL), updatedCameraProjPos(false)
 {
 	if (type == ORTHO_CAMERA)
 		this->type = ORTHOGRAPHIC;
 	else if (type == PERSPECTIVE_CAMERA)
 		this->type = PERSPECTIVE;
 
-	// Test Case 6
-	/*this->transform.position = Vector3(5.88311f, 2.36871f, -5.28797f);
-	this->transform.rotation = Vector3(0.221113f, -0.802211f, 0);*/
-
-	this->transform.position = Vector3(0, 0, -5);
+	this->transform.position = Math::Vector3(0, 3, -50);
 	this->prevCamMat.setIdentity();
 	this->prevCamMat.setTranslation(this->transform.position);
 	this->updateViewMatrix();
-
-	InputSystem::getInstance()->addListener(this);
 }
 
 Camera::~Camera() {}
 
-void Camera::update(RECT viewport)
+void Camera::update()
 {
-	this->checkForInput();
-	this->updateProjectionMatrix(viewport);
+	this->checkForInput(); // View
+	this->updateProjectionMatrix(); // Projection
 
-	//std::cout << "Camera Position: " << transform.position.x << ", " << this->transform.position.y << ", " << this->transform.position.z << std::endl;
-	//std::cout << "Camera Rotation: " << this->transform.rotation.x << ", " << this->transform.rotation.y << std::endl;
+	if (!updatedCameraProjPos) {
+		if (this->type == TOPDOWN) {
+			this->transform.position.y = 15.0f;
+			this->transform.rotation.x = 1.57f;
+		}
+
+		if (this->type == SIDESCROLLER) {
+			this->transform.position.y = 1.0f;
+			this->transform.rotation = Math::Vector3(0);
+		}
+
+		this->updatedCameraProjPos = true;
+		this->updateViewMatrix();
+	}
+
+	GameObject::update((float)EngineTime::getDeltaTime(), viewport);
 }
 
 void Camera::checkForInput()
@@ -72,7 +83,10 @@ void Camera::updateViewMatrix()
 	worldCam *= temp;
 
 	// Translation
-	this->transform.position = prevCamMat.getTranslation() + worldCam.getZDir() * (this->forward * moveSpeed);
+	if (this->type < 2)
+		this->transform.position = prevCamMat.getTranslation() + worldCam.getZDir() * (this->forward * moveSpeed);
+	else
+		this->transform.position = prevCamMat.getTranslation() + worldCam.getYDir() * (this->forward * moveSpeed);
 	this->transform.position += worldCam.getXDir() * (this->rightward * moveSpeed);
 
 	// Update Camera Rot and Translation
@@ -82,32 +96,36 @@ void Camera::updateViewMatrix()
 	this->cc.view = worldCam;
 }
 
-void Camera::updateProjectionMatrix(RECT viewport)
+void Camera::updateProjectionMatrix()
 {
 	int width = (viewport.right - viewport.left);
 	int height = (viewport.bottom - viewport.top);
 
 	switch (type) {
 		case ORTHOGRAPHIC:
+		case TOPDOWN:
+		case SIDESCROLLER:
 			this->cc.proj.setOrthoLH(
 				width / 100.0f,
 				height / 100.0f,
-				-100.0f, 100.0f
+				NEAR_PLANE, FAR_PLANE
 			);
 			break;
+
 		case PERSPECTIVE:
 			this->cc.proj.setPerspectiveFovLH(
 				1.57f, // fov
 				(float)width / (float)height, // aspect
-				0.1f, // near
-				100.0f // far
+				NEAR_PLANE, // near
+				FAR_PLANE // far
 			);
 			break;
+			
 		default:
 			this->cc.proj.setOrthoLH(
-				(viewport.right - viewport.left) / 400.0f,
-				(viewport.bottom - viewport.top) / 400.0f,
-				-4.0f, 4.0f
+				width / 100.0f,
+				height / 100.0f,
+				NEAR_PLANE, FAR_PLANE
 			);
 			break;
 	}
@@ -141,36 +159,55 @@ void Camera::setRightward(float dir)
 void Camera::setProjectionType(int type)
 {
 	this->type = type;
+	this->updatedCameraProjPos = false;
 }
 
-void Camera::onMouseMove(const Point& mousePos)
+void Camera::onMouseMove(const Math::Vector2& mousePos)
 {
 	int width = (viewport.right - viewport.left);
 	int height = (viewport.bottom - viewport.top);
-	float deltaTime = EngineTime::getDeltaTime();
+	float deltaTime = (float)EngineTime::getDeltaTime();
 
-	if (moving) {
+	if (moving && this->type < 2) {
 		this->transform.rotation.x += (mousePos.y - (height / 2.0f)) * deltaTime * panSpeed;
 		this->transform.rotation.y += (mousePos.x - (width / 2.0f)) * deltaTime * panSpeed;
+		InputSystem::getInstance()->setCursorPosition(Math::Vector2(width / 2.0f, height / 2.0f));
 	}
-	
-	InputSystem::getInstance()->setCursorPosition(Point(width / 2.0f, height / 2.0f));
+
+	if (leftMouseDown)
+		GameObjectManager::getInstance()->transformSelectedGameObject(deltaHitPos);
 }
 
-void Camera::onLeftMouseDown(const Point& mousePos)
+void Camera::onLeftMouseDown(const Math::Vector2& mousePos)
 {
+	leftMouseDown = true; 
+
+	int width = (viewport.right - viewport.left);
+	int height = (viewport.bottom - viewport.top);
+
+	/*DirectX::XMVECTOR newHitPos = GameObjectManager::getInstance()->pick(mousePos, width, height);
+	if (firstMouseDown) {
+		firstMouseDown = false;
+		this->lastHitPos = newHitPos;
+		this->deltaHitPos = DirectX::XMVectorSet(0, 0, 0, 0);
+	}
+	else {
+		this->deltaHitPos = DirectX::XMVectorSubtract(newHitPos, lastHitPos);
+		this->lastHitPos = newHitPos;
+	}*/
 }
 
-void Camera::onRightMouseDown(const Point& mousePos)
+void Camera::onRightMouseDown(const Math::Vector2& mousePos)
 {
 	moving = true;
 }
 
-void Camera::onLeftMouseUp(const Point& mousePos)
+void Camera::onLeftMouseUp(const Math::Vector2& mousePos)
 {
+	leftMouseDown = false;
 }
 
-void Camera::onRightMouseUp(const Point& mousePos)
+void Camera::onRightMouseUp(const Math::Vector2& mousePos)
 {
 	moving = false;
 }

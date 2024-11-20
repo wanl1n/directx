@@ -15,7 +15,8 @@
 
 // Game Objects
 #include "GameObjectManager.h"
-#include "Quad.h"
+#include "CameraManager.h"
+#include "UIManager.h"
 
 #include "InputListener.h"
 
@@ -26,15 +27,9 @@ class AppWindow : public Window, public InputListener
 		static void initialize();
 
 	protected:
-		SwapChain* swapChain;
-
+		SwapChainPtr swapChain;
+		bool isPlaying = false;
 		float deltaTime = 0;
-
-		// Input testers
-		float indexSelected = 0;
-		float rotX = 0;
-		float rotY = 0;
-		float scaler = 1;
 
 	private:
 		AppWindow();
@@ -53,10 +48,13 @@ class AppWindow : public Window, public InputListener
 		virtual void onKillFocus() override;
 
 		// Inherited from InputListener.
-		void onMouseMove(const Point& mousePos) override;
-		void onLeftMouseDown(const Point& mousePos) override;
-		void onRightMouseDown(const Point& mousePos) override;
-		void onLeftMouseUp(const Point& mousePos) override;
-		void onRightMouseUp(const Point& mousePos) override;
+		void onMouseMove(const Math::Vector2& mousePos) override;
+		void onLeftMouseDown(const Math::Vector2& mousePos) override;
+		void onRightMouseDown(const Math::Vector2& mousePos) override;
+		void onLeftMouseUp(const Math::Vector2& mousePos) override;
+		void onRightMouseUp(const Math::Vector2& mousePos) override;
+
+		bool getPlaying();
+		void setPlaying(bool playing);
 };
 

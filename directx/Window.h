@@ -1,16 +1,19 @@
 #pragma once
+
+#define NOMINMAX
 #include <Windows.h>
 #include "vector"
+#include "Constants.h"
 
 class EngineTime;
 
 class Window {
 	protected:
 		HWND hwnd;
-		std::vector<HWND> childWindows;
 
 		bool running;
 		std::vector<bool> windowRunning;
+		bool initializing;
 
 		float FPS = 60;
 		float lastUpdatedTime = 0;
@@ -22,12 +25,9 @@ class Window {
 	public:
 		Window();
 		~Window();
-
-		bool init(float width, float height);
-		bool createChildWindow();
+		void initialize();
 		bool broadcast();
-		bool release();
-		bool isRunning();
+		bool run();
 
 		virtual void onCreate();
 		virtual void onUpdate();
@@ -36,9 +36,7 @@ class Window {
 		virtual void onKillFocus();
 
 		RECT getClientWindowRect();
-		RECT getChildWindowRect(int index);
 		HWND getWindowHandle();
-		void setHWND(HWND hwnd);
 
 		friend class EngineTime;
 };

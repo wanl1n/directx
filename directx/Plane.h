@@ -15,5 +15,6 @@ class Plane : public Primitive
 
 		virtual void initializeBuffers();
 		virtual std::vector<Vertex3D> createVertices();
+		virtual Math::Vector3 getScale() override;
 };
 

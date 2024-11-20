@@ -4,14 +4,13 @@
 class Primitive : public GameObject
 {
 	protected:
-		VertexBuffer* vb;
-		ConstantBuffer* cb;
-		IndexBuffer* ib;
+		VertexBufferPtr vb;
+		IndexBufferPtr ib;
 
-		VertexShader* vs;
-		PixelShader* ps;
+		VertexShaderPtr vs;
+		PixelShaderPtr ps;
 
-		BlendState* bs;
+		BlendStatePtr bs;
 
 		bool alphaOn;
 
