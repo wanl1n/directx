@@ -7,7 +7,7 @@ Cube::Cube(std::string name, bool blending, OBJECT_TYPE type) :
 	this->side = 1.0f;
 	this->size = Math::Vector3(side * 2);
 	this->frontColor = CREAM;
-	this->backColor = PINK;
+	this->backColor = LAVENDER;
 
 	this->init();
 

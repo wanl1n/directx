@@ -76,11 +76,13 @@ void InspectorScreen::drawUI()
 
 						// Body Type
 						std::string type = pc->getRBType();
-						std::string bodyTypes[] = { "Static", "Dynamic", "Kinematic" };
+						std::string bodyTypes[] = { "Dynamic", "Kinematic" };
+						// Get current body type index;
 						int currentBodyType = 0;
 						for (int i = 0; i < bodyTypes->size(); i++) {
 							if (type == bodyTypes[i]) currentBodyType = i;
 						}
+						// Body Type Dropdown
 						if (ImGui::BeginCombo("Body Type", bodyTypes[currentBodyType].c_str())) // The second parameter is the label previewed before opening the combo.
 						{
 							for (int i = 0; i < IM_ARRAYSIZE(bodyTypes); i++)
@@ -116,7 +118,7 @@ void InspectorScreen::drawUI()
 						ImGui::Checkbox("Y##Pos", &lockPosY);
 						ImGui::SameLine();
 						ImGui::Checkbox("Z##Pos", &lockPosZ);
-						pc->getRigidBody()->setLinearLockAxisFactor(reactphysics3d::Vector3(!lockPosX, !lockPosY, !lockPosZ));
+						pc->setPositionLock(lockPosX, lockPosY, lockPosZ);
 
 						// Lock Rotation
 						ImGui::Text("Lock Rotation");
@@ -129,8 +131,8 @@ void InspectorScreen::drawUI()
 						ImGui::Checkbox("Y##Rot", &lockRotY);
 						ImGui::SameLine();
 						ImGui::Checkbox("Z##Rot", &lockRotZ);
-						pc->getRigidBody()->setAngularLockAxisFactor(reactphysics3d::Vector3(!lockRotX, !lockRotY, !lockRotZ));
-						
+						pc->setRotationLock(lockRotX, lockRotY, lockRotZ);
+
 						// Delete Button
 						if (this->buttonCentered("Delete Rigidbody")) {
 							obj->detachComponent(pc);
@@ -155,13 +157,6 @@ void InspectorScreen::drawUI()
 				obj->setPhysicsOn(true);
 			}
 		}
-
-		//ImGui::Text("label");
-		//ImGui::SameLine();
-		//if (ImGui::BeginCombo("", "preview")) {
-		//	//Combo items
-		//	ImGui::EndCombo();
-		//}
 	}
 	ImGui::End();
 }

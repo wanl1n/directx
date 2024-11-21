@@ -105,21 +105,55 @@ bool PhysicsComponent::isGravityOn()
 
 void PhysicsComponent::setMass(float mass)
 {
+    if (this->mass != mass)
+        this->resetVelocity();
     this->mass = mass;
 }
 
 void PhysicsComponent::setGravityOn(bool grav)
 {
+    if (this->rb->isGravityEnabled() != grav)
+        this->resetVelocity();
+
     this->rb->enableGravity(grav);
 }
 
 void PhysicsComponent::setRBType(std::string type)
 {
-    if (type == "Static")
+    // If body type is going to change, reset force and torque.
+    if (this->getRBType() != type) 
+        this->resetVelocity();
+
+    if (type == "Static") 
         this->rb->setType(BodyType::STATIC);
     if (type == "Dynamic")
         this->rb->setType(BodyType::DYNAMIC);
     if (type == "Kinematic")
         this->rb->setType(BodyType::KINEMATIC);
+}
+
+void PhysicsComponent::setPositionLock(bool x, bool y, bool z)
+{
+    reactphysics3d::Vector3 oldLock = this->rb->getLinearLockAxisFactor();
+    reactphysics3d::Vector3 newLock = reactphysics3d::Vector3(!x, !y, !z);
+    if (oldLock != newLock) this->resetVelocity();
+
+    this->rb->setLinearLockAxisFactor(newLock);
+}
+
+void PhysicsComponent::setRotationLock(bool x, bool y, bool z)
+{
+    reactphysics3d::Vector3 oldLock = this->rb->getAngularLockAxisFactor();
+    reactphysics3d::Vector3 newLock = reactphysics3d::Vector3(!x, !y, !z);
+    if (oldLock != newLock) this->resetVelocity();
+
+    this->rb->setAngularLockAxisFactor(newLock);
+}
+
+void PhysicsComponent::resetVelocity()
+{
+    this->rb->setLinearVelocity(reactphysics3d::Vector3(0, 0, 0));
+    this->rb->setAngularVelocity(reactphysics3d::Vector3(0, 0, 0));
+    std::cout << "Reset Velocity" << std::endl;
 }
 

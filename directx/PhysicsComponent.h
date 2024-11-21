@@ -30,5 +30,8 @@ class PhysicsComponent : public Component
 		void setMass(float mass);
 		void setGravityOn(bool grav);
 		void setRBType(std::string type);
+		void setPositionLock(bool x, bool y, bool z);
+		void setRotationLock(bool x, bool y, bool z);
+		void resetVelocity();
 };
 
