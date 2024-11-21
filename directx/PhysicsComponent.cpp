@@ -20,7 +20,8 @@ PhysicsComponent::PhysicsComponent(String name, GameObject* owner)
     // Create transform to save to the rigidbody.
     reactphysics3d::Transform transform;
     transform.setFromOpenGL(this->owner->getPhysicsLocalMatrix());
-    transform.setPosition(reactphysics3d::Vector3(pos.x, pos.y, pos.z));
+    transform.setPosition(reactphysics3d::Vector3(0, 0, 0));
+    //transform.setPosition(reactphysics3d::Vector3(pos.x, pos.y, pos.z));
 
     // Create collider.
     BoxShape* boxShape = common->createBoxShape(reactphysics3d::Vector3(scale.x, scale.y, scale.z));

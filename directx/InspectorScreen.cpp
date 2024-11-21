@@ -135,6 +135,7 @@ void InspectorScreen::drawUI()
 
 						// Delete Button
 						if (this->buttonCentered("Delete Rigidbody")) {
+							obj->setPosition(pc->getRBPosition() + obj->getLocalPosition());
 							obj->detachComponent(pc);
 							obj->setPhysicsOn(false);
 						}
