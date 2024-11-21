@@ -13,14 +13,19 @@ PhysicsComponent::PhysicsComponent(String name, GameObject* owner)
     PhysicsCommon* common = BaseComponentSystem::getInstance()->getPhysicsSystem()->getPhysicsCommon();
     PhysicsWorld* world = BaseComponentSystem::getInstance()->getPhysicsSystem()->getPhysicsWorld();
 
+    // Get Owner Properties
     Math::Vector3 scale = this->owner->getScale();
     Math::Vector3 pos = this->owner->getLocalPosition();
 
+    // Create transform to save to the rigidbody.
     reactphysics3d::Transform transform;
     transform.setFromOpenGL(this->owner->getPhysicsLocalMatrix());
     transform.setPosition(reactphysics3d::Vector3(pos.x, pos.y, pos.z));
 
+    // Create collider.
     BoxShape* boxShape = common->createBoxShape(reactphysics3d::Vector3(scale.x, scale.y, scale.z));
+    
+    // Create rigidbody.
     this->rb = world->createRigidBody(transform);
     this->rb->addCollider(boxShape, transform);
     this->rb->updateMassPropertiesFromColliders();
@@ -87,3 +92,34 @@ std::string PhysicsComponent::getRBType()
     }
     return "";
 }
+
+float PhysicsComponent::getMass()
+{
+    return this->mass;
+}
+
+bool PhysicsComponent::isGravityOn()
+{
+    return this->rb->isGravityEnabled();
+}
+
+void PhysicsComponent::setMass(float mass)
+{
+    this->mass = mass;
+}
+
+void PhysicsComponent::setGravityOn(bool grav)
+{
+    this->rb->enableGravity(grav);
+}
+
+void PhysicsComponent::setRBType(std::string type)
+{
+    if (type == "Static")
+        this->rb->setType(BodyType::STATIC);
+    if (type == "Dynamic")
+        this->rb->setType(BodyType::DYNAMIC);
+    if (type == "Kinematic")
+        this->rb->setType(BodyType::KINEMATIC);
+}
+

@@ -58,8 +58,8 @@ void AppWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	GameObjectManager::getInstance()->addGameObject(PHYSICS_CUBE);
-	GameObjectManager::getInstance()->addGameObject(PHYSICS_PLANE);
+	GameObjectManager::getInstance()->addGameObject(CUBE, 10);
+	GameObjectManager::getInstance()->addGameObject(PLANE);
 }
 
 void AppWindow::onCreate() 

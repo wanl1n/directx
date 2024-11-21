@@ -1,6 +1,7 @@
 #include "InspectorScreen.h"
 
 #include "GameObjectManager.h"
+#include "PhysicsComponent.h"
 
 InspectorScreen::InspectorScreen() : UIScreen("Inspector Screen") {}
 InspectorScreen::~InspectorScreen() {}
@@ -53,14 +54,114 @@ void InspectorScreen::drawUI()
 			GameObjectManager::getInstance()->removeGameObject(obj);
 		}
 
+		ImGui::NewLine();
 		ImGui::Separator();
+		ImGui::NewLine();
 
+		bool hasRigidbody = false;
 		std::vector<Component*> components = obj->getAllComponents();
 		for (Component* comp : components) {
+			
+			// Physics Checker
+			if (comp->getType() == Component::ComponentType::Physics) hasRigidbody = true;
+
 			if (ImGui::CollapsingHeader(comp->getName().c_str())) {
-				// Component Info
+				
+				// Physics Component
+				if (comp->getType() == Component::ComponentType::Physics) {
+					PhysicsComponent* pc = (PhysicsComponent*)comp;
+
+					if (pc != NULL) {
+						hasRigidbody = true;
+
+						// Body Type
+						std::string type = pc->getRBType();
+						std::string bodyTypes[] = { "Static", "Dynamic", "Kinematic" };
+						int currentBodyType = 0;
+						for (int i = 0; i < bodyTypes->size(); i++) {
+							if (type == bodyTypes[i]) currentBodyType = i;
+						}
+						if (ImGui::BeginCombo("Body Type", bodyTypes[currentBodyType].c_str())) // The second parameter is the label previewed before opening the combo.
+						{
+							for (int i = 0; i < IM_ARRAYSIZE(bodyTypes); i++)
+							{
+								bool selected = (bodyTypes[currentBodyType] == bodyTypes[i]); // You can store your selection however you want, outside or inside your objects
+								if (ImGui::Selectable(bodyTypes[i].c_str(), selected))
+									currentBodyType = i;
+									if (selected)
+										ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+							}
+							ImGui::EndCombo();
+						}
+						pc->setRBType(bodyTypes[currentBodyType]);
+
+						// Mass
+						float mass = pc->getMass();
+						if (ImGui::DragFloat("Mass", &mass, 0.01f)) 
+							pc->setMass(mass);
+
+						// Gravity
+						bool gravityOn = pc->isGravityOn();
+						ImGui::Checkbox("Gravity", &gravityOn);
+						pc->setGravityOn(gravityOn);
+
+						// Lock Position
+						ImGui::Text("Lock Position");
+						reactphysics3d::Vector3 lockPos = pc->getRigidBody()->getLinearLockAxisFactor();
+						bool lockPosX = !(bool)lockPos.x;
+						bool lockPosY = !(bool)lockPos.y;
+						bool lockPosZ = !(bool)lockPos.z;
+						ImGui::Checkbox("X##Pos", &lockPosX);
+						ImGui::SameLine();
+						ImGui::Checkbox("Y##Pos", &lockPosY);
+						ImGui::SameLine();
+						ImGui::Checkbox("Z##Pos", &lockPosZ);
+						pc->getRigidBody()->setLinearLockAxisFactor(reactphysics3d::Vector3(!lockPosX, !lockPosY, !lockPosZ));
+
+						// Lock Rotation
+						ImGui::Text("Lock Rotation");
+						reactphysics3d::Vector3 lockRot = pc->getRigidBody()->getAngularLockAxisFactor();
+						bool lockRotX = !(bool)lockRot.x;
+						bool lockRotY = !(bool)lockRot.y;
+						bool lockRotZ = !(bool)lockRot.z;
+						ImGui::Checkbox("X##Rot", &lockRotX);
+						ImGui::SameLine();
+						ImGui::Checkbox("Y##Rot", &lockRotY);
+						ImGui::SameLine();
+						ImGui::Checkbox("Z##Rot", &lockRotZ);
+						pc->getRigidBody()->setAngularLockAxisFactor(reactphysics3d::Vector3(!lockRotX, !lockRotY, !lockRotZ));
+						
+						// Delete Button
+						if (this->buttonCentered("Delete Rigidbody")) {
+							obj->detachComponent(pc);
+							obj->setPhysicsOn(false);
+						}
+					}
+				}
+
+				// Separator
+				ImGui::NewLine();
+				ImGui::Separator();
+				ImGui::NewLine();
 			}
 		}
+
+		ImGui::NewLine();
+
+		if (!hasRigidbody) {
+			if (this->buttonCentered("Add Rigidbody")) {
+				PhysicsComponent* rb = new PhysicsComponent(obj->getName() + " Rigidbody", obj);
+				obj->attachComponent(rb);
+				obj->setPhysicsOn(true);
+			}
+		}
+
+		//ImGui::Text("label");
+		//ImGui::SameLine();
+		//if (ImGui::BeginCombo("", "preview")) {
+		//	//Combo items
+		//	ImGui::EndCombo();
+		//}
 	}
 	ImGui::End();
 }

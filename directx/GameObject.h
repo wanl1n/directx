@@ -46,7 +46,6 @@ class GameObject
 		float deltaTime;
 
 		ComponentList components;
-	public:
 		bool physOn;
 
 	private:
@@ -106,5 +105,6 @@ class GameObject
 		virtual void setRotationZ(float zOffset);
 		virtual void setScale(Math::Vector3 newScale);
 		virtual void setSelected(bool selected);
+		virtual void setPhysicsOn(bool physics);
 };
 

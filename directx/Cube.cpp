@@ -12,7 +12,7 @@ Cube::Cube(std::string name, bool blending, OBJECT_TYPE type) :
 	this->init();
 
 	this->cc.world.setScale(transform.scale);
-	this->setPosition(Math::Vector3(0, 0, 0));
+	this->setPosition(Math::Vector3(0, 15, 0));
 }
 
 Cube::~Cube() {}

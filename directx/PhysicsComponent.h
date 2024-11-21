@@ -10,6 +10,8 @@ class PhysicsComponent : public Component
 {
 	private:
 		float mass = 1000.0f; //KG
+		reactphysics3d::Vector3 gravity = reactphysics3d::Vector3(0, -9.81, 0);
+
 		RigidBody* rb;
 
 	public:
@@ -22,5 +24,11 @@ class PhysicsComponent : public Component
 		Math::Vector3 getRBPosition();
 		Math::Vector3 getRBRotation();
 		std::string getRBType();
+		float getMass();
+		bool isGravityOn();
+		
+		void setMass(float mass);
+		void setGravityOn(bool grav);
+		void setRBType(std::string type);
 };
 

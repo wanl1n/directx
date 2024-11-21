@@ -408,3 +408,8 @@ void GameObject::setSelected(bool selected)
 {
 	this->isSelected = selected;
 }
+
+void GameObject::setPhysicsOn(bool physics)
+{
+	this->physOn = physics;
+}
