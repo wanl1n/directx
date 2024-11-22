@@ -16,12 +16,13 @@ PhysicsComponent::PhysicsComponent(String name, GameObject* owner)
     // Get Owner Properties
     Math::Vector3 scale = this->owner->getScale();
     Math::Vector3 pos = this->owner->getLocalPosition();
+    Math::Vector3 rot = this->owner->getLocalRotation();
 
     // Create transform to save to the rigidbody.
     reactphysics3d::Transform transform;
-    transform.setFromOpenGL(this->owner->getPhysicsLocalMatrix());
-    transform.setPosition(reactphysics3d::Vector3(0, 0, 0));
-    //transform.setPosition(reactphysics3d::Vector3(pos.x, pos.y, pos.z));
+    //transform.setPosition(reactphysics3d::Vector3(0, 0, 0));
+    transform.setPosition(reactphysics3d::Vector3(pos.x, pos.y, pos.z));
+    transform.setOrientation(Quaternion::fromEulerAngles(rot.x, rot.y, rot.z));
 
     // Create collider.
     BoxShape* boxShape = common->createBoxShape(reactphysics3d::Vector3(scale.x, scale.y, scale.z));
@@ -109,6 +110,7 @@ void PhysicsComponent::setMass(float mass)
     if (this->mass != mass)
         this->resetVelocity();
     this->mass = mass;
+    this->rb->setMass(mass);
 }
 
 void PhysicsComponent::setGravityOn(bool grav)
