@@ -99,8 +99,11 @@ void InspectorScreen::drawUI()
 
 						// Mass
 						float mass = pc->getMass();
-						if (ImGui::DragFloat("Mass", &mass, 0.01f)) 
+						if (ImGui::DragFloat("Mass", &mass, 0.01f))
+						{
 							pc->setMass(mass);
+							
+						}
 
 						// Gravity
 						bool gravityOn = pc->isGravityOn();

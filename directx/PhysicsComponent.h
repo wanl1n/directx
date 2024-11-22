@@ -9,7 +9,7 @@ using namespace reactphysics3d;
 class PhysicsComponent : public Component
 {
 	private:
-		float mass = 1000.0f; //KG
+		float mass = 1000.0; //KG
 		reactphysics3d::Vector3 gravity = reactphysics3d::Vector3(0, -9.81, 0);
 
 		RigidBody* rb;

@@ -109,8 +109,34 @@ void PhysicsComponent::setMass(float mass)
 {
     if (this->mass != mass)
         this->resetVelocity();
+
     this->mass = mass;
-    this->rb->setMass(mass);
+    PhysicsCommon* common = BaseComponentSystem::getInstance()->getPhysicsSystem()->getPhysicsCommon();
+    PhysicsWorld* world = BaseComponentSystem::getInstance()->getPhysicsSystem()->getPhysicsWorld();
+
+    // Get Owner Properties
+    Math::Vector3 scale = this->owner->getScale();
+    Math::Vector3 pos = this->owner->getLocalPosition();
+    Math::Vector3 rot = this->owner->getLocalRotation();
+
+    // Create transform to save to the rigidbody.
+    reactphysics3d::Transform transform;
+    //transform.setPosition(reactphysics3d::Vector3(0, 0, 0));
+    transform.setPosition(reactphysics3d::Vector3(pos.x, pos.y, pos.z));
+    transform.setOrientation(Quaternion::fromEulerAngles(rot.x, rot.y, rot.z));
+
+    // Create collider.
+    BoxShape* boxShape = common->createBoxShape(reactphysics3d::Vector3(scale.x, scale.y, scale.z));
+
+    // Create rigidbody.
+    this->rb = world->createRigidBody(transform);
+    this->rb->addCollider(boxShape, transform);
+    this->rb->updateMassPropertiesFromColliders();
+    this->rb->setMass(this->mass);
+    this->rb->setLinearDamping(3.0f);
+    this->rb->setAngularDamping(1.0f);
+
+    std::cout << mass << std::endl;
 }
 
 void PhysicsComponent::setGravityOn(bool grav)
