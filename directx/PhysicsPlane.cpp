@@ -14,10 +14,10 @@ PhysicsPlane::PhysicsPlane(std::string name, bool blending) :
 	cc.world.setTranslation(transform.position);
 	this->transform.scale = Math::Vector3(30.0f, 0.3f, 30.0f);
 
-	PhysicsComponent* rb = new PhysicsComponent(name + " Rigidbody", this);
+	/*PhysicsComponent* rb = new PhysicsComponent(name + " Rigidbody", this);
 	this->attachComponent(rb);
 	rb->getRigidBody()->setType(BodyType::KINEMATIC);
-	this->physOn = true;
+	this->physOn = true;*/
 }
 
 PhysicsPlane::~PhysicsPlane() {}

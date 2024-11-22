@@ -1,20 +1,15 @@
 #pragma once
-#include "PrimitivesInclude.h"
-#include "Primitive.h"
+#include "Cube.h"
+#include "Math.h"
 
-class Plane : public Primitive
-{ 
-	protected:
-		Vector4 color = WHITE;
-		float height = 1.0f;
-		float width = 1.0f;
-
+class Plane : public Cube
+{
+	private:
+		float height = 0.2f;
 	public:
 		Plane(std::string name, bool blending, OBJECT_TYPE type = PLANE);
 		~Plane();
 
-		virtual void initializeBuffers();
-		virtual std::vector<Vertex3D> createVertices();
-		virtual Math::Vector3 getScale() override;
+		virtual std::vector<Vertex3D> createVertices() override;
 };
 

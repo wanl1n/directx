@@ -305,6 +305,19 @@ std::vector<GameObject*> GameObjectManager::getGameObjects()
 	return this->GOList;
 }
 
+std::vector<GameObject*> GameObjectManager::getGameObjectsOfType(OBJECT_TYPE type)
+{
+	std::vector<GameObject*> typeList;
+
+
+	for (GameObject* obj : GOList) {
+		if (obj->getType() == type)
+			typeList.push_back(obj);
+	}
+	
+	return typeList;
+}
+
 GameObject* GameObjectManager::checkCollision(Math::Vector3 rayEndPoint)
 {
 	for (GameObject* obj : this->GOList) {

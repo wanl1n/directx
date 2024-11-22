@@ -77,6 +77,7 @@ class GameObject
 
 		// Getters/Setters
 		virtual std::string getName();
+		virtual OBJECT_TYPE getType();
 		virtual std::string getTypeString();
 		virtual bool getActive();
 		virtual Math::Vector3 getLocalPosition();

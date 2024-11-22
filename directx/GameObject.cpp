@@ -2,6 +2,7 @@
 #include "EngineTime.h"
 #include "InputSystem.h"
 #include "CameraManager.h"
+#include "PhysicsComponent.h"
 
 GameObject::GameObject(std::string name, OBJECT_TYPE type) :
 	name(name), type(type) 
@@ -73,6 +74,7 @@ void GameObject::calculateWorldMatrix()
 	// Translate
 	Matrix4x4 translate;
 	translate.setIdentity();
+	//translate.setTranslation(transform.position);
 	translate.setTranslation(transform.position);
 
 	//std::cout << name << " calcWorldMatrix(): Scaling." << std::endl;
@@ -232,6 +234,11 @@ std::string GameObject::getName()
 	return this->name;
 }
 
+OBJECT_TYPE GameObject::getType()
+{
+	return this->type;
+}
+
 std::string GameObject::getTypeString()
 {
 	switch (this->type) {
@@ -269,7 +276,17 @@ Math::Vector3 GameObject::getLocalPosition()
 
 Math::Vector3 GameObject::getPosition()
 {
-	return this->transform.position;
+	ComponentList physComponents = this->getComponentsOfType(Component::ComponentType::Physics);
+
+	if (physComponents.size() > 0) {
+		PhysicsComponent* physComp = (PhysicsComponent*)physComponents[0];
+		if (physComp != NULL)
+			return physComp->getRBPosition();
+	}
+	else
+		return this->getLocalPosition();
+
+	return Math::Vector3(0);
 }
 
 Math::Vector3 GameObject::getLocalRotation()
@@ -279,8 +296,17 @@ Math::Vector3 GameObject::getLocalRotation()
 
 Math::Vector3 GameObject::getRotation()
 {
-	//return Math::Vector3(this->orientation.x, this->orientation.y, this->orientation.z);
-	return this->transform.rotation;
+	ComponentList physComponents = this->getComponentsOfType(Component::ComponentType::Physics);
+
+	if (physComponents.size() > 0) {
+		PhysicsComponent* physComp = (PhysicsComponent*)physComponents[0];
+		if (physComp != NULL)
+			return physComp->getRBRotation();
+	}
+	else
+		return this->getLocalRotation();
+
+	return Math::Vector3(0);
 }
 
 Math::Vector3 GameObject::getScale()
@@ -339,6 +365,7 @@ void GameObject::setWorldMat(float matrix[16])
 
 	Matrix4x4 transMatrix; 
 	transMatrix.setIdentity();
+	//transMatrix.setTranslation(Math::Vector3(0));
 	transMatrix.setTranslation(transform.position);
 
 	transMatrix *= newMatrix;

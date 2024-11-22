@@ -42,8 +42,8 @@ void MenuScreen::drawUI()
 				if (ImGui::BeginMenu("Cube")) {
 					if (ImGui::MenuItem("Cube", "")) { GameObjectManager::getInstance()->addGameObject(CUBE); }
 					//if (ImGui::MenuItem("Textured Cube", "")) { GameObjectManager::getInstance()->addGameObject(TEXTURED_CUBE); }
-					if (ImGui::MenuItem("Physics Cube", "")) { GameObjectManager::getInstance()->addGameObject(PHYSICS_CUBE); }
-					if (ImGui::MenuItem("Physics Cube (20)", "")) { GameObjectManager::getInstance()->addGameObject(PHYSICS_CUBE, 20); }
+					//if (ImGui::MenuItem("Physics Cube", "")) { GameObjectManager::getInstance()->addGameObject(PHYSICS_CUBE); }
+					//if (ImGui::MenuItem("Physics Cube (20)", "")) { GameObjectManager::getInstance()->addGameObject(PHYSICS_CUBE, 20); }
 					ImGui::EndMenu();
 				}
 				if (ImGui::MenuItem("Plane", "")) { GameObjectManager::getInstance()->addGameObject(PLANE); }

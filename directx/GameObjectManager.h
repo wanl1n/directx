@@ -62,6 +62,7 @@ class GameObjectManager
 		GameObject* getGameObject(int index);
 		GameObject* getSelectedGameObject();
 		std::vector<GameObject*> getGameObjects();
+		std::vector<GameObject*> getGameObjectsOfType(OBJECT_TYPE type);
 		GameObject* checkCollision(Math::Vector3 rayEndPoint);
 		void setSelectedGameObject(GameObject* obj);
 		void resetSelection();
