@@ -25,10 +25,6 @@ PhysicsComponent::PhysicsComponent(String name, GameObject* owner)
     transform.setOrientation(Quaternion::fromEulerAngles(rot.x, rot.y, rot.z));
 
     // Create collider.
-    if (scale.x != scale.y || scale.x != scale.z || scale.y != scale.z) {
-        float sum = (scale.x + scale.y + scale.z) / 3.0f;
-        scale = Math::Vector3(sum);
-    }
     BoxShape* boxShape = common->createBoxShape(reactphysics3d::Vector3(scale.x, scale.y, scale.z));
     
     // Create rigidbody.

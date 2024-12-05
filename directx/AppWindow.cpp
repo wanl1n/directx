@@ -10,6 +10,8 @@
 #include "Constants.h"
 #include "Vertex.h"
 
+#include "PhysicsComponent.h"
+
 #include "Mesh.h"
 
 AppWindow* AppWindow::sharedInstance = nullptr;
@@ -58,15 +60,27 @@ void AppWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	//GameObjectManager::getInstance()->addGameObject(CUBE, 10);
-	//GameObjectManager::getInstance()->addGameObject(PLANE);
+	GameObjectManager::getInstance()->addGameObject(CUBE, 50);
+	GameObject* plane = GameObjectManager::getInstance()->addGameObject(CUBE);
 
-	//// Reposition cubes
-	//std::vector<GameObject*> cubes = GameObjectManager::getInstance()->getGameObjectsOfType(CUBE);
-	//for (int i = 0; i < cubes.size(); i++) {
-	//	int x = i * 3 - (cubes.size()/2 * 3);
-	//	cubes[i]->setPosition(x, 0, 0);
-	//}
+	// Reposition cubes
+	std::vector<GameObject*> cubes = GameObjectManager::getInstance()->getGameObjectsOfType(CUBE);
+	for (int i = 0; i < cubes.size(); i++) {
+		int x = i * 3 - (cubes.size()/2 * 3);
+		cubes[i]->setPosition(0, 10, 0);
+		
+		PhysicsComponent* rb = new PhysicsComponent(cubes[i]->getName() + " Rigidbody", cubes[i]);
+		cubes[i]->attachComponent(rb);
+		cubes[i]->setPhysicsOn(true);
+	}
+
+	plane->setPosition(0, -10, 0);
+	plane->setScale(Math::Vector3(30, 0.5f, 30));
+
+	PhysicsComponent* rb = new PhysicsComponent(plane->getName() + " Rigidbody", plane);
+	rb->setRBType("Kinematic");
+	plane->attachComponent(rb);
+	plane->setPhysicsOn(true);
 }
 
 void AppWindow::onCreate() 
