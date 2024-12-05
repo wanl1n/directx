@@ -52,33 +52,35 @@ void GameObjectManager::render()
 	}
 }
 
-void GameObjectManager::addGameObject(OBJECT_TYPE type, int count)
+GameObject* GameObjectManager::addGameObject(OBJECT_TYPE type, int count)
 {
+	GameObject* go = NULL;
+
 	for (int i = 0; i < count; i++) {
 		switch (type) {
 			case QUAD:
-				this->createQuad(type);
+				go = this->createQuad(type);
 				break;
 			case CIRCLE:
-				this->createCircle(type);
+				go = this->createCircle(type);
 				break;
 			case CUBE:
 			case PHYSICS_CUBE:
 			case PHYSICS_PLANE:
-				this->createCube(type);
+				go = this->createCube(type);
 				break;
 			case PLANE:
 			case ROTATING_PLANE:
-				this->createPlane(type);
+				go = this->createPlane(type);
 				break;
 			case SPHERE:
-				this->createSphere(type);
+				go = this->createSphere(type);
 				break;
 			case CYLINDER:
-				this->createCylinder(type);
+				go = this->createCylinder(type);
 				break;
 			case CAPSULE:
-				this->createCapsule(type);
+				go = this->createCapsule(type);
 				break;
 			case MESH_TEAPOT:
 			case MESH_BUNNY:
@@ -86,12 +88,14 @@ void GameObjectManager::addGameObject(OBJECT_TYPE type, int count)
 			case MESH_STATUE:
 			case MESH_SUZANNE:
 			case MESH_SKY:
-				this->createMesh(type);
+				go = this->createMesh(type);
 				break;
 			default:
 				break;
 		}
 	}
+
+	return go;
 }
 
 void GameObjectManager::removeGameObject(GameObject* go)

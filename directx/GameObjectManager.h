@@ -40,7 +40,7 @@ class GameObjectManager
 		void update(float deltaTime, RECT viewport);
 		void render();
 
-		void addGameObject(OBJECT_TYPE type, int count=1);
+		GameObject* addGameObject(OBJECT_TYPE type, int count=1);
 		void removeGameObject(GameObject* go);
 
 		void updateCameraView(Matrix4x4 worldCam);

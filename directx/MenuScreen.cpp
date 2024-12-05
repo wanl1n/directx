@@ -5,7 +5,10 @@
 #include "CameraManager.h"
 #include "FileManager.h"
 
-MenuScreen::MenuScreen() : UIScreen("Menu Screen") {}
+MenuScreen::MenuScreen() : UIScreen("Menu Screen") 
+{
+}
+
 MenuScreen::~MenuScreen() {}
 
 void MenuScreen::drawUI()
@@ -14,20 +17,23 @@ void MenuScreen::drawUI()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Open", "Ctrl+O")) {}
+			if (ImGui::MenuItem("Open", "Ctrl+O")) 
+			{
+				FileManager::getInstance()->loadLevel("Default");
+			}
 			if (ImGui::MenuItem("Save", "Ctrl+S")) 
 			{
-				FileManager::getInstance()->saveLevel();
+				FileManager::getInstance()->saveLevel("Default");
 				ImGui::OpenPopup("Confirm Save");
 			}
 			if (ImGui::MenuItem("Close", "Ctrl+W")) { isActive = false; }
-			ImGui::EndMenu();
 
 			if (ImGui::BeginPopup("Confirm Save")) {
-				ImGui::Text("Save current level as \"Main Level.level\"?");
+				ImGui::Text("Save current level as \"New Level.level\"?");
 				if (buttonCentered("Save")) showPopUp = false;
 				ImGui::EndPopup();
 			}
+			ImGui::EndMenu();
 		}
 
 		if (ImGui::BeginMenu("Game Object"))

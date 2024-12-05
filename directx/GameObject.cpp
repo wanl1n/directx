@@ -354,8 +354,6 @@ void GameObject::setWorldMat(float matrix[16])
 		}
 	}
 
-	cc.world = physMat;
-
 	Matrix4x4 newMatrix; 
 	newMatrix.setMatrix(physMat);
 

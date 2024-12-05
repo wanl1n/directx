@@ -1,16 +1,18 @@
 #include "Plane.h"
 #include "InputSystem.h"
+#include "PhysicsComponent.h"
 
 Plane::Plane(std::string name, bool blending, OBJECT_TYPE type) :
 	Cube(name, blending, PLANE)
 {
-	this->frontColor = CORALROSE;
+	this->frontColor = WHITE;
 	this->backColor = ROSETAUPE;
 
 	this->init();
 
+	/*this->setPosition(0, -15, 0);
 	cc.world.setTranslation(transform.position);
-	this->transform.scale = Math::Vector3(30.0f, 0.2f, 30.0f);
+	this->transform.scale = Math::Vector3(30.0f, 1.0f, 30.0f);*/
 }
 
 Plane::~Plane() {}

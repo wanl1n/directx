@@ -58,15 +58,15 @@ void AppWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	GameObjectManager::getInstance()->addGameObject(CUBE, 10);
-	GameObjectManager::getInstance()->addGameObject(PLANE);
+	//GameObjectManager::getInstance()->addGameObject(CUBE, 10);
+	//GameObjectManager::getInstance()->addGameObject(PLANE);
 
-	// Reposition cubes
-	std::vector<GameObject*> cubes = GameObjectManager::getInstance()->getGameObjectsOfType(CUBE);
-	for (int i = 0; i < cubes.size(); i++) {
-		int x = i * 3 - (cubes.size()/2 * 3);
-		cubes[i]->setPosition(x, 15, 0);
-	}
+	//// Reposition cubes
+	//std::vector<GameObject*> cubes = GameObjectManager::getInstance()->getGameObjectsOfType(CUBE);
+	//for (int i = 0; i < cubes.size(); i++) {
+	//	int x = i * 3 - (cubes.size()/2 * 3);
+	//	cubes[i]->setPosition(x, 0, 0);
+	//}
 }
 
 void AppWindow::onCreate() 
