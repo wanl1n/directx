@@ -60,27 +60,72 @@ void AppWindow::initializeEngine()
 	// Random seed
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	/*GameObjectManager::getInstance()->addGameObject(CUBE, 50);
-	GameObject* plane = GameObjectManager::getInstance()->addGameObject(CUBE);*/
+	GameObjectManager::getInstance()->addGameObject(CUBE, 50);
+	GameObject* plane = GameObjectManager::getInstance()->addGameObject(CUBE);
 
-	//// Reposition cubes
-	//std::vector<GameObject*> cubes = GameObjectManager::getInstance()->getGameObjectsOfType(CUBE);
-	//for (int i = 0; i < 50; i++) {
-	//	int x = i * 3 - (cubes.size()/2 * 3);
-	//	cubes[i]->setPosition(0, 10, 0);
-	//	
-	//	PhysicsComponent* rb = new PhysicsComponent(cubes[i]->getName() + " Rigidbody", cubes[i]);
-	//	cubes[i]->attachComponent(rb);
-	//	cubes[i]->setPhysicsOn(true);
-	//}
+	// Reposition cubes
+	int min = -2; int max = 2;
+	std::vector<GameObject*> cubes = GameObjectManager::getInstance()->getGameObjectsOfType(CUBE);
+	for (int i = 0; i < 50; i++) {
+		/*int x = i * 3 - (cubes.size()/2 * 3);
+		cubes[i]->setPosition(0, 10, 0);*/
+		
+		// Position
+		min = -2; max = 2;
+		float posX = (float)(min + (std::rand() % (max - min + 1)));
+		float posZ = (float)(min + (std::rand() % (max - min + 1)));
 
-	//plane->setPosition(0, -10, 0);
-	//plane->setScale(Math::Vector3(30, 0.5f, 30));
+		min = 10; max = 12;
+		float posY = (float)(min + (std::rand() % (max - min + 1)));
+		cubes[i]->setPosition(posX, posY, posZ);
 
-	//PhysicsComponent* rb = new PhysicsComponent(plane->getName() + " Rigidbody", plane);
-	//rb->setRBType("Kinematic");
-	//plane->attachComponent(rb);
-	//plane->setPhysicsOn(true);
+		PhysicsComponent* rb = new PhysicsComponent(cubes[i]->getName() + " Rigidbody", cubes[i]);
+		cubes[i]->attachComponent(rb);
+		cubes[i]->setPhysicsOn(true);
+	}
+
+	plane->setPosition(0, 0, 0);
+	plane->setScale(Math::Vector3(50, 1.0f, 50));
+	PhysicsComponent* rb = new PhysicsComponent(plane->getName() + " Rigidbody", plane);
+	rb->setRBType("Kinematic");
+	plane->attachComponent(rb);
+	plane->setPhysicsOn(true);
+
+	// Left Wall 
+	GameObject* leftwall = GameObjectManager::getInstance()->addGameObject(CUBE);
+	leftwall->setPosition(-20, 5, 0);
+	leftwall->setScale(Math::Vector3(0.5f, 6.0f, 20.0f));
+	rb = new PhysicsComponent(leftwall->getName() + " Rigidbody", leftwall);
+	rb->setRBType("Kinematic");
+	leftwall->attachComponent(rb);
+	leftwall->setPhysicsOn(true);
+
+	// Right Wall 
+	GameObject* rightwall = GameObjectManager::getInstance()->addGameObject(CUBE);
+	rightwall->setPosition(20, 10, 0);
+	rightwall->setScale(Math::Vector3(0.5f, 10.0f, 20.0f));
+	rb = new PhysicsComponent(rightwall->getName() + " Rigidbody", rightwall);
+	rb->setRBType("Kinematic");
+	rightwall->attachComponent(rb);
+	rightwall->setPhysicsOn(true);
+
+	// Front Wall 
+	GameObject* frontwall = GameObjectManager::getInstance()->addGameObject(CUBE);
+	frontwall->setPosition(0, 5, -20);
+	frontwall->setScale(Math::Vector3(20.0f, 6.0f, 0.5f));
+	rb = new PhysicsComponent(frontwall->getName() + " Rigidbody", frontwall);
+	rb->setRBType("Kinematic");
+	frontwall->attachComponent(rb);
+	frontwall->setPhysicsOn(true);	
+
+	// Back Wall 
+	GameObject* backwall = GameObjectManager::getInstance()->addGameObject(CUBE);
+	backwall->setPosition(0, 10, 20);
+	backwall->setScale(Math::Vector3(20.0f, 10.0f, 0.5f));
+	rb = new PhysicsComponent(backwall->getName() + " Rigidbody", backwall);
+	rb->setRBType("Kinematic");
+	backwall->attachComponent(rb);
+	backwall->setPhysicsOn(true);
 }
 
 void AppWindow::onCreate() 

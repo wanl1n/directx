@@ -96,7 +96,7 @@ void GameObject::update(float deltaTime, RECT viewport)
 	/*if (isSelected)
 		this->edit(deltaTime);*/
 	
-	if (!physOn)
+	if (!physOn) 
 		this->calculateWorldMatrix();
 
 	this->cc.view = CameraManager::getInstance()->getActiveCameraView();

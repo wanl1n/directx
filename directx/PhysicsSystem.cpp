@@ -65,10 +65,7 @@ void PhysicsSystem::updateAllComponents()
 		this->physicsWorld->update(EngineTime::getDeltaTime());
 
 		for (Component* comp : this->componentList) {
-			PhysicsComponent* phyComp = (PhysicsComponent*)comp;
 			comp->perform(EngineTime::getDeltaTime());
-
-			phyComp->getRigidBody()->setIsDebugEnabled(true);
 		}
 	}
 }

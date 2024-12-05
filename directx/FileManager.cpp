@@ -38,7 +38,7 @@ void FileManager::saveLevel(std::string filename)
 		mainLevel << obj->getName() << std::endl;
 		mainLevel << obj->getTypeString() << std::endl;
 		mainLevel << obj->getActive() << std::endl;
-		mainLevel << obj->getPosition().x << "," << obj->getPosition().y << "," << obj->getPosition().z << "," << std::endl;
+		mainLevel << obj->getLocalPosition().x << "," << obj->getLocalPosition().y << "," << obj->getLocalPosition().z << "," << std::endl;
 		mainLevel << obj->getScale().x << "," << obj->getScale().y << "," << obj->getScale().z << "," << std::endl;
 		mainLevel << obj->getRotation().x << "," << obj->getRotation().y << "," << obj->getRotation().z << "," << std::endl;
 

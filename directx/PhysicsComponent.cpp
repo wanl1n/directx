@@ -34,6 +34,11 @@ PhysicsComponent::PhysicsComponent(String name, GameObject* owner)
     this->rb->setMass(this->mass);
     this->rb->setType(BodyType::DYNAMIC);
 
+    reactphysics3d::Transform origin;
+    origin.setPosition(reactphysics3d::Vector3(0,0,0));
+    origin.setOrientation(Quaternion::fromEulerAngles(0,0,0));
+    this->rb->setTransform(origin);
+
     transform = this->rb->getTransform();
     float matrix[16];
     transform.getOpenGLMatrix(matrix);
