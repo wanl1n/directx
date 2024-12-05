@@ -64,11 +64,11 @@ void GameObject::calculateWorldMatrix()
 	rotation *= temp;
 
 	temp.setIdentity();
-	temp.setRotationY(this->transform.rotation.y);
+	temp.setRotationZ(this->transform.rotation.z);
 	rotation *= temp;
 
 	temp.setIdentity();
-	temp.setRotationZ(this->transform.rotation.z);
+	temp.setRotationY(this->transform.rotation.y);
 	rotation *= temp;
 
 	// Translate

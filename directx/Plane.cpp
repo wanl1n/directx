@@ -9,7 +9,8 @@ Plane::Plane(std::string name, bool blending, OBJECT_TYPE type) :
 	this->backColor = ROSETAUPE;
 
 	this->init();
-
+	
+	this->setScale(Math::Vector3(1, 0.1f, 1));
 	/*this->setPosition(0, -15, 0);
 	cc.world.setTranslation(transform.position);
 	this->transform.scale = Math::Vector3(30.0f, 1.0f, 30.0f);*/
